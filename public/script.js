@@ -537,6 +537,9 @@ const renderExperience = (items) => {
   attachCardModalHandlers(".js-exp-card", (index) => {
     const item = safeItems[index] || {};
     const isCairoHigherInstitute = (item.company || "").toLowerCase().includes("cairo higher institute");
+    const isTaqaSoftwareDevelopment =
+      (item.company || "").toLowerCase().includes("taqa arabia") &&
+      (item.role || "").toLowerCase().includes("software development intern");
     return {
       tag: "Experience Details",
       title: item.role || "Experience",
@@ -545,7 +548,12 @@ const renderExperience = (items) => {
       points: item.points || [],
       media: isCairoHigherInstitute
         ? [{ src: "/assets/chi-experience.jpeg", alt: "Cairo Higher Institute experience image" }]
-        : []
+        : isTaqaSoftwareDevelopment
+          ? [
+              { src: "/assets/taqa25-exp.jpeg", alt: "TAQA Software Development Internship experience" },
+              { src: "/assets/taqa25-crt.jpeg", alt: "TAQA Software Development Internship certificate" }
+            ]
+          : []
     };
   });
 };
