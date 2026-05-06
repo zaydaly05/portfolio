@@ -534,12 +534,16 @@ const renderExperience = (items) => {
 
   attachCardModalHandlers(".js-exp-card", (index) => {
     const item = safeItems[index] || {};
+    const isCairoHigherInstitute = (item.company || "").toLowerCase().includes("cairo higher institute");
     return {
       tag: "Experience Details",
       title: item.role || "Experience",
       subtitle: `${item.company || ""} · ${item.location || ""} · ${item.period || ""}`,
       description: "Responsibilities and contributions:",
-      points: item.points || []
+      points: item.points || [],
+      media: isCairoHigherInstitute
+        ? [{ src: "/assets/chi-experience.jpeg", alt: "Cairo Higher Institute experience image" }]
+        : []
     };
   });
 };
