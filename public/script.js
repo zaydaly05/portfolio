@@ -585,6 +585,7 @@ const renderProjects = (items) => {
   attachCardModalHandlers(".js-project-card", (index) => {
     const item = safeItems[index] || {};
     const isInGazProject = (item.name || "").toLowerCase().includes("in gaz api");
+    const isCarRentalProject = (item.name || "").toLowerCase().includes("car rental website");
     return {
       tag: "Project Details",
       title: item.name || "Project",
@@ -596,7 +597,13 @@ const renderProjects = (items) => {
             { src: "/assets/ingaz-1.jpeg", alt: "In Gaz API app screenshot 1" },
             { src: "/assets/ingaz-2.jpeg", alt: "In Gaz API app screenshot 2" }
           ]
-        : []
+        : isCarRentalProject
+          ? [
+              { src: "/assets/car-rental-c1.png", alt: "Car Rental Website screenshot c1" },
+              { src: "/assets/car-rental-c2.png", alt: "Car Rental Website screenshot c2" },
+              { src: "/assets/car-rental-c3.png", alt: "Car Rental Website screenshot c3" }
+            ]
+          : []
     };
   });
 };
