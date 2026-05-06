@@ -558,8 +558,8 @@ const renderExperience = (items) => {
             ]
           : isTaqaItDepartment
             ? [
-                { src: "/assets/ingaz-1.jpeg", alt: "TAQA IT Department internship image 1" },
-                { src: "/assets/ingaz-2.jpeg", alt: "TAQA IT Department internship image 2" }
+                { src: "/assets/taqa24.jpeg", alt: "TAQA IT Department internship image 24" },
+                { src: "/assets/taqa24e.jpeg", alt: "TAQA IT Department internship image 24E" }
               ]
           : []
     };
