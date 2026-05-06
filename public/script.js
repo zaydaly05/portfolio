@@ -472,7 +472,9 @@ const openModal = ({ tag, title, subtitle, description, points = [], media = [] 
 
   const mediaContainer = document.getElementById("modal-media");
   if (mediaContainer) {
-    mediaContainer.className = media.length ? "modal-media-grid" : "modal-media-placeholder";
+    mediaContainer.className = media.length
+      ? `modal-media-grid${media.length === 1 ? " modal-media-single" : ""}`
+      : "modal-media-placeholder";
     mediaContainer.innerHTML = media.length
       ? media
           .map(

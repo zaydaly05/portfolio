@@ -995,6 +995,15 @@ textarea::placeholder {
   gap: 12px;
 }
 
+.modal-media-grid.modal-media-single {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
+.modal-media-grid.modal-media-single .modal-media-item {
+  width: min(100%, 520px);
+}
+
 .modal-media-item {
   margin: 0;
   border: 1px solid var(--card-border);
@@ -1005,7 +1014,7 @@ textarea::placeholder {
 
 .modal-media-item img {
   width: 100%;
-  height: 220px;
+  height: 280px;
   object-fit: contain;
   object-position: center;
   background: rgba(255, 255, 255, 0.03);
