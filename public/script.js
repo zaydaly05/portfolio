@@ -591,12 +591,16 @@ const renderProjects = (items) => {
     const isInGazProject = (item.name || "").toLowerCase().includes("in gaz api");
     const isCarRentalProject = (item.name || "").toLowerCase().includes("car rental website");
     const isSleepingAlertProject = (item.name || "").toLowerCase().includes("sleeping alert system");
+    const isEmployeeAttendanceProject = (item.name || "").toLowerCase().includes("employee attendance & leave system");
     return {
       tag: "Project Details",
       title: item.name || "Project",
       subtitle: `${item.period || ""} · ${item.stack || ""}`,
       description: item.description || "",
-      points: isInGazProject || isSleepingAlertProject ? [] : ["You can add project screenshots in this popup area later."],
+      points:
+        isInGazProject || isSleepingAlertProject || isEmployeeAttendanceProject
+          ? []
+          : ["You can add project screenshots in this popup area later."],
       media: isInGazProject
         ? [
             { src: "/assets/ingaz-1.jpeg", alt: "In Gaz API app screenshot 1" },
@@ -612,6 +616,13 @@ const renderProjects = (items) => {
             ? [
                 { src: "/assets/sleeping-alert-py2.jpeg", alt: "Sleeping Alert System screenshot py2" },
                 { src: "/assets/sleeping-alert-py1.mp4", type: "video", alt: "Sleeping Alert System demo video py1" }
+              ]
+          : isEmployeeAttendanceProject
+            ? [
+                { src: "/assets/employee-e1.png", alt: "Employee Attendance and Leave System screenshot e1" },
+                { src: "/assets/employee-e2.png", alt: "Employee Attendance and Leave System screenshot e2" },
+                { src: "/assets/employee-e3.png", alt: "Employee Attendance and Leave System screenshot e3" },
+                { src: "/assets/employee-e4.png", alt: "Employee Attendance and Leave System screenshot e4" }
               ]
           : []
     };
