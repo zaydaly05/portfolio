@@ -480,7 +480,11 @@ const openModal = ({ tag, title, subtitle, description, points = [], media = [] 
           .map(
             (item, idx) => `
             <figure class="modal-media-item">
-              <img src="${item.src}" alt="${item.alt || `Project media ${idx + 1}`}" loading="lazy" />
+              ${
+                item.type === "video"
+                  ? `<video src="${item.src}" controls preload="metadata" playsinline></video>`
+                  : `<img src="${item.src}" alt="${item.alt || `Project media ${idx + 1}`}" loading="lazy" />`
+              }
             </figure>
           `
           )
@@ -586,12 +590,13 @@ const renderProjects = (items) => {
     const item = safeItems[index] || {};
     const isInGazProject = (item.name || "").toLowerCase().includes("in gaz api");
     const isCarRentalProject = (item.name || "").toLowerCase().includes("car rental website");
+    const isSleepingAlertProject = (item.name || "").toLowerCase().includes("sleeping alert system");
     return {
       tag: "Project Details",
       title: item.name || "Project",
       subtitle: `${item.period || ""} · ${item.stack || ""}`,
       description: item.description || "",
-      points: isInGazProject ? [] : ["You can add project screenshots in this popup area later."],
+      points: isInGazProject || isSleepingAlertProject ? [] : ["You can add project screenshots in this popup area later."],
       media: isInGazProject
         ? [
             { src: "/assets/ingaz-1.jpeg", alt: "In Gaz API app screenshot 1" },
@@ -603,6 +608,11 @@ const renderProjects = (items) => {
               { src: "/assets/car-rental-c2.png", alt: "Car Rental Website screenshot c2" },
               { src: "/assets/car-rental-c3.png", alt: "Car Rental Website screenshot c3" }
             ]
+          : isSleepingAlertProject
+            ? [
+                { src: "/assets/sleeping-alert-py2.jpeg", alt: "Sleeping Alert System screenshot py2" },
+                { src: "/assets/sleeping-alert-py1.mp4", type: "video", alt: "Sleeping Alert System demo video py1" }
+              ]
           : []
     };
   });
