@@ -590,6 +590,7 @@ const renderProjects = (items) => {
     const item = safeItems[index] || {};
     const isInGazProject = (item.name || "").toLowerCase().includes("in gaz api");
     const isCarRentalProject = (item.name || "").toLowerCase().includes("car rental website");
+    const isRestaurantProject = (item.name || "").toLowerCase().includes("restaurant management system");
     const isSleepingAlertProject = (item.name || "").toLowerCase().includes("sleeping alert system");
     const isEmployeeAttendanceProject = (item.name || "").toLowerCase().includes("employee attendance & leave system");
     return {
@@ -598,7 +599,7 @@ const renderProjects = (items) => {
       subtitle: `${item.period || ""} · ${item.stack || ""}`,
       description: item.description || "",
       points:
-        isInGazProject || isCarRentalProject || isSleepingAlertProject || isEmployeeAttendanceProject
+        isInGazProject || isCarRentalProject || isRestaurantProject || isSleepingAlertProject || isEmployeeAttendanceProject
           ? []
           : ["You can add project screenshots in this popup area later."],
       media: isInGazProject
@@ -612,6 +613,14 @@ const renderProjects = (items) => {
               { src: "/assets/car-rental-c2.png", alt: "Car Rental Website screenshot c2" },
               { src: "/assets/car-rental-c3.png", alt: "Car Rental Website screenshot c3" }
             ]
+          : isRestaurantProject
+            ? [
+                { src: "/assets/restaurant-r1.png", alt: "Restaurant Management System screenshot r1" },
+                { src: "/assets/restaurant-r2.png", alt: "Restaurant Management System screenshot r2" },
+                { src: "/assets/restaurant-r3.png", alt: "Restaurant Management System screenshot r3" },
+                { src: "/assets/restaurant-r4.png", alt: "Restaurant Management System screenshot r4" },
+                { src: "/assets/restaurant-r5.png", alt: "Restaurant Management System screenshot r5" }
+              ]
           : isSleepingAlertProject
             ? [
                 { src: "/assets/sleeping-alert-py2.jpeg", alt: "Sleeping Alert System screenshot py2" },
