@@ -540,6 +540,9 @@ const renderExperience = (items) => {
     const isTaqaSoftwareDevelopment =
       (item.company || "").toLowerCase().includes("taqa arabia") &&
       (item.role || "").toLowerCase().includes("software development intern");
+    const isTaqaItDepartment =
+      (item.company || "").toLowerCase().includes("taqa arabia") &&
+      (item.role || "").toLowerCase().includes("it department intern");
     return {
       tag: "Experience Details",
       title: item.role || "Experience",
@@ -553,6 +556,11 @@ const renderExperience = (items) => {
               { src: "/assets/taqa25-exp.jpeg", alt: "TAQA Software Development Internship experience" },
               { src: "/assets/taqa25-crt.jpeg", alt: "TAQA Software Development Internship certificate" }
             ]
+          : isTaqaItDepartment
+            ? [
+                { src: "/assets/ingaz-1.jpeg", alt: "TAQA IT Department internship image 1" },
+                { src: "/assets/ingaz-2.jpeg", alt: "TAQA IT Department internship image 2" }
+              ]
           : []
     };
   });
