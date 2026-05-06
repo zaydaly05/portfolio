@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zayd Ali Mohamed | Software Developer Portfolio</title>
+    <meta name="description" content="Portfolio of Zayd Ali Mohamed — a junior computer science student and full-stack developer specializing in modern web and mobile applications." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Custom cursor -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+
+    <!-- Scroll progress bar -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- Particle canvas -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Animated background -->
+    <div class="gradient-bg"></div>
+
+    <!-- Fixed navigation -->
+    <nav class="nav" id="navbar">
+      <div class="logo">ZA</div>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#experience" data-section="experience">Experience</a></li>
+        <li><a href="#projects" data-section="projects">Projects</a></li>
+        <li><a href="#education" data-section="education">Education</a></li>
+        <li><a href="#technical-skills" data-section="technical-skills">Skills</a></li>
+        <li><a href="#contact" data-section="contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button id="theme-toggle" class="btn-outline theme-toggle" type="button">Light Mode</button>
+        <a href="/assets/cv.pdf" download class="btn-outline btn-cv-nav" id="nav-cv-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          CV
+        </a>
+        <a class="btn" href="#contact">Hire Me</a>
+      </div>
+    </nav>
+
+    <!-- Hero section -->
+    <header class="hero reveal" id="hero">
+      <div class="hero-content">
+        <div class="hero-text">
+          <p class="eyebrow">Software Developer Portfolio</p>
+          <h1 id="name"></h1>
+          <h2 id="title"></h2>
+          <p id="summary"></p>
+          <div class="hero-meta">
+            <span id="location"></span>
+            <span id="email"></span>
+            <span id="phone"></span>
+          </div>
+        </div>
+        <div class="hero-image">
+          <img src="/assets/main-photo.jpeg" alt="Zayd Ali Mohamed" id="profile-photo">
+        </div>
+      </div>
+      <div class="hero-actions">
+        <a id="linkedin" class="btn" target="_blank" rel="noopener">LinkedIn</a>
+        <a id="github" class="btn-outline" target="_blank" rel="noopener">GitHub</a>
+        <a href="/assets/cv.pdf" download class="btn-cv" id="download-cv">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download CV
+        </a>
+      </div>
+      <div class="scroll-indicator" id="scroll-indicator">
+        <span>Scroll</span>
+        <div class="arrow"></div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section reveal" id="experience">
+        <div class="section-header">
+          <span class="section-number">01</span>
+          <h3>Experience</h3>
+          <div class="section-line"></div>
+        </div>
+        <div id="experience-list" class="grid reveal-stagger"></div>
+      </section>
+
+      <section class="section reveal" id="projects">
+        <div class="section-header">
+          <span class="section-number">02</span>
+          <h3>Projects</h3>
+          <div class="section-line"></div>
+        </div>
+        <div id="project-list" class="grid reveal-stagger"></div>
+      </section>
+
+      <section class="section reveal" id="education">
+        <div class="section-header">
+          <span class="section-number">03</span>
+          <h3>Education</h3>
+          <div class="section-line"></div>
+        </div>
+        <div id="education-list" class="grid reveal-stagger"></div>
+      </section>
+
+      <section class="section reveal" id="activities">
+        <div class="section-header">
+          <span class="section-number">04</span>
+          <h3>Activities</h3>
+          <div class="section-line"></div>
+        </div>
+        <div id="activities-list" class="grid reveal-stagger"></div>
+      </section>
+
+      <section class="section reveal" id="technical-skills">
+        <div class="section-header">
+          <span class="section-number">05</span>
+          <h3>Technical Skills</h3>
+          <div class="section-line"></div>
+        </div>
+        <div id="technical-skills-list" class="skills-groups reveal-stagger"></div>
+      </section>
+
+      <section class="section reveal" id="soft-skills">
+        <div class="section-header">
+          <span class="section-number">06</span>
+          <h3>Soft Skills</h3>
+          <div class="section-line"></div>
+        </div>
+        <div id="soft-skills-list" class="skills reveal-stagger"></div>
+      </section>
+
+      <section class="section reveal" id="languages">
+        <div class="section-header">
+          <span class="section-number">07</span>
+          <h3>Languages</h3>
+          <div class="section-line"></div>
+        </div>
+        <div id="languages-list" class="skills reveal-stagger"></div>
+      </section>
+
+      <section class="section reveal" id="contact">
+        <div class="section-header">
+          <span class="section-number">08</span>
+          <h3>Get In Touch</h3>
+          <div class="section-line"></div>
+        </div>
+        <form id="contact-form" class="contact-card">
+          <input type="text" name="name" placeholder="Your Name" required />
+          <input type="email" name="email" placeholder="Your Email" required />
+          <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+          <button class="btn" type="submit">Send Message</button>
+          <p id="contact-status"></p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="footer reveal">
+      <p>Crafted with passion by Zayd Ali Mohamed.</p>
+    </footer>
+
+    <div id="details-modal" class="modal hidden" aria-hidden="true">
+      <div class="modal-backdrop" data-close-modal="true"></div>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <button id="modal-close" class="modal-close" type="button" aria-label="Close details">
+          ×
+        </button>
+        <p id="modal-tag" class="eyebrow">Details</p>
+        <h3 id="modal-title"></h3>
+        <p id="modal-subtitle" class="meta"></p>
+        <p id="modal-description"></p>
+        <div id="modal-list"></div>
+        <div id="modal-media" class="modal-media-placeholder"></div>
+      </div>
+    </div>
+
+    <script src="script.js?v=4"></script>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "zayd-portfolio",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Dynamic professional portfolio for Zayd Ali Mohamed",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
