@@ -598,7 +598,7 @@ const renderProjects = (items) => {
       subtitle: `${item.period || ""} · ${item.stack || ""}`,
       description: item.description || "",
       points:
-        isInGazProject || isSleepingAlertProject || isEmployeeAttendanceProject
+        isInGazProject || isCarRentalProject || isSleepingAlertProject || isEmployeeAttendanceProject
           ? []
           : ["You can add project screenshots in this popup area later."],
       media: isInGazProject
