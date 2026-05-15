@@ -81,6 +81,13 @@ const fallbackPortfolio = {
   ],
   projects: [
     {
+      name: "Food Ordering Management System",
+      period: "May 2026",
+      stack: "Spring Boot, Tailwind, React, MongoDB",
+      description:
+        "Developed a full-stack food ordering system with Spring Boot and a React + Tailwind frontend. Built RESTful APIs for authentication, menu management, cart operations, and order processing with MongoDB. Implemented role-based Admin and Customer flows with CRUD, order tracking, and analytics such as top-selling items and profit insights."
+    },
+    {
       name: "Car Rental Website",
       period: "May 2025",
       stack: "HTML, CSS, MongoDB, Node.js, JavaScript",
@@ -593,16 +600,27 @@ const renderProjects = (items) => {
     const isRestaurantProject = (item.name || "").toLowerCase().includes("restaurant management system");
     const isSleepingAlertProject = (item.name || "").toLowerCase().includes("sleeping alert system");
     const isEmployeeAttendanceProject = (item.name || "").toLowerCase().includes("employee attendance & leave system");
+    const isFoodOrderingProject = (item.name || "").toLowerCase().includes("food ordering management system");
     return {
       tag: "Project Details",
       title: item.name || "Project",
       subtitle: `${item.period || ""} · ${item.stack || ""}`,
       description: item.description || "",
       points:
-        isInGazProject || isCarRentalProject || isRestaurantProject || isSleepingAlertProject || isEmployeeAttendanceProject
+        isInGazProject ||
+        isCarRentalProject ||
+        isRestaurantProject ||
+        isSleepingAlertProject ||
+        isEmployeeAttendanceProject ||
+        isFoodOrderingProject
           ? []
           : ["You can add project screenshots in this popup area later."],
-      media: isInGazProject
+      media: isFoodOrderingProject
+        ? Array.from({ length: 16 }, (_, i) => ({
+            src: `/assets/f${i + 1}.png`,
+            alt: `Food Ordering Management System screenshot f${i + 1}`
+          }))
+        : isInGazProject
         ? [
             { src: "/assets/ingaz-1.jpeg", alt: "In Gaz API app screenshot 1" },
             { src: "/assets/ingaz-2.jpeg", alt: "In Gaz API app screenshot 2" }

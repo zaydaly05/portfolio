@@ -85,6 +85,13 @@ const portfolioData = {
   ],
   projects: [
     {
+      name: "Food Ordering Management System",
+      period: "May 2026",
+      stack: "Spring Boot, Tailwind, React, MongoDB",
+      description:
+        "Developed a full-stack food ordering system with Spring Boot and a React + Tailwind frontend. Built RESTful APIs for authentication, menu management, cart operations, and order processing with MongoDB. Implemented role-based Admin and Customer flows with CRUD, order tracking, and analytics such as top-selling items and profit insights."
+    },
+    {
       name: "Car Rental Website",
       period: "May 2025",
       stack: "HTML, CSS, MongoDB, Node.js, JavaScript",
