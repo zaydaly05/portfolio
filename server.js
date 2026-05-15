@@ -9,8 +9,12 @@ app.use(express.json());
 
 // Serve assets from the Assets folder FIRST with explicit options
 app.use('/assets', express.static(path.join(__dirname, "Assets"), {
-  setHeaders: (res, path) => {
-    res.setHeader('Cache-Control', 'public, max-age=86400');
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith("cv.pdf")) {
+      res.setHeader("Cache-Control", "no-cache");
+    } else {
+      res.setHeader("Cache-Control", "public, max-age=86400");
+    }
   }
 }));
 
