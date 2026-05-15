@@ -124,9 +124,9 @@ const fallbackPortfolio = {
     }
   ],
   technicalSkills: [
-    { category: "Languages", items: ["PHP", "C", "Python", "Java", "HTML", "CSS", "JavaScript", "SQL", "C++", "C#", "Flutter", "Dart"] },
+    { category: "Languages", items: ["PHP", "C", "Python", "Java", "HTML", "CSS", "JavaScript", "SQL", "C++", "C#", "Flutter", "Dart", "Tailwind"] },
     { category: "Databases", items: ["SQL", "MongoDB", "Firebase"] },
-    { category: "Frameworks", items: ["Node.js", "Express.js"] },
+    { category: "Frameworks", items: ["Node.js", "Express.js", "Spring Boot", "React"] },
     { category: "Developer Tools", items: ["VS Code", "Apache NetBeans", "XAMPP", "Git", "GitHub", "Android Studio"] },
     { category: "Microsoft Office 365", items: ["Word", "Excel", "PowerPoint", "Access"] },
     { category: "Design Tools", items: ["Adobe Photoshop", "Adobe InDesign", "Adobe Premiere", "Filmora"] },

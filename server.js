@@ -130,7 +130,7 @@ const portfolioData = {
   technicalSkills: [
     {
       category: "Languages",
-      items: ["PHP", "C", "Python", "Java", "HTML", "CSS", "JavaScript", "SQL", "C++", "C#", "Flutter", "Dart"]
+      items: ["PHP", "C", "Python", "Java", "HTML", "CSS", "JavaScript", "SQL", "C++", "C#", "Flutter", "Dart", "Tailwind"]
     },
     {
       category: "Databases",
@@ -138,7 +138,7 @@ const portfolioData = {
     },
     {
       category: "Frameworks",
-      items: ["Node.js", "Express.js"]
+      items: ["Node.js", "Express.js", "Spring Boot", "React"]
     },
     {
       category: "Developer Tools",
