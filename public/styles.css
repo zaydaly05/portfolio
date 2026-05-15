@@ -267,16 +267,20 @@ img {
   width: 48px;
   height: 48px;
   border-radius: 14px;
-  display: grid;
-  place-items: center;
-  font-weight: 800;
-  font-size: 1.1rem;
-  color: #041134;
-  background: var(--accent-gradient);
+  overflow: hidden;
+  display: block;
   box-shadow: 0 8px 25px rgba(101, 240, 255, 0.3);
   transition: transform 0.3s var(--transition-spring),
               box-shadow 0.3s ease;
   flex-shrink: 0;
+  text-decoration: none;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .logo:hover {
