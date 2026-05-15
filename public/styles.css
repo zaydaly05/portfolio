@@ -1005,6 +1005,7 @@ textarea::placeholder {
 }
 
 .modal-media-item {
+  position: relative;
   margin: 0;
   border: 1px solid var(--card-border);
   border-radius: 14px;
@@ -1012,21 +1013,217 @@ textarea::placeholder {
   background: rgba(255, 255, 255, 0.03);
 }
 
+.modal-media-clickable {
+  cursor: zoom-in;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.modal-media-clickable:hover,
+.modal-media-clickable:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(101, 240, 255, 0.45);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+  outline: none;
+}
+
+.modal-media-skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0.04) 8%,
+    rgba(255, 255, 255, 0.12) 18%,
+    rgba(255, 255, 255, 0.04) 33%
+  );
+  background-size: 200% 100%;
+  animation: mediaShimmer 1.2s ease-in-out infinite;
+}
+
+.modal-media-item.is-loaded .modal-media-skeleton {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
 .modal-media-item img {
   width: 100%;
-  height: 280px;
+  height: 220px;
   object-fit: contain;
   object-position: center;
   background: rgba(255, 255, 255, 0.03);
   display: block;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.modal-media-item img.loaded {
+  opacity: 1;
+}
+
+.modal-media-zoom-hint {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.modal-media-clickable:hover .modal-media-zoom-hint,
+.modal-media-clickable:focus-visible .modal-media-zoom-hint {
+  opacity: 1;
 }
 
 .modal-media-item video {
   width: 100%;
-  height: 280px;
+  height: 220px;
   object-fit: contain;
   background: rgba(255, 255, 255, 0.03);
   display: block;
+}
+
+@keyframes mediaShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.lightbox.hidden {
+  display: none;
+}
+
+.lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 5, 18, 0.92);
+  backdrop-filter: blur(10px);
+}
+
+.lightbox-content {
+  position: relative;
+  z-index: 1;
+  width: min(1200px, 96vw);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.lightbox-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 42px;
+  height: 42px;
+  margin: -21px 0 0 -21px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--accent, #65f0ff);
+  animation: lightboxSpin 0.8s linear infinite;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.lightbox-loader.active {
+  opacity: 1;
+}
+
+#lightbox-img {
+  max-width: 100%;
+  max-height: calc(90vh - 80px);
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#lightbox-img.loaded {
+  opacity: 1;
+}
+
+.lightbox-caption {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.lightbox-counter {
+  color: var(--text);
+  font-size: 0.82rem;
+  opacity: 0.8;
+}
+
+.lightbox-close,
+.lightbox-nav {
+  position: absolute;
+  z-index: 2;
+  border: 0;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.lightbox-close {
+  top: 20px;
+  right: 20px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  display: grid;
+  place-items: center;
+}
+
+.lightbox-nav {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.lightbox-prev {
+  left: 20px;
+}
+
+.lightbox-next {
+  right: 20px;
+}
+
+.lightbox-close:hover,
+.lightbox-nav:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.lightbox-nav:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+@keyframes lightboxSpin {
+  to { transform: rotate(360deg); }
 }
 
 /* ============================================
@@ -1218,12 +1415,25 @@ textarea::placeholder {
   }
 
   .modal-media-item img {
-    height: 240px;
+    height: 200px;
     object-fit: contain;
   }
 
   .modal-media-item video {
-    height: 240px;
+    height: 200px;
+  }
+
+  .lightbox-prev {
+    left: 8px;
+  }
+
+  .lightbox-next {
+    right: 8px;
+  }
+
+  .lightbox-close {
+    top: 12px;
+    right: 12px;
   }
 
   .modal-close {

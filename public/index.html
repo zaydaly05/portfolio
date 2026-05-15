@@ -186,6 +186,19 @@
       </div>
     </div>
 
-    <script src="script.js?v=5"></script>
+    <div id="lightbox" class="lightbox hidden" aria-hidden="true">
+      <div class="lightbox-backdrop" data-close-lightbox="true"></div>
+      <button id="lightbox-close" class="lightbox-close" type="button" aria-label="Close image viewer">×</button>
+      <button id="lightbox-prev" class="lightbox-nav lightbox-prev" type="button" aria-label="Previous image">‹</button>
+      <button id="lightbox-next" class="lightbox-nav lightbox-next" type="button" aria-label="Next image">›</button>
+      <div class="lightbox-content">
+        <div class="lightbox-loader" id="lightbox-loader" aria-hidden="true"></div>
+        <img id="lightbox-img" alt="" />
+        <p id="lightbox-caption" class="lightbox-caption"></p>
+        <span id="lightbox-counter" class="lightbox-counter"></span>
+      </div>
+    </div>
+
+    <script src="script.js?v=6"></script>
   </body>
 </html>

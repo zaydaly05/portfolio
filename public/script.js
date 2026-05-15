@@ -459,9 +459,194 @@ const setupCardGlow = () => {
 };
 
 /* ============================================
-   MODAL
+   MODAL & LIGHTBOX
    ============================================ */
 const modalState = { open: false };
+const lightboxState = { open: false, images: [], index: 0 };
+let modalMediaObserver = null;
+
+const buildMediaHtml = (media) => {
+  let imageIndex = 0;
+  return media
+    .map((item, idx) => {
+      if (item.type === "video") {
+        return `
+          <figure class="modal-media-item">
+            <video src="${item.src}" controls preload="metadata" playsinline></video>
+          </figure>
+        `;
+      }
+
+      const currentImageIndex = imageIndex;
+      const eager = imageIndex < 3;
+      imageIndex += 1;
+      const alt = item.alt || `Project media ${idx + 1}`;
+
+      return `
+        <figure
+          class="modal-media-item modal-media-clickable"
+          data-lightbox-index="${currentImageIndex}"
+          tabindex="0"
+          role="button"
+          aria-label="View ${alt} full size"
+        >
+          <div class="modal-media-skeleton" aria-hidden="true"></div>
+          <img
+            ${eager ? `src="${item.src}"` : `data-src="${item.src}"`}
+            alt="${alt}"
+            loading="${eager ? "eager" : "lazy"}"
+            decoding="async"
+            ${eager && currentImageIndex === 0 ? 'fetchpriority="high"' : ""}
+          />
+          <span class="modal-media-zoom-hint" aria-hidden="true">Click to enlarge</span>
+        </figure>
+      `;
+    })
+    .join("");
+};
+
+const markMediaLoaded = (img) => {
+  img.classList.add("loaded");
+  const figure = img.closest(".modal-media-item");
+  if (figure) figure.classList.add("is-loaded");
+};
+
+const initModalMedia = (container, media) => {
+  if (!container || !media.length) return;
+
+  if (modalMediaObserver) {
+    modalMediaObserver.disconnect();
+    modalMediaObserver = null;
+  }
+
+  const scrollRoot = container.closest(".modal-card");
+  const lazyImages = container.querySelectorAll("img[data-src]");
+
+  if (lazyImages.length) {
+    modalMediaObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const img = entry.target;
+          if (!img.dataset.src) return;
+          img.src = img.dataset.src;
+          img.removeAttribute("data-src");
+          modalMediaObserver.unobserve(img);
+        });
+      },
+      { root: scrollRoot, rootMargin: "200px 0px" }
+    );
+    lazyImages.forEach((img) => modalMediaObserver.observe(img));
+  }
+
+  container.querySelectorAll(".modal-media-item img").forEach((img) => {
+    if (img.complete && img.naturalWidth > 0) {
+      markMediaLoaded(img);
+    } else {
+      img.addEventListener("load", () => markMediaLoaded(img), { once: true });
+      img.addEventListener("error", () => markMediaLoaded(img), { once: true });
+    }
+  });
+
+  const images = media.filter((item) => item.type !== "video");
+  container.querySelectorAll(".modal-media-clickable").forEach((figure) => {
+    const openFromFigure = () => {
+      const index = Number(figure.dataset.lightboxIndex);
+      if (!Number.isNaN(index)) openLightbox(images, index);
+    };
+    figure.addEventListener("click", (event) => {
+      event.stopPropagation();
+      openFromFigure();
+    });
+    figure.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        event.stopPropagation();
+        openFromFigure();
+      }
+    });
+  });
+};
+
+const updateLightbox = () => {
+  const lightbox = document.getElementById("lightbox");
+  const img = document.getElementById("lightbox-img");
+  const caption = document.getElementById("lightbox-caption");
+  const counter = document.getElementById("lightbox-counter");
+  const loader = document.getElementById("lightbox-loader");
+  const prevBtn = document.getElementById("lightbox-prev");
+  const nextBtn = document.getElementById("lightbox-next");
+  if (!lightbox || !img || !lightboxState.images.length) return;
+
+  const item = lightboxState.images[lightboxState.index];
+  const total = lightboxState.images.length;
+
+  if (loader) loader.classList.add("active");
+  img.classList.remove("loaded");
+
+  const onReady = () => {
+    if (loader) loader.classList.remove("active");
+    img.classList.add("loaded");
+  };
+
+  img.onload = onReady;
+  img.onerror = onReady;
+  img.src = item.src;
+  img.alt = item.alt || "";
+  if (img.complete && img.naturalWidth > 0) onReady();
+
+  if (caption) caption.textContent = item.alt || "";
+  if (counter) counter.textContent = `${lightboxState.index + 1} / ${total}`;
+  if (prevBtn) prevBtn.disabled = lightboxState.index === 0;
+  if (nextBtn) nextBtn.disabled = lightboxState.index === total - 1;
+
+  const preload = (offset) => {
+    const target = lightboxState.images[lightboxState.index + offset];
+    if (!target) return;
+    const probe = new Image();
+    probe.src = target.src;
+  };
+  preload(1);
+  preload(-1);
+};
+
+const openLightbox = (images, startIndex = 0) => {
+  const lightbox = document.getElementById("lightbox");
+  if (!lightbox || !images.length) return;
+
+  lightboxState.images = images;
+  lightboxState.index = Math.max(0, Math.min(startIndex, images.length - 1));
+  lightboxState.open = true;
+
+  lightbox.classList.remove("hidden");
+  lightbox.setAttribute("aria-hidden", "false");
+  updateLightbox();
+};
+
+const closeLightbox = () => {
+  const lightbox = document.getElementById("lightbox");
+  if (!lightbox) return;
+
+  lightbox.classList.add("hidden");
+  lightbox.setAttribute("aria-hidden", "true");
+  lightboxState.open = false;
+
+  const img = document.getElementById("lightbox-img");
+  if (img) {
+    img.onload = null;
+    img.onerror = null;
+    img.removeAttribute("src");
+    img.classList.remove("loaded");
+  }
+};
+
+const shiftLightbox = (delta) => {
+  if (!lightboxState.open || !lightboxState.images.length) return;
+  const next = lightboxState.index + delta;
+  if (next < 0 || next >= lightboxState.images.length) return;
+  lightboxState.index = next;
+  updateLightbox();
+};
 
 const openModal = ({ tag, title, subtitle, description, points = [], media = [] }) => {
   const modal = document.getElementById("details-modal");
@@ -483,20 +668,9 @@ const openModal = ({ tag, title, subtitle, description, points = [], media = [] 
       ? `modal-media-grid${media.length === 1 ? " modal-media-single" : ""}`
       : "modal-media-placeholder";
     mediaContainer.innerHTML = media.length
-      ? media
-          .map(
-            (item, idx) => `
-            <figure class="modal-media-item">
-              ${
-                item.type === "video"
-                  ? `<video src="${item.src}" controls preload="metadata" playsinline></video>`
-                  : `<img src="${item.src}" alt="${item.alt || `Project media ${idx + 1}`}" loading="lazy" />`
-              }
-            </figure>
-          `
-          )
-          .join("")
+      ? buildMediaHtml(media)
       : "<p>Add your project/experience images here later.</p>";
+    initModalMedia(mediaContainer, media);
   }
 
   modal.classList.remove("hidden");
@@ -506,8 +680,16 @@ const openModal = ({ tag, title, subtitle, description, points = [], media = [] 
 };
 
 const closeModal = () => {
+  if (lightboxState.open) closeLightbox();
+
   const modal = document.getElementById("details-modal");
   if (!modal) return;
+
+  if (modalMediaObserver) {
+    modalMediaObserver.disconnect();
+    modalMediaObserver = null;
+  }
+
   modal.classList.add("hidden");
   modal.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
@@ -829,10 +1011,38 @@ const setupModal = () => {
       closeModal();
     }
   });
+
+  const lightbox = document.getElementById("lightbox");
+  const lightboxClose = document.getElementById("lightbox-close");
+  const lightboxPrev = document.getElementById("lightbox-prev");
+  const lightboxNext = document.getElementById("lightbox-next");
+
+  if (lightboxClose) lightboxClose.addEventListener("click", closeLightbox);
+  if (lightboxPrev) lightboxPrev.addEventListener("click", () => shiftLightbox(-1));
+  if (lightboxNext) lightboxNext.addEventListener("click", () => shiftLightbox(1));
+
+  if (lightbox) {
+    lightbox.addEventListener("click", (event) => {
+      const target = event.target;
+      if (target instanceof HTMLElement && target.dataset.closeLightbox === "true") {
+        closeLightbox();
+      }
+    });
+  }
+
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && modalState.open) {
-      closeModal();
+    if (event.key !== "Escape") return;
+    if (lightboxState.open) {
+      closeLightbox();
+      return;
     }
+    if (modalState.open) closeModal();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (!lightboxState.open) return;
+    if (event.key === "ArrowLeft") shiftLightbox(-1);
+    if (event.key === "ArrowRight") shiftLightbox(1);
   });
 };
 
