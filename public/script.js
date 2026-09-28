@@ -459,6 +459,7 @@ const setupScrollProgress = () => {
    ============================================ */
 const setupNavbar = () => {
   const nav = document.getElementById("navbar");
+  if (!nav) return;
   const links = document.querySelectorAll(".nav-links a");
   const sections = document.querySelectorAll(".section");
 
@@ -759,6 +760,7 @@ const attachCardModalHandlers = (selector, getPayload) => {
    ============================================ */
 const renderExperience = (items) => {
   const container = document.getElementById("experience-list");
+  if (!container) return;
   const safeItems = Array.isArray(items) ? items : [];
   container.innerHTML = safeItems
     .map(
@@ -807,6 +809,7 @@ const renderExperience = (items) => {
 
 const renderProjects = (items) => {
   const container = document.getElementById("project-list");
+  if (!container) return;
   const safeItems = Array.isArray(items) ? items : [];
   
   const getGithubUrl = (name, customGithub) => {
@@ -939,6 +942,7 @@ const renderProjects = (items) => {
 
 const renderEducation = (items) => {
   const container = document.getElementById("education-list");
+  if (!container) return;
   const safeItems = Array.isArray(items) ? items : [];
   container.innerHTML = safeItems
     .map(
@@ -955,6 +959,7 @@ const renderEducation = (items) => {
 
 const renderActivities = (items) => {
   const container = document.getElementById("activities-list");
+  if (!container) return;
   const safeItems = Array.isArray(items) ? items : [];
   container.innerHTML = safeItems
     .map(
@@ -971,6 +976,7 @@ const renderActivities = (items) => {
 
 const renderTechnicalSkills = (groups) => {
   const container = document.getElementById("technical-skills-list");
+  if (!container) return;
   const safeGroups = Array.isArray(groups) ? groups : [];
   container.innerHTML = safeGroups
     .map(
@@ -986,12 +992,14 @@ const renderTechnicalSkills = (groups) => {
 
 const renderSoftSkills = (items) => {
   const container = document.getElementById("soft-skills-list");
+  if (!container) return;
   const safeItems = Array.isArray(items) ? items : [];
   container.innerHTML = safeItems.map((item) => `<span class="chip">${item}</span>`).join("");
 };
 
 const renderLanguages = (items) => {
   const container = document.getElementById("languages-list");
+  if (!container) return;
   const safeItems = Array.isArray(items) ? items : [];
   container.innerHTML = safeItems
     .map((item) => `<span class="chip">${item.name}: ${item.level}</span>`)
@@ -1945,6 +1953,7 @@ const setupCVViewerModal = () => {
   const backdrop = document.getElementById("cv-modal-backdrop");
   const navBtn = document.getElementById("preview-cv-nav-btn");
   const heroBtn = document.getElementById("btn-preview-cv-hero");
+  const expBtn = document.getElementById("preview-cv-exp-btn");
 
   if (!cvModal) return;
 
@@ -1953,6 +1962,7 @@ const setupCVViewerModal = () => {
 
   if (navBtn) navBtn.addEventListener("click", openCVModal);
   if (heroBtn) heroBtn.addEventListener("click", openCVModal);
+  if (expBtn) expBtn.addEventListener("click", openCVModal);
   if (closeBtn) closeBtn.addEventListener("click", closeCVModal);
   if (backdrop) backdrop.addEventListener("click", closeCVModal);
 };
