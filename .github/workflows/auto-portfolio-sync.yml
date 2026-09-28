@@ -1,0 +1,56 @@
+name: Auto Portfolio & Repos Sync Workflow
+
+on:
+  schedule:
+    # Runs automatically every 6 hours
+    - cron: '0 */6 * * *'
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  sync-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Portfolio Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: ⚙️ Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 📦 Install Dependencies
+        run: npm ci || npm install
+
+      - name: 🔍 Run GitHub Repos Auto-Sync Engine
+        env:
+          WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE || '201017741741' }}
+          CALLMEBOT_API_KEY: ${{ secrets.CALLMEBOT_API_KEY }}
+        run: node scripts/auto-sync-portfolio.js
+
+      - name: 🚀 Commit & Push Updates if Repos Changed
+        run: |
+          git config --global user.name "Zayd-AutoSync-Bot"
+          git config --global user.email "bot@zaydportfolio.local"
+          if [[ -n $(git status -s) ]]; then
+            echo "Changes detected! Committing and pushing..."
+            git add .
+            git commit -m "auto(sync): update portfolio data & CV from GitHub repositories [skip ci]"
+            git push
+          else
+            echo "No repository changes detected. Portfolio is up to date."
+          fi
+
+      - name: 📱 Send WhatsApp Notification Status
+        if: always()
+        env:
+          CALLMEBOT_KEY: ${{ secrets.CALLMEBOT_API_KEY }}
+        run: |
+          if [ -n "$CALLMEBOT_KEY" ]; then
+            curl -s "https://api.callmebot.com/whatsapp.php?phone=201017741741&text=Zayd+Portfolio+Automation:+Workflow+executed+successfully!+Portfolio+is+up+to+date.&apikey=$CALLMEBOT_KEY" || true
+          fi
