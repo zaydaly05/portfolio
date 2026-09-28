@@ -111,6 +111,58 @@
         </a>
       </div>
 
+      <!-- Dynamic Developer Showcase Carousel -->
+      <div class="hero-showcase-slider" id="hero-slider">
+        <div class="slider-track" id="slider-track">
+          <!-- Slide 1 -->
+          <div class="slider-slide active" data-index="0">
+            <img src="/assets/hero-slide-1.jpg" alt="Zayd Coding at Dual Monitor Workspace" class="slide-img" />
+            <div class="slide-overlay">
+              <span class="slide-tag">💻 Full-Stack Development</span>
+              <h3 class="slide-title">Engineering Scalable Web Applications</h3>
+              <p class="slide-desc">Building high-performance REST APIs with Spring Boot, React, Node.js & MongoDB.</p>
+              <a href="#projects" class="slide-btn">Explore Web Projects ↗</a>
+            </div>
+          </div>
+          <!-- Slide 2 -->
+          <div class="slider-slide" data-index="1">
+            <img src="/assets/hero-slide-2.jpg" alt="Zayd Mobile App Development" class="slide-img" />
+            <div class="slide-overlay">
+              <span class="slide-tag">📱 Mobile Architecture</span>
+              <h3 class="slide-title">Cross-Platform Flutter & Dart Solutions</h3>
+              <p class="slide-desc">Developing native-feeling iOS and Android apps with real-time API integrations.</p>
+              <a href="#projects" class="slide-btn">View Mobile Apps ↗</a>
+            </div>
+          </div>
+          <!-- Slide 3 -->
+          <div class="slider-slide" data-index="2">
+            <img src="/assets/hero-slide-3.jpg" alt="Zayd Software Architecture & Blueprint Design" class="slide-img" />
+            <div class="slide-overlay">
+              <span class="slide-tag">🏗️ Software Architecture</span>
+              <h3 class="slide-title">Designing Robust Enterprise Systems</h3>
+              <p class="slide-desc">Architecting relational database schemas, MVC patterns, and secure cloud workflows.</p>
+              <a href="#technical-skills" class="slide-btn">View Tech Stack ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <button class="slider-nav-btn prev" id="slider-prev" aria-label="Previous Slide">‹</button>
+        <button class="slider-nav-btn next" id="slider-next" aria-label="Next Slide">›</button>
+
+        <!-- Slide Dots -->
+        <div class="slider-dots" id="slider-dots">
+          <span class="dot active" data-index="0"></span>
+          <span class="dot" data-index="1"></span>
+          <span class="dot" data-index="2"></span>
+        </div>
+
+        <!-- Auto-Play Progress Bar -->
+        <div class="slider-progress-bar">
+          <div class="progress-fill" id="slider-progress"></div>
+        </div>
+      </div>
+
       <div class="scroll-indicator" id="scroll-indicator">
         <span>Scroll</span>
         <div class="arrow"></div>

@@ -1272,6 +1272,7 @@ const init = async () => {
   setupProfilePhotoFallback();
 
   // Advanced Interactive Modules
+  setupHeroSlider();
   setupCairoClock();
   setupGitHubSync();
   setupProjectFiltering(data.projects);
@@ -1284,6 +1285,73 @@ const init = async () => {
   // Particle system
   const canvas = document.getElementById("particles-canvas");
   if (canvas) new ParticleSystem(canvas);
+};
+
+/* ============================================
+   DYNAMIC HERO SHOWCASE CAROUSEL SLIDER
+   ============================================ */
+const setupHeroSlider = () => {
+  const slider = document.getElementById("hero-slider");
+  if (!slider) return;
+
+  const slides = slider.querySelectorAll(".slider-slide");
+  const dots = slider.querySelectorAll(".dot");
+  const prevBtn = document.getElementById("slider-prev");
+  const nextBtn = document.getElementById("slider-next");
+  const progressBar = document.getElementById("slider-progress");
+
+  if (!slides.length) return;
+
+  let currentIndex = 0;
+  let timer = null;
+  const slideDuration = 5000;
+
+  const goToSlide = (index) => {
+    slides.forEach((s) => s.classList.remove("active"));
+    dots.forEach((d) => d.classList.remove("active"));
+
+    currentIndex = (index + slides.length) % slides.length;
+    slides[currentIndex].classList.add("active");
+    if (dots[currentIndex]) dots[currentIndex].classList.add("active");
+
+    resetProgress();
+  };
+
+  const resetProgress = () => {
+    if (!progressBar) return;
+    progressBar.style.transition = "none";
+    progressBar.style.width = "0%";
+    setTimeout(() => {
+      progressBar.style.transition = `width ${slideDuration}ms linear`;
+      progressBar.style.width = "100%";
+    }, 50);
+  };
+
+  const nextSlide = () => goToSlide(currentIndex + 1);
+  const prevSlide = () => goToSlide(currentIndex - 1);
+
+  const startAutoPlay = () => {
+    stopAutoPlay();
+    resetProgress();
+    timer = setInterval(nextSlide, slideDuration);
+  };
+
+  const stopAutoPlay = () => {
+    if (timer) clearInterval(timer);
+    timer = null;
+  };
+
+  if (prevBtn) prevBtn.addEventListener("click", () => { prevSlide(); startAutoPlay(); });
+  if (nextBtn) nextBtn.addEventListener("click", () => { nextSlide(); startAutoPlay(); });
+
+  dots.forEach((dot, idx) => {
+    dot.addEventListener("click", () => { goToSlide(idx); startAutoPlay(); });
+  });
+
+  slider.addEventListener("mouseenter", stopAutoPlay);
+  slider.addEventListener("mouseleave", startAutoPlay);
+
+  startAutoPlay();
 };
 
 /* ============================================
