@@ -100,7 +100,8 @@ const portfolioData = {
       name: "Essmat Plastic Factory Management System",
       period: "September 2026",
       stack: "C#, .NET, SQL Server, Entity Framework",
-      image: "/assets/essmat-plastic-report.pdf",
+      image: "/assets/employee-e1.png",
+      pdfReport: "/assets/essmat-plastic-report.pdf",
       github: "https://github.com/zaydaly05/EssmatPlastic",
       description: "Enterprise inventory and production management solution for plastic manufacturing, optimizing raw material tracking, order processing, and factory billing workflows."
     },

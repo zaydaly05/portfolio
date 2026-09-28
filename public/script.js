@@ -830,21 +830,14 @@ const renderProjects = (items) => {
   container.innerHTML = safeItems
     .map((item) => {
       const githubUrl = getGithubUrl(item.name, item.github);
-      const imgUrl = item.image || "/assets/main-photo.jpeg";
-      const isPdf = imgUrl.endsWith(".pdf");
+      const imgUrl = (item.image && !item.image.endsWith('.pdf')) ? item.image : "/assets/dr-nagla-hero.png";
+      const pdfUrl = item.pdfReport || (item.image && item.image.endsWith('.pdf') ? item.image : null);
 
       return `
       <article class="card card-clickable reveal-card js-project-card" tabindex="0" role="button" aria-label="Open ${item.name || "project"} details">
-        ${isPdf ? `
-          <div class="project-card-image-wrap project-card-pdf-wrap">
-            <span class="pdf-card-badge">📄 PDF Report</span>
-            <p class="pdf-card-title">${item.name}</p>
-          </div>
-        ` : `
-          <div class="project-card-image-wrap">
-            <img src="${imgUrl}" alt="${item.name || "Project screenshot"}" class="project-card-img" loading="lazy" />
-          </div>
-        `}
+        <div class="project-card-image-wrap">
+          <img src="${imgUrl}" alt="${item.name || "Project output screenshot"}" class="project-card-img" loading="lazy" />
+        </div>
         <div class="project-card-body">
           <div class="project-card-header">
             <h4>${item.name || "-"}</h4>
@@ -858,6 +851,7 @@ const renderProjects = (items) => {
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="vertical-align:text-bottom;margin-right:4px;"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
               View GitHub Repo ↗
             </a>
+            ${pdfUrl ? `<a href="${pdfUrl}" target="_blank" download class="btn-pdf-link" onclick="event.stopPropagation();">📄 PDF Report 📥</a>` : ""}
           </div>
         </div>
       </article>
@@ -884,17 +878,24 @@ const renderProjects = (items) => {
       tag: "Project Details",
       title: item.name || "Project",
       subtitle: `${item.period || ""} · ${item.stack || ""}`,
-      description: `${item.description || ""}\n\n🔗 Live Repository: ${githubUrl}`,
+      description: `${item.description || ""}\n\n🔗 GitHub Repo: ${githubUrl}`,
       points: [
-        `Connected to live GitHub repository: ${githubUrl}`,
-        `Automatically synced with GitHub commits`
+        `Live repository link: ${githubUrl}`,
+        `Automatically synced with GitHub project commits`
       ],
-      media: isGulfLimousineProject
-        ? [{ src: "/assets/gulf-limousine.jpg", alt: "Gulf Limousine App screenshot" }]
+      media: isDrNaglaBioProject
+        ? [
+            { src: "/assets/dr-nagla-hero.png", alt: "Dr Naglaa Academic Portal Hero" },
+            { src: "/assets/dr-nagla-biography.png", alt: "Dr Naglaa Biography & Academic Credentials" },
+            { src: "/assets/dr-nagla-publications.png", alt: "Dr Naglaa Research Publications" },
+            { src: "/assets/dr-nagla-contact.png", alt: "Dr Naglaa Academic Contact Section" }
+          ]
+        : isGulfLimousineProject
+        ? [{ src: "/assets/gulf-limousine.jpg", alt: "Gulf Limousine App real output preview" }]
         : isEssmatPlasticProject
-        ? [{ src: "/assets/essmat-plastic-report.pdf", alt: "Essmat Plastic Customer Report PDF" }]
-        : isDrNaglaBioProject
-        ? [{ src: "/assets/dr-nagla-bio.jpeg", alt: "Dr Naglaa Academic Biography Portal" }]
+        ? [
+            { src: "/assets/employee-e1.png", alt: "Essmat Plastic Management System dashboard" }
+          ]
         : isFoodOrderingProject
         ? Array.from({ length: 16 }, (_, i) => ({
             src: `/assets/f${i + 1}.png`,
