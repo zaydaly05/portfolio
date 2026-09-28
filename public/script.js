@@ -808,42 +808,94 @@ const renderExperience = (items) => {
 const renderProjects = (items) => {
   const container = document.getElementById("project-list");
   const safeItems = Array.isArray(items) ? items : [];
+  
+  const getGithubUrl = (name, customGithub) => {
+    if (customGithub) return customGithub;
+    const repoNameMap = {
+      "gulf limousine booking app": "https://github.com/zaydaly05/Gulf_Limousine_App",
+      "essmat plastic factory management system": "https://github.com/zaydaly05/EssmatPlastic",
+      "dr. naglaa academic biography portal": "https://github.com/zaydaly05/drNaglaBio",
+      "food ordering management system": "https://github.com/zaydaly05/food_ordering_system",
+      "in gaz api system": "https://github.com/zaydaly05/InGazAPI",
+      "employee attendance & leave system": "https://github.com/zaydaly05/Employee_Attendance-Leave_Management_System",
+      "car rental website": "https://github.com/zaydaly05/Car_Rental_Website",
+      "restaurant management system": "https://github.com/zaydaly05/Restaurant_Management_System",
+      "sleeping alert system": "https://github.com/zaydaly05/Sleep_Alert_System",
+      "zaydentity digital identity platform": "https://github.com/zaydaly05/zaydentity",
+      "we telecom training suite": "https://github.com/zaydaly05/WE_Intern"
+    };
+    return repoNameMap[(name || "").toLowerCase()] || `https://github.com/zaydaly05/${(name || "").replace(/[^a-zA-Z0-9_-]/g, "_")}`;
+  };
+
   container.innerHTML = safeItems
-    .map(
-      (item) => `
+    .map((item) => {
+      const githubUrl = getGithubUrl(item.name, item.github);
+      const imgUrl = item.image || "/assets/main-photo.jpeg";
+      const isPdf = imgUrl.endsWith(".pdf");
+
+      return `
       <article class="card card-clickable reveal-card js-project-card" tabindex="0" role="button" aria-label="Open ${item.name || "project"} details">
-        <h4>${item.name || "-"}</h4>
-        <p class="meta">${item.period || "-"}</p>
-        <p><strong>Stack:</strong> ${item.stack || "-"}</p>
-        <p>${item.description || "-"}</p>
+        ${isPdf ? `
+          <div class="project-card-image-wrap project-card-pdf-wrap">
+            <span class="pdf-card-badge">📄 PDF Report</span>
+            <p class="pdf-card-title">${item.name}</p>
+          </div>
+        ` : `
+          <div class="project-card-image-wrap">
+            <img src="${imgUrl}" alt="${item.name || "Project screenshot"}" class="project-card-img" loading="lazy" />
+          </div>
+        `}
+        <div class="project-card-body">
+          <div class="project-card-header">
+            <h4>${item.name || "-"}</h4>
+            <span class="live-sync-badge" title="Automatically synced with GitHub Repository">● Synced</span>
+          </div>
+          <p class="meta">${item.period || "-"}</p>
+          <p><strong>Stack:</strong> ${item.stack || "-"}</p>
+          <p class="project-desc">${item.description || "-"}</p>
+          <div class="project-card-actions">
+            <a href="${githubUrl}" target="_blank" rel="noopener" class="btn-github-link" onclick="event.stopPropagation();">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="vertical-align:text-bottom;margin-right:4px;"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+              View GitHub Repo ↗
+            </a>
+          </div>
+        </div>
       </article>
-    `
-    )
+    `;
+    })
     .join("");
 
   attachCardModalHandlers(".js-project-card", (index) => {
     const item = safeItems[index] || {};
-    const isInGazProject = (item.name || "").toLowerCase().includes("in gaz api");
-    const isCarRentalProject = (item.name || "").toLowerCase().includes("car rental website");
-    const isRestaurantProject = (item.name || "").toLowerCase().includes("restaurant management system");
-    const isSleepingAlertProject = (item.name || "").toLowerCase().includes("sleeping alert system");
-    const isEmployeeAttendanceProject = (item.name || "").toLowerCase().includes("employee attendance & leave system");
-    const isFoodOrderingProject = (item.name || "").toLowerCase().includes("food ordering management system");
+    const nameLower = (item.name || "").toLowerCase();
+    const githubUrl = getGithubUrl(item.name, item.github);
+
+    const isInGazProject = nameLower.includes("in gaz api");
+    const isCarRentalProject = nameLower.includes("car rental website");
+    const isRestaurantProject = nameLower.includes("restaurant management system");
+    const isSleepingAlertProject = nameLower.includes("sleeping alert system");
+    const isEmployeeAttendanceProject = nameLower.includes("employee attendance");
+    const isFoodOrderingProject = nameLower.includes("food ordering management system");
+    const isGulfLimousineProject = nameLower.includes("gulf limousine");
+    const isEssmatPlasticProject = nameLower.includes("essmat plastic");
+    const isDrNaglaBioProject = nameLower.includes("dr. naglaa");
+
     return {
       tag: "Project Details",
       title: item.name || "Project",
       subtitle: `${item.period || ""} · ${item.stack || ""}`,
-      description: item.description || "",
-      points:
-        isInGazProject ||
-        isCarRentalProject ||
-        isRestaurantProject ||
-        isSleepingAlertProject ||
-        isEmployeeAttendanceProject ||
-        isFoodOrderingProject
-          ? []
-          : ["You can add project screenshots in this popup area later."],
-      media: isFoodOrderingProject
+      description: `${item.description || ""}\n\n🔗 Live Repository: ${githubUrl}`,
+      points: [
+        `Connected to live GitHub repository: ${githubUrl}`,
+        `Automatically synced with GitHub commits`
+      ],
+      media: isGulfLimousineProject
+        ? [{ src: "/assets/gulf-limousine.jpg", alt: "Gulf Limousine App screenshot" }]
+        : isEssmatPlasticProject
+        ? [{ src: "/assets/essmat-plastic-report.pdf", alt: "Essmat Plastic Customer Report PDF" }]
+        : isDrNaglaBioProject
+        ? [{ src: "/assets/dr-nagla-bio.jpeg", alt: "Dr Naglaa Academic Biography Portal" }]
+        : isFoodOrderingProject
         ? Array.from({ length: 16 }, (_, i) => ({
             src: `/assets/f${i + 1}.png`,
             alt: `Food Ordering Management System screenshot f${i + 1}`
@@ -854,32 +906,32 @@ const renderProjects = (items) => {
             { src: "/assets/ingaz-2.jpeg", alt: "In Gaz API app screenshot 2" }
           ]
         : isCarRentalProject
-          ? [
-              { src: "/assets/car-rental-c1.png", alt: "Car Rental Website screenshot c1" },
-              { src: "/assets/car-rental-c2.png", alt: "Car Rental Website screenshot c2" },
-              { src: "/assets/car-rental-c3.png", alt: "Car Rental Website screenshot c3" }
-            ]
-          : isRestaurantProject
-            ? [
-                { src: "/assets/restaurant-r1.png", alt: "Restaurant Management System screenshot r1" },
-                { src: "/assets/restaurant-r2.png", alt: "Restaurant Management System screenshot r2" },
-                { src: "/assets/restaurant-r3.png", alt: "Restaurant Management System screenshot r3" },
-                { src: "/assets/restaurant-r4.png", alt: "Restaurant Management System screenshot r4" },
-                { src: "/assets/restaurant-r5.png", alt: "Restaurant Management System screenshot r5" }
-              ]
-          : isSleepingAlertProject
-            ? [
-                { src: "/assets/sleeping-alert-py2.jpeg", alt: "Sleeping Alert System screenshot py2" },
-                { src: "/assets/sleeping-alert-py1.mp4", type: "video", alt: "Sleeping Alert System demo video py1" }
-              ]
-          : isEmployeeAttendanceProject
-            ? [
-                { src: "/assets/employee-e1.png", alt: "Employee Attendance and Leave System screenshot e1" },
-                { src: "/assets/employee-e2.png", alt: "Employee Attendance and Leave System screenshot e2" },
-                { src: "/assets/employee-e3.png", alt: "Employee Attendance and Leave System screenshot e3" },
-                { src: "/assets/employee-e4.png", alt: "Employee Attendance and Leave System screenshot e4" }
-              ]
-          : []
+        ? [
+            { src: "/assets/car-rental-c1.png", alt: "Car Rental Website screenshot c1" },
+            { src: "/assets/car-rental-c2.png", alt: "Car Rental Website screenshot c2" },
+            { src: "/assets/car-rental-c3.png", alt: "Car Rental Website screenshot c3" }
+          ]
+        : isRestaurantProject
+        ? [
+            { src: "/assets/restaurant-r1.png", alt: "Restaurant Management System screenshot r1" },
+            { src: "/assets/restaurant-r2.png", alt: "Restaurant Management System screenshot r2" },
+            { src: "/assets/restaurant-r3.png", alt: "Restaurant Management System screenshot r3" },
+            { src: "/assets/restaurant-r4.png", alt: "Restaurant Management System screenshot r4" },
+            { src: "/assets/restaurant-r5.png", alt: "Restaurant Management System screenshot r5" }
+          ]
+        : isSleepingAlertProject
+        ? [
+            { src: "/assets/sleeping-alert-py2.jpeg", alt: "Sleeping Alert System screenshot py2" },
+            { src: "/assets/sleeping-alert-py1.mp4", type: "video", alt: "Sleeping Alert System demo video py1" }
+          ]
+        : isEmployeeAttendanceProject
+        ? [
+            { src: "/assets/employee-e1.png", alt: "Employee Attendance and Leave System screenshot e1" },
+            { src: "/assets/employee-e2.png", alt: "Employee Attendance and Leave System screenshot e2" },
+            { src: "/assets/employee-e3.png", alt: "Employee Attendance and Leave System screenshot e3" },
+            { src: "/assets/employee-e4.png", alt: "Employee Attendance and Leave System screenshot e4" }
+          ]
+        : [{ src: item.image || "/assets/main-photo.jpeg", alt: item.name }]
     };
   });
 };

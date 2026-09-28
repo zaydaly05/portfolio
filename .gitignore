@@ -4,6 +4,7 @@ node_modules/
 # Local WhatsApp Session & Cache
 .wwebjs_auth/
 .wwebjs_cache/
+scratch/
 
 # Logs & Audit History
 logs/
