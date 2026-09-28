@@ -219,6 +219,28 @@ async function syncPortfolio() {
         fs.writeFileSync(SERVER_JS_PATH, serverContent, 'utf8');
         console.log("✅ server.js successfully updated!");
 
+        // Update latex-cv/Zayd_Ali_Mohamed_CV.tex if exists
+        const latexCvPath = path.join(__dirname, '..', 'latex-cv', 'Zayd_Ali_Mohamed_CV.tex');
+        if (fs.existsSync(latexCvPath)) {
+          let latexContent = fs.readFileSync(latexCvPath, 'utf8');
+          const latexInsertIndex = latexContent.indexOf('\\section{Key Projects}');
+          if (latexInsertIndex !== -1) {
+            const listStartIndex = latexContent.indexOf('\\resumeSubHeadingListStart', latexInsertIndex);
+            if (listStartIndex !== -1) {
+              const insertPosTex = listStartIndex + '\\resumeSubHeadingListStart'.length;
+              const newTexProjects = addedProjects.map(p => `
+      \\resumeProjectHeading
+          {\\textbf{${p.name}} $|$ \\emph{${p.stack}}}{${p.period}}
+          \\resumeItemListStart
+            \\resumeItem{${p.description}}
+          \\resumeItemListEnd`).join('\n');
+              latexContent = latexContent.slice(0, insertPosTex) + '\n' + newTexProjects + latexContent.slice(insertPosTex);
+              fs.writeFileSync(latexCvPath, latexContent, 'utf8');
+              console.log("✅ latex-cv/Zayd_Ali_Mohamed_CV.tex successfully updated!");
+            }
+          }
+        }
+
         const notificationMsg = `🚀 *Zayd Portfolio Automated Sync*\n\n✅ Detected & integrated ${addedProjects.length} new GitHub project(s):\n` +
           addedProjects.map(p => `• *${p.name}* (${p.stack})`).join('\n') +
           `\n\n📌 Portfolio & CV sync completed. Deployment triggered!`;
