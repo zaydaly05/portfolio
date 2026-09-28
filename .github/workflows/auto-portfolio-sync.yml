@@ -29,6 +29,7 @@ jobs:
 
       - name: 🔍 Run GitHub Repos Auto-Sync Engine
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE || '201017741741' }}
           CALLMEBOT_API_KEY: ${{ secrets.CALLMEBOT_API_KEY }}
         run: node scripts/auto-sync-portfolio.js

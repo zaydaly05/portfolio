@@ -15,10 +15,15 @@ const CALLMEBOT_API_KEY = process.env.CALLMEBOT_API_KEY || ''; // Free CallMeBot
 
 async function fetchGitHubRepos() {
   console.log(`🔍 Fetching public repositories for ${GITHUB_USERNAME}...`);
+  const headers = {
+    'User-Agent': 'Portfolio-AutoSync-Bot'
+  };
+  if (process.env.GITHUB_TOKEN) {
+    headers['Authorization'] = `token ${process.env.GITHUB_TOKEN}`;
+  }
+
   const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=50`, {
-    headers: {
-      'User-Agent': 'Portfolio-AutoSync-Bot'
-    }
+    headers
   });
 
   if (!response.ok) {
@@ -31,21 +36,33 @@ async function fetchGitHubRepos() {
 }
 
 async function sendWhatsAppNotification(message) {
+  const encodedText = encodeURIComponent(message);
+  const directWhatsAppLink = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedText}`;
+
   if (!CALLMEBOT_API_KEY) {
-    console.log("ℹ️ WhatsApp notification skipped (No CALLMEBOT_API_KEY set). Set process.env.CALLMEBOT_API_KEY to receive free instant WhatsApp alerts!");
+    console.log("\n------------------------------------------------------------");
+    console.log("📱 WHATSAPP NOTIFICATION DETAILS:");
+    console.log(message);
+    console.log("\n🔗 Direct WhatsApp Message Link (Click to send to yourself):");
+    console.log(directWhatsAppLink);
+    console.log("\n⚠️ To enable 100% automated background WhatsApp delivery:");
+    console.log("1. Send a WhatsApp message to +34 644 64 26 43 with the text: 'I allow callmebot to send me messages'");
+    console.log("2. CallMeBot will reply with your free API Key.");
+    console.log("3. Put your API Key in scripts/auto-sync-portfolio.js at line 14: CALLMEBOT_API_KEY = 'your_key'");
+    console.log("------------------------------------------------------------\n");
     return;
   }
 
   try {
-    const encodedText = encodeURIComponent(message);
     const url = `https://api.callmebot.com/whatsapp.php?phone=${WHATSAPP_PHONE}&text=${encodedText}&apikey=${CALLMEBOT_API_KEY}`;
-    
-    console.log("📱 Sending WhatsApp notification via CallMeBot...");
+    console.log("📱 Sending automated WhatsApp notification via CallMeBot...");
     const res = await fetch(url);
-    if (res.ok) {
-      console.log("🚀 WhatsApp notification sent successfully!");
+    const responseText = await res.text();
+    if (res.ok && !responseText.includes("APIKey is invalid")) {
+      console.log("🚀 WhatsApp message delivered successfully!");
     } else {
-      console.warn("⚠️ CallMeBot WhatsApp API returned status:", res.status);
+      console.warn("⚠️ WhatsApp delivery note:", responseText.replace(/<[^>]*>?/gm, ''));
+      console.log("🔗 Backup WhatsApp Link:", directWhatsAppLink);
     }
   } catch (err) {
     console.error("❌ Failed to send WhatsApp notification:", err.message);
