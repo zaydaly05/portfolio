@@ -1172,9 +1172,419 @@ const init = async () => {
   setupScrollIndicator();
   setupProfilePhotoFallback();
 
+  // Advanced Interactive Modules
+  setupCairoClock();
+  setupGitHubSync();
+  setupProjectFiltering(data.projects);
+  setupSkillFiltering(data.technicalSkills);
+  setupTerminalCLI();
+  setupAICopilot();
+  setupCVViewerModal();
+  setupCopyChips();
+
   // Particle system
   const canvas = document.getElementById("particles-canvas");
   if (canvas) new ParticleSystem(canvas);
 };
 
+/* ============================================
+   CAIRO CLOCK & LIVE STATUS
+   ============================================ */
+const setupCairoClock = () => {
+  const clockEl = document.getElementById("cairo-clock");
+  if (!clockEl) return;
+
+  const updateTime = () => {
+    const now = new Date();
+    clockEl.textContent = now.toLocaleTimeString("en-US", {
+      timeZone: "Africa/Cairo",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true
+    });
+  };
+
+  updateTime();
+  setInterval(updateTime, 1000);
+};
+
+/* ============================================
+   LIVE GITHUB SYNC
+   ============================================ */
+const setupGitHubSync = async () => {
+  const reposContainer = document.getElementById("github-repos-list");
+  if (!reposContainer) return;
+
+  try {
+    const res = await fetch("/api/github");
+    if (!res.ok) throw new Error("GitHub sync API failed");
+    const data = await res.json();
+
+    setText("gh-username", `@${data.username}`);
+    setText("gh-bio", data.bio);
+    setText("gh-repos-count", data.publicRepos);
+    setText("gh-followers-count", data.followers);
+
+    const avatarImg = document.getElementById("gh-avatar");
+    if (avatarImg && data.avatar) avatarImg.src = data.avatar;
+
+    if (data.topRepos && data.topRepos.length > 0) {
+      reposContainer.innerHTML = data.topRepos
+        .map(
+          (repo) => `
+        <div class="gh-repo-card">
+          <div>
+            <div class="gh-repo-title">${repo.name}</div>
+            <p class="gh-repo-desc">${repo.description}</p>
+          </div>
+          <div class="gh-repo-meta">
+            <span class="gh-lang-tag"><span class="gh-lang-dot"></span> ${repo.language}</span>
+            <div class="gh-repo-links">
+              <span>⭐ ${repo.stars}</span>
+              <a href="${repo.url}" target="_blank" rel="noopener" style="margin-left: 8px; color: var(--brand);">View ↗</a>
+            </div>
+          </div>
+        </div>
+      `
+        )
+        .join("");
+    } else {
+      reposContainer.innerHTML = `<div class="github-loading">No public repositories found.</div>`;
+    }
+  } catch (err) {
+    console.error("GitHub Sync error:", err);
+    reposContainer.innerHTML = `<div class="github-loading">Visit Zayd's GitHub directly at <a href="https://github.com/zaydaly05" target="_blank" style="color:var(--brand)">github.com/zaydaly05</a></div>`;
+  }
+};
+
+/* ============================================
+   PROJECT FILTER & LIVE SEARCH
+   ============================================ */
+let rawProjects = [];
+const setupProjectFiltering = (projects) => {
+  rawProjects = projects || [];
+  const searchInput = document.getElementById("project-search-input");
+  const filterBtns = document.querySelectorAll("#project-filter-tabs .filter-btn");
+
+  let currentCategory = "all";
+  let searchQuery = "";
+
+  const applyFilters = () => {
+    const filtered = rawProjects.filter((p) => {
+      const matchSearch =
+        !searchQuery ||
+        p.name.toLowerCase().includes(searchQuery) ||
+        p.stack.toLowerCase().includes(searchQuery) ||
+        p.description.toLowerCase().includes(searchQuery);
+
+      if (!matchSearch) return false;
+
+      if (currentCategory === "all") return true;
+      if (currentCategory === "fullstack") return p.stack.toLowerCase().includes("spring") || p.stack.toLowerCase().includes("react") || p.stack.toLowerCase().includes("full-stack");
+      if (currentCategory === "mobile") return p.stack.toLowerCase().includes("flutter") || p.stack.toLowerCase().includes("api") || p.stack.toLowerCase().includes("c#");
+      if (currentCategory === "web") return p.stack.toLowerCase().includes("html") || p.stack.toLowerCase().includes("php") || p.stack.toLowerCase().includes("node");
+      if (currentCategory === "systems") return p.stack.toLowerCase().includes("java") || p.stack.toLowerCase().includes("python");
+
+      return true;
+    });
+
+    renderProjects(filtered);
+  };
+
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      searchQuery = e.target.value.toLowerCase().trim();
+      applyFilters();
+    });
+  }
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      filterBtns.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentCategory = btn.dataset.filter || "all";
+      applyFilters();
+    });
+  });
+};
+
+/* ============================================
+   TECHNICAL SKILLS CATEGORY FILTERING
+   ============================================ */
+let rawSkillGroups = [];
+const setupSkillFiltering = (skills) => {
+  rawSkillGroups = skills || [];
+  const skillTabs = document.querySelectorAll("#skills-filter-tabs .skill-tab");
+
+  skillTabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      skillTabs.forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
+
+      const cat = tab.dataset.skillCat || "all";
+      if (cat === "all") {
+        renderTechnicalSkills(rawSkillGroups);
+      } else {
+        const filtered = rawSkillGroups.filter((g) => g.category.toLowerCase().includes(cat.toLowerCase()));
+        renderTechnicalSkills(filtered);
+      }
+    });
+  });
+};
+
+/* ============================================
+   DEVELOPER TERMINAL CLI
+   ============================================ */
+const setupTerminalCLI = () => {
+  const drawer = document.getElementById("terminal-drawer");
+  const openNavBtn = document.getElementById("open-terminal-nav-btn");
+  const closeBtn = document.getElementById("terminal-close-btn");
+  const closeDot = document.getElementById("terminal-close-dot");
+  const footerBtn = document.getElementById("terminal-footer-btn");
+  const form = document.getElementById("terminal-input-form");
+  const input = document.getElementById("terminal-input");
+  const output = document.getElementById("terminal-output");
+
+  if (!drawer) return;
+
+  const toggleTerminal = (show) => {
+    if (show) {
+      drawer.classList.remove("hidden");
+      if (input) input.focus();
+    } else {
+      drawer.classList.add("hidden");
+    }
+  };
+
+  if (openNavBtn) openNavBtn.addEventListener("click", () => toggleTerminal(true));
+  if (footerBtn) footerBtn.addEventListener("click", () => toggleTerminal(true));
+  if (closeBtn) closeBtn.addEventListener("click", () => toggleTerminal(false));
+  if (closeDot) closeDot.addEventListener("click", () => toggleTerminal(false));
+
+  const printLine = (text, className = "term-output-line") => {
+    const div = document.createElement("div");
+    div.className = className;
+    div.innerHTML = text;
+    output.appendChild(div);
+    const body = document.getElementById("terminal-body");
+    if (body) body.scrollTop = body.scrollHeight;
+  };
+
+  if (form && input) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const val = input.value.trim();
+      if (!val) return;
+
+      printLine(`<span class="term-prompt">zayd@portfolio:~$</span> ${val}`);
+      input.value = "";
+
+      const cmd = val.toLowerCase();
+      if (cmd === "help") {
+        printLine(`Available Commands:
+  • <span class="term-cmd">skills</span>   - List Zayd's technical skill set
+  • <span class="term-cmd">projects</span> - Display Zayd's top projects & tech stacks
+  • <span class="term-cmd">exp</span>      - Display internship & work experience
+  • <span class="term-cmd">contact</span>  - View Zayd's email, phone, and LinkedIn
+  • <span class="term-cmd">cv</span>       - Open the PDF CV viewer
+  • <span class="term-cmd">whoami</span>   - Show current viewer identity
+  • <span class="term-cmd">date</span>     - Show current Cairo date & time
+  • <span class="term-cmd">hire</span>     - Quick message for recruiters
+  • <span class="term-cmd">clear</span>    - Clear terminal output screen`);
+      } else if (cmd === "skills") {
+        printLine(`Zayd's Technical Skills:
+  [Languages] Java, C#, C++, Python, JavaScript, PHP, Dart, SQL
+  [Frameworks] Spring Boot, React, Node.js, Express, Flutter, .NET Core Web API
+  [Databases] MongoDB, MySQL, Firebase
+  [Tools] Git, GitHub, VS Code, NetBeans, Android Studio`);
+      } else if (cmd === "projects") {
+        printLine(`Featured Projects:
+  1. Food Ordering Management System (Spring Boot + React + MongoDB)
+  2. In Gaz API System (Flutter + C# .NET Core)
+  3. Car Rental Website (Node.js + MongoDB)
+  4. Employee Attendance System (PHP + MySQL)
+  5. Sleeping Alert System (Python + Flutter)`);
+      } else if (cmd === "exp") {
+        printLine(`Work Experience:
+  • Cairo Higher Institute - IT Dept Intern (Aug-Sep 2025)
+  • TAQA Arabia - Software Dev Intern [In Gaz API] (Jul-Aug 2025)
+  • TAQA Arabia - IT Dept Intern (Aug-Sep 2024)`);
+      } else if (cmd === "contact") {
+        printLine(`Contact Info:
+  • Email: zaydaly0501@gmail.com
+  • Phone: +20 101 774 1741
+  • LinkedIn: linkedin.com/in/zayd-ali-17a85a1a0
+  • GitHub: github.com/zaydaly05`);
+      } else if (cmd === "cv") {
+        printLine(`Opening CV Viewer modal...`);
+        const cvModal = document.getElementById("cv-viewer-modal");
+        if (cvModal) cvModal.classList.remove("hidden");
+      } else if (cmd === "whoami") {
+        printLine(`guest@recruiter-workstation ~ Welcome to Zayd Ali Mohamed's Portfolio!`);
+      } else if (cmd === "date") {
+        const cairoStr = new Date().toLocaleString("en-US", { timeZone: "Africa/Cairo" });
+        printLine(`Cairo Local Time: ${cairoStr}`);
+      } else if (cmd === "hire") {
+        printLine(`Great choice! Zayd is actively open for software development roles. Email zaydaly0501@gmail.com or use the Contact form!`);
+      } else if (cmd === "clear") {
+        output.innerHTML = "";
+      } else if (cmd === "sudo") {
+        printLine(`Permission denied: Zayd is the root administrator 🚀`);
+      } else {
+        printLine(`Command not found: '${val}'. Type <span class="term-cmd">help</span> for a list of valid commands.`);
+      }
+    });
+  }
+};
+
+/* ============================================
+   AI COPILOT CHATBOT
+   ============================================ */
+const setupAICopilot = () => {
+  const toggleBtn = document.getElementById("ai-chat-toggle-btn");
+  const drawer = document.getElementById("ai-chat-drawer");
+  const closeBtn = document.getElementById("ai-chat-close-btn");
+  const footerBtn = document.getElementById("ai-chat-footer-btn");
+  const form = document.getElementById("ai-chat-form");
+  const input = document.getElementById("ai-chat-input");
+  const body = document.getElementById("ai-chat-body");
+
+  if (!toggleBtn || !drawer) return;
+
+  const toggleDrawer = (show) => {
+    if (show) {
+      drawer.classList.remove("hidden");
+      if (input) input.focus();
+    } else {
+      drawer.classList.add("hidden");
+    }
+  };
+
+  toggleBtn.addEventListener("click", () => {
+    const isHidden = drawer.classList.contains("hidden");
+    toggleDrawer(isHidden);
+  });
+
+  if (closeBtn) closeBtn.addEventListener("click", () => toggleDrawer(false));
+  if (footerBtn) footerBtn.addEventListener("click", () => toggleDrawer(true));
+
+  const appendMsg = (text, sender = "bot", suggestions = []) => {
+    const msgDiv = document.createElement("div");
+    msgDiv.className = `ai-chat-msg ai-msg-${sender}`;
+
+    // Format bold markdown and links
+    let formattedText = text
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" style="color:var(--brand)">$1</a>');
+
+    msgDiv.innerHTML = `<div class="msg-content">${formattedText}</div>`;
+    body.appendChild(msgDiv);
+
+    if (suggestions && suggestions.length > 0) {
+      const suggDiv = document.createElement("div");
+      suggDiv.className = "ai-suggestions-row";
+      suggDiv.innerHTML = suggestions.map((s) => `<button class="ai-chip-btn">${s}</button>`).join("");
+      body.appendChild(suggDiv);
+
+      suggDiv.querySelectorAll(".ai-chip-btn").forEach((chip) => {
+        chip.addEventListener("click", () => {
+          sendUserMessage(chip.textContent);
+        });
+      });
+    }
+
+    body.scrollTop = body.scrollHeight;
+  };
+
+  const sendUserMessage = async (msgText) => {
+    if (!msgText) return;
+    appendMsg(msgText, "user");
+
+    // Add typing indicator
+    const typingDiv = document.createElement("div");
+    typingDiv.className = "ai-chat-msg ai-msg-bot";
+    typingDiv.innerHTML = `<div class="msg-content">Thinking... 💭</div>`;
+    body.appendChild(typingDiv);
+    body.scrollTop = body.scrollHeight;
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: msgText })
+      });
+      const data = await res.json();
+      body.removeChild(typingDiv);
+      appendMsg(data.reply || "Thanks for your question!", "bot", data.suggestions);
+    } catch (err) {
+      console.error("AI Chat error:", err);
+      body.removeChild(typingDiv);
+      appendMsg("Zayd is currently offline, but you can reach him at zaydaly0501@gmail.com!", "bot");
+    }
+  };
+
+  if (form && input) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = "";
+      sendUserMessage(text);
+    });
+  }
+
+  // Bind initial chips
+  document.querySelectorAll("#ai-initial-suggestions .ai-chip-btn").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      sendUserMessage(chip.textContent);
+    });
+  });
+};
+
+/* ============================================
+   CV VIEWER MODAL
+   ============================================ */
+const setupCVViewerModal = () => {
+  const cvModal = document.getElementById("cv-viewer-modal");
+  const closeBtn = document.getElementById("cv-modal-close");
+  const backdrop = document.getElementById("cv-modal-backdrop");
+  const navBtn = document.getElementById("preview-cv-nav-btn");
+  const heroBtn = document.getElementById("btn-preview-cv-hero");
+
+  if (!cvModal) return;
+
+  const openCVModal = () => cvModal.classList.remove("hidden");
+  const closeCVModal = () => cvModal.classList.add("hidden");
+
+  if (navBtn) navBtn.addEventListener("click", openCVModal);
+  if (heroBtn) heroBtn.addEventListener("click", openCVModal);
+  if (closeBtn) closeBtn.addEventListener("click", closeCVModal);
+  if (backdrop) backdrop.addEventListener("click", closeCVModal);
+};
+
+/* ============================================
+   COPY CHIPS (Email / Phone)
+   ============================================ */
+const setupCopyChips = () => {
+  document.querySelectorAll(".btn-copy-chip").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const textToCopy = btn.dataset.copy;
+      if (textToCopy) {
+        navigator.clipboard.writeText(textToCopy);
+        const original = btn.textContent;
+        btn.textContent = "Copied! ✓";
+        btn.style.background = "#10b981";
+        btn.style.color = "#ffffff";
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.style.background = "";
+          btn.style.color = "";
+        }, 2000);
+      }
+    });
+  });
+};
+
 init();
+
