@@ -1,0 +1,197 @@
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{fontawesome5}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\vhrulefill{0.4pt} \vspace{-5pt}]
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    \textbf{\Huge \scshape Zayd Ali Mohamed} \\ \vspace{4pt}
+    \small Junior Computer Science Student | Software Developer \\ \vspace{4pt}
+    \small \faPhone* 01017741741 ~|~ 
+    \faEnvelope \href{mailto:zaydaly0501@gmail.com}{ zaydaly0501@gmail.com} ~|~ 
+    \faLinkedin \href{https://www.linkedin.com/in/zayd-ali-17a85a1a0}{ linkedin.com/in/zayd-ali} ~|~ 
+    \faGithub \href{https://github.com/zaydaly05}{ github.com/zaydaly05} ~|~
+    \faMapMarkerAlt Cairo, Egypt
+\end{center}
+
+%-----------SUMMARY-----------
+\section{Summary}
+\small{
+Motivated junior Computer Science student with a passion for software development, full-stack engineering, and mobile development. Experienced in building scalable web and mobile applications using Spring Boot, React, Node.js, Flutter, and .NET Core. Proven ability to learn rapidly, solve complex technical problems, and contribute effectively within agile team environments.
+}
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Misr International University}{Cairo, Egypt}
+      {Bachelor of Science in Computer Science}{Sep 2023 -- Jun 2027}
+  \resumeSubHeadingListEnd
+
+%-----------EXPERIENCE-----------
+\section{Professional Experience}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {Cairo Higher Institute}{Cairo, Egypt}
+      {IT Department Intern}{Aug 2025 -- Sep 2025}
+      \resumeItemListStart
+        \resumeItem{Created and managed institutional user email accounts using official custom domain policies.}
+        \resumeItem{Updated and maintained front-end digital assets on the official institute website using WordPress.}
+        \resumeItem{Managed institutional social media operations and edited digital media assets for public relations.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {TAQA Arabia}{Cairo, Egypt}
+      {Software Development Intern}{Jul 2025 -- Aug 2025}
+      \resumeItemListStart
+        \resumeItem{Contributed to building the backend API and mobile user flows for the In Gaz API mobile application.}
+        \resumeItem{Collaborated with senior software engineers on API testing, endpoint optimization, and Swagger docs.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {TAQA Arabia}{Cairo, Egypt}
+      {IT Department Intern}{Aug 2024 -- Sep 2024}
+      \resumeItemListStart
+        \resumeItem{Assisted in corporate hardware and software management across enterprise endpoints.}
+        \resumeItem{Provided user account administration, access support, and IT infrastructure troubleshooting.}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------
+\section{Key Projects}
+    \resumeSubHeadingListStart
+      \resumeProjectHeading
+          {\textbf{Food Ordering Management System} $|$ \emph{Spring Boot, React, Tailwind CSS, MongoDB}}{May 2026}
+          \resumeItemListStart
+            \resumeItem{Engineered full-stack food ordering platform with Spring Boot REST APIs and React frontend.}
+            \resumeItem{Implemented secure JWT authentication, MongoDB schemas, cart state, and real-time order tracking.}
+            \resumeItem{Built comprehensive admin analytics dashboard displaying top-selling items and revenue metrics.}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+          {\textbf{In Gaz API System} $|$ \emph{C\#, .NET Core Web API, Flutter, MVC}}{Jul 2025}
+          \resumeItemListStart
+            \resumeItem{Architected cross-platform Flutter application integrated with .NET Core Web API backend.}
+            \resumeItem{Enforced secure role-based access control (RBAC), repository pattern, and Swagger API documentation.}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+          {\textbf{Employee Attendance \& Leave Platform} $|$ \emph{PHP, MySQL, HTML, CSS}}{Dec 2025}
+          \resumeItemListStart
+            \resumeItem{Developed employee portal managing automated check-in/out, leave requests, and approval flows.}
+            \resumeItem{Designed relational MySQL database schemas with role-based access control for HR admins and employees.}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+          {\textbf{Car Rental E-Commerce Platform} $|$ \emph{Node.js, Express, MongoDB, HTML, CSS, JavaScript}}{May 2025}
+          \resumeItemListStart
+            \resumeItem{Built interactive vehicle rental platform featuring car catalogs, booking management, and user profiles.}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+          {\textbf{Restaurant Management System} $|$ \emph{Java, JavaFX}}{Dec 2024}
+          \resumeItemListStart
+            \resumeItem{Created GUI application for managing job postings, candidate applications, and interview schedules.}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+          {\textbf{Driver Drowsiness Sleeping Alert System} $|$ \emph{Python, Flutter}}{Dec 2025}
+          \resumeItemListStart
+            \resumeItem{Designed responsive mobile HCI alert system prioritizing driver safety and real-time usability.}
+          \resumeItemListEnd
+    \resumeSubHeadingListEnd
+
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Languages}{: PHP, C, Python, Java, C++, C\#, HTML5, CSS3, JavaScript, SQL, Dart, Tailwind CSS} \\
+     \textbf{Frameworks \& Libraries}{: Node.js, Express.js, Spring Boot, React, Flutter, .NET Core, JavaFX} \\
+     \textbf{Databases}{: SQL, MySQL, MongoDB, Firebase} \\
+     \textbf{Tools \& Environment}{: Git, GitHub, VS Code, Android Studio, Apache NetBeans, XAMPP, Postman, Swagger} \\
+     \textbf{Core Concepts}{: Data Structures \& Algorithms, Object-Oriented Programming (OOP), RESTful APIs, MVC} \\
+     \textbf{Soft Skills \& Languages}{: Team Collaboration, Problem Solving, Time Management | Arabic (Native), English (Fluent)}
+    }}
+ \end{itemize}
+
+%-----------ACTIVITIES-----------
+\section{Activities \& Memberships}
+  \resumeSubHeadingListStart
+    \resumeSubheading{ACPC Club (Arab Competitive Programming Contest)}{Misr International University}{Active Member}{2023 -- Present}
+    \resumeSubheading{IEEE Student Branch}{Misr International University}{Active Member}{2023 -- Present}
+  \resumeSubHeadingListEnd
+
+\end{document}
