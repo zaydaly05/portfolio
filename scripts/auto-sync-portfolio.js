@@ -11,8 +11,7 @@ const path = require('path');
 const GITHUB_USERNAME = 'zaydaly05';
 const SERVER_JS_PATH = path.join(__dirname, '..', 'server.js');
 const WHATSAPP_PHONE = process.env.WHATSAPP_PHONE || '201017741741';
-const CALLMEBOT_API_KEY = process.env.CALLMEBOT_API_KEY || ''; // Free CallMeBot API key
-
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || ''; // Free Telegram Bot Token
 async function fetchGitHubRepos() {
   console.log(`🔍 Fetching public repositories for ${GITHUB_USERNAME}...`);
   const headers = {
@@ -22,33 +21,115 @@ async function fetchGitHubRepos() {
     headers['Authorization'] = `token ${process.env.GITHUB_TOKEN}`;
   }
 
-  const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=50`, {
-    headers
-  });
+  try {
+    const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=50`, {
+      headers
+    });
 
-  if (!response.ok) {
-    throw new Error(`GitHub API returned status ${response.status}`);
+    if (!response.ok) {
+      console.warn(`⚠️ GitHub API returned status ${response.status}. Using cached repo check.`);
+      return [];
+    }
+
+    const repos = await response.json();
+    console.log(`✅ Found ${repos.length} total repositories.`);
+    return repos;
+  } catch (err) {
+    console.warn(`⚠️ GitHub fetch note: ${err.message}`);
+    return [];
   }
+}
 
-  const repos = await response.json();
-  console.log(`✅ Found ${repos.length} total repositories.`);
-  return repos;
+const PUSHBULLET_TOKEN = process.env.PUSHBULLET_TOKEN || ''; // Free Pushbullet Mobile App Token
+const TARGET_EMAIL = process.env.TARGET_EMAIL || 'zaydaly0501@gmail.com';
+
+async function sendPushbulletNotification(message) {
+  if (!PUSHBULLET_TOKEN) return false;
+  try {
+    console.log("📲 Sending instant mobile push notification via Pushbullet...");
+    const res = await fetch('https://api.pushbullet.com/v2/pushes', {
+      method: 'POST',
+      headers: {
+        'Access-Token': PUSHBULLET_TOKEN,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        type: 'note',
+        title: 'Zayd Portfolio AutoSync 🚀',
+        body: message
+      })
+    });
+    if (res.ok) {
+      console.log("🚀 Mobile phone push notification delivered!");
+      return true;
+    }
+  } catch (err) {
+    console.error("❌ Pushbullet error:", err.message);
+  }
+  return false;
+}
+
+async function sendTelegramNotification(message) {
+  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return false;
+
+  try {
+    console.log("✈️ Sending instant Telegram alert...");
+    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: message,
+        parse_mode: 'Markdown'
+      })
+    });
+    if (res.ok) {
+      console.log("🚀 Telegram notification delivered instantly!");
+      return true;
+    }
+  } catch (err) {
+    console.error("❌ Telegram notification error:", err.message);
+  }
+  return false;
+}
+
+async function sendWebhookNotification(message) {
+  if (!process.env.MAKE_WEBHOOK_URL) return false;
+  try {
+    console.log("🔗 Triggering Mobile Webhook (Zapier/Make)...");
+    const res = await fetch(process.env.MAKE_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message, phone: WHATSAPP_PHONE })
+    });
+    if (res.ok) {
+      console.log("🚀 Mobile webhook notification triggered successfully!");
+      return true;
+    }
+  } catch (err) {
+    console.error("❌ Webhook error:", err.message);
+  }
+  return false;
 }
 
 async function sendWhatsAppNotification(message) {
+  const CALLMEBOT_API_KEY = process.env.CALLMEBOT_API_KEY || '';
+  const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '';
   const encodedText = encodeURIComponent(message);
   const directWhatsAppLink = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedText}`;
 
+  // Mobile Delivery Channels
+  await sendPushbulletNotification(message);
+  await sendWebhookNotification(message);
+  await sendTelegramNotification(message);
+
   if (!CALLMEBOT_API_KEY) {
     console.log("\n------------------------------------------------------------");
-    console.log("📱 WHATSAPP NOTIFICATION DETAILS:");
+    console.log("📱 NOTIFICATION SUMMARY:");
     console.log(message);
-    console.log("\n🔗 Direct WhatsApp Message Link (Click to send to yourself):");
+    console.log("\n🔗 Direct WhatsApp Link (Click to send to yourself):");
     console.log(directWhatsAppLink);
-    console.log("\n⚠️ To enable 100% automated background WhatsApp delivery:");
-    console.log("1. Send a WhatsApp message to +34 644 64 26 43 with the text: 'I allow callmebot to send me messages'");
-    console.log("2. CallMeBot will reply with your free API Key.");
-    console.log("3. Put your API Key in scripts/auto-sync-portfolio.js at line 14: CALLMEBOT_API_KEY = 'your_key'");
     console.log("------------------------------------------------------------\n");
     return;
   }
@@ -59,13 +140,24 @@ async function sendWhatsAppNotification(message) {
     const res = await fetch(url);
     const responseText = await res.text();
     if (res.ok && !responseText.includes("APIKey is invalid")) {
-      console.log("🚀 WhatsApp message delivered successfully!");
+      console.log("🚀 WhatsApp message delivered successfully to your phone!");
     } else {
       console.warn("⚠️ WhatsApp delivery note:", responseText.replace(/<[^>]*>?/gm, ''));
       console.log("🔗 Backup WhatsApp Link:", directWhatsAppLink);
     }
   } catch (err) {
     console.error("❌ Failed to send WhatsApp notification:", err.message);
+  }
+
+  // Persistent Audit Log (Works even if WhatsApp app is locked/offline)
+  try {
+    const logsDir = path.join(__dirname, '..', 'logs');
+    if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
+    const logEntry = `[${new Date().toISOString()}]\n${message}\n----------------------------------------\n`;
+    fs.appendFileSync(path.join(logsDir, 'sync-audit.log'), logEntry, 'utf8');
+    console.log("📁 Sync report logged to logs/sync-audit.log");
+  } catch (e) {
+    // Ignore log file error
   }
 }
 

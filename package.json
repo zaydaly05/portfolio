@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "sync": "node scripts/auto-sync-portfolio.js"
+    "sync": "node scripts/auto-sync-portfolio.js",
+    "test-notify": "node scripts/test-notify.js"
   },
   "keywords": [],
   "author": "",

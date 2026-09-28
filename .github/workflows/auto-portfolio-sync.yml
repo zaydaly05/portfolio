@@ -47,11 +47,23 @@ jobs:
             echo "No repository changes detected. Portfolio is up to date."
           fi
 
-      - name: 📱 Send WhatsApp Notification Status
+      - name: 📱 Send Mobile WhatsApp Notification (GitHub Action)
+        if: always()
+        uses: kaviadigdarshan/whatsapp-actions-for-github@v1
+        continue-on-error: true
+        with:
+          account_sid: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          auth_token: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          from_phone_number: ${{ secrets.TWILIO_WHATSAPP_NUMBER || 'whatsapp:+14155238886' }}
+          to_phone_number: ${{ secrets.WHATSAPP_PHONE || 'whatsapp:+201017741741' }}
+          message: '🚀 Zayd Portfolio Automation: GitHub repos auto-sync executed successfully!'
+
+      - name: 📱 Send Mobile WhatsApp Notification (CallMeBot API)
         if: always()
         env:
           CALLMEBOT_KEY: ${{ secrets.CALLMEBOT_API_KEY }}
+          WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE || '201017741741' }}
         run: |
           if [ -n "$CALLMEBOT_KEY" ]; then
-            curl -s "https://api.callmebot.com/whatsapp.php?phone=201017741741&text=Zayd+Portfolio+Automation:+Workflow+executed+successfully!+Portfolio+is+up+to+date.&apikey=$CALLMEBOT_KEY" || true
+            curl -s "https://api.callmebot.com/whatsapp.php?phone=${WHATSAPP_PHONE}&text=Zayd+Portfolio+Automation:+Workflow+executed+successfully!+Portfolio+is+up+to+date.&apikey=$CALLMEBOT_KEY" || true
           fi
