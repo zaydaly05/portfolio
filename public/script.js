@@ -81,46 +81,92 @@ const fallbackPortfolio = {
   ],
   projects: [
     {
+      name: "Gulf Limousine Booking App",
+      period: "July 2026",
+      stack: "Flutter, Dart, Firebase, REST API",
+      image: "/assets/gulf-limousine.jpg",
+      github: "https://github.com/zaydaly05/Gulf_Limousine_App",
+      description: "Cross-platform luxury limousine reservation & fleet tracking mobile app featuring real-time driver allocation, vehicle selection, fare estimation, and client booking management."
+    },
+    {
+      name: "Essmat Plastic Factory Management System",
+      period: "September 2026",
+      stack: "C#, .NET, SQL Server, Entity Framework",
+      image: "/assets/essmat-plastic-report.pdf",
+      github: "https://github.com/zaydaly05/EssmatPlastic",
+      description: "Enterprise inventory and production management solution for plastic manufacturing, optimizing raw material tracking, order processing, and factory billing workflows."
+    },
+    {
+      name: "Dr. Naglaa Academic Biography Portal",
+      period: "September 2026",
+      stack: "HTML5, CSS3, JavaScript, Responsive UI",
+      image: "/assets/dr-nagla-bio.jpeg",
+      github: "https://github.com/zaydaly05/drNaglaBio",
+      description: "Modern academic portfolio & publication showcase website designed for university faculty, featuring curriculum vitae integration, research paper archives, and student contact channels."
+    },
+    {
       name: "Food Ordering Management System",
       period: "May 2026",
       stack: "Spring Boot, Tailwind, React, MongoDB",
-      description:
-        "Developed a full-stack food ordering system with Spring Boot and a React + Tailwind frontend. Built RESTful APIs for authentication, menu management, cart operations, and order processing with MongoDB. Implemented role-based Admin and Customer flows with CRUD, order tracking, and analytics such as top-selling items and profit insights."
-    },
-    {
-      name: "Car Rental Website",
-      period: "May 2025",
-      stack: "HTML, CSS, MongoDB, Node.js, JavaScript",
-      description:
-        "Developed a comprehensive e-commerce style platform for users to browse and rent cars with authentication, catalog management, and order processing."
-    },
-    {
-      name: "Restaurant Management System",
-      period: "December 2024",
-      stack: "Java, JavaFX",
-      description:
-        "Created a recruitment system with a graphical user interface for managing job postings, applications, and interviews using Java and JavaFX."
+      image: "/assets/f1.png",
+      github: "https://github.com/zaydaly05/food_ordering_system",
+      description: "Developed a full-stack food ordering system with Spring Boot and a React + Tailwind frontend. Built RESTful APIs for authentication, menu management, cart operations, and order processing with MongoDB. Implemented role-based Admin and Customer flows with CRUD, order tracking, and analytics such as top-selling items and profit insights."
     },
     {
       name: "In Gaz API System",
       period: "July 2025",
       stack: "C#, Flutter, .NET Core Web API",
-      description:
-        "Built a Flutter frontend integrated with a C# .NET Core Web API backend using MVC, secure role-based access, CRUD operations, and Swagger testing."
+      image: "/assets/ingaz-1.jpeg",
+      github: "https://github.com/zaydaly05/InGazAPI",
+      description: "Built a Flutter frontend integrated with a C# .NET Core Web API backend using MVC, secure role-based access, CRUD operations, and Swagger testing."
     },
     {
       name: "Employee Attendance & Leave System",
       period: "December 2025",
       stack: "HTML, CSS, PHP, MySQL",
-      description:
-        "Developed a web-based attendance and leave platform with automated tracking and approval, event and announcement features, and secure role-based access."
+      image: "/assets/employee-e1.png",
+      github: "https://github.com/zaydaly05/Employee_Attendance-Leave_Management_System",
+      description: "Developed a web-based attendance and leave platform with automated tracking and approval, event/announcement features, and secure relational role-based access."
+    },
+    {
+      name: "Car Rental Website",
+      period: "May 2025",
+      stack: "HTML, CSS, MongoDB, Node.js, JavaScript",
+      image: "/assets/car-rental-c1.png",
+      github: "https://github.com/zaydaly05/Car_Rental_Website",
+      description: "Developed a comprehensive e-commerce style platform for users to browse and rent cars with authentication, catalog management, and order processing."
+    },
+    {
+      name: "Restaurant Management System",
+      period: "December 2024",
+      stack: "Java, JavaFX",
+      image: "/assets/restaurant-r1.png",
+      github: "https://github.com/zaydaly05/Restaurant_Management_System",
+      description: "Created a recruitment system with a graphical user interface for managing job postings, applications, and interviews using Java and JavaFX."
     },
     {
       name: "Sleeping Alert System",
       period: "December 2025",
       stack: "Python, Flutter",
-      description:
-        "Developed a sleeping alert system for an HCI course, applying usability and interaction design principles with a responsive mobile interface."
+      image: "/assets/sleeping-alert-py2.jpeg",
+      github: "https://github.com/zaydaly05/Sleep_Alert_System",
+      description: "Developed a sleeping alert system for an HCI course, applying usability and interaction design principles with a responsive mobile interface."
+    },
+    {
+      name: "Zaydentity Digital Identity Platform",
+      period: "September 2026",
+      stack: "HTML5, CSS3, JavaScript",
+      image: "/assets/main-photo.jpeg",
+      github: "https://github.com/zaydaly05/zaydentity",
+      description: "Digital personal branding & bio-link platform consolidating developer links, project highlights, and verified professional credentials in a unified interactive card UI."
+    },
+    {
+      name: "WE Telecom Training Suite",
+      period: "August 2026",
+      stack: "Networking, C++, Telecommunications",
+      image: "/assets/chi-experience.jpeg",
+      github: "https://github.com/zaydaly05/WE_Intern",
+      description: "Technical codebase & project artifacts developed during Telecom Egypt (WE) training, focusing on network protocol fundamentals, system administration, and enterprise infrastructure."
     }
   ],
   technicalSkills: [
