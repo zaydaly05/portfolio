@@ -3,17 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zayd Ali Mohamed | Software Developer Portfolio</title>
+    <title>Zayd Ali Mohamed | Intelligent Software Developer Portfolio</title>
     <link rel="icon" type="image/png" href="/assets/logo.png" />
     <link rel="apple-touch-icon" href="/assets/logo.png" />
-    <meta name="description" content="Portfolio of Zayd Ali Mohamed — a junior computer science student and full-stack developer specializing in modern web and mobile applications." />
+    <meta name="description" content="Portfolio of Zayd Ali Mohamed — Junior Computer Science Student and Full-Stack Software Developer. Explore interactive projects, live GitHub activity, terminal CLI, and AI Copilot assistant." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Poppins:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=2" />
   </head>
   <body>
     <!-- Custom cursor -->
@@ -37,45 +37,70 @@
       <ul class="nav-links" id="nav-links">
         <li><a href="#experience" data-section="experience">Experience</a></li>
         <li><a href="#projects" data-section="projects">Projects</a></li>
+        <li><a href="#github-section" data-section="github-section">GitHub</a></li>
         <li><a href="#education" data-section="education">Education</a></li>
         <li><a href="#technical-skills" data-section="technical-skills">Skills</a></li>
         <li><a href="#contact" data-section="contact">Contact</a></li>
       </ul>
       <div class="nav-actions">
-        <button id="theme-toggle" class="btn-outline theme-toggle" type="button">Light Mode</button>
-        <a href="/assets/Zayd%20Ali%20Mohamed%20CV.pdf" download="Zayd Ali Mohamed CV.pdf" class="btn-outline btn-cv-nav" id="nav-cv-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="7 10 12 15 17 10"/>
-            <line x1="12" y1="15" x2="12" y2="3"/>
+        <button id="open-terminal-nav-btn" class="btn-outline btn-terminal-nav" type="button" title="Open Developer CLI">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4 17 10 11 4 5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
           </svg>
-          CV
-        </a>
+          CLI
+        </button>
+        <button id="theme-toggle" class="btn-outline theme-toggle" type="button">Light Mode</button>
+        <button id="preview-cv-nav-btn" class="btn-outline btn-cv-nav" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          View CV
+        </button>
         <a class="btn" href="#contact">Hire Me</a>
       </div>
     </nav>
 
     <!-- Hero section -->
     <header class="hero reveal" id="hero">
+      <div class="hero-status-pill" id="hero-status-pill">
+        <span class="status-indicator-dot"></span>
+        <span class="status-text">Available for Roles</span>
+        <span class="status-divider">•</span>
+        <span class="cairo-clock-wrapper" id="cairo-clock-container">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Cairo Time: <span id="cairo-clock">--:--:--</span>
+        </span>
+      </div>
+
       <div class="hero-content">
         <div class="hero-text">
           <p class="eyebrow">Software Developer Portfolio</p>
-          <h1 id="name"></h1>
-          <h2 id="title"></h2>
-          <p id="summary"></p>
+          <h1 id="name">Zayd Ali Mohamed</h1>
+          <h2 id="title">Junior Computer Science Student | Software Developer</h2>
+          <p id="summary">Motivated junior computer science student at Misr International University with hands-on experience in full-stack web, mobile APIs, Spring Boot, React, C# .NET, Flutter, and MongoDB.</p>
           <div class="hero-meta">
-            <span id="location"></span>
-            <span id="email"></span>
-            <span id="phone"></span>
+            <span id="location"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Maadi, Cairo</span>
+            <span id="email"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> zaydaly0501@gmail.com</span>
+            <span id="phone"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> 01017741741</span>
           </div>
         </div>
         <div class="hero-image">
           <img src="/assets/main-photo.jpeg" alt="Zayd Ali Mohamed" id="profile-photo">
         </div>
       </div>
+
       <div class="hero-actions">
-        <a id="linkedin" class="btn" target="_blank" rel="noopener">LinkedIn</a>
-        <a id="github" class="btn-outline" target="_blank" rel="noopener">GitHub</a>
+        <a id="linkedin" href="https://www.linkedin.com/in/zayd-ali-17a85a1a0" class="btn" target="_blank" rel="noopener">LinkedIn</a>
+        <a id="github" href="https://github.com/zaydaly05" class="btn-outline" target="_blank" rel="noopener">GitHub</a>
+        <button id="btn-preview-cv-hero" class="btn-outline" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          Preview CV
+        </button>
         <a href="/assets/Zayd%20Ali%20Mohamed%20CV.pdf" download="Zayd Ali Mohamed CV.pdf" class="btn-cv" id="download-cv">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -85,6 +110,7 @@
           Download CV
         </a>
       </div>
+
       <div class="scroll-indicator" id="scroll-indicator">
         <span>Scroll</span>
         <div class="arrow"></div>
@@ -92,6 +118,7 @@
     </header>
 
     <main>
+      <!-- Experience section -->
       <section class="section reveal" id="experience">
         <div class="section-header">
           <span class="section-number">01</span>
@@ -101,80 +128,214 @@
         <div id="experience-list" class="grid reveal-stagger"></div>
       </section>
 
+      <!-- Projects section -->
       <section class="section reveal" id="projects">
         <div class="section-header">
           <span class="section-number">02</span>
           <h3>Projects</h3>
           <div class="section-line"></div>
         </div>
+
+        <div class="project-toolbar">
+          <div class="project-search-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="project-search-input" placeholder="Search projects by stack, keyword or name (e.g. Spring, React, C#, Flutter)..." />
+          </div>
+          <div class="project-filter-tabs" id="project-filter-tabs">
+            <button class="filter-btn active" data-filter="all">All Projects</button>
+            <button class="filter-btn" data-filter="fullstack">Full-Stack</button>
+            <button class="filter-btn" data-filter="mobile">Mobile & API</button>
+            <button class="filter-btn" data-filter="web">Web Development</button>
+            <button class="filter-btn" data-filter="systems">Systems / HCI</button>
+          </div>
+        </div>
+
         <div id="project-list" class="grid reveal-stagger"></div>
       </section>
 
-      <section class="section reveal" id="education">
+      <!-- GitHub Live Sync Section -->
+      <section class="section reveal" id="github-section">
         <div class="section-header">
           <span class="section-number">03</span>
+          <h3>Live GitHub Sync</h3>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="github-sync-container" id="github-sync-container">
+          <div class="github-profile-card">
+            <div class="github-avatar-wrapper">
+              <img id="gh-avatar" src="https://github.com/zaydaly05.png" alt="Zayd GitHub Avatar" />
+            </div>
+            <div class="github-user-info">
+              <h4 id="gh-username">zaydaly05</h4>
+              <p id="gh-bio">Junior Computer Science Student | Software Developer</p>
+              <div class="github-stats-row">
+                <div class="gh-stat-box">
+                  <span class="gh-stat-num" id="gh-repos-count">--</span>
+                  <span class="gh-stat-lbl">Public Repos</span>
+                </div>
+                <div class="gh-stat-box">
+                  <span class="gh-stat-num" id="gh-followers-count">--</span>
+                  <span class="gh-stat-lbl">Followers</span>
+                </div>
+              </div>
+              <a href="https://github.com/zaydaly05" target="_blank" rel="noopener" class="btn-outline btn-sm">
+                Visit GitHub Profile ↗
+              </a>
+            </div>
+          </div>
+
+          <div class="github-repos-wrapper">
+            <div class="github-repos-header">
+              <h5>Recent Public Repositories</h5>
+              <span class="live-badge"><span class="pulse-green"></span> Synced</span>
+            </div>
+            <div class="github-repos-grid" id="github-repos-list">
+              <div class="github-loading">Fetching live repositories from GitHub API...</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Education section -->
+      <section class="section reveal" id="education">
+        <div class="section-header">
+          <span class="section-number">04</span>
           <h3>Education</h3>
           <div class="section-line"></div>
         </div>
         <div id="education-list" class="grid reveal-stagger"></div>
       </section>
 
+      <!-- Activities section -->
       <section class="section reveal" id="activities">
         <div class="section-header">
-          <span class="section-number">04</span>
+          <span class="section-number">05</span>
           <h3>Activities</h3>
           <div class="section-line"></div>
         </div>
         <div id="activities-list" class="grid reveal-stagger"></div>
       </section>
 
+      <!-- Technical Skills section -->
       <section class="section reveal" id="technical-skills">
         <div class="section-header">
-          <span class="section-number">05</span>
+          <span class="section-number">06</span>
           <h3>Technical Skills</h3>
           <div class="section-line"></div>
         </div>
+        
+        <div class="skills-filter-tabs" id="skills-filter-tabs">
+          <button class="skill-tab active" data-skill-cat="all">All Skills</button>
+          <button class="skill-tab" data-skill-cat="Languages">Languages</button>
+          <button class="skill-tab" data-skill-cat="Frameworks">Frameworks</button>
+          <button class="skill-tab" data-skill-cat="Databases">Databases</button>
+          <button class="skill-tab" data-skill-cat="Developer Tools">Tools</button>
+        </div>
+
         <div id="technical-skills-list" class="skills-groups reveal-stagger"></div>
       </section>
 
+      <!-- Soft Skills section -->
       <section class="section reveal" id="soft-skills">
         <div class="section-header">
-          <span class="section-number">06</span>
+          <span class="section-number">07</span>
           <h3>Soft Skills</h3>
           <div class="section-line"></div>
         </div>
         <div id="soft-skills-list" class="skills reveal-stagger"></div>
       </section>
 
+      <!-- Languages section -->
       <section class="section reveal" id="languages">
         <div class="section-header">
-          <span class="section-number">07</span>
+          <span class="section-number">08</span>
           <h3>Languages</h3>
           <div class="section-line"></div>
         </div>
         <div id="languages-list" class="skills reveal-stagger"></div>
       </section>
 
+      <!-- Contact section -->
       <section class="section reveal" id="contact">
         <div class="section-header">
-          <span class="section-number">08</span>
+          <span class="section-number">09</span>
           <h3>Get In Touch</h3>
           <div class="section-line"></div>
         </div>
-        <form id="contact-form" class="contact-card">
-          <input type="text" name="name" placeholder="Your Name" required />
-          <input type="email" name="email" placeholder="Your Email" required />
-          <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
-          <button class="btn" type="submit">Send Message</button>
-          <p id="contact-status"></p>
-        </form>
+
+        <div class="contact-grid-container">
+          <div class="contact-info-cards">
+            <div class="contact-quick-card">
+              <div class="quick-card-icon">📧</div>
+              <div class="quick-card-info">
+                <span>Email Address</span>
+                <strong>zaydaly0501@gmail.com</strong>
+              </div>
+              <button class="btn-copy-chip" data-copy="zaydaly0501@gmail.com">Copy</button>
+            </div>
+
+            <div class="contact-quick-card">
+              <div class="quick-card-icon">📱</div>
+              <div class="quick-card-info">
+                <span>Phone / WhatsApp</span>
+                <strong>+20 101 774 1741</strong>
+              </div>
+              <button class="btn-copy-chip" data-copy="+201017741741">Copy</button>
+            </div>
+
+            <div class="contact-quick-card">
+              <div class="quick-card-icon">📍</div>
+              <div class="quick-card-info">
+                <span>Location</span>
+                <strong>Maadi, Cairo, Egypt</strong>
+              </div>
+            </div>
+
+            <div class="contact-schedule-banner">
+              <h5>Schedule a Direct Meeting</h5>
+              <p>Looking for a candidate or want to discuss an opportunity? Let's connect directly.</p>
+              <a href="mailto:zaydaly0501@gmail.com?subject=Interview%20/%20Opportunity%20Inquiry%20-%20Zayd%20Ali" class="btn btn-sm">
+                Schedule an Interview ✉️
+              </a>
+            </div>
+          </div>
+
+          <form id="contact-form" class="contact-card">
+            <h4>Send Zayd a Direct Message</h4>
+            <div class="form-group">
+              <input type="text" name="name" placeholder="Your Name" required />
+            </div>
+            <div class="form-group">
+              <input type="email" name="email" placeholder="Your Email" required />
+            </div>
+            <div class="form-group">
+              <textarea name="message" placeholder="Your Message..." rows="5" required></textarea>
+            </div>
+            <button class="btn" type="submit">
+              Send Message
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+            <p id="contact-status"></p>
+          </form>
+        </div>
       </section>
     </main>
 
     <footer class="footer reveal">
-      <p>Crafted with passion by Zayd Ali Mohamed.</p>
+      <div class="footer-content">
+        <p>Crafted with passion by <strong>Zayd Ali Mohamed</strong>.</p>
+        <div class="footer-links">
+          <button id="terminal-footer-btn" class="footer-link-btn">Terminal CLI</button>
+          <span>•</span>
+          <button id="ai-chat-footer-btn" class="footer-link-btn">Ask AI Copilot</button>
+          <span>•</span>
+          <a href="https://github.com/zaydaly05" target="_blank" rel="noopener">GitHub Profile</a>
+        </div>
+      </div>
     </footer>
 
+    <!-- Details Modal -->
     <div id="details-modal" class="modal hidden" aria-hidden="true">
       <div class="modal-backdrop" data-close-modal="true"></div>
       <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -190,6 +351,29 @@
       </div>
     </div>
 
+    <!-- PDF CV Viewer Modal -->
+    <div id="cv-viewer-modal" class="modal hidden" aria-hidden="true">
+      <div class="modal-backdrop" id="cv-modal-backdrop"></div>
+      <div class="modal-card cv-modal-card" role="dialog" aria-modal="true" aria-labelledby="cv-modal-title">
+        <div class="cv-modal-header">
+          <div>
+            <span class="eyebrow">Curriculum Vitae</span>
+            <h3 id="cv-modal-title">Zayd Ali Mohamed — CV</h3>
+          </div>
+          <div class="cv-modal-actions">
+            <a href="/assets/Zayd%20Ali%20Mohamed%20CV.pdf" download="Zayd Ali Mohamed CV.pdf" class="btn btn-sm">
+              Download PDF 📥
+            </a>
+            <button id="cv-modal-close" class="modal-close" type="button" aria-label="Close CV Viewer">×</button>
+          </div>
+        </div>
+        <div class="cv-iframe-container">
+          <iframe src="/assets/Zayd%20Ali%20Mohamed%20CV.pdf#toolbar=1" id="cv-iframe" title="Zayd Ali Mohamed CV PDF"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lightbox -->
     <div id="lightbox" class="lightbox hidden" aria-hidden="true">
       <div class="lightbox-backdrop" data-close-lightbox="true"></div>
       <button id="lightbox-close" class="lightbox-close" type="button" aria-label="Close image viewer">×</button>
@@ -203,6 +387,82 @@
       </div>
     </div>
 
-    <script src="script.js?v=6"></script>
+    <!-- Developer Terminal CLI Drawer -->
+    <div id="terminal-drawer" class="terminal-drawer hidden">
+      <div class="terminal-header">
+        <div class="terminal-window-dots">
+          <span class="dot dot-red" id="terminal-close-dot"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+        </div>
+        <div class="terminal-title">zayd@portfolio-cli:~</div>
+        <button id="terminal-close-btn" class="terminal-close-x">✕</button>
+      </div>
+      <div class="terminal-body" id="terminal-body">
+        <div class="terminal-welcome">
+          <p class="term-glow">Welcome to Zayd Ali Mohamed's Interactive Terminal CLI v2.0!</p>
+          <p>Type <span class="term-cmd">help</span> to see available commands (e.g., <span class="term-cmd">skills</span>, <span class="term-cmd">projects</span>, <span class="term-cmd">exp</span>, <span class="term-cmd">contact</span>, <span class="term-cmd">cv</span>, <span class="term-cmd">clear</span>).</p>
+        </div>
+        <div id="terminal-output"></div>
+        <form id="terminal-input-form" class="terminal-input-row">
+          <span class="term-prompt">zayd@portfolio:~$</span>
+          <input type="text" id="terminal-input" autocomplete="off" spellcheck="false" placeholder="type a command..." />
+        </form>
+      </div>
+    </div>
+
+    <!-- AI Copilot Chatbot Floating Widget -->
+    <div id="ai-chat-widget" class="ai-chat-widget">
+      <!-- Chat Toggle Button -->
+      <button id="ai-chat-toggle-btn" class="ai-chat-toggle-btn" aria-label="Toggle Ask Zayd AI Copilot">
+        <div class="ai-avatar-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12A10 10 0 0 1 12 2z"/>
+            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+            <line x1="9" y1="9" x2="9.01" y2="9"/>
+            <line x1="15" y1="9" x2="15.01" y2="9"/>
+          </svg>
+        </div>
+        <span class="ai-btn-text">Ask Zayd AI</span>
+        <span class="ai-online-pulse"></span>
+      </button>
+
+      <!-- Chat Drawer Box -->
+      <div id="ai-chat-drawer" class="ai-chat-drawer hidden">
+        <div class="ai-chat-header">
+          <div class="ai-header-info">
+            <div class="ai-avatar-small">🤖</div>
+            <div>
+              <h5>Zayd Copilot AI</h5>
+              <p class="ai-subtitle">Instant answer assistant</p>
+            </div>
+          </div>
+          <button id="ai-chat-close-btn" class="ai-close-btn" aria-label="Close AI Chat">✕</button>
+        </div>
+
+        <div class="ai-chat-body" id="ai-chat-body">
+          <div class="ai-chat-msg ai-msg-bot">
+            <div class="msg-content">
+              👋 Hi! I'm Zayd's AI assistant. Ask me anything about Zayd's technical background, projects, Spring Boot, React, C#, Flutter skills, or experience at TAQA Arabia!
+            </div>
+          </div>
+          <div class="ai-suggestions-row" id="ai-initial-suggestions">
+            <button class="ai-chip-btn">What is Zayd's tech stack?</button>
+            <button class="ai-chip-btn">Tell me about TAQA Arabia</button>
+            <button class="ai-chip-btn">Show top projects</button>
+            <button class="ai-chip-btn">How to contact Zayd?</button>
+          </div>
+        </div>
+
+        <form id="ai-chat-form" class="ai-chat-input-row">
+          <input type="text" id="ai-chat-input" placeholder="Ask Zayd AI anything..." autocomplete="off" />
+          <button type="submit" class="ai-send-btn" aria-label="Send message">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script src="script.js?v=7"></script>
   </body>
 </html>
