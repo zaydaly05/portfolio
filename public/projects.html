@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projects & GitHub Hub | Zayd Ali Mohamed</title>
+    <link rel="icon" type="image/png" href="/assets/logo.png" />
+    <meta name="description" content="Explore Zayd Ali Mohamed's full-stack web and mobile software projects, GitHub repositories, code architecture, and live project screenshots." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css?v=3" />
+  </head>
+  <body>
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+    <div class="scroll-progress" id="scroll-progress"></div>
+    <canvas id="particles-canvas"></canvas>
+    <div class="gradient-bg"></div>
+
+    <!-- Fixed Navigation -->
+    <nav class="nav" id="navbar">
+      <a href="/" class="logo" aria-label="Home">
+        <img src="/assets/logo.png" alt="ZA" width="48" height="48" />
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/projects" class="active-nav">Projects Hub</a></li>
+        <li><a href="/experience">Experience & Reviews</a></li>
+        <li><a href="/#technical-skills">Skills</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button id="open-terminal-nav-btn" class="btn-outline btn-terminal-nav" type="button">CLI</button>
+        <button id="theme-toggle" class="btn-outline theme-toggle" type="button">Light Mode</button>
+        <a class="btn" href="/#contact">Hire Me</a>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header reveal">
+      <div class="page-header-container">
+        <span class="eyebrow">Production Repositories & Applications</span>
+        <h1>Projects & GitHub Hub</h1>
+        <p class="page-header-desc">Explore 11+ production web applications, cross-platform mobile apps, enterprise backend systems, and live GitHub repositories.</p>
+      </div>
+    </header>
+
+    <main class="page-main-content">
+      <!-- Projects Section -->
+      <section class="section reveal" id="projects-section">
+        <div class="projects-filter-bar">
+          <div class="project-search-box">
+            <input type="text" id="project-search-input" placeholder="🔍 Search projects by title, stack, or tech..." />
+          </div>
+          <div class="filter-pills" id="project-filter-pills">
+            <button class="filter-pill active" data-filter="all">All Repos</button>
+            <button class="filter-pill" data-filter="Mobile">Mobile Apps</button>
+            <button class="filter-pill" data-filter="React">React / Web</button>
+            <button class="filter-pill" data-filter="Spring">Spring / Backend</button>
+            <button class="filter-pill" data-filter="C#">C# / .NET</button>
+          </div>
+        </div>
+
+        <div id="project-list" class="grid reveal-stagger"></div>
+      </section>
+
+      <!-- Live GitHub Sync Section -->
+      <section class="section reveal" id="github-section">
+        <div class="section-header">
+          <span class="section-number">★</span>
+          <h3>Live GitHub Account Activity</h3>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="github-sync-container" id="github-sync-container">
+          <div class="github-profile-card">
+            <div class="github-avatar-wrapper">
+              <img id="gh-avatar" src="https://github.com/zaydaly05.png" alt="Zayd GitHub Avatar" />
+            </div>
+            <div class="github-user-info">
+              <h4 id="gh-username">zaydaly05</h4>
+              <p id="gh-bio">Junior Computer Science Student | Software Developer</p>
+              <div class="github-stats-row">
+                <div class="gh-stat-box">
+                  <span class="gh-stat-num" id="gh-repos-count">--</span>
+                  <span class="gh-stat-lbl">Public Repos</span>
+                </div>
+                <div class="gh-stat-box">
+                  <span class="gh-stat-num" id="gh-followers-count">--</span>
+                  <span class="gh-stat-lbl">Followers</span>
+                </div>
+              </div>
+              <a href="https://github.com/zaydaly05" target="_blank" rel="noopener" class="btn-outline btn-sm">
+                Visit GitHub Profile ↗
+              </a>
+            </div>
+          </div>
+
+          <div class="github-repos-wrapper">
+            <div class="github-repos-header">
+              <h5>Recent Public Repositories</h5>
+              <span class="live-badge"><span class="pulse-green"></span> Synced</span>
+            </div>
+            <div class="github-repos-grid" id="github-repos-list">
+              <div class="github-loading">Fetching live repositories from GitHub API...</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-container">
+        <p>© 2026 Zayd Ali Mohamed. All rights reserved.</p>
+        <div class="footer-links">
+          <a href="/">Home</a>
+          <a href="/projects">Projects</a>
+          <a href="/experience">Experience</a>
+          <button id="terminal-footer-btn" class="footer-link-btn">Terminal CLI</button>
+          <button id="ai-chat-footer-btn" class="footer-link-btn">AI Assistant</button>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Modals & Drawers -->
+    <div class="modal hidden" id="details-modal" aria-hidden="true" role="dialog">
+      <div class="modal-backdrop" id="modal-backdrop"></div>
+      <div class="modal-card">
+        <button class="modal-close" id="modal-close" aria-label="Close modal">×</button>
+        <div class="modal-header">
+          <span class="modal-tag" id="modal-tag">Project Details</span>
+          <h3 class="modal-title" id="modal-title">Title</h3>
+          <p class="modal-subtitle" id="modal-subtitle">Subtitle</p>
+        </div>
+        <div class="modal-body">
+          <p class="modal-desc" id="modal-desc"></p>
+          <ul class="modal-points" id="modal-points"></ul>
+          <div class="modal-media" id="modal-media"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js?v=3"></script>
+  </body>
+</html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Experience, CV & Community Reviews | Zayd Ali Mohamed</title>
+    <link rel="icon" type="image/png" href="/assets/logo.png" />
+    <meta name="description" content="Explore Zayd Ali Mohamed's software engineering internships, IT background, education, Overleaf LaTeX CV, and visitor community reviews." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css?v=3" />
+  </head>
+  <body>
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+    <div class="scroll-progress" id="scroll-progress"></div>
+    <canvas id="particles-canvas"></canvas>
+    <div class="gradient-bg"></div>
+
+    <!-- Fixed Navigation -->
+    <nav class="nav" id="navbar">
+      <a href="/" class="logo" aria-label="Home">
+        <img src="/assets/logo.png" alt="ZA" width="48" height="48" />
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/projects">Projects Hub</a></li>
+        <li><a href="/experience" class="active-nav">Experience & Reviews</a></li>
+        <li><a href="/#technical-skills">Skills</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button id="open-terminal-nav-btn" class="btn-outline btn-terminal-nav" type="button">CLI</button>
+        <button id="theme-toggle" class="btn-outline theme-toggle" type="button">Light Mode</button>
+        <a class="btn" href="/#contact">Hire Me</a>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header reveal">
+      <div class="page-header-container">
+        <span class="eyebrow">Career Timeline & Visitor Feedback</span>
+        <h1>Experience, CV & Community Reviews</h1>
+        <p class="page-header-desc">Explore Zayd's internship history at TAQA Arabia and CHI, academic background, Overleaf LaTeX resume, and community visitor reviews.</p>
+      </div>
+    </header>
+
+    <main class="page-main-content">
+      <!-- Work Experience Section -->
+      <section class="section reveal" id="experience">
+        <div class="section-header">
+          <span class="section-number">01</span>
+          <h3>Industry Internships & Experience</h3>
+          <div class="section-line"></div>
+        </div>
+        <div id="experience-list" class="grid reveal-stagger"></div>
+      </section>
+
+      <!-- Education & Activities -->
+      <section class="section reveal" id="education">
+        <div class="section-header">
+          <span class="section-number">02</span>
+          <h3>Education & Activities</h3>
+          <div class="section-line"></div>
+        </div>
+        <div id="education-list" class="grid reveal-stagger" style="margin-bottom: 24px;"></div>
+        <div id="activities-list" class="grid reveal-stagger"></div>
+      </section>
+
+      <!-- Resume Download & Preview -->
+      <section class="section reveal" id="cv-section">
+        <div class="cv-showcase-box">
+          <div class="cv-info-col">
+            <h3>Official LaTeX Resume</h3>
+            <p>Formatted and updated automatically via GitHub Actions from Overleaf LaTeX source code.</p>
+            <div class="cv-btn-row">
+              <button id="preview-cv-exp-btn" class="btn" type="button">Preview Resume PDF ↗</button>
+              <a href="/assets/Zayd%20Ali%20Mohamed%20CV.pdf" download="Zayd Ali Mohamed CV.pdf" class="btn-outline">Download PDF 📥</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Community Reviews & Star System -->
+      <section class="section reveal" id="reviews-section">
+        <div class="section-header">
+          <span class="section-number">⭐</span>
+          <h3>Community Reviews & Portfolio Star</h3>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="star-prompt-card">
+          <div class="star-prompt-left">
+            <h4>Enjoying Zayd's Portfolio & Projects?</h4>
+            <p>Leave a star on GitHub & share your feedback or endorsement below!</p>
+          </div>
+          <div class="star-prompt-right">
+            <button class="btn-star-repo" id="btn-star-repo">
+              ★ Star Portfolio (<span id="star-count-num">48</span>)
+            </button>
+          </div>
+        </div>
+
+        <!-- Add Review Form -->
+        <div class="card review-form-card">
+          <h4>✍️ Leave a Review or Endorsement</h4>
+          <form id="review-submission-form" class="review-form">
+            <div class="form-row-2">
+              <input type="text" name="name" placeholder="Your Name *" required class="form-input" />
+              <input type="text" name="role" placeholder="Your Role / Company (e.g. Recruiter, Engineer)" class="form-input" />
+            </div>
+            <div class="form-row-rating">
+              <label>Rating:</label>
+              <select name="rating" class="form-input select-rating">
+                <option value="5">⭐⭐⭐⭐⭐ (5 / 5 Stars)</option>
+                <option value="4">⭐⭐⭐⭐ (4 / 5 Stars)</option>
+                <option value="3">⭐⭐⭐ (3 / 5 Stars)</option>
+              </select>
+            </div>
+            <textarea name="comment" placeholder="Write your review, feedback, or recommendation..." required class="form-input text-area" rows="3"></textarea>
+            <button type="submit" class="btn" id="btn-submit-review">Submit Review 🚀</button>
+            <span id="review-status-msg" class="review-status"></span>
+          </form>
+        </div>
+
+        <!-- Live Community Reviews List -->
+        <div class="reviews-grid-wrapper">
+          <h5>Community Reviews & Feedback</h5>
+          <div class="grid reviews-grid" id="community-reviews-list">
+            <div class="github-loading">Loading community reviews...</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-container">
+        <p>© 2026 Zayd Ali Mohamed. All rights reserved.</p>
+        <div class="footer-links">
+          <a href="/">Home</a>
+          <a href="/projects">Projects</a>
+          <a href="/experience">Experience</a>
+          <button id="terminal-footer-btn" class="footer-link-btn">Terminal CLI</button>
+          <button id="ai-chat-footer-btn" class="footer-link-btn">AI Assistant</button>
+        </div>
+      </div>
+    </footer>
+
+    <!-- CV Viewer Modal -->
+    <div class="modal hidden" id="cv-viewer-modal" aria-hidden="true" role="dialog">
+      <div class="modal-backdrop" id="cv-modal-backdrop"></div>
+      <div class="modal-card modal-card-lg">
+        <button class="modal-close" id="cv-modal-close" aria-label="Close CV modal">×</button>
+        <div class="modal-header">
+          <span class="modal-tag">Official Resume</span>
+          <h3 class="modal-title">Zayd Ali Mohamed CV</h3>
+        </div>
+        <div class="modal-body cv-modal-body">
+          <iframe src="/assets/Zayd%20Ali%20Mohamed%20CV.pdf#toolbar=1" id="cv-iframe" title="Zayd Ali Mohamed CV PDF"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modals & Drawers -->
+    <div class="modal hidden" id="details-modal" aria-hidden="true" role="dialog">
+      <div class="modal-backdrop" id="modal-backdrop"></div>
+      <div class="modal-card">
+        <button class="modal-close" id="modal-close" aria-label="Close modal">×</button>
+        <div class="modal-header">
+          <span class="modal-tag" id="modal-tag">Details</span>
+          <h3 class="modal-title" id="modal-title">Title</h3>
+          <p class="modal-subtitle" id="modal-subtitle">Subtitle</p>
+        </div>
+        <div class="modal-body">
+          <p class="modal-desc" id="modal-desc"></p>
+          <ul class="modal-points" id="modal-points"></ul>
+          <div class="modal-media" id="modal-media"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js?v=3"></script>
+  </body>
+</html>

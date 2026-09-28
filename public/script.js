@@ -1273,18 +1273,245 @@ const init = async () => {
 
   // Advanced Interactive Modules
   setupHeroSlider();
+  setupStatCounters();
   setupCairoClock();
   setupGitHubSync();
   setupProjectFiltering(data.projects);
+  setupSearchFilter(data.projects);
   setupSkillFiltering(data.technicalSkills);
   setupTerminalCLI();
   setupAICopilot();
   setupCVViewerModal();
   setupCopyChips();
+  setupReviewsSystem();
+  setupStarPrompt();
 
   // Particle system
   const canvas = document.getElementById("particles-canvas");
   if (canvas) new ParticleSystem(canvas);
+};
+
+/* ============================================
+   ANIMATED NUMBER STAT COUNTER BOXES
+   ============================================ */
+const setupStatCounters = () => {
+  const counterEls = document.querySelectorAll(".stat-number-val");
+  if (!counterEls.length) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = parseInt(el.dataset.target) || 0;
+        let current = 0;
+        const increment = Math.max(1, Math.ceil(target / 30));
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            el.textContent = target;
+            clearInterval(timer);
+          } else {
+            el.textContent = current;
+          }
+        }, 35);
+        observer.unobserve(el);
+      });
+    },
+    { threshold: 0.2 }
+  );
+
+  counterEls.forEach((el) => observer.observe(el));
+};
+
+/* ============================================
+   COMMUNITY REVIEWS & STAR SYSTEM
+   ============================================ */
+const setupReviewsSystem = async () => {
+  const reviewsContainer = document.getElementById("community-reviews-list");
+  const starCountNum = document.getElementById("star-count-num");
+  const starBtn = document.getElementById("btn-star-repo");
+  const form = document.getElementById("review-submission-form");
+  const statusMsg = document.getElementById("review-status-msg");
+
+  const loadStars = async () => {
+    try {
+      const res = await fetch("/api/star");
+      const data = await res.json();
+      if (data.ok && starCountNum) starCountNum.textContent = data.stars;
+    } catch (e) {}
+  };
+
+  const loadReviews = async () => {
+    if (!reviewsContainer) return;
+    try {
+      const res = await fetch("/api/reviews");
+      const data = await res.json();
+      if (data.ok && data.reviews) {
+        reviewsContainer.innerHTML = data.reviews
+          .map(
+            (rev) => `
+          <div class="card review-card">
+            <div class="review-header">
+              <div>
+                <h5 class="reviewer-name">${rev.name}</h5>
+                <span class="reviewer-role">${rev.role}</span>
+              </div>
+              <span class="review-stars">${"⭐".repeat(rev.rating || 5)}</span>
+            </div>
+            <p class="review-comment">"${rev.comment}"</p>
+            <span class="review-date">${rev.date || ""}</span>
+          </div>
+        `
+          )
+          .join("");
+      }
+    } catch (e) {
+      if (reviewsContainer) reviewsContainer.innerHTML = `<p class="error">Failed to load reviews.</p>`;
+    }
+  };
+
+  if (starBtn) {
+    starBtn.addEventListener("click", async () => {
+      try {
+        const res = await fetch("/api/star", { method: "POST" });
+        const data = await res.json();
+        if (data.ok && starCountNum) {
+          starCountNum.textContent = data.stars;
+          starBtn.textContent = `★ Starred! (${data.stars})`;
+          starBtn.style.background = "#10b981";
+        }
+      } catch (e) {}
+    });
+  }
+
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const payload = Object.fromEntries(formData.entries());
+      if (statusMsg) statusMsg.textContent = "Posting review...";
+
+      try {
+        const res = await fetch("/api/reviews", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.ok) {
+          if (statusMsg) {
+            statusMsg.textContent = "✅ Review posted successfully!";
+            statusMsg.style.color = "#10b981";
+          }
+          form.reset();
+          loadReviews();
+        } else {
+          if (statusMsg) statusMsg.textContent = "❌ " + (data.error || "Failed to post");
+        }
+      } catch (e) {
+        if (statusMsg) statusMsg.textContent = "❌ Network error";
+      }
+    });
+  }
+
+  loadStars();
+  loadReviews();
+};
+
+/* ============================================
+   STAR NOTIFICATION POPUP PROMPT
+   ============================================ */
+const setupStarPrompt = () => {
+  if (sessionStorage.getItem("star-prompt-dismissed")) return;
+
+  setTimeout(() => {
+    const toast = document.createElement("div");
+    toast.className = "star-toast-popup";
+    toast.innerHTML = `
+      <button class="toast-close" aria-label="Close">&times;</button>
+      <div class="toast-content">
+        <span class="toast-star-icon">⭐</span>
+        <div>
+          <h6>Enjoying Zayd's Portfolio?</h6>
+          <p>Star the repo & leave a review on the Experience page!</p>
+        </div>
+      </div>
+      <div class="toast-actions">
+        <a href="/experience#reviews-section" class="toast-btn-link">Leave Review & Star ↗</a>
+      </div>
+    `;
+
+    document.body.appendChild(toast);
+    setTimeout(() => toast.classList.add("visible"), 100);
+
+    const closeBtn = toast.querySelector(".toast-close");
+    const linkBtn = toast.querySelector(".toast-btn-link");
+
+    const dismiss = () => {
+      toast.classList.remove("visible");
+      setTimeout(() => toast.remove(), 400);
+      sessionStorage.setItem("star-prompt-dismissed", "true");
+    };
+
+    if (closeBtn) closeBtn.addEventListener("click", dismiss);
+    if (linkBtn) linkBtn.addEventListener("click", dismiss);
+  }, 4000);
+};
+
+/* ============================================
+   PROJECT SEARCH & FILTERING
+   ============================================ */
+const setupSearchFilter = (allProjects) => {
+  const searchInput = document.getElementById("project-search-input");
+  const pills = document.querySelectorAll("#project-filter-pills .filter-pill");
+
+  if (!searchInput && !pills.length) return;
+
+  let currentCategory = "all";
+  let searchQuery = "";
+
+  const applyCombinedFilter = () => {
+    let filtered = allProjects || [];
+
+    if (currentCategory !== "all") {
+      filtered = filtered.filter((p) => {
+        const cat = currentCategory.toLowerCase();
+        const stack = (p.stack || "").toLowerCase();
+        const name = (p.name || "").toLowerCase();
+        return stack.includes(cat) || name.includes(cat);
+      });
+    }
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      filtered = filtered.filter((p) => {
+        return (
+          (p.name || "").toLowerCase().includes(q) ||
+          (p.stack || "").toLowerCase().includes(q) ||
+          (p.description || "").toLowerCase().includes(q)
+        );
+      });
+    }
+
+    renderProjects(filtered);
+  };
+
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      searchQuery = e.target.value;
+      applyCombinedFilter();
+    });
+  }
+
+  pills.forEach((pill) => {
+    pill.addEventListener("click", () => {
+      pills.forEach((p) => p.classList.remove("active"));
+      pill.classList.add("active");
+      currentCategory = pill.dataset.filter || "all";
+      applyCombinedFilter();
+    });
+  });
 };
 
 /* ============================================

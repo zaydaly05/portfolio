@@ -406,6 +406,99 @@ app.post("/api/contact", (req, res) => {
   });
 });
 
+// Community Reviews & Star Rating Store (Persistent JSON File)
+const REVIEWS_FILE = path.join(__dirname, "logs", "user-reviews.json");
+const STAR_FILE = path.join(__dirname, "logs", "star-count.json");
+
+const getStoredReviews = () => {
+  try {
+    if (fs.existsSync(REVIEWS_FILE)) {
+      return JSON.parse(fs.readFileSync(REVIEWS_FILE, "utf8"));
+    }
+  } catch (e) {}
+  return [
+    {
+      id: 1,
+      name: "Ahmed Hassan",
+      role: "Senior Software Engineer @ TechCorp",
+      rating: 5,
+      comment: "Zayd's full-stack work with Spring Boot and React is outstanding. Very clean code structure and impressive problem-solving abilities!",
+      date: "2026-09-25"
+    },
+    {
+      id: 2,
+      name: "Mariam El-Din",
+      role: "UI/UX Designer",
+      rating: 5,
+      comment: "The Flutter mobile application UI and responsive design are top notch. Great attention to detail!",
+      date: "2026-09-20"
+    }
+  ];
+};
+
+const getStarCount = () => {
+  try {
+    if (fs.existsSync(STAR_FILE)) {
+      const data = JSON.parse(fs.readFileSync(STAR_FILE, "utf8"));
+      return data.stars || 48;
+    }
+  } catch (e) {}
+  return 48;
+};
+
+app.get("/api/reviews", (req, res) => {
+  res.json({ ok: true, reviews: getStoredReviews() });
+});
+
+app.post("/api/reviews", (req, res) => {
+  const { name, role, rating, comment } = req.body;
+  if (!name || !comment) {
+    return res.status(400).json({ ok: false, error: "Name and comment are required." });
+  }
+
+  const reviews = getStoredReviews();
+  const newReview = {
+    id: Date.now(),
+    name: name.trim(),
+    role: (role || "Visitor / Developer").trim(),
+    rating: parseInt(rating) || 5,
+    comment: comment.trim(),
+    date: new Date().toISOString().split("T")[0]
+  };
+
+  reviews.unshift(newReview);
+  try {
+    const logsDir = path.join(__dirname, "logs");
+    if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
+    fs.writeFileSync(REVIEWS_FILE, JSON.stringify(reviews, null, 2), "utf8");
+  } catch (e) {}
+
+  res.json({ ok: true, message: "Review posted successfully!", review: newReview });
+});
+
+app.get("/api/star", (req, res) => {
+  res.json({ ok: true, stars: getStarCount() });
+});
+
+app.post("/api/star", (req, res) => {
+  let stars = getStarCount() + 1;
+  try {
+    const logsDir = path.join(__dirname, "logs");
+    if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
+    fs.writeFileSync(STAR_FILE, JSON.stringify({ stars }, null, 2), "utf8");
+  } catch (e) {}
+  res.json({ ok: true, stars, message: "Thank you for starring Zayd's portfolio!" });
+});
+
+// Explicit Multi-Page HTML Routes
+app.get("/projects", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "projects.html"));
+});
+
+app.get("/experience", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "experience.html"));
+});
+
 // Catch-all: serve index.html for SPA routing (MUST be last)
 app.use((req, res) => {
   if (req.path.startsWith('/api/') || req.path.startsWith('/assets/')) {
