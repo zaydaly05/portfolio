@@ -36,9 +36,20 @@ if (PUSHBULLET_TOKEN) {
   console.log("ℹ️ 1. Pushbullet Mobile Notification (Set PUSHBULLET_TOKEN in env for direct phone pushes).");
 }
 
-// 2. Direct WhatsApp Link
-const directWhatsAppLink = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(sampleMsg)}`;
-console.log(`✅ 2. Direct WhatsApp Link: ${directWhatsAppLink}`);
+// 2. Direct WhatsApp Link & CallMeBot Automated Messaging
+const encodedText = encodeURIComponent(sampleMsg);
+const directWhatsAppLink = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedText}`;
+console.log(`✅ 2. Direct WhatsApp Mobile Link: ${directWhatsAppLink}`);
+
+if (CALLMEBOT_API_KEY) {
+  const callMeBotUrl = `https://api.callmebot.com/whatsapp.php?phone=${WHATSAPP_PHONE}&text=${encodedText}&apikey=${CALLMEBOT_API_KEY}`;
+  fetch(callMeBotUrl)
+    .then(res => res.text())
+    .then(txt => console.log("✅ 2b. CallMeBot automated WhatsApp delivery result:", txt.replace(/<[^>]*>?/gm, '')))
+    .catch(err => console.log("❌ 2b. CallMeBot error:", err.message));
+} else {
+  console.log("ℹ️ 2b. CallMeBot automated WhatsApp API skipped (Set CALLMEBOT_API_KEY in environment or GitHub Secrets).");
+}
 
 // 3. Make Webhook
 if (MAKE_WEBHOOK_URL) {
