@@ -8,6 +8,7 @@ const path = require('path');
 const fs = require('fs');
 
 const WHATSAPP_PHONE = process.env.WHATSAPP_PHONE || '201017741741';
+const WHATSAPP_USERNAME = (process.env.WHATSAPP_USERNAME || 'zaydaly05').replace('@', '');
 const CALLMEBOT_API_KEY = process.env.CALLMEBOT_API_KEY || '';
 const MAKE_WEBHOOK_URL = process.env.MAKE_WEBHOOK_URL || '';
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
@@ -39,7 +40,9 @@ if (PUSHBULLET_TOKEN) {
 // 2. Direct WhatsApp Link & CallMeBot Automated Messaging
 const encodedText = encodeURIComponent(sampleMsg);
 const directWhatsAppLink = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedText}`;
-console.log(`✅ 2. Direct WhatsApp Mobile Link: ${directWhatsAppLink}`);
+const usernameWhatsAppLink = `https://wa.me/${WHATSAPP_USERNAME}?text=${encodedText}`;
+console.log(`✅ 2a. Direct WhatsApp Mobile Link (Phone): ${directWhatsAppLink}`);
+console.log(`✅ 2b. WhatsApp Username Link (@${WHATSAPP_USERNAME}): ${usernameWhatsAppLink}`);
 
 if (CALLMEBOT_API_KEY) {
   const callMeBotUrl = `https://api.callmebot.com/whatsapp.php?phone=${WHATSAPP_PHONE}&text=${encodedText}&apikey=${CALLMEBOT_API_KEY}`;

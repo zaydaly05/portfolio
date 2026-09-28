@@ -11,6 +11,7 @@ const path = require('path');
 const GITHUB_USERNAME = 'zaydaly05';
 const SERVER_JS_PATH = path.join(__dirname, '..', 'server.js');
 const WHATSAPP_PHONE = process.env.WHATSAPP_PHONE || '201017741741';
+const WHATSAPP_USERNAME = (process.env.WHATSAPP_USERNAME || 'zaydaly05').replace('@', '');
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || ''; // Free Telegram Bot Token
 async function fetchGitHubRepos() {
   console.log(`🔍 Fetching public repositories for ${GITHUB_USERNAME}...`);
@@ -118,6 +119,7 @@ async function sendWhatsAppNotification(message) {
   const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '';
   const encodedText = encodeURIComponent(message);
   const directWhatsAppLink = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedText}`;
+  const usernameWhatsAppLink = `https://wa.me/${WHATSAPP_USERNAME}?text=${encodedText}`;
 
   // Mobile Delivery Channels
   await sendPushbulletNotification(message);
@@ -128,8 +130,10 @@ async function sendWhatsAppNotification(message) {
     console.log("\n------------------------------------------------------------");
     console.log("📱 NOTIFICATION SUMMARY:");
     console.log(message);
-    console.log("\n🔗 Direct WhatsApp Link (Click to send to yourself):");
+    console.log(`\n🔗 Direct WhatsApp Link (Phone ${WHATSAPP_PHONE}):`);
     console.log(directWhatsAppLink);
+    console.log(`\n👤 WhatsApp Username Link (@${WHATSAPP_USERNAME}):`);
+    console.log(usernameWhatsAppLink);
     console.log("------------------------------------------------------------\n");
     return;
   }
