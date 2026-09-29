@@ -1156,6 +1156,7 @@ textarea::placeholder {
 
 .modal-card {
   position: relative;
+  z-index: 1;
   width: min(760px, 92%);
   background: var(--card);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -1165,7 +1166,7 @@ textarea::placeholder {
   overflow-y: auto;
   backdrop-filter: blur(20px) saturate(150%);
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
-  animation: modalSlideIn 0.4s var(--transition-spring);
+  animation: modalSlideIn 0.4s var(--transition-spring) forwards;
 }
 
 @keyframes fadeIn {
@@ -1184,7 +1185,7 @@ textarea::placeholder {
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: none;
   }
 }
 
@@ -2956,9 +2957,10 @@ textarea::placeholder {
   padding: 12px 18px;
   border-radius: 12px;
   background: rgba(30, 41, 59, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #fff;
+  border: 1px solid var(--card-border);
+  color: var(--text);
   font-size: 0.95rem;
+  font-family: inherit;
   outline: none;
   transition: border-color 0.2s ease;
 }
@@ -5217,6 +5219,23 @@ textarea.invalid {
 [data-theme="light"] .star-prompt-card {
   background: rgba(241, 245, 249, 0.95) !important;
   border-color: rgba(15, 23, 42, 0.1) !important;
+}
+
+[data-theme="light"] .project-search-box input {
+  background: #ffffff !important;
+  border-color: rgba(15, 23, 42, 0.2) !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .project-search-box input::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Submit Review button — center text */
+.review-form .btn {
+  text-align: center;
+  justify-content: center;
+  width: 100%;
 }
 
 /* ============================================
