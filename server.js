@@ -779,21 +779,31 @@ const getStoredReviews = () => {
   } catch {}
   return [
     {
-      id: 1,
-      name: "Ahmed Hassan",
-      role: "Senior Software Engineer @ TechCorp",
+      id: "linkedin-1",
+      name: "Mohammed Essam El Din",
+      role: "SWE @ El Zatuna | IBM Student Ambassador @ MIU",
       rating: 5,
-      comment:
-        "Zayd's full-stack work with Spring Boot and React is outstanding. Very clean code structure and impressive problem-solving abilities!",
-      date: "2026-09-25"
+      comment: "I'm proud to recommend my friend and colleague, Zayd, whose dedication, knowledge, and willingness to help others truly set him apart. Throughout our time working and studying together, Zayd consistently demonstrated a strong commitment not only to his own learning but also to supporting those around him. One of Zayd's most admirable qualities is his willingness to help others.",
+      date: "2025-07-09",
+      isLinkedin: true
     },
     {
-      id: 2,
-      name: "Mariam El-Din",
-      role: "UI/UX Designer",
+      id: "linkedin-2",
+      name: "Ahmed Hatem",
+      role: "Electronics and Communication Engineering Student @MIU",
       rating: 5,
-      comment: "The Flutter mobile application UI and responsive design are top notch. Great attention to detail!",
-      date: "2026-09-20"
+      comment: "Zayd is a hardworking and creative Computer Science student with a strong passion for software engineering. He approaches every task with focus and a problem-solving mindset. I'm confident he has a bright future ahead in tech.",
+      date: "2025-07-09",
+      isLinkedin: true
+    },
+    {
+      id: "linkedin-3",
+      name: "Hazem Mohamed",
+      role: "DevOps Engineer | 3x AWS Certified | Software Engineer",
+      rating: 5,
+      comment: "Zayd is a curious and motivated student who loves learning and always seeks to understand more.",
+      date: "2025-07-01",
+      isLinkedin: true
     }
   ];
 };
@@ -809,6 +819,8 @@ const getStarCount = () => {
 };
 
 app.get("/api/reviews", async (req, res) => {
+  let finalReviews = getStoredReviews(); // Always include LinkedIn static recommendations
+
   try {
     const db = await connectDB();
     if (db) {
@@ -822,13 +834,14 @@ app.get("/api/reviews", async (req, res) => {
           comment: r.comment,
           date: r.date
         }));
-        return res.json({ ok: true, reviews: mappedReviews });
+        // Prepend MongoDB community reviews above the LinkedIn recommendations
+        finalReviews = [...mappedReviews, ...finalReviews];
       }
     }
   } catch (err) {
     console.error("Error fetching reviews from MongoDB:", err.message);
   }
-  res.json({ ok: true, reviews: getStoredReviews() });
+  res.json({ ok: true, reviews: finalReviews });
 });
 
 app.post("/api/reviews", postRateLimiter, async (req, res) => {
