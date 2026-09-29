@@ -5,5 +5,11 @@
       "source": "/(.*)",
       "destination": "/api/index.js"
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/github",
+      "schedule": "0 0 * * *"
+    }
   ]
 }
