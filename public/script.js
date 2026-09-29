@@ -1965,6 +1965,9 @@ const setupTerminalCLI = () => {
   • Phone: +20 101 774 1741
   • LinkedIn: linkedin.com/in/zayd-ali-17a85a1a0
   • GitHub: github.com/zaydaly05`);
+      } else if (cmd === "linkedin") {
+        printLine(`Opening Zayd's LinkedIn profile in a new tab... 💼`);
+        window.open("https://www.linkedin.com/in/zayd-ali-17a85a1a0", "_blank", "noopener,noreferrer");
       } else if (cmd === "cv") {
         printLine(`Opening CV Viewer modal...`);
         const cvModal = document.getElementById("cv-viewer-modal");

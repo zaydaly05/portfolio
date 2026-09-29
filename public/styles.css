@@ -3668,3 +3668,37 @@ input.invalid, textarea.invalid {
   transform: translateX(4px);
 }
 
+/* ============================================
+   LINKEDIN INTEGRATION STYLES
+   ============================================ */
+.linkedin-card-badge {
+  transition: transform 0.3s var(--transition-spring, ease), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.linkedin-card-badge:hover {
+  transform: translateY(-2px);
+  border-color: #0a66c2 !important;
+  box-shadow: 0 8px 24px rgba(10, 102, 194, 0.25);
+}
+
+.btn-linkedin {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #0a66c2;
+  color: #ffffff !important;
+  border-radius: var(--radius-sm);
+  padding: 10px 18px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  transition: all 0.3s var(--transition-spring, ease);
+  text-decoration: none;
+}
+
+.btn-linkedin:hover {
+  background: #004182;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(10, 102, 194, 0.35);
+}
+
+

@@ -372,7 +372,12 @@ app.post("/api/chat", (req, res) => {
   } else if (query.includes("education") || query.includes("miu") || query.includes("university") || query.includes("acpc") || query.includes("ieee") || query.includes("study")) {
     reply = "🎓 Zayd is currently pursuing a **Bachelor of Science in Computer Science** at **Misr International University (MIU)** (Sep 2023 - Jun 2027).\n\nHe is also an active member of both **ACPC Club** (Competitive Programming) and **IEEE Club**!";
     suggestions = ["What projects has Zayd built?", "Skills breakdown", "Contact info"];
-  } else if (query.includes("contact") || query.includes("email") || query.includes("phone") || query.includes("hire") || query.includes("linkedin") || query.includes("reach")) {
+  } else if (query.includes("linkedin")) {
+    reply = "💼 **Connect with Zayd Ali Mohamed on LinkedIn:**\n\n" +
+      "🔗 [linkedin.com/in/zayd-ali-17a85a1a0](https://www.linkedin.com/in/zayd-ali-17a85a1a0)\n\n" +
+      "Feel free to send a connection request or direct message to connect!";
+    suggestions = ["Email Zayd", "Show experience", "Download CV"];
+  } else if (query.includes("contact") || query.includes("email") || query.includes("phone") || query.includes("hire") || query.includes("reach")) {
     reply = "📬 You can reach Zayd directly via:\n\n" +
       "📧 **Email:** [zaydaly0501@gmail.com](mailto:zaydaly0501@gmail.com)\n" +
       "📱 **Phone / WhatsApp:** +20 101 774 1741\n" +
