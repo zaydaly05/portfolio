@@ -1815,12 +1815,18 @@ const setupHeroSlider = () => {
   const prevBtn = document.getElementById("slider-prev");
   const nextBtn = document.getElementById("slider-next");
   const progressBar = document.getElementById("slider-progress");
+  const currentNumEl = document.getElementById("slide-num-current");
+  const totalNumEl = document.getElementById("slide-num-total");
 
   if (!slides.length) return;
 
+  if (totalNumEl) {
+    totalNumEl.textContent = slides.length < 10 ? `0${slides.length}` : slides.length;
+  }
+
   let currentIndex = 0;
   let timer = null;
-  const slideDuration = 5000;
+  const slideDuration = 5500;
 
   const goToSlide = (index) => {
     slides.forEach((s) => s.classList.remove("active"));
@@ -1829,6 +1835,10 @@ const setupHeroSlider = () => {
     currentIndex = (index + slides.length) % slides.length;
     slides[currentIndex].classList.add("active");
     if (dots[currentIndex]) dots[currentIndex].classList.add("active");
+
+    if (currentNumEl) {
+      currentNumEl.textContent = currentIndex + 1 < 10 ? `0${currentIndex + 1}` : currentIndex + 1;
+    }
 
     resetProgress();
   };
@@ -1864,8 +1874,40 @@ const setupHeroSlider = () => {
     dot.addEventListener("click", () => { goToSlide(idx); startAutoPlay(); });
   });
 
-  slider.addEventListener("mouseenter", stopAutoPlay);
-  slider.addEventListener("mouseleave", startAutoPlay);
+  // Touch Swipe Support
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  slider.addEventListener("touchstart", (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  slider.addEventListener("touchend", (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    if (touchStartX - touchEndX > 50) {
+      nextSlide();
+      startAutoPlay();
+    } else if (touchEndX - touchStartX > 50) {
+      prevSlide();
+      startAutoPlay();
+    }
+  }, { passive: true });
+
+  // Keyboard Arrow Control when slider is focused or hovered
+  let isHovered = false;
+  slider.addEventListener("mouseenter", () => { isHovered = true; stopAutoPlay(); });
+  slider.addEventListener("mouseleave", () => { isHovered = false; startAutoPlay(); });
+
+  document.addEventListener("keydown", (e) => {
+    if (!isHovered) return;
+    if (e.key === "ArrowLeft") {
+      prevSlide();
+      startAutoPlay();
+    } else if (e.key === "ArrowRight") {
+      nextSlide();
+      startAutoPlay();
+    }
+  });
 
   startAutoPlay();
 };
