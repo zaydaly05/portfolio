@@ -14,19 +14,7 @@ const PROFILE_PHOTO_CANDIDATES = [
   "./assets/main-photo.jpeg",
   "../Assets/main-photo.jpeg",
   "Assets/main-photo.jpeg",
-  "/Assets/main-photo.jpeg",
-  "/assets/main-photo.jpg",
-  "assets/main-photo.jpg",
-  "./assets/main-photo.jpg",
-  "../Assets/main-photo.jpg",
-  "Assets/main-photo.jpg",
-  "/Assets/main-photo.jpg",
-  "/assets/main-photo.png",
-  "assets/main-photo.png",
-  "./assets/main-photo.png",
-  "../Assets/main-photo.png",
-  "Assets/main-photo.png",
-  "/Assets/main-photo.png"
+  "/Assets/main-photo.jpeg"
 ];
 
 /* ============================================
@@ -92,7 +80,8 @@ const fallbackPortfolio = {
       name: "Essmat Plastic Factory Management System",
       period: "September 2026",
       stack: "C#, .NET, SQL Server, Entity Framework",
-      image: "/assets/essmat-plastic-report.pdf",
+      image: "/assets/employee-e1.png",
+      pdfReport: "/assets/essmat-plastic-report.pdf",
       github: "https://github.com/zaydaly05/EssmatPlastic",
       description: "Enterprise inventory and production management solution for plastic manufacturing, optimizing raw material tracking, order processing, and factory billing workflows."
     },

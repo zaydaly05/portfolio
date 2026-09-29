@@ -431,6 +431,8 @@ const generateCV = async () => {
 
   const targetPath1 = path.join(__dirname, "..", "Assets", "cv.pdf");
   const targetPath2 = path.join(__dirname, "..", "Assets", "Zayd Ali Mohamed CV.pdf");
+  const publicTargetPath1 = path.join(__dirname, "..", "public", "assets", "cv.pdf");
+  const publicTargetPath2 = path.join(__dirname, "..", "public", "assets", "Zayd Ali Mohamed CV.pdf");
 
   await page.pdf({
     path: targetPath1,
@@ -439,12 +441,16 @@ const generateCV = async () => {
     margin: { top: "6mm", bottom: "6mm", left: "10mm", right: "10mm" }
   });
 
-  // Duplicate to Zayd Ali Mohamed CV.pdf
+  // Duplicate to Zayd Ali Mohamed CV.pdf and public/assets
   fs.copyFileSync(targetPath1, targetPath2);
+  fs.copyFileSync(targetPath1, publicTargetPath1);
+  fs.copyFileSync(targetPath1, publicTargetPath2);
 
   console.log("Successfully generated updated 1-page executive CV at:");
   console.log(" -", targetPath1);
   console.log(" -", targetPath2);
+  console.log(" -", publicTargetPath1);
+  console.log(" -", publicTargetPath2);
 
   await browser.close();
 };
