@@ -248,100 +248,45 @@
         </div>
       </section>
 
-      <!-- Experience section -->
-      <section class="section reveal" id="experience">
-        <div class="section-header">
-          <span class="section-number">01</span>
-          <h3>Experience</h3>
-          <div class="section-line"></div>
-        </div>
-        <div id="experience-list" class="grid reveal-stagger"></div>
-      </section>
-
-
-      <!-- Projects section -->
-      <section class="section reveal" id="projects">
-        <div class="section-header">
-          <span class="section-number">02</span>
-          <h3>Projects</h3>
-          <div class="section-line"></div>
-        </div>
-
-        <div class="project-toolbar">
-          <div class="project-search-box">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" id="project-search-input" placeholder="Search projects by stack, keyword or name (e.g. Spring, React, C#, Flutter)..." />
-          </div>
-          <div class="project-filter-tabs" id="project-filter-tabs">
-            <button class="filter-btn active" data-filter="all">All Projects</button>
-            <button class="filter-btn" data-filter="fullstack">Full-Stack</button>
-            <button class="filter-btn" data-filter="mobile">Mobile & API</button>
-            <button class="filter-btn" data-filter="web">Web Development</button>
-            <button class="filter-btn" data-filter="systems">Systems / HCI</button>
-          </div>
-        </div>
-
-        <div id="project-list" class="grid reveal-stagger"></div>
-      </section>
-
-      <!-- GitHub Live Sync Section -->
-      <section class="section reveal" id="github-section">
-        <div class="section-header">
-          <span class="section-number">03</span>
-          <h3>Live GitHub Sync</h3>
-          <div class="section-line"></div>
-        </div>
-
-        <div class="github-sync-container" id="github-sync-container">
-          <div class="github-profile-card">
-            <div class="github-avatar-wrapper">
-              <img id="gh-avatar" src="https://github.com/zaydaly05.png" alt="Zayd GitHub Avatar" />
+      <!-- Quick Gateway Banners to Dedicated Pages -->
+      <section class="section reveal" id="page-gateways" style="padding-top: 20px; padding-bottom: 20px;">
+        <div class="gateway-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+          <!-- Projects Hub Banner -->
+          <div class="card gateway-card" style="padding: 28px; border-radius: var(--radius-md); background: var(--card); border: 1px solid var(--card-border); display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="font-size: 2.2rem; margin-bottom: 12px;">🚀</div>
+              <span class="eyebrow" style="color: var(--brand); font-weight: 700;">Dedicated Page</span>
+              <h3 style="font-size: 1.4rem; font-weight: 700; margin: 6px 0 10px; color: var(--text);">Projects Hub &amp; Live GitHub</h3>
+              <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px;">
+                Explore all production full-stack, mobile, and system projects, live search filters, and real-time GitHub repository sync.
+              </p>
             </div>
-            <div class="github-user-info">
-              <h4 id="gh-username">zaydaly05</h4>
-              <p id="gh-bio">Junior Computer Science Student | Software Developer</p>
-              <div class="github-stats-row">
-                <div class="gh-stat-box">
-                  <span class="gh-stat-num" id="gh-repos-count">--</span>
-                  <span class="gh-stat-lbl">Public Repos</span>
-                </div>
-                <div class="gh-stat-box">
-                  <span class="gh-stat-num" id="gh-followers-count">--</span>
-                  <span class="gh-stat-lbl">Followers</span>
-                </div>
-              </div>
-              <a href="https://github.com/zaydaly05" target="_blank" rel="noopener" class="btn-outline btn-sm">
-                Visit GitHub Profile ↗
-              </a>
-            </div>
+            <a href="/projects" class="btn" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px;">
+              Explore Projects Hub ↗
+            </a>
           </div>
 
-          <div class="github-repos-wrapper">
-            <div class="github-repos-header">
-              <h5>Recent Public Repositories</h5>
-              <span class="live-badge"><span class="pulse-green"></span> Synced</span>
+          <!-- Experience & Reviews Banner -->
+          <div class="card gateway-card" style="padding: 28px; border-radius: var(--radius-md); background: var(--card); border: 1px solid var(--card-border); display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="font-size: 2.2rem; margin-bottom: 12px;">💼</div>
+              <span class="eyebrow" style="color: #c084fc; font-weight: 700;">Dedicated Page</span>
+              <h3 style="font-size: 1.4rem; font-weight: 700; margin: 6px 0 10px; color: var(--text);">Experience, Resume &amp; Reviews</h3>
+              <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px;">
+                Review TAQA Arabia &amp; CHI internships, education background, interactive Overleaf LaTeX resume, and visitor reviews.
+              </p>
             </div>
-            <div class="github-repos-grid" id="github-repos-list">
-              <div class="github-loading">Fetching live repositories from GitHub API...</div>
-            </div>
+            <a href="/experience" class="btn-outline" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; border-color: #c084fc; color: #c084fc;">
+              View Experience &amp; CV ↗
+            </a>
           </div>
         </div>
-      </section>
-
-      <!-- Education section -->
-      <section class="section reveal" id="education">
-        <div class="section-header">
-          <span class="section-number">04</span>
-          <h3>Education</h3>
-          <div class="section-line"></div>
-        </div>
-        <div id="education-list" class="grid reveal-stagger"></div>
       </section>
 
       <!-- Technical Skills section -->
       <section class="section reveal" id="technical-skills">
         <div class="section-header">
-          <span class="section-number">05</span>
+          <span class="section-number">01</span>
           <h3>Technical Skills</h3>
           <div class="section-line"></div>
         </div>
@@ -360,7 +305,7 @@
       <!-- Soft Skills section -->
       <section class="section reveal" id="soft-skills">
         <div class="section-header">
-          <span class="section-number">06</span>
+          <span class="section-number">02</span>
           <h3>Soft Skills</h3>
           <div class="section-line"></div>
         </div>
@@ -370,7 +315,7 @@
       <!-- Languages section -->
       <section class="section reveal" id="languages">
         <div class="section-header">
-          <span class="section-number">07</span>
+          <span class="section-number">03</span>
           <h3>Languages</h3>
           <div class="section-line"></div>
         </div>
@@ -380,7 +325,7 @@
       <!-- Contact section -->
       <section class="section reveal" id="contact">
         <div class="section-header">
-          <span class="section-number">08</span>
+          <span class="section-number">04</span>
           <h3>Get In Touch</h3>
           <div class="section-line"></div>
         </div>
