@@ -42,7 +42,7 @@ async function fetchGitHubRepos() {
 }
 
 const PUSHBULLET_TOKEN = process.env.PUSHBULLET_TOKEN || ''; // Free Pushbullet Mobile App Token
-const TARGET_EMAIL = process.env.TARGET_EMAIL || 'zaydaly0501@gmail.com';
+const _TARGET_EMAIL = process.env.TARGET_EMAIL || 'zaydaly0501@gmail.com';
 
 async function sendPushbulletNotification(message) {
   if (!PUSHBULLET_TOKEN) return false;
@@ -116,7 +116,7 @@ async function sendWebhookNotification(message) {
 
 async function sendWhatsAppNotification(message) {
   const CALLMEBOT_API_KEY = process.env.CALLMEBOT_API_KEY || '';
-  const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '';
+  const _TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '';
   const encodedText = encodeURIComponent(message);
   const directWhatsAppLink = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedText}`;
   const usernameWhatsAppLink = `https://wa.me/${WHATSAPP_USERNAME}?text=${encodedText}`;
@@ -160,7 +160,7 @@ async function sendWhatsAppNotification(message) {
     const logEntry = `[${new Date().toISOString()}]\n${message}\n----------------------------------------\n`;
     fs.appendFileSync(path.join(logsDir, 'sync-audit.log'), logEntry, 'utf8');
     console.log("📁 Sync report logged to logs/sync-audit.log");
-  } catch (e) {
+  } catch {
     // Ignore log file error
   }
 }
@@ -179,7 +179,7 @@ async function syncPortfolio() {
     let serverContent = fs.readFileSync(SERVER_JS_PATH, 'utf8');
 
     // Extract portfolioData object block using regex or structure
-    let updatedCount = 0;
+    let _updatedCount = 0;
     const addedProjects = [];
 
     validRepos.forEach(repo => {

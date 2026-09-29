@@ -1469,7 +1469,7 @@ const setupContactForm = () => {
       window.open(whatsappUrl, "_blank", "noopener,noreferrer");
       status.textContent = "WhatsApp opened. Send the prefilled message to complete.";
       form.reset();
-    } catch (error) {
+    } catch {
       window.open(whatsappUrl, "_blank", "noopener,noreferrer");
       status.textContent = "WhatsApp opened. Send the prefilled message to complete.";
     }
@@ -1735,7 +1735,7 @@ const setupReviewsSystem = async () => {
       const res = await fetch("/api/star");
       const data = await res.json();
       if (data.ok && starCountNum) starCountNum.textContent = data.stars;
-    } catch (e) {}
+    } catch {}
   };
 
   const loadReviews = async () => {
@@ -1762,7 +1762,7 @@ const setupReviewsSystem = async () => {
           )
           .join("");
       }
-    } catch (e) {
+    } catch {
       if (reviewsContainer) reviewsContainer.innerHTML = `<p class="error">Failed to load reviews.</p>`;
     }
   };
@@ -1777,7 +1777,7 @@ const setupReviewsSystem = async () => {
           starBtn.textContent = `★ Starred! (${data.stars})`;
           starBtn.style.background = "#10b981";
         }
-      } catch (e) {}
+      } catch {}
     });
   }
 
@@ -1805,7 +1805,7 @@ const setupReviewsSystem = async () => {
         } else {
           if (statusMsg) statusMsg.textContent = "❌ " + (data.error || "Failed to post");
         }
-      } catch (e) {
+      } catch {
         if (statusMsg) statusMsg.textContent = "❌ Network error";
       }
     });

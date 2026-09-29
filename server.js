@@ -731,7 +731,7 @@ const getStoredReviews = () => {
     if (fs.existsSync(REVIEWS_FILE)) {
       return JSON.parse(fs.readFileSync(REVIEWS_FILE, "utf8"));
     }
-  } catch (e) {}
+  } catch {}
   return [
     {
       id: 1,
@@ -759,7 +759,7 @@ const getStarCount = () => {
       const data = JSON.parse(fs.readFileSync(STAR_FILE, "utf8"));
       return data.stars || 48;
     }
-  } catch (e) {}
+  } catch {}
   return 48;
 };
 
@@ -788,7 +788,7 @@ app.post("/api/reviews", postRateLimiter, (req, res) => {
     const logsDir = path.join(__dirname, "logs");
     if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
     fs.writeFileSync(REVIEWS_FILE, JSON.stringify(reviews, null, 2), "utf8");
-  } catch (e) {}
+  } catch {}
 
   res.json({ ok: true, message: "Review posted successfully!", review: newReview });
 });
@@ -803,7 +803,7 @@ app.post("/api/star", postRateLimiter, (req, res) => {
     const logsDir = path.join(__dirname, "logs");
     if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
     fs.writeFileSync(STAR_FILE, JSON.stringify({ stars }, null, 2), "utf8");
-  } catch (e) {}
+  } catch {}
   res.json({ ok: true, stars, message: "Thank you for starring Zayd's portfolio!" });
 });
 

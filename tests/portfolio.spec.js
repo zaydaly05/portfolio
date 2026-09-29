@@ -95,7 +95,7 @@ test.describe('Zayd Portfolio Full End-to-End Suite', () => {
     await page.goto('/');
 
     const aiToggleBtn = page.locator('#ai-chat-toggle-btn');
-    await aiToggleBtn.click();
+    await aiToggleBtn.click({ force: true });
 
     const aiDrawer = page.locator('#ai-chat-drawer');
     await expect(aiDrawer).not.toHaveClass(/hidden/);

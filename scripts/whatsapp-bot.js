@@ -10,7 +10,7 @@ if (fs.existsSync(sessionDir)) {
   lockFiles.forEach(file => {
     const filePath = path.join(sessionDir, file);
     if (fs.existsSync(filePath)) {
-      try { fs.unlinkSync(filePath); } catch (e) {}
+      try { fs.unlinkSync(filePath); } catch {}
     }
   });
 }

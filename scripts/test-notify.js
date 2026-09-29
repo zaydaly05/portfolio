@@ -3,7 +3,6 @@
  * Run `npm run test-notify` from terminal to verify all notification channels!
  */
 
-const { exec } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
@@ -31,7 +30,7 @@ if (PUSHBULLET_TOKEN) {
     },
     body: JSON.stringify({ type: 'note', title: 'Zayd Portfolio Alert', body: sampleMsg })
   })
-  .then(res => console.log("✅ 1. Mobile Pushbullet notification sent to phone!"))
+  .then(() => console.log("✅ 1. Mobile Pushbullet notification sent to phone!"))
   .catch(err => console.log("❌ 1. Pushbullet notification error:", err.message));
 } else {
   console.log("ℹ️ 1. Pushbullet Mobile Notification (Set PUSHBULLET_TOKEN in env for direct phone pushes).");
@@ -61,7 +60,7 @@ if (MAKE_WEBHOOK_URL) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ message: sampleMsg, phone: WHATSAPP_PHONE })
   })
-  .then(res => console.log("✅ 3. Make/Zapier Webhook delivered!"))
+  .then(() => console.log("✅ 3. Make/Zapier Webhook delivered!"))
   .catch(err => console.log("❌ 3. Webhook error:", err.message));
 } else {
   console.log("ℹ️ 3. Make Webhook skipped (Set MAKE_WEBHOOK_URL in environment).");
@@ -74,7 +73,7 @@ if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: sampleMsg })
   })
-  .then(res => console.log("✅ 4. Telegram Bot alert delivered!"))
+  .then(() => console.log("✅ 4. Telegram Bot alert delivered!"))
   .catch(err => console.log("❌ 4. Telegram error:", err.message));
 } else {
   console.log("ℹ️ 4. Telegram skipped (Set TELEGRAM_BOT_TOKEN & TELEGRAM_CHAT_ID in environment).");
