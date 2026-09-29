@@ -765,90 +765,85 @@ const renderExperience = (items) => {
   if (!container) return;
   const safeItems = Array.isArray(items) ? items : [];
 
-  // Timeline wrapper
   container.className = "experience-timeline";
 
-  const companyColor = (company = "") => {
-    if (company.toLowerCase().includes("taqa")) return "var(--brand)";
-    if (company.toLowerCase().includes("cairo higher") || company.toLowerCase().includes("chi")) return "#a855f7";
-    return "#10b981";
+  const companyStyle = (company = "") => {
+    const c = company.toLowerCase();
+    if (c.includes("taqa")) return { color: "var(--brand)", bg: "var(--brand-glow)", border: "rgba(101, 240, 255, 0.25)" };
+    if (c.includes("cairo higher") || c.includes("chi")) return { color: "#c084fc", bg: "rgba(192, 132, 252, 0.15)", border: "rgba(192, 132, 252, 0.3)" };
+    return { color: "#34d399", bg: "rgba(52, 211, 153, 0.15)", border: "rgba(52, 211, 153, 0.3)" };
   };
 
   const roleIcon = (role = "") => {
-    if (role.toLowerCase().includes("software")) return "💻";
-    if (role.toLowerCase().includes("it department")) return "🖥️";
-    if (role.toLowerCase().includes("data")) return "📊";
+    const r = role.toLowerCase();
+    if (r.includes("software")) return "💻";
+    if (r.includes("it department")) return "🖥️";
+    if (r.includes("data")) return "📊";
     return "🏢";
   };
 
+  const getMediaBadgeText = (company = "", role = "") => {
+    const c = company.toLowerCase();
+    const r = role.toLowerCase();
+    if (c.includes("taqa") && r.includes("software")) return "📸 2 Photos & Certificate";
+    if (c.includes("taqa") && r.includes("it department")) return "📸 2 Photos";
+    if (c.includes("cairo higher") || c.includes("chi")) return "📸 Photo Available";
+    return null;
+  };
+
   container.innerHTML = safeItems
-    .map(
-      (item) => `
+    .map((item) => {
+      const cStyle = companyStyle(item.company);
+      const mediaText = getMediaBadgeText(item.company, item.role);
+
+      return `
       <article
         class="card card-clickable reveal-card js-exp-card exp-timeline-card"
         tabindex="0"
         role="button"
         aria-label="Open ${item.role || "experience"} details"
-        style="cursor:pointer;"
       >
-        <div style="display:flex; align-items:flex-start; gap:14px;">
-          <!-- Icon -->
-          <div style="
-            width:44px; height:44px; border-radius:12px; flex-shrink:0;
-            background: rgba(255,255,255,0.04);
-            border:1px solid rgba(255,255,255,0.1);
-            display:flex; align-items:center; justify-content:center;
-            font-size:1.3rem;
-          ">${roleIcon(item.role)}</div>
+        <div class="exp-card-inner">
+          <div class="exp-card-icon">${roleIcon(item.role)}</div>
 
-          <!-- Content -->
           <div style="flex:1; min-width:0;">
-            <!-- Company badge -->
-            <span style="
-              display:inline-block;
-              font-size:0.72rem; font-weight:700; letter-spacing:0.06em;
-              text-transform:uppercase;
-              color:${companyColor(item.company)};
-              background: rgba(255,255,255,0.04);
-              border:1px solid rgba(255,255,255,0.1);
-              padding:2px 10px; border-radius:999px;
-              margin-bottom:6px;
-            ">${item.company || "–"}</span>
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+              <span class="exp-company-chip" style="color:${cStyle.color}; background:${cStyle.bg}; border-color:${cStyle.border};">
+                ${item.company || "–"}
+              </span>
+              ${mediaText ? `<span class="exp-media-badge">${mediaText}</span>` : ""}
+            </div>
 
-            <!-- Role title -->
-            <h4 style="margin:0 0 4px; font-size:1.05rem; line-height:1.3; font-weight:700;">
-              ${item.role || "–"}
-            </h4>
+            <h4 class="exp-role-title">${item.role || "–"}</h4>
 
-            <!-- Meta row -->
-            <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:10px;">
-              <span style="font-size:0.8rem; color:var(--text-secondary); display:flex; align-items:center; gap:4px;">
+            <div class="exp-meta-row">
+              <span class="exp-meta-item">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                 ${item.period || "–"}
               </span>
-              <span style="font-size:0.8rem; color:var(--text-secondary); display:flex; align-items:center; gap:4px;">
+              <span class="exp-meta-item">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                 ${item.location || "–"}
               </span>
             </div>
 
-            <!-- Preview bullet points (max 2) -->
             ${(item.points || []).length > 0 ? `
-            <ul style="margin:0; padding-left:16px; font-size:0.85rem; color:var(--text-secondary); line-height:1.55;">
-              ${(item.points || []).slice(0, 2).map(p => `<li style="margin-bottom:3px;">${p}</li>`).join("")}
-              ${(item.points || []).length > 2 ? `<li style="list-style:none; margin-left:-16px; color:var(--brand); font-size:0.8rem; font-weight:600; margin-top:4px;">+${(item.points || []).length - 2} more →</li>` : ""}
+            <ul class="exp-points-preview">
+              ${(item.points || []).slice(0, 2).map(p => `<li>${p}</li>`).join("")}
+              ${(item.points || []).length > 2 ? `<li class="exp-more-points">+${(item.points || []).length - 2} more responsibilities →</li>` : ""}
             </ul>` : ""}
 
-            <!-- CTA -->
-            <div style="margin-top:12px; display:flex; align-items:center; gap:6px; font-size:0.82rem; font-weight:600; color:var(--brand); opacity:0.85;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 16 12 12 16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-              View Full Details
+            <div style="margin-top:12px;">
+              <span class="exp-action-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 16 12 12 16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                View Full Details &amp; Gallery ↗
+              </span>
             </div>
           </div>
         </div>
       </article>
-    `
-    )
+    `;
+    })
     .join("");
 
   attachCardModalHandlers(".js-exp-card", (index) => {
@@ -864,19 +859,19 @@ const renderExperience = (items) => {
       tag: "Experience Details",
       title: item.role || "Experience",
       subtitle: `${item.company || ""} · ${item.location || ""} · ${item.period || ""}`,
-      description: "Responsibilities and contributions:",
+      description: "Key Responsibilities, Achievements & Contributions:",
       points: item.points || [],
       media: isCairoHigherInstitute
-        ? [{ src: "/assets/chi-experience.jpeg", alt: "Cairo Higher Institute experience image" }]
+        ? [{ src: "/assets/chi-experience.jpeg", alt: "Cairo Higher Institute experience photo" }]
         : isTaqaSoftwareDevelopment
           ? [
-              { src: "/assets/taqa25-exp.jpeg", alt: "TAQA Software Development Internship experience" },
-              { src: "/assets/taqa25-crt.jpeg", alt: "TAQA Software Development Internship certificate" }
+              { src: "/assets/taqa25-exp.jpeg", alt: "TAQA Software Development Internship experience photo" },
+              { src: "/assets/taqa25-crt.jpeg", alt: "TAQA Software Development Internship official certificate" }
             ]
           : isTaqaItDepartment
             ? [
-                { src: "/assets/taqa24.jpeg", alt: "TAQA IT Department internship image 24" },
-                { src: "/assets/taqa24e.jpeg", alt: "TAQA IT Department internship image 24E" }
+                { src: "/assets/taqa24.jpeg", alt: "TAQA IT Department internship photo 1" },
+                { src: "/assets/taqa24e.jpeg", alt: "TAQA IT Department internship photo 2" }
               ]
           : []
     };
@@ -1256,15 +1251,16 @@ const setupContactForm = () => {
 const setupModal = () => {
   const closeBtn = document.getElementById("modal-close");
   const modal = document.getElementById("details-modal");
-  if (!closeBtn || !modal) return;
 
-  closeBtn.addEventListener("click", closeModal);
-  modal.addEventListener("click", (event) => {
-    const target = event.target;
-    if (target instanceof HTMLElement && target.dataset.closeModal === "true") {
-      closeModal();
-    }
-  });
+  if (closeBtn) closeBtn.addEventListener("click", closeModal);
+  if (modal) {
+    modal.addEventListener("click", (event) => {
+      const target = event.target;
+      if (target instanceof HTMLElement && (target.dataset.closeModal === "true" || target === modal)) {
+        closeModal();
+      }
+    });
+  }
 
   const lightbox = document.getElementById("lightbox");
   const lightboxClose = document.getElementById("lightbox-close");
@@ -1278,7 +1274,7 @@ const setupModal = () => {
   if (lightbox) {
     lightbox.addEventListener("click", (event) => {
       const target = event.target;
-      if (target instanceof HTMLElement && target.dataset.closeLightbox === "true") {
+      if (target instanceof HTMLElement && (target.dataset.closeLightbox === "true" || target === lightbox)) {
         closeLightbox();
       }
     });
@@ -1290,7 +1286,16 @@ const setupModal = () => {
       closeLightbox();
       return;
     }
-    if (modalState.open) closeModal();
+    if (modalState.open) {
+      closeModal();
+      return;
+    }
+    const cvModal = document.getElementById("cv-viewer-modal");
+    if (cvModal && !cvModal.classList.contains("hidden")) {
+      cvModal.classList.add("hidden");
+      cvModal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
   });
 
   document.addEventListener("keydown", (event) => {
@@ -2128,20 +2133,33 @@ const setupCVViewerModal = () => {
   const cvModal = document.getElementById("cv-viewer-modal");
   const closeBtn = document.getElementById("cv-modal-close");
   const backdrop = document.getElementById("cv-modal-backdrop");
-  const navBtn = document.getElementById("preview-cv-nav-btn");
-  const heroBtn = document.getElementById("btn-preview-cv-hero");
-  const expBtn = document.getElementById("preview-cv-exp-btn");
 
   if (!cvModal) return;
 
-  const openCVModal = () => cvModal.classList.remove("hidden");
-  const closeCVModal = () => cvModal.classList.add("hidden");
+  const openCVModal = () => {
+    cvModal.classList.remove("hidden");
+    cvModal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  };
 
-  if (navBtn) navBtn.addEventListener("click", openCVModal);
-  if (heroBtn) heroBtn.addEventListener("click", openCVModal);
-  if (expBtn) expBtn.addEventListener("click", openCVModal);
+  const closeCVModal = () => {
+    cvModal.classList.add("hidden");
+    cvModal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  };
+
+  // Bind all potential CV preview triggers on any page
+  document
+    .querySelectorAll("#preview-cv-nav-btn, #btn-preview-cv-hero, #preview-cv-exp-btn, .btn-preview-cv, [data-open-cv]")
+    .forEach((btn) => {
+      btn.addEventListener("click", openCVModal);
+    });
+
   if (closeBtn) closeBtn.addEventListener("click", closeCVModal);
   if (backdrop) backdrop.addEventListener("click", closeCVModal);
+  cvModal.addEventListener("click", (e) => {
+    if (e.target === cvModal) closeCVModal();
+  });
 };
 
 /* ============================================

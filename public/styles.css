@@ -3541,3 +3541,130 @@ input.invalid, textarea.invalid {
     left: 8px;
   }
 }
+
+/* ============================================
+   ENHANCED EXPERIENCE CARD STYLES
+   ============================================ */
+.exp-card-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.exp-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  flex-shrink: 0;
+  background: var(--brand-glow, rgba(101, 240, 255, 0.12));
+  border: 1px solid var(--card-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  transition: transform 0.3s var(--transition-spring, ease), background 0.3s ease;
+}
+
+.exp-timeline-card:hover .exp-card-icon {
+  transform: scale(1.1) rotate(-4deg);
+  background: var(--brand-glow);
+}
+
+.exp-company-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 6px;
+  border: 1px solid rgba(101, 240, 255, 0.2);
+  background: var(--brand-glow);
+}
+
+.exp-role-title {
+  margin: 0 0 6px;
+  font-size: 1.15rem;
+  line-height: 1.35;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.exp-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.exp-meta-item {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 4px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+}
+
+.exp-media-badge {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #c084fc;
+  background: rgba(192, 132, 252, 0.12);
+  border: 1px solid rgba(192, 132, 252, 0.3);
+  padding: 4px 12px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.exp-points-preview {
+  margin: 8px 0 12px;
+  padding-left: 18px;
+}
+
+.exp-points-preview li {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+
+.exp-more-points {
+  list-style: none;
+  margin-left: -18px;
+  color: var(--brand);
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.exp-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--brand);
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: var(--brand-glow);
+  border: 1px solid rgba(101, 240, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.exp-timeline-card:hover .exp-action-btn {
+  background: var(--brand);
+  color: #060918;
+  border-color: var(--brand);
+  transform: translateX(4px);
+}
+
