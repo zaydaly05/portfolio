@@ -1151,7 +1151,7 @@ textarea::placeholder {
 }
 
 .modal-backdrop {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background: rgba(2, 5, 18, 0.8);
   backdrop-filter: blur(8px);
@@ -1162,7 +1162,7 @@ textarea::placeholder {
   position: relative;
   z-index: 1;
   width: min(760px, 92%);
-  margin: auto;
+  margin: 5vh auto;
   background: var(--card);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-lg);
