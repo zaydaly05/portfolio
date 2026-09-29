@@ -1,0 +1,159 @@
+{
+  "name": "Zayd Portfolio Auto Sync & WhatsApp Notification Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger (6h)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "github-webhook",
+        "options": {}
+      },
+      "name": "GitHub Push Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        500
+      ],
+      "webhookId": "zayd-portfolio-github-sync"
+    },
+    {
+      "parameters": {
+        "url": "https://api.github.com/users/zaydaly05/repos",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true
+            }
+          }
+        }
+      },
+      "name": "Fetch GitHub Repositories",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        500,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Filter active project repositories and detect commit updates\nconst repos = $input.all().map(item => item.json);\nconst syncPayload = {\n  timestamp: new Date().toISOString(),\n  totalRepos: repos.length,\n  activeProjects: repos.map(r => ({\n    name: r.name,\n    html_url: r.html_url,\n    pushed_at: r.pushed_at,\n    stargazers_count: r.stargazers_count\n  }))\n};\nreturn [{ json: syncPayload }];"
+      },
+      "name": "Process Project Logic",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3000/api/github-sync",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "name": "Update Local Portfolio Server",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        940,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3000/api/notify",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"message\": \"🤖 n8n Logic Engine: Portfolio synced successfully! Total repos: \" + $json.totalRepos\n}",
+        "options": {}
+      },
+      "name": "Trigger WhatsApp Notification Bot",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        940,
+        500
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger (6h)": {
+      "main": [
+        [
+          {
+            "node": "Fetch GitHub Repositories",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub Push Webhook": {
+      "main": [
+        [
+          {
+            "node": "Fetch GitHub Repositories",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch GitHub Repositories": {
+      "main": [
+        [
+          {
+            "node": "Process Project Logic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Project Logic": {
+      "main": [
+        [
+          {
+            "node": "Update Local Portfolio Server",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Trigger WhatsApp Notification Bot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

@@ -7,7 +7,11 @@
     "dev": "node --watch server.js",
     "sync": "node scripts/auto-sync-portfolio.js",
     "test-notify": "node scripts/test-notify.js",
-    "whatsapp-bot": "node scripts/whatsapp-bot.js"
+    "whatsapp-bot": "node scripts/whatsapp-bot.js",
+    "lint": "npx eslint server.js public/script.js scripts/",
+    "lint:fix": "npx eslint --fix server.js public/script.js scripts/",
+    "test": "npx playwright test",
+    "test:ui": "npx playwright test --ui"
   },
   "keywords": [],
   "author": "",
@@ -17,5 +21,12 @@
     "express": "^5.2.1",
     "qrcode-terminal": "^0.12.0",
     "whatsapp-web.js": "^1.34.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.63.0",
+    "eslint": "^10.11.0",
+    "globals": "^17.12.0",
+    "prettier": "^3.9.9"
   }
 }

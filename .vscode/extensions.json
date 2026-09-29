@@ -1,0 +1,41 @@
+{
+  // Recommended VS Code extensions for Zayd Portfolio project
+  "recommendations": [
+    // Formatting & Linting
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+
+    // HTML / CSS Intelligence
+    "ecmel.vscode-html-css",
+    "formulahendry.auto-rename-tag",
+    "formulahendry.auto-close-tag",
+    "zignd.html-css-class-completion",
+    "pranaygp.vscode-css-peek",
+
+    // JavaScript
+    "christian-kohler.path-intellisense",
+    "streetsidesoftware.code-spell-checker",
+
+    // Node.js / Express
+    "humao.rest-client",
+
+    // Testing
+    "ms-playwright.playwright",
+
+    // Git
+    "mhutchie.git-graph",
+    "eamodio.gitlens",
+
+    // Productivity
+    "aaron-bond.better-comments",
+    "gruntfuggly.todo-tree",
+    "usernamehw.errorlens",
+
+    // UI / Themes
+    "pkief.material-icon-theme",
+
+    // Misc
+    "editorconfig.editorconfig",
+    "ritwickdey.liveserver"
+  ]
+}

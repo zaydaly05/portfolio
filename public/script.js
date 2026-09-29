@@ -978,11 +978,26 @@ const renderTechnicalSkills = (groups) => {
   const container = document.getElementById("technical-skills-list");
   if (!container) return;
   const safeGroups = Array.isArray(groups) ? groups : [];
+
+  const categoryIcons = {
+    "Languages": "💻",
+    "Databases": "🗄️",
+    "Frameworks": "⚙️",
+    "Developer Tools": "🛠️",
+    "Microsoft Office 365": "📊",
+    "Design Tools": "🎨",
+    "Data Analysis": "📈",
+    "Other Skills": "🔧"
+  };
+
   container.innerHTML = safeGroups
     .map(
       (group) => `
       <article class="card skill-group reveal-card">
-        <h4>${group.category}</h4>
+        <div class="skill-group-header">
+          <div class="skill-group-icon">${categoryIcons[group.category] || "🔹"}</div>
+          <h4>${group.category}</h4>
+        </div>
         <div class="skills">${group.items.map((item) => `<span class="chip">${item}</span>`).join("")}</div>
       </article>
     `
@@ -1001,8 +1016,22 @@ const renderLanguages = (items) => {
   const container = document.getElementById("languages-list");
   if (!container) return;
   const safeItems = Array.isArray(items) ? items : [];
+
+  const levelClass = (level) => {
+    const l = (level || "").toLowerCase();
+    if (l.includes("native")) return "lang-native";
+    if (l.includes("fluent") || l.includes("advanced") || l.includes("professional")) return "lang-fluent";
+    return "lang-beginner";
+  };
+
+  container.className = "languages-grid";
   container.innerHTML = safeItems
-    .map((item) => `<span class="chip">${item.name}: ${item.level}</span>`)
+    .map((item) => `
+      <div class="language-card">
+        <span class="language-name">${item.name}</span>
+        <span class="language-level-badge ${levelClass(item.level)}">${item.level}</span>
+      </div>
+    `)
     .join("");
 };
 
@@ -1293,6 +1322,9 @@ const init = async () => {
   setupCopyChips();
   setupReviewsSystem();
   setupStarPrompt();
+  setupHamburgerMenu();
+  setupBackToTop();
+  setupContactFormValidation();
 
   // Particle system
   const canvas = document.getElementById("particles-canvas");
@@ -1774,10 +1806,37 @@ const setupTerminalCLI = () => {
   };
 
   if (form && input) {
+    const commandHistory = [];
+    let historyIndex = -1;
+
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        if (commandHistory.length > 0) {
+          historyIndex = Math.min(historyIndex + 1, commandHistory.length - 1);
+          input.value = commandHistory[historyIndex];
+        }
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        if (historyIndex > 0) {
+          historyIndex--;
+          input.value = commandHistory[historyIndex];
+        } else {
+          historyIndex = -1;
+          input.value = "";
+        }
+      }
+    });
+
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       const val = input.value.trim();
       if (!val) return;
+
+      // Add to history (most recent first)
+      commandHistory.unshift(val);
+      if (commandHistory.length > 50) commandHistory.pop();
+      historyIndex = -1;
 
       printLine(`<span class="term-prompt">zayd@portfolio:~$</span> ${val}`);
       input.value = "";
@@ -1991,4 +2050,113 @@ const setupCopyChips = () => {
 };
 
 init();
+
+/* ============================================
+   HAMBURGER MOBILE MENU
+   ============================================ */
+const setupHamburgerMenu = () => {
+  const hamburger = document.getElementById("hamburger-btn");
+  const overlay = document.getElementById("mobile-nav-overlay");
+  const closeBtn = document.getElementById("mobile-nav-close");
+  const mobileTerminalBtn = document.getElementById("mobile-terminal-btn");
+
+  if (!hamburger || !overlay) return;
+
+  const open = () => {
+    overlay.classList.add("open");
+    hamburger.classList.add("open");
+    hamburger.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+  };
+
+  const close = () => {
+    overlay.classList.remove("open");
+    hamburger.classList.remove("open");
+    hamburger.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  };
+
+  hamburger.addEventListener("click", () => {
+    overlay.classList.contains("open") ? close() : open();
+  });
+
+  if (closeBtn) closeBtn.addEventListener("click", close);
+
+  // Close overlay when a nav link is clicked
+  overlay.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", close);
+  });
+
+  // Mobile terminal button inside overlay
+  if (mobileTerminalBtn) {
+    mobileTerminalBtn.addEventListener("click", () => {
+      close();
+      const termDrawer = document.getElementById("terminal-drawer");
+      if (termDrawer) {
+        termDrawer.classList.remove("hidden");
+        const termInput = document.getElementById("terminal-input");
+        if (termInput) setTimeout(() => termInput.focus(), 300);
+      }
+    });
+  }
+
+  // Escape key closes overlay
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && overlay.classList.contains("open")) close();
+  });
+};
+
+/* ============================================
+   BACK TO TOP BUTTON
+   ============================================ */
+const setupBackToTop = () => {
+  const btn = document.getElementById("back-to-top-btn");
+  if (!btn) return;
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 400) {
+      btn.classList.add("visible");
+    } else {
+      btn.classList.remove("visible");
+    }
+  }, { passive: true });
+
+  btn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+};
+
+/* ============================================
+   CONTACT FORM REAL-TIME VALIDATION
+   ============================================ */
+const setupContactFormValidation = () => {
+  const form = document.getElementById("contact-form");
+  if (!form) return;
+
+  const validateField = (field) => {
+    if (!field.value.trim()) {
+      field.classList.remove("valid");
+      field.classList.add("invalid");
+      return false;
+    }
+    if (field.type === "email") {
+      const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRe.test(field.value.trim())) {
+        field.classList.remove("valid");
+        field.classList.add("invalid");
+        return false;
+      }
+    }
+    field.classList.remove("invalid");
+    field.classList.add("valid");
+    return true;
+  };
+
+  form.querySelectorAll("input, textarea").forEach((field) => {
+    field.addEventListener("blur", () => validateField(field));
+    field.addEventListener("input", () => {
+      if (field.classList.contains("invalid")) validateField(field);
+    });
+  });
+};
 

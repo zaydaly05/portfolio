@@ -1,0 +1,89 @@
+{
+  // --- Formatting & Linting ---
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never"
+  },
+  "eslint.validate": ["javascript", "html"],
+  "editor.linkedEditing": true,
+
+  // --- IntelliSense & Suggestions ---
+  "editor.suggestSelection": "first",
+  "editor.inlineSuggest.enabled": true,
+  "editor.acceptSuggestionOnCommitCharacter": true,
+  "editor.parameterHints.enabled": true,
+  "editor.quickSuggestions": {
+    "strings": true,
+    "other": true,
+    "comments": false
+  },
+
+  // --- CSS & HTML IntelliSense ---
+  "css.validate": true,
+  "css.lint.unknownAtRules": "ignore",
+  "html.autoClosingTags": true,
+  "html.format.wrapLineLength": 0,
+  "emmet.includeLanguages": {
+    "html": "html",
+    "javascript": "javascriptreact"
+  },
+  "emmet.triggerExpansionOnTab": true,
+
+  // --- Editor UX ---
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.smoothScrolling": true,
+  "editor.renderWhitespace": "selection",
+  "editor.minimap.enabled": true,
+  "editor.minimap.renderCharacters": false,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.wordWrap": "off",
+  "editor.tabSize": 2,
+  "editor.detectIndentation": true,
+  "editor.rulers": [120],
+
+  // --- File Handling ---
+  "files.associations": {
+    "*.json": "jsonc",
+    "n8n-*.json": "json",
+    "*.html": "html"
+  },
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.exclude": {
+    "**/.wwebjs_auth": true,
+    "**/.wwebjs_cache": true,
+    "**/node_modules": true
+  },
+
+  // --- Search ---
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.wwebjs_auth": true,
+    "**/.wwebjs_cache": true,
+    "**/playwright-report": true,
+    "**/test-results": true
+  },
+
+  // --- Playwright ---
+  "playwright.reuseBrowser": true,
+  "playwright.showTrace": false,
+
+  // --- Explorer ---
+  "explorer.compactFolders": false,
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+
+  // --- Terminal ---
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+
+  // --- Git ---
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true
+}
