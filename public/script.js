@@ -1435,13 +1435,18 @@ const setupContactForm = () => {
     const payload = Object.fromEntries(formData.entries());
     const name = payload.name || "Unknown";
     const email = payload.email || "Not provided";
+    const subject = payload.subject || "No subject";
     const message = payload.message || "";
 
     const whatsappText = [
-      "New portfolio inquiry",
-      `Name: ${name}`,
-      `Email: ${email}`,
-      `Message: ${message}`
+      "🔔 *New Portfolio Inquiry*",
+      "",
+      `👤 *Name:* ${name}`,
+      `📧 *Email:* ${email}`,
+      `📌 *Subject:* ${subject}`,
+      "",
+      `💬 *Message:*`,
+      message
     ].join("\n");
 
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappText)}`;
