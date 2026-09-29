@@ -58,18 +58,28 @@ const sanitize = (str) => {
 };
 
 // Serve assets from the Assets folder FIRST with explicit options
+const assetCacheHeaders = (res, filePath) => {
+  if (filePath.toLowerCase().endsWith(".pdf") || filePath.toLowerCase().includes("cv")) {
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+  } else {
+    res.setHeader("Cache-Control", "public, max-age=86400");
+  }
+};
+
 app.use(
   "/assets",
   express.static(path.join(__dirname, "Assets"), {
-    setHeaders: (res, filePath) => {
-      if (filePath.toLowerCase().endsWith(".pdf") || filePath.toLowerCase().includes("cv")) {
-        res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        res.setHeader("Pragma", "no-cache");
-        res.setHeader("Expires", "0");
-      } else {
-        res.setHeader("Cache-Control", "public, max-age=86400");
-      }
-    }
+    setHeaders: assetCacheHeaders
+  })
+);
+
+// Also serve public/assets as fallback for /assets (covers Online Certificates subfolder etc.)
+app.use(
+  "/assets",
+  express.static(path.join(__dirname, "public", "assets"), {
+    setHeaders: assetCacheHeaders
   })
 );
 
