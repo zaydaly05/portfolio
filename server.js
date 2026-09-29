@@ -740,6 +740,9 @@ app.post("/api/contact", postRateLimiter, async (req, res) => {
 
 // Community Reviews & Star Rating Store (MongoDB with Local JSON File Fallback)
 const getWritablePath = (filename) => {
+  if (process.env.VERCEL) {
+    return path.join(os.tmpdir(), filename);
+  }
   const localLogsDir = path.join(__dirname, "logs");
   const localFilePath = path.join(localLogsDir, filename);
   try {
@@ -895,7 +898,7 @@ app.post("/api/star", postRateLimiter, async (req, res) => {
 
   try {
     const filePath = getWritablePath("star-count.json");
-    fs.writeFileSync(filePath, JSON.stringify({ stars }), null, 2), "utf8";
+    fs.writeFileSync(filePath, JSON.stringify({ stars }, null, 2), "utf8");
   } catch {}
 
   res.json({ ok: true, stars, message: "Thank you for starring Zayd's portfolio!" });
