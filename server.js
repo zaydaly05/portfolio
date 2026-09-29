@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const os = require("os");
+const { connectDB, Review, Star, Contact } = require("./db");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -707,7 +708,7 @@ app.post("/api/chat", postRateLimiter, (req, res) => {
   res.json({ reply, suggestions });
 });
 
-app.post("/api/contact", postRateLimiter, (req, res) => {
+app.post("/api/contact", postRateLimiter, async (req, res) => {
   const { name, email, message } = req.body;
 
   if (!name || !email || !message) {
@@ -716,6 +717,20 @@ app.post("/api/contact", postRateLimiter, (req, res) => {
 
   const cleanName = sanitize(name);
   const cleanEmail = sanitize(email);
+  const cleanMessage = sanitize(message);
+
+  try {
+    const db = await connectDB();
+    if (db) {
+      await Contact.create({
+        name: cleanName,
+        email: cleanEmail,
+        message: cleanMessage
+      });
+    }
+  } catch (err) {
+    console.error("Error saving contact message to MongoDB:", err.message);
+  }
 
   return res.json({
     ok: true,
@@ -723,7 +738,7 @@ app.post("/api/contact", postRateLimiter, (req, res) => {
   });
 });
 
-// Community Reviews & Star Rating Store (Persistent JSON File with Serverless Fallback)
+// Community Reviews & Star Rating Store (MongoDB with Local JSON File Fallback)
 const getWritablePath = (filename) => {
   const localLogsDir = path.join(__dirname, "logs");
   const localFilePath = path.join(localLogsDir, filename);
@@ -777,26 +792,67 @@ const getStarCount = () => {
   return 48;
 };
 
-app.get("/api/reviews", (req, res) => {
+app.get("/api/reviews", async (req, res) => {
+  try {
+    const db = await connectDB();
+    if (db) {
+      const dbReviews = await Review.find().sort({ createdAt: -1 }).lean();
+      if (dbReviews && dbReviews.length > 0) {
+        const mappedReviews = dbReviews.map((r) => ({
+          id: r._id.toString(),
+          name: r.name,
+          role: r.role,
+          rating: r.rating,
+          comment: r.comment,
+          date: r.date
+        }));
+        return res.json({ ok: true, reviews: mappedReviews });
+      }
+    }
+  } catch (err) {
+    console.error("Error fetching reviews from MongoDB:", err.message);
+  }
   res.json({ ok: true, reviews: getStoredReviews() });
 });
 
-app.post("/api/reviews", postRateLimiter, (req, res) => {
+app.post("/api/reviews", postRateLimiter, async (req, res) => {
   const { name, role, rating, comment } = req.body;
   if (!name || !comment) {
     return res.status(400).json({ ok: false, error: "Name and comment are required." });
   }
 
-  const reviews = getStoredReviews();
+  const cleanName = sanitize(name).trim();
+  const cleanRole = sanitize(role || "Visitor / Developer").trim();
+  const cleanRating = Math.min(5, Math.max(1, parseInt(rating) || 5));
+  const cleanComment = sanitize(comment).trim();
+  const currentDate = new Date().toISOString().split("T")[0];
+
   const newReview = {
     id: Date.now(),
-    name: sanitize(name).trim(),
-    role: sanitize(role || "Visitor / Developer").trim(),
-    rating: Math.min(5, Math.max(1, parseInt(rating) || 5)),
-    comment: sanitize(comment).trim(),
-    date: new Date().toISOString().split("T")[0]
+    name: cleanName,
+    role: cleanRole,
+    rating: cleanRating,
+    comment: cleanComment,
+    date: currentDate
   };
 
+  try {
+    const db = await connectDB();
+    if (db) {
+      const created = await Review.create({
+        name: cleanName,
+        role: cleanRole,
+        rating: cleanRating,
+        comment: cleanComment,
+        date: currentDate
+      });
+      newReview.id = created._id.toString();
+    }
+  } catch (err) {
+    console.error("Error saving review to MongoDB:", err.message);
+  }
+
+  const reviews = getStoredReviews();
   reviews.unshift(newReview);
   try {
     const filePath = getWritablePath("user-reviews.json");
@@ -806,16 +862,42 @@ app.post("/api/reviews", postRateLimiter, (req, res) => {
   res.json({ ok: true, message: "Review posted successfully!", review: newReview });
 });
 
-app.get("/api/star", (req, res) => {
+app.get("/api/star", async (req, res) => {
+  try {
+    const db = await connectDB();
+    if (db) {
+      const starDoc = await Star.findOne({ key: "star_count" });
+      if (starDoc) {
+        return res.json({ ok: true, stars: starDoc.stars });
+      }
+    }
+  } catch (err) {
+    console.error("Error fetching star count from MongoDB:", err.message);
+  }
   res.json({ ok: true, stars: getStarCount() });
 });
 
-app.post("/api/star", postRateLimiter, (req, res) => {
+app.post("/api/star", postRateLimiter, async (req, res) => {
   let stars = getStarCount() + 1;
   try {
+    const db = await connectDB();
+    if (db) {
+      const updated = await Star.findOneAndUpdate(
+        { key: "star_count" },
+        { $inc: { stars: 1 } },
+        { upsert: true, new: true, setDefaultsOnInsert: true }
+      );
+      stars = updated.stars;
+    }
+  } catch (err) {
+    console.error("Error updating star count in MongoDB:", err.message);
+  }
+
+  try {
     const filePath = getWritablePath("star-count.json");
-    fs.writeFileSync(filePath, JSON.stringify({ stars }, null, 2), "utf8");
+    fs.writeFileSync(filePath, JSON.stringify({ stars }), null, 2), "utf8";
   } catch {}
+
   res.json({ ok: true, stars, message: "Thank you for starring Zayd's portfolio!" });
 });
 

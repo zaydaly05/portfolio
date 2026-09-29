@@ -18,7 +18,8 @@
   "license": "ISC",
   "description": "Dynamic professional portfolio for Zayd Ali Mohamed",
   "dependencies": {
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "mongoose": "^9.10.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
