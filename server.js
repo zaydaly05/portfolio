@@ -248,6 +248,62 @@ const portfolioData = {
     { name: "Arabic", level: "Native Speaker", percent: 100, flag: "🇪🇬", desc: "Mother tongue — fluent in technical, written & verbal communication" },
     { name: "English", level: "Fluent / Professional", percent: 90, flag: "🇬🇧", desc: "Full professional proficiency in engineering documentation & teamwork" },
     { name: "French", level: "Elementary", percent: 35, flag: "🇫🇷", desc: "Basic conversational skills & foundational vocabulary" }
+  ],
+  certificates: [
+    {
+      title: "TAQA Arabia Software Internship Certificate",
+      issuer: "TAQA Arabia — Software Engineering Dept",
+      date: "August 2025",
+      category: "Industry Experience",
+      image: "/assets/Online%20Certificates/Exp%20letter%20taqa%202025.png",
+      pdf: "/assets/Taqa25Crt.jpeg",
+      desc: "Official engineering internship certificate recognizing contribution to the In Gaz API mobile platform."
+    },
+    {
+      title: "Cisco JavaScript Essentials 1 & 2",
+      issuer: "Cisco Networking Academy & OpenEDG JS Institute",
+      date: "July 2025",
+      category: "Full-Stack Development",
+      image: "/assets/Online%20Certificates/js1.png",
+      pdf: "/assets/Online%20Certificates/JavaScriptEssentials2Update20250713-27-31fbam.pdf",
+      desc: "Advanced JavaScript ES6+, asynchronous programming, object-oriented concepts, and DOM manipulation."
+    },
+    {
+      title: "Cisco C Essentials 1 Certification",
+      issuer: "Cisco Networking Academy & OpenEDG C Institute",
+      date: "July 2025",
+      category: "Systems & Core Programming",
+      image: "/assets/Online%20Certificates/c-essentials-1.png",
+      pdf: "/assets/Online%20Certificates/CEssentials1Update20250709-29-hnum8q.pdf",
+      desc: "Low-level system programming, memory management, pointers, and algorithmic structures in C."
+    },
+    {
+      title: "Introduction to Cybersecurity Certification",
+      issuer: "Cisco Networking Academy",
+      date: "July 2025",
+      category: "Cybersecurity & Networks",
+      image: "/assets/Online%20Certificates/Introduction%20To%20Cybersecurity%20C.png",
+      pdf: "/assets/Online%20Certificates/I2CSUpdate20250709-27-93jy0g.pdf",
+      desc: "Network security protocols, vulnerability analysis, encryption fundamentals, and threat mitigation."
+    },
+    {
+      title: "CSS & Modern Web Development",
+      issuer: "Cisco OpenEDG Academy",
+      date: "July 2025",
+      category: "Frontend Architecture",
+      image: "/assets/Online%20Certificates/css-essentials.png",
+      pdf: "/assets/Online%20Certificates/CSS.png",
+      desc: "Responsive layout design, Flexbox, CSS Grid, animation frameworks, and modern CSS3 aesthetics."
+    },
+    {
+      title: "Cairo Higher Institute Experience Letter",
+      issuer: "Cairo Higher Institute — IT Dept",
+      date: "September 2025",
+      category: "Industry Experience",
+      image: "/assets/Online%20Certificates/Experience%20letter%20CHI.jpg",
+      pdf: "/assets/chi-experience.jpeg",
+      desc: "Institutional user account management, website front-end maintenance, and digital content production."
+    }
   ]
 };
 
