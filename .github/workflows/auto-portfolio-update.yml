@@ -1,0 +1,44 @@
+name: Autonomous Portfolio AI Updates
+on:
+  # Allows you to trigger this workflow manually from GitHub Actions tab
+  workflow_dispatch:
+    inputs:
+      targetUrl:
+        description: 'URL of the deployed project to screenshot'
+        required: true
+      projectName:
+        description: 'Name of the project (for the screenshot file)'
+        required: true
+  
+  # Later, we can add repository_dispatch to let other repos trigger this automatically
+
+jobs:
+  screenshot-and-update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed to commit changes back to the portfolio
+
+    steps:
+      - name: Checkout Portfolio Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Puppeteer Dependencies
+        run: |
+          npm init -y
+          npm install puppeteer
+
+      - name: Take Professional Screenshot
+        run: node scripts/take-screenshot.js "${{ github.event.inputs.targetUrl }}" "${{ github.event.inputs.projectName }}"
+
+      - name: Commit and Push New Screenshot
+        run: |
+          git config --global user.name "Zayd Automation Bot"
+          git config --global user.email "automation@zaydaly05.com"
+          git add public/assets/
+          git commit -m "Auto-generate new professional screenshot for ${{ github.event.inputs.projectName }}" || echo "No changes to commit"
+          git push origin HEAD:main
