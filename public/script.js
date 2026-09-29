@@ -169,21 +169,36 @@ const fallbackPortfolio = {
       description: "Technical codebase & project artifacts developed during Telecom Egypt (WE) training, focusing on network protocol fundamentals, system administration, and enterprise infrastructure."
     }
   ],
+  featuredStack: [
+    { name: "Java & Spring Boot", category: "Backend", level: 90, color: "#6db33f", icon: "☕", projectsCount: 3, highlights: "Enterprise REST APIs, Spring Security, Microservices, JavaFX" },
+    { name: "React.js & Modern Web", category: "Frontend", level: 88, color: "#61dafb", icon: "⚛️", projectsCount: 4, highlights: "Dynamic UIs, SPA routing, Tailwind, State Management" },
+    { name: "Flutter & Dart", category: "Mobile", level: 85, color: "#02569b", icon: "📱", projectsCount: 3, highlights: "Cross-platform iOS/Android, Firebase, State Management, REST integration" },
+    { name: "C# & .NET Core", category: "Enterprise & API", level: 85, color: "#9b4f96", icon: "🔷", projectsCount: 3, highlights: "ASP.NET Core Web API, Entity Framework, C# Desktop Apps" },
+    { name: "SQL & NoSQL Databases", category: "Data Architecture", level: 88, color: "#47a248", icon: "🗄️", projectsCount: 5, highlights: "PostgreSQL, MySQL, MongoDB, Firebase Firestore, Schema Design" },
+    { name: "Node.js & Express", category: "Backend", level: 82, color: "#5fa04e", icon: "🟢", projectsCount: 2, highlights: "Node RESTful backends, JWT Authentication, Async I/O" },
+    { name: "Python", category: "Scripting & AI", level: 80, color: "#3776ab", icon: "🐍", projectsCount: 2, highlights: "Data structures, Automation scripts, Computer Vision / OpenCV" },
+    { name: "Git & Version Control", category: "DevOps & Tools", level: 92, color: "#f05032", icon: "🔀", projectsCount: 10, highlights: "Branching workflows, GitHub Sync, Collaborative Repos" }
+  ],
   technicalSkills: [
-    { category: "Languages", items: ["PHP", "C", "Python", "Java", "HTML", "CSS", "JavaScript", "SQL", "C++", "C#", "Flutter", "Dart", "Tailwind"] },
-    { category: "Databases", items: ["SQL", "MongoDB", "Firebase"] },
-    { category: "Frameworks", items: ["Node.js", "Express.js", "Spring Boot", "React"] },
-    { category: "Developer Tools", items: ["VS Code", "Apache NetBeans", "XAMPP", "Git", "GitHub", "Android Studio"] },
+    { category: "Languages", items: ["Java", "Python", "C#", "C++", "C", "PHP", "Dart", "JavaScript", "SQL", "HTML5", "CSS3"] },
+    { category: "Frameworks", items: ["Spring Boot", "React", "Flutter", "Express.js", "Node.js", ".NET Core Web API", "JavaFX", "Tailwind CSS"] },
+    { category: "Databases", items: ["PostgreSQL", "MongoDB", "Firebase", "MySQL", "SQL Server"] },
+    { category: "Developer Tools", items: ["VS Code", "Git", "GitHub", "Android Studio", "Apache NetBeans", "XAMPP", "Docker", "Postman", "Swagger"] },
     { category: "Microsoft Office 365", items: ["Word", "Excel", "PowerPoint", "Access"] },
     { category: "Design Tools", items: ["Adobe Photoshop", "Adobe InDesign", "Adobe Premiere", "Filmora"] },
     { category: "Data Analysis", items: ["Orange Data Mining"] },
-    { category: "Other Skills", items: ["Data Structures", "OOP"] }
+    { category: "Other Skills", items: ["Data Structures & Algorithms", "Object-Oriented Programming (OOP)", "RESTful API Architecture", "Database Schema Design"] }
   ],
-  softSkills: ["Strong Teamwork Abilities", "Problem-Solving", "Time Management and Organizational Skills"],
+  softSkills: [
+    { title: "Problem Solving & Analytical Thinking", icon: "🧩", desc: "Deconstructing complex enterprise requirements into modular, scalable object-oriented software architectures." },
+    { title: "Teamwork & Cross-functional Collaboration", icon: "🤝", desc: "Proven track record during TAQA Arabia & WE internships working alongside senior developers, IT teams, and stakeholders." },
+    { title: "Time Management & Agile Execution", icon: "⏱️", desc: "Balancing rigorous university software engineering coursework with commercial software client deliverables and internships." },
+    { title: "Adaptability & Continuous Upskilling", icon: "🚀", desc: "Rapidly mastering emerging frameworks (Spring Boot, Flutter, React) and integrating new tools into production." }
+  ],
   languages: [
-    { name: "Arabic", level: "Native" },
-    { name: "English", level: "Fluent" },
-    { name: "French", level: "Beginner" }
+    { name: "Arabic", level: "Native Speaker", percent: 100, flag: "🇪🇬", desc: "Mother tongue — fluent in technical, written & verbal communication" },
+    { name: "English", level: "Fluent / Professional", percent: 90, flag: "🇬🇧", desc: "Full professional proficiency in engineering documentation & teamwork" },
+    { name: "French", level: "Elementary", percent: 35, flag: "🇫🇷", desc: "Basic conversational skills & foundational vocabulary" }
   ]
 };
 
@@ -1053,6 +1068,78 @@ const renderEducation = (items) => {
 
 
 
+const TECH_BRAND_COLORS = {
+  "Java": "#e76f00",
+  "Spring Boot": "#6db33f",
+  "React": "#61dafb",
+  "Flutter": "#02569b",
+  "Dart": "#0175c2",
+  "C#": "#9b4f96",
+  "C++": "#00599c",
+  "C": "#a8b9cc",
+  "Python": "#3776ab",
+  "PHP": "#777bb4",
+  "JavaScript": "#f7df1e",
+  "TypeScript": "#3178c6",
+  "HTML5": "#e34f26",
+  "CSS3": "#1572b6",
+  "SQL": "#00758f",
+  "PostgreSQL": "#336791",
+  "MongoDB": "#47a248",
+  "Firebase": "#ffca28",
+  "MySQL": "#00758f",
+  "SQL Server": "#cc292b",
+  "Node.js": "#5fa04e",
+  "Express.js": "#828282",
+  ".NET Core Web API": "#512bd4",
+  "JavaFX": "#e76f00",
+  "Tailwind CSS": "#38bdf8",
+  "VS Code": "#007acc",
+  "Git": "#f05032",
+  "GitHub": "#6e5494",
+  "Android Studio": "#3ddc84",
+  "Docker": "#2496ed",
+  "Postman": "#ff6c37",
+  "Swagger": "#85ea2d"
+};
+
+const renderFeaturedStack = (items) => {
+  const container = document.getElementById("featured-stack-list");
+  if (!container) return;
+  const safeItems = Array.isArray(items) ? items : [];
+
+  container.innerHTML = safeItems
+    .map(
+      (item) => `
+      <article class="card featured-tech-card reveal-card" style="--accent-color: ${item.color || "var(--brand)"}">
+        <div class="featured-tech-header">
+          <div class="featured-tech-info">
+            <div class="featured-tech-icon">${item.icon || "💻"}</div>
+            <div>
+              <h4 class="featured-tech-name">${item.name}</h4>
+              <span class="featured-tech-cat">${item.category || "Technology"}</span>
+            </div>
+          </div>
+          <span class="featured-tech-count" style="color:${item.color || "var(--brand)"}">
+            ${item.projectsCount ? `${item.projectsCount}+ Projects` : "Core Tech"}
+          </span>
+        </div>
+        <p class="featured-tech-highlights">${item.highlights || ""}</p>
+        <div class="featured-tech-bar-container">
+          <div class="featured-tech-bar-label">
+            <span>Proficiency Mastery</span>
+            <span style="color:${item.color || "var(--brand)"}">${item.level || 85}%</span>
+          </div>
+          <div class="featured-tech-bar">
+            <div class="featured-tech-bar-fill" style="width: ${item.level || 85}%; background:${item.color || "var(--brand)"}"></div>
+          </div>
+        </div>
+      </article>
+    `
+    )
+    .join("");
+};
+
 const renderTechnicalSkills = (groups) => {
   const container = document.getElementById("technical-skills-list");
   if (!container) return;
@@ -1077,18 +1164,74 @@ const renderTechnicalSkills = (groups) => {
           <div class="skill-group-icon">${categoryIcons[group.category] || "🔹"}</div>
           <h4>${group.category}</h4>
         </div>
-        <div class="skills">${group.items.map((item) => `<span class="chip">${item}</span>`).join("")}</div>
+        <div class="skills" style="display:flex; flex-wrap:wrap; gap:10px;">
+          ${group.items
+            .map((item) => {
+              const dotColor = TECH_BRAND_COLORS[item] || "var(--brand)";
+              return `
+                <span class="tech-chip js-tech-chip" data-skill="${item}">
+                  <span class="tech-dot" style="background:${dotColor}; box-shadow:0 0 6px ${dotColor}"></span>
+                  ${item}
+                </span>
+              `;
+            })
+            .join("")}
+        </div>
       </article>
     `
     )
     .join("");
+
+  document.querySelectorAll(".js-tech-chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const skillName = chip.dataset.skill;
+      if (window.location.pathname.includes("/projects")) {
+        const searchInput = document.getElementById("project-search");
+        if (searchInput) {
+          searchInput.value = skillName;
+          searchInput.dispatchEvent(new Event("input"));
+        }
+      } else {
+        window.location.href = `/projects?search=${encodeURIComponent(skillName)}`;
+      }
+    });
+  });
 };
 
 const renderSoftSkills = (items) => {
   const container = document.getElementById("soft-skills-list");
   if (!container) return;
   const safeItems = Array.isArray(items) ? items : [];
-  container.innerHTML = safeItems.map((item) => `<span class="chip">${item}</span>`).join("");
+
+  if (safeItems.length > 0 && typeof safeItems[0] === "object") {
+    container.innerHTML = safeItems
+      .map(
+        (item) => `
+        <article class="card soft-skill-card reveal-card">
+          <div class="soft-skill-top">
+            <div class="soft-skill-icon-wrap">${item.icon || "💡"}</div>
+            <h4 class="soft-skill-title">${item.title}</h4>
+          </div>
+          <p class="soft-skill-desc">${item.desc}</p>
+        </article>
+      `
+      )
+      .join("");
+  } else {
+    const defaultIcons = ["🧩", "🤝", "⏱️", "🚀"];
+    container.innerHTML = safeItems
+      .map(
+        (item, idx) => `
+        <article class="card soft-skill-card reveal-card">
+          <div class="soft-skill-top">
+            <div class="soft-skill-icon-wrap">${defaultIcons[idx % defaultIcons.length]}</div>
+            <h4 class="soft-skill-title">${item}</h4>
+          </div>
+        </article>
+      `
+      )
+      .join("");
+  }
 };
 
 const renderLanguages = (items) => {
@@ -1096,21 +1239,38 @@ const renderLanguages = (items) => {
   if (!container) return;
   const safeItems = Array.isArray(items) ? items : [];
 
-  const levelClass = (level) => {
+  const getLevelBadgeClass = (level) => {
     const l = (level || "").toLowerCase();
-    if (l.includes("native")) return "lang-native";
-    if (l.includes("fluent") || l.includes("advanced") || l.includes("professional")) return "lang-fluent";
-    return "lang-beginner";
+    if (l.includes("native")) return "lang-badge-native";
+    if (l.includes("fluent") || l.includes("advanced") || l.includes("professional")) return "lang-badge-fluent";
+    return "lang-badge-beginner";
   };
 
-  container.className = "languages-grid";
+  const getFillClass = (level) => {
+    const l = (level || "").toLowerCase();
+    if (l.includes("native")) return "lang-fill-native";
+    if (l.includes("fluent") || l.includes("advanced") || l.includes("professional")) return "lang-fill-fluent";
+    return "lang-fill-beginner";
+  };
+
   container.innerHTML = safeItems
-    .map((item) => `
-      <div class="language-card">
-        <span class="language-name">${item.name}</span>
-        <span class="language-level-badge ${levelClass(item.level)}">${item.level}</span>
-      </div>
-    `)
+    .map(
+      (item) => `
+      <article class="card lang-prof-card reveal-card">
+        <div class="lang-prof-header">
+          <div class="lang-prof-title">
+            <span class="lang-prof-flag">${item.flag || "🌐"}</span>
+            <span>${item.name}</span>
+          </div>
+          <span class="lang-prof-badge ${getLevelBadgeClass(item.level)}">${item.level}</span>
+        </div>
+        <p class="lang-prof-desc">${item.desc || `${item.name} proficiency (${item.percent || 80}%)`}</p>
+        <div class="lang-prof-bar-track">
+          <div class="lang-prof-bar-fill ${getFillClass(item.level)}" style="width: ${item.percent || 80}%;"></div>
+        </div>
+      </article>
+    `
+    )
     .join("");
 };
 
@@ -1376,6 +1536,7 @@ const init = async () => {
   if (github) github.href = data.profile?.github || "#";
 
   // Render sections
+  renderFeaturedStack(data.featuredStack);
   renderExperience(data.experience);
   renderProjects(data.projects);
   renderEducation(data.education);

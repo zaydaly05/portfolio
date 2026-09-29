@@ -178,22 +178,32 @@ const portfolioData = {
       description: "Technical codebase & project artifacts developed during Telecom Egypt (WE) training, focusing on network protocol fundamentals, system administration, and enterprise infrastructure."
     }
   ],
+  featuredStack: [
+    { name: "Java & Spring Boot", category: "Backend", level: 90, color: "#6db33f", icon: "☕", projectsCount: 3, highlights: "Enterprise REST APIs, Spring Security, Microservices, JavaFX" },
+    { name: "React.js & Modern Web", category: "Frontend", level: 88, color: "#61dafb", icon: "⚛️", projectsCount: 4, highlights: "Dynamic UIs, SPA routing, Tailwind, State Management" },
+    { name: "Flutter & Dart", category: "Mobile", level: 85, color: "#02569b", icon: "📱", projectsCount: 3, highlights: "Cross-platform iOS/Android, Firebase, State Management, REST integration" },
+    { name: "C# & .NET Core", category: "Enterprise & API", level: 85, color: "#9b4f96", icon: "🔷", projectsCount: 3, highlights: "ASP.NET Core Web API, Entity Framework, C# Desktop Apps" },
+    { name: "SQL & NoSQL Databases", category: "Data Architecture", level: 88, color: "#47a248", icon: "🗄️", projectsCount: 5, highlights: "PostgreSQL, MySQL, MongoDB, Firebase Firestore, Schema Design" },
+    { name: "Node.js & Express", category: "Backend", level: 82, color: "#5fa04e", icon: "🟢", projectsCount: 2, highlights: "Node RESTful backends, JWT Authentication, Async I/O" },
+    { name: "Python", category: "Scripting & AI", level: 80, color: "#3776ab", icon: "🐍", projectsCount: 2, highlights: "Data structures, Automation scripts, Computer Vision / OpenCV" },
+    { name: "Git & Version Control", category: "DevOps & Tools", level: 92, color: "#f05032", icon: "🔀", projectsCount: 10, highlights: "Branching workflows, GitHub Sync, Collaborative Repos" }
+  ],
   technicalSkills: [
     {
       category: "Languages",
-      items: ["PHP", "C", "Python", "Java", "HTML", "CSS", "JavaScript", "SQL", "C++", "C#", "Flutter", "Dart", "Tailwind"]
-    },
-    {
-      category: "Databases",
-      items: ["SQL", "MongoDB", "Firebase"]
+      items: ["Java", "Python", "C#", "C++", "C", "PHP", "Dart", "JavaScript", "SQL", "HTML5", "CSS3"]
     },
     {
       category: "Frameworks",
-      items: ["Node.js", "Express.js", "Spring Boot", "React"]
+      items: ["Spring Boot", "React", "Flutter", "Express.js", "Node.js", ".NET Core Web API", "JavaFX", "Tailwind CSS"]
+    },
+    {
+      category: "Databases",
+      items: ["PostgreSQL", "MongoDB", "Firebase", "MySQL", "SQL Server"]
     },
     {
       category: "Developer Tools",
-      items: ["VS Code", "Apache NetBeans", "XAMPP", "Git", "GitHub", "Android Studio"]
+      items: ["VS Code", "Git", "GitHub", "Android Studio", "Apache NetBeans", "XAMPP", "Docker", "Postman", "Swagger"]
     },
     {
       category: "Microsoft Office 365",
@@ -209,18 +219,35 @@ const portfolioData = {
     },
     {
       category: "Other Skills",
-      items: ["Data Structures", "OOP"]
+      items: ["Data Structures & Algorithms", "Object-Oriented Programming (OOP)", "RESTful API Architecture", "Database Schema Design"]
     }
   ],
   softSkills: [
-    "Strong teamwork abilities",
-    "Problem solving",
-    "Time management and organizational skills"
+    {
+      title: "Problem Solving & Analytical Thinking",
+      icon: "🧩",
+      desc: "Deconstructing complex enterprise requirements into modular, scalable object-oriented software architectures."
+    },
+    {
+      title: "Teamwork & Cross-functional Collaboration",
+      icon: "🤝",
+      desc: "Proven track record during TAQA Arabia & WE internships working alongside senior developers, IT teams, and stakeholders."
+    },
+    {
+      title: "Time Management & Agile Execution",
+      icon: "⏱️",
+      desc: "Balancing rigorous university software engineering coursework with commercial software client deliverables and internships."
+    },
+    {
+      title: "Adaptability & Continuous Upskilling",
+      icon: "🚀",
+      desc: "Rapidly mastering emerging frameworks (Spring Boot, Flutter, React) and integrating new tools into production."
+    }
   ],
   languages: [
-    { name: "Arabic", level: "Native" },
-    { name: "English", level: "Fluent" },
-    { name: "French", level: "Beginner" }
+    { name: "Arabic", level: "Native Speaker", percent: 100, flag: "🇪🇬", desc: "Mother tongue — fluent in technical, written & verbal communication" },
+    { name: "English", level: "Fluent / Professional", percent: 90, flag: "🇬🇧", desc: "Full professional proficiency in engineering documentation & teamwork" },
+    { name: "French", level: "Elementary", percent: 35, flag: "🇫🇷", desc: "Basic conversational skills & foundational vocabulary" }
   ]
 };
 
