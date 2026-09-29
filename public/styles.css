@@ -1140,9 +1140,10 @@ textarea::placeholder {
   height: 100vh;
   z-index: 9999;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 20px;
+  padding: 5vh 20px;
+  overflow-y: auto;
 }
 
 .modal.hidden {
@@ -1161,12 +1162,13 @@ textarea::placeholder {
   position: relative;
   z-index: 1;
   width: min(760px, 92%);
+  margin: auto;
   background: var(--card);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-lg);
   padding: 32px;
-  max-height: 86vh;
-  overflow-y: auto;
+  max-height: max-content;
+  overflow-y: visible;
   backdrop-filter: blur(20px) saturate(150%);
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
   animation: modalSlideIn 0.4s var(--transition-spring) forwards;
