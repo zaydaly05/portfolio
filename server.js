@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
+const os = require("os");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -722,9 +723,22 @@ app.post("/api/contact", postRateLimiter, (req, res) => {
   });
 });
 
-// Community Reviews & Star Rating Store (Persistent JSON File)
-const REVIEWS_FILE = path.join(__dirname, "logs", "user-reviews.json");
-const STAR_FILE = path.join(__dirname, "logs", "star-count.json");
+// Community Reviews & Star Rating Store (Persistent JSON File with Serverless Fallback)
+const getWritablePath = (filename) => {
+  const localLogsDir = path.join(__dirname, "logs");
+  const localFilePath = path.join(localLogsDir, filename);
+  try {
+    if (!fs.existsSync(localLogsDir)) {
+      fs.mkdirSync(localLogsDir, { recursive: true });
+    }
+    return localFilePath;
+  } catch {
+    return path.join(os.tmpdir(), filename);
+  }
+};
+
+const REVIEWS_FILE = getWritablePath("user-reviews.json");
+const STAR_FILE = getWritablePath("star-count.json");
 
 const getStoredReviews = () => {
   try {
@@ -785,9 +799,8 @@ app.post("/api/reviews", postRateLimiter, (req, res) => {
 
   reviews.unshift(newReview);
   try {
-    const logsDir = path.join(__dirname, "logs");
-    if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
-    fs.writeFileSync(REVIEWS_FILE, JSON.stringify(reviews, null, 2), "utf8");
+    const filePath = getWritablePath("user-reviews.json");
+    fs.writeFileSync(filePath, JSON.stringify(reviews, null, 2), "utf8");
   } catch {}
 
   res.json({ ok: true, message: "Review posted successfully!", review: newReview });
@@ -800,9 +813,8 @@ app.get("/api/star", (req, res) => {
 app.post("/api/star", postRateLimiter, (req, res) => {
   let stars = getStarCount() + 1;
   try {
-    const logsDir = path.join(__dirname, "logs");
-    if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
-    fs.writeFileSync(STAR_FILE, JSON.stringify({ stars }, null, 2), "utf8");
+    const filePath = getWritablePath("star-count.json");
+    fs.writeFileSync(filePath, JSON.stringify({ stars }, null, 2), "utf8");
   } catch {}
   res.json({ ok: true, stars, message: "Thank you for starring Zayd's portfolio!" });
 });
@@ -832,6 +844,10 @@ app.use((req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`Portfolio running on http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Portfolio running on http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
