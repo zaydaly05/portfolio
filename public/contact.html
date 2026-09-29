@@ -129,26 +129,40 @@
 
           <!-- Message Form -->
           <form id="contact-form" class="contact-card">
-            <h4>Send Zayd a Direct Message</h4>
-            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 16px;">Fill out the form below to initiate a direct message conversation via email or WhatsApp.</p>
+            <div class="form-header-row">
+              <div class="form-header-icon">💬</div>
+              <div>
+                <h4 class="form-title">Send Zayd a Direct Message</h4>
+                <p class="form-subdesc">Fill out the form below to initiate a direct message conversation via email or WhatsApp.</p>
+              </div>
+            </div>
             
-            <div class="form-group">
-              <input type="text" name="name" id="form-input-name" placeholder="Your Full Name *" required />
+            <div class="form-row-2col">
+              <div class="form-group">
+                <label for="form-input-name">Full Name <span class="req-star">*</span></label>
+                <input type="text" name="name" id="form-input-name" placeholder="e.g. Alex Morgan" required />
+              </div>
+              <div class="form-group">
+                <label for="form-input-email">Email Address <span class="req-star">*</span></label>
+                <input type="email" name="email" id="form-input-email" placeholder="e.g. alex@company.com" required />
+              </div>
             </div>
+
             <div class="form-group">
-              <input type="email" name="email" id="form-input-email" placeholder="Your Email Address *" required />
+              <label for="form-input-subject">Subject / Opportunity Title</label>
+              <input type="text" name="subject" id="form-input-subject" placeholder="e.g. Software Developer Role / Internship Inquiry" />
             </div>
+
             <div class="form-group">
-              <input type="text" name="subject" placeholder="Subject / Opportunity Title" />
+              <label for="form-input-message">Message Details <span class="req-star">*</span></label>
+              <textarea name="message" id="form-input-message" placeholder="Describe the role, project requirements, or opportunity details..." rows="5" required></textarea>
             </div>
-            <div class="form-group">
-              <textarea name="message" id="form-input-message" placeholder="Your message or job details..." rows="5" required></textarea>
-            </div>
-            <button class="btn" type="submit">
-              Send Message Now
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+
+            <button class="btn btn-submit-form" type="submit">
+              <span>Send Message Now</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             </button>
-            <p id="contact-status" style="margin-top: 12px; font-weight: 600; font-size: 0.85rem;"></p>
+            <p id="contact-status" class="contact-status-text"></p>
           </form>
         </div>
       </section>
