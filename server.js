@@ -60,8 +60,10 @@ const sanitize = (str) => {
 // Serve assets from the Assets folder FIRST with explicit options
 app.use('/assets', express.static(path.join(__dirname, "Assets"), {
   setHeaders: (res, filePath) => {
-    if (filePath.toLowerCase().endsWith("cv.pdf")) {
-      res.setHeader("Cache-Control", "no-cache");
+    if (filePath.toLowerCase().endsWith(".pdf") || filePath.toLowerCase().includes("cv")) {
+      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+      res.setHeader("Pragma", "no-cache");
+      res.setHeader("Expires", "0");
     } else {
       res.setHeader("Cache-Control", "public, max-age=86400");
     }

@@ -2414,6 +2414,14 @@ const setupCVViewerModal = () => {
   if (!cvModal) return;
 
   const openCVModal = () => {
+    const timestamp = Date.now();
+    const iframe = document.getElementById("cv-iframe");
+    if (iframe) {
+      iframe.src = `/assets/Zayd%20Ali%20Mohamed%20CV.pdf?v=${timestamp}#toolbar=1`;
+    }
+    document.querySelectorAll("a[download*='CV']").forEach((link) => {
+      link.href = `/assets/Zayd%20Ali%20Mohamed%20CV.pdf?v=${timestamp}`;
+    });
     cvModal.classList.remove("hidden");
     cvModal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
