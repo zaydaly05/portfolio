@@ -1,11 +1,61 @@
 const express = require("express");
 const path = require("path");
+const fs = require("fs");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(express.json());
+// Security Headers Middleware
+app.use((req, res, next) => {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "SAMEORIGIN");
+  res.setHeader("X-XSS-Protection", "1; mode=block");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  next();
+});
+
+// Payload size limit to prevent memory exhaustion / payload flooding
+app.use(express.json({ limit: "50kb" }));
+
+// Basic In-Memory Rate Limiter for POST requests to prevent DDoS and spam abuse
+const rateLimitMap = new Map();
+const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 mins
+const MAX_POST_REQUESTS = 25; // max 25 POST requests per IP per window
+
+const postRateLimiter = (req, res, next) => {
+  const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress || "127.0.0.1";
+  const now = Date.now();
+  const clientData = rateLimitMap.get(ip) || { count: 0, resetTime: now + RATE_LIMIT_WINDOW };
+
+  if (now > clientData.resetTime) {
+    clientData.count = 1;
+    clientData.resetTime = now + RATE_LIMIT_WINDOW;
+  } else {
+    clientData.count++;
+  }
+
+  rateLimitMap.set(ip, clientData);
+
+  if (clientData.count > MAX_POST_REQUESTS) {
+    return res.status(429).json({
+      ok: false,
+      error: "Too many requests. Please wait a few minutes before trying again."
+    });
+  }
+  next();
+};
+
+// Input Sanitization Helper Function
+const sanitize = (str) => {
+  if (typeof str !== "string") return "";
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;");
+};
 
 // Serve assets from the Assets folder FIRST with explicit options
 app.use('/assets', express.static(path.join(__dirname, "Assets"), {
@@ -418,13 +468,13 @@ app.get("/api/github", async (req, res) => {
 });
 
 // AI Copilot Chatbot Endpoint
-app.post("/api/chat", (req, res) => {
+app.post("/api/chat", postRateLimiter, (req, res) => {
   const { message } = req.body;
   if (!message || typeof message !== "string") {
     return res.status(400).json({ reply: "Please type a message!" });
   }
 
-  const query = message.toLowerCase().trim();
+  const query = sanitize(message).toLowerCase().trim();
   let reply = "";
   let suggestions = [];
 
@@ -481,16 +531,19 @@ app.post("/api/chat", (req, res) => {
   res.json({ reply, suggestions });
 });
 
-app.post("/api/contact", (req, res) => {
+app.post("/api/contact", postRateLimiter, (req, res) => {
   const { name, email, message } = req.body;
 
   if (!name || !email || !message) {
     return res.status(400).json({ ok: false, error: "All fields are required." });
   }
 
+  const cleanName = sanitize(name);
+  const cleanEmail = sanitize(email);
+
   return res.json({
     ok: true,
-    message: `Thanks ${name}, your message has been received! Zayd will get back to you shortly at ${email}.`
+    message: `Thanks ${cleanName}, your message has been received! Zayd will get back to you shortly at ${cleanEmail}.`
   });
 });
 
@@ -538,7 +591,7 @@ app.get("/api/reviews", (req, res) => {
   res.json({ ok: true, reviews: getStoredReviews() });
 });
 
-app.post("/api/reviews", (req, res) => {
+app.post("/api/reviews", postRateLimiter, (req, res) => {
   const { name, role, rating, comment } = req.body;
   if (!name || !comment) {
     return res.status(400).json({ ok: false, error: "Name and comment are required." });
@@ -547,10 +600,10 @@ app.post("/api/reviews", (req, res) => {
   const reviews = getStoredReviews();
   const newReview = {
     id: Date.now(),
-    name: name.trim(),
-    role: (role || "Visitor / Developer").trim(),
-    rating: parseInt(rating) || 5,
-    comment: comment.trim(),
+    name: sanitize(name).trim(),
+    role: sanitize(role || "Visitor / Developer").trim(),
+    rating: Math.min(5, Math.max(1, parseInt(rating) || 5)),
+    comment: sanitize(comment).trim(),
     date: new Date().toISOString().split("T")[0]
   };
 
@@ -568,7 +621,7 @@ app.get("/api/star", (req, res) => {
   res.json({ ok: true, stars: getStarCount() });
 });
 
-app.post("/api/star", (req, res) => {
+app.post("/api/star", postRateLimiter, (req, res) => {
   let stars = getStarCount() + 1;
   try {
     const logsDir = path.join(__dirname, "logs");

@@ -263,9 +263,10 @@ const fallbackPortfolio = {
    ============================================ */
 const applyTheme = (theme) => {
   document.documentElement.setAttribute("data-theme", theme);
+  document.body.setAttribute("data-theme", theme);
   const toggle = document.getElementById("theme-toggle");
   if (toggle) {
-    toggle.textContent = theme === "light" ? "Dark Mode" : "Light Mode";
+    toggle.textContent = theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode";
   }
 };
 
@@ -274,6 +275,7 @@ const setupThemeToggle = () => {
   applyTheme(savedTheme);
 
   const toggle = document.getElementById("theme-toggle");
+  if (!toggle) return;
   toggle.addEventListener("click", () => {
     const current = document.documentElement.getAttribute("data-theme") || "dark";
     const next = current === "dark" ? "light" : "dark";
