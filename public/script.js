@@ -169,6 +169,56 @@ const fallbackPortfolio = {
       description: "Technical codebase & project artifacts developed during Telecom Egypt (WE) training, focusing on network protocol fundamentals, system administration, and enterprise infrastructure."
     }
   ],
+  certificates: [
+    {
+      title: "Cisco JavaScript Essentials 1 & 2",
+      issuer: "Cisco Networking Academy",
+      date: "July 2025",
+      image: "/assets/Online Certificates/javascript-essentials-2.png",
+      pdf: "/assets/Online Certificates/JavaScriptEssentials2Update20250713-27-31fbam.pdf",
+      desc: "Verified completion of JS Essentials series covering fundamentals to advanced topics."
+    },
+    {
+      title: "Cisco C Essentials 1",
+      issuer: "Cisco Networking Academy",
+      date: "July 2025",
+      image: "/assets/Online Certificates/c-essentials-1.png",
+      pdf: "/assets/Online Certificates/CEssentials1Update20250709-29-hnum8q.pdf",
+      desc: "Comprehensive training in C programming concepts, structures, and memory management."
+    },
+    {
+      title: "Introduction to Cybersecurity",
+      issuer: "Cisco Networking Academy",
+      date: "July 2025",
+      image: "/assets/Online Certificates/introduction-to-cybersecurity.png",
+      pdf: "/assets/Online Certificates/I2CSUpdate20250709-27-93jy0g.pdf",
+      desc: "Foundational knowledge of cybersecurity principles, network defense, and online safety."
+    },
+    {
+      title: "CSS Essentials",
+      issuer: "OpenEDG Institute",
+      date: "July 2025",
+      image: "/assets/Online Certificates/css-essentials.png",
+      pdf: "",
+      desc: "Certification in modern CSS layout techniques and responsive design principles."
+    },
+    {
+      title: "TAQA Arabia Experience Letter",
+      issuer: "TAQA Arabia",
+      date: "August 2025",
+      image: "/assets/Online Certificates/Exp letter taqa 2025.png",
+      pdf: "",
+      desc: "Official verification of Software Development & IT Internship at TAQA Arabia."
+    },
+    {
+      title: "CHI Experience Letter",
+      issuer: "Cairo Higher Institute",
+      date: "September 2025",
+      image: "/assets/Online Certificates/Experience letter CHI.jpg",
+      pdf: "",
+      desc: "Official verification of IT Department Internship at Cairo Higher Institute."
+    }
+  ],
   featuredStack: [
     { name: "Java & Spring Boot", category: "Backend", level: 90, color: "#6db33f", icon: "☕", projectsCount: 3, highlights: "Enterprise REST APIs, Spring Security, Microservices, JavaFX" },
     { name: "React.js & Modern Web", category: "Frontend", level: 88, color: "#61dafb", icon: "⚛️", projectsCount: 4, highlights: "Dynamic UIs, SPA routing, Tailwind, State Management" },
