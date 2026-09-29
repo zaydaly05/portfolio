@@ -580,7 +580,7 @@ app.post("/api/chat", postRateLimiter, (req, res) => {
 
   if (query.includes("hi") || query.includes("hello") || query.includes("hey") || query.includes("who are you")) {
     reply =
-      "Hello! I am **Zayd's AI Assistant**. I can tell you all about Zayd's technical skills, software projects, internships at TAQA Arabia, education at MIU, or help you schedule a call with him!";
+      "Hello! I am **Zayd's AI Assistant**. I can tell you all about Zayd's technical skills, software projects, internships at TAQA Arabia, education at MIU, certifications, or help you schedule a call with him!";
     suggestions = [
       "What is Zayd's tech stack?",
       "Tell me about TAQA Arabia internship",
@@ -641,6 +641,20 @@ app.post("/api/chat", postRateLimiter, (req, res) => {
     reply =
       "🎓 Zayd is currently pursuing a **Bachelor of Science in Computer Science** at **Misr International University (MIU)** (Sep 2023 - Jun 2027).\n\nHe is also an active member of both **ACPC Club** (Competitive Programming) and **IEEE Club**!";
     suggestions = ["What projects has Zayd built?", "Skills breakdown", "Contact info"];
+  } else if (
+    query.includes("certificate") ||
+    query.includes("certification") ||
+    query.includes("course") ||
+    query.includes("training")
+  ) {
+    reply =
+      "Zayd has completed multiple rigorous online certifications, including:\n\n" +
+      "📜 **Cisco JavaScript Essentials 1 & 2**\n" +
+      "📜 **Cisco Introduction to Cybersecurity**\n" +
+      "📜 **Cisco C Essentials 1**\n" +
+      "📜 **CSS Essentials** (OpenEDG)\n\n" +
+      "He also holds official Experience Letters from his successful internships at **TAQA Arabia** and **Cairo Higher Institute**.";
+    suggestions = ["Show experience", "What is Zayd's tech stack?", "Download CV"];
   } else if (query.includes("linkedin")) {
     reply =
       "💼 **Connect with Zayd Ali Mohamed on LinkedIn:**\n\n" +
