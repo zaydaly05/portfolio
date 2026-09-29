@@ -1,0 +1,7 @@
+scratch/
+latex-cv/
+test-results/
+playwright-report/
+tests/
+.git/
+.github/

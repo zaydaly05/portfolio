@@ -18,15 +18,15 @@
   "license": "ISC",
   "description": "Dynamic professional portfolio for Zayd Ali Mohamed",
   "dependencies": {
-    "express": "^5.2.1",
-    "qrcode-terminal": "^0.12.0",
-    "whatsapp-web.js": "^1.34.2"
+    "express": "^4.21.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.63.0",
     "eslint": "^10.11.0",
     "globals": "^17.12.0",
-    "prettier": "^3.9.9"
+    "prettier": "^3.9.9",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.34.2"
   }
 }
