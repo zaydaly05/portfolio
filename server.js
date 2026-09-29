@@ -579,6 +579,19 @@ app.get("/api/github", async (req, res) => {
   }
 });
 
+// Professional Real-time GitHub Webhook
+// This endpoint receives a push event from GitHub and instantly invalidates our cache
+// so the next visitor sees the updated repository count immediately.
+app.post("/api/github-webhook", express.json(), (req, res) => {
+  // We can add signature verification here if a secret is configured
+  console.log("GitHub Webhook received! Invalidating local GitHub cache...");
+  
+  // Instantly expire the cache
+  githubCache.timestamp = 0;
+  
+  res.status(200).json({ success: true, message: "GitHub cache invalidated successfully. Ready for real-time sync." });
+});
+
 // AI Copilot Chatbot Endpoint
 app.post("/api/chat", postRateLimiter, (req, res) => {
   const { message } = req.body;
