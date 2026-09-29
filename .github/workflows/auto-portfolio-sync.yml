@@ -44,11 +44,21 @@ jobs:
 
       - name: 📋 Copy Compiled CV PDF to Website Folders
         run: |
-          if [ -f "Zayd_Ali_Mohamed_CV.pdf" ]; then
-            cp Zayd_Ali_Mohamed_CV.pdf "Assets/Zayd Ali Mohamed CV.pdf"
-            cp Zayd_Ali_Mohamed_CV.pdf "public/assets/cv.pdf"
-            cp Zayd_Ali_Mohamed_CV.pdf "public/assets/Zayd Ali Mohamed CV.pdf"
-            echo "✅ CV PDF updated in Assets and Public folders!"
+          PDF_SRC=""
+          if [ -f "latex-cv/Zayd_Ali_Mohamed_CV.pdf" ]; then
+            PDF_SRC="latex-cv/Zayd_Ali_Mohamed_CV.pdf"
+          elif [ -f "Zayd_Ali_Mohamed_CV.pdf" ]; then
+            PDF_SRC="Zayd_Ali_Mohamed_CV.pdf"
+          fi
+
+          if [ -n "$PDF_SRC" ]; then
+            cp "$PDF_SRC" "Assets/cv.pdf"
+            cp "$PDF_SRC" "Assets/Zayd Ali Mohamed CV.pdf"
+            cp "$PDF_SRC" "public/assets/cv.pdf"
+            cp "$PDF_SRC" "public/assets/Zayd Ali Mohamed CV.pdf"
+            echo "✅ CV PDF updated in Assets and Public folders from $PDF_SRC!"
+          else
+            echo "⚠️ No compiled PDF found!"
           fi
 
       - name: 🚀 Commit & Push Updates if Repos or CV Changed
