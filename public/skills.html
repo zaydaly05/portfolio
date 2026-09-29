@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Projects & GitHub Hub | Zayd Ali Mohamed</title>
+    <title>Skills, Tech Stack & Languages | Zayd Ali Mohamed</title>
     <link rel="icon" type="image/png" href="/assets/logo.png" />
-    <meta name="description" content="Explore Zayd Ali Mohamed's full-stack web and mobile software projects, GitHub repositories, code architecture, and live project screenshots." />
+    <meta name="description" content="Explore Zayd Ali Mohamed's complete technical skills breakdown: Java, Spring Boot, React, C#, Flutter, PostgreSQL, Docker, developer tools, soft skills, and languages." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -25,9 +25,9 @@
       </a>
       <ul class="nav-links" id="nav-links">
         <li><a href="/">Home</a></li>
-        <li><a href="/projects" class="active-nav">Projects Hub</a></li>
+        <li><a href="/projects">Projects Hub</a></li>
         <li><a href="/experience">Experience &amp; Reviews</a></li>
-        <li><a href="/skills">Skills &amp; Tech Stack</a></li>
+        <li><a href="/skills" class="active-nav">Skills &amp; Tech Stack</a></li>
         <li><a href="/#contact">Contact</a></li>
       </ul>
       <div class="nav-actions">
@@ -45,9 +45,9 @@
       <button class="mobile-nav-close" id="mobile-nav-close">&times;</button>
       <ul class="mobile-nav-links">
         <li><a href="/">Home</a></li>
-        <li><a href="/projects" class="active-nav">Projects Hub</a></li>
+        <li><a href="/projects">Projects Hub</a></li>
         <li><a href="/experience">Experience &amp; Reviews</a></li>
-        <li><a href="/skills">Skills &amp; Tech Stack</a></li>
+        <li><a href="/skills" class="active-nav">Skills &amp; Tech Stack</a></li>
         <li><a href="/#contact">Contact</a></li>
       </ul>
       <div class="mobile-nav-actions">
@@ -59,84 +59,58 @@
     <!-- Page Header -->
     <header class="page-header reveal">
       <div class="page-header-container">
-        <span class="eyebrow">Production Repositories & Applications</span>
-        <h1>Projects & GitHub Hub</h1>
-        <p class="page-header-desc">Explore 11+ production web applications, cross-platform mobile apps, enterprise backend systems, and live GitHub repositories.</p>
+        <span class="eyebrow">Technical Expertise &amp; Competencies</span>
+        <h1>Skills, Tech Stack &amp; Languages</h1>
+        <p class="page-header-desc">A comprehensive overview of Zayd's core software engineering stack, languages, databases, developer tools, soft skills, and spoken languages.</p>
       </div>
     </header>
 
     <main class="page-main-content">
-      <!-- Projects Section -->
-      <section class="section reveal" id="projects-section">
-        <div class="projects-filter-bar">
-          <div class="project-search-box">
-            <input type="text" id="project-search-input" placeholder="🔍 Search projects by title, stack, or tech..." />
-          </div>
-          <div class="filter-pills" id="project-filter-pills">
-            <button class="filter-pill active" data-filter="all">All Repos</button>
-            <button class="filter-pill" data-filter="Mobile">Mobile Apps</button>
-            <button class="filter-pill" data-filter="React">React / Web</button>
-            <button class="filter-pill" data-filter="Spring">Spring / Backend</button>
-            <button class="filter-pill" data-filter="C#">C# / .NET</button>
-          </div>
-        </div>
-
-        <div id="project-list" class="grid reveal-stagger"></div>
-      </section>
-
-      <!-- Live GitHub Sync Section -->
-      <section class="section reveal" id="github-section">
+      <!-- Technical Skills section -->
+      <section class="section reveal" id="technical-skills">
         <div class="section-header">
-          <span class="section-number">★</span>
-          <h3>Live GitHub Account Activity</h3>
+          <span class="section-number">01</span>
+          <h3>Technical Skills</h3>
           <div class="section-line"></div>
         </div>
-
-        <div class="github-sync-container" id="github-sync-container">
-          <div class="github-profile-card">
-            <div class="github-avatar-wrapper">
-              <img id="gh-avatar" src="https://github.com/zaydaly05.png" alt="Zayd GitHub Avatar" />
-            </div>
-            <div class="github-user-info">
-              <h4 id="gh-username">zaydaly05</h4>
-              <p id="gh-bio">Junior Computer Science Student | Software Developer</p>
-              <div class="github-stats-row">
-                <div class="gh-stat-box">
-                  <span class="gh-stat-num" id="gh-repos-count">--</span>
-                  <span class="gh-stat-lbl">Public Repos</span>
-                </div>
-                <div class="gh-stat-box">
-                  <span class="gh-stat-num" id="gh-followers-count">--</span>
-                  <span class="gh-stat-lbl">Followers</span>
-                </div>
-              </div>
-              <a href="https://github.com/zaydaly05" target="_blank" rel="noopener" class="btn-outline btn-sm">
-                Visit GitHub Profile ↗
-              </a>
-            </div>
-          </div>
-
-          <div class="github-repos-wrapper">
-            <div class="github-repos-header">
-              <h5>Recent Public Repositories</h5>
-              <span class="live-badge"><span class="pulse-green"></span> Synced</span>
-            </div>
-            <div class="github-repos-grid" id="github-repos-list">
-              <div class="github-loading">Fetching live repositories from GitHub API...</div>
-            </div>
-          </div>
+        
+        <div class="skills-filter-tabs" id="skills-filter-tabs">
+          <button class="skill-tab active" data-skill-cat="all">All Skills</button>
+          <button class="skill-tab" data-skill-cat="Languages">Languages</button>
+          <button class="skill-tab" data-skill-cat="Frameworks">Frameworks</button>
+          <button class="skill-tab" data-skill-cat="Databases">Databases</button>
+          <button class="skill-tab" data-skill-cat="Developer Tools">Tools</button>
         </div>
+
+        <div id="technical-skills-list" class="skills-groups reveal-stagger"></div>
+      </section>
+
+      <!-- Soft Skills section -->
+      <section class="section reveal" id="soft-skills">
+        <div class="section-header">
+          <span class="section-number">02</span>
+          <h3>Soft Skills &amp; Working Style</h3>
+          <div class="section-line"></div>
+        </div>
+        <div id="soft-skills-list" class="skills reveal-stagger"></div>
+      </section>
+
+      <!-- Languages section -->
+      <section class="section reveal" id="languages">
+        <div class="section-header">
+          <span class="section-number">03</span>
+          <h3>Languages Proficiency</h3>
+          <div class="section-line"></div>
+        </div>
+        <div id="languages-list" class="skills reveal-stagger"></div>
       </section>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
       <div class="footer-container">
-        <p>© 2026 Zayd Ali Mohamed. All rights reserved.</p>
+        <p>Crafted with passion by <strong>Zayd Ali Mohamed</strong>.</p>
         <div class="footer-links">
-          <a href="/">Home</a>
-          <a href="/projects">Projects</a>
-          <a href="/experience">Experience</a>
           <button id="terminal-footer-btn" class="footer-link-btn">Terminal CLI</button>
           <button id="ai-chat-footer-btn" class="footer-link-btn">AI Assistant</button>
         </div>
@@ -148,7 +122,7 @@
       <div class="modal-backdrop" data-close-modal="true"></div>
       <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <button class="modal-close" id="modal-close" type="button" aria-label="Close details">×</button>
-        <p id="modal-tag" class="eyebrow">Project Details</p>
+        <p id="modal-tag" class="eyebrow">Details</p>
         <h3 id="modal-title"></h3>
         <p id="modal-subtitle" class="meta"></p>
         <p id="modal-description"></p>
@@ -156,7 +130,6 @@
         <div id="modal-media" class="modal-media-placeholder"></div>
       </div>
     </div>
-
 
     <!-- CV Viewer Modal -->
     <div class="modal hidden" id="cv-viewer-modal" aria-hidden="true" role="dialog">
@@ -220,7 +193,6 @@
 
     <!-- AI Copilot Chatbot Floating Widget -->
     <div id="ai-chat-widget" class="ai-chat-widget">
-      <!-- Chat Toggle Button -->
       <button id="ai-chat-toggle-btn" class="ai-chat-toggle-btn" aria-label="Toggle Ask Zayd AI Copilot">
         <div class="ai-avatar-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -234,7 +206,6 @@
         <span class="ai-online-pulse"></span>
       </button>
 
-      <!-- Chat Drawer Box -->
       <div id="ai-chat-drawer" class="ai-chat-drawer hidden">
         <div class="ai-chat-header">
           <div class="ai-header-info">

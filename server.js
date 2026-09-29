@@ -499,6 +499,10 @@ app.get("/experience", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "experience.html"));
 });
 
+app.get("/skills", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "skills.html"));
+});
+
 // Catch-all: serve index.html for SPA routing (MUST be last)
 app.use((req, res) => {
   if (req.path.startsWith('/api/') || req.path.startsWith('/assets/')) {

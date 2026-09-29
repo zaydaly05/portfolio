@@ -67,8 +67,8 @@
       <ul class="nav-links" id="nav-links">
         <li><a href="/" class="active-nav">Home</a></li>
         <li><a href="/projects">Projects Hub</a></li>
-        <li><a href="/experience">Experience & Reviews</a></li>
-        <li><a href="#technical-skills">Skills</a></li>
+        <li><a href="/experience">Experience &amp; Reviews</a></li>
+        <li><a href="/skills">Skills &amp; Tech Stack</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
       <div class="nav-actions">
@@ -104,7 +104,7 @@
         <li><a href="/" class="active-nav">Home</a></li>
         <li><a href="/projects">Projects Hub</a></li>
         <li><a href="/experience">Experience &amp; Reviews</a></li>
-        <li><a href="#technical-skills">Skills</a></li>
+        <li><a href="/skills">Skills &amp; Tech Stack</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
       <div class="mobile-nav-actions">
@@ -250,15 +250,15 @@
 
       <!-- Quick Gateway Banners to Dedicated Pages -->
       <section class="section reveal" id="page-gateways" style="padding-top: 20px; padding-bottom: 20px;">
-        <div class="gateway-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+        <div class="gateway-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
           <!-- Projects Hub Banner -->
           <div class="card gateway-card" style="padding: 28px; border-radius: var(--radius-md); background: var(--card); border: 1px solid var(--card-border); display: flex; flex-direction: column; justify-content: space-between;">
             <div>
               <div style="font-size: 2.2rem; margin-bottom: 12px;">🚀</div>
               <span class="eyebrow" style="color: var(--brand); font-weight: 700;">Dedicated Page</span>
-              <h3 style="font-size: 1.4rem; font-weight: 700; margin: 6px 0 10px; color: var(--text);">Projects Hub &amp; Live GitHub</h3>
-              <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px;">
-                Explore all production full-stack, mobile, and system projects, live search filters, and real-time GitHub repository sync.
+              <h3 style="font-size: 1.35rem; font-weight: 700; margin: 6px 0 10px; color: var(--text);">Projects Hub &amp; GitHub Sync</h3>
+              <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin-bottom: 20px;">
+                Explore all 11+ production full-stack, mobile, and system projects, live search filters, and real-time GitHub activity sync.
               </p>
             </div>
             <a href="/projects" class="btn" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px;">
@@ -271,8 +271,8 @@
             <div>
               <div style="font-size: 2.2rem; margin-bottom: 12px;">💼</div>
               <span class="eyebrow" style="color: #c084fc; font-weight: 700;">Dedicated Page</span>
-              <h3 style="font-size: 1.4rem; font-weight: 700; margin: 6px 0 10px; color: var(--text);">Experience, Resume &amp; Reviews</h3>
-              <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px;">
+              <h3 style="font-size: 1.35rem; font-weight: 700; margin: 6px 0 10px; color: var(--text);">Experience, Resume &amp; Reviews</h3>
+              <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin-bottom: 20px;">
                 Review TAQA Arabia &amp; CHI internships, education background, interactive Overleaf LaTeX resume, and visitor reviews.
               </p>
             </div>
@@ -280,52 +280,28 @@
               View Experience &amp; CV ↗
             </a>
           </div>
-        </div>
-      </section>
 
-      <!-- Technical Skills section -->
-      <section class="section reveal" id="technical-skills">
-        <div class="section-header">
-          <span class="section-number">01</span>
-          <h3>Technical Skills</h3>
-          <div class="section-line"></div>
+          <!-- Skills & Tech Stack Banner -->
+          <div class="card gateway-card" style="padding: 28px; border-radius: var(--radius-md); background: var(--card); border: 1px solid var(--card-border); display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="font-size: 2.2rem; margin-bottom: 12px;">⚡</div>
+              <span class="eyebrow" style="color: #34d399; font-weight: 700;">Dedicated Page</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; margin: 6px 0 10px; color: var(--text);">Skills, Tech Stack &amp; Languages</h3>
+              <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin-bottom: 20px;">
+                Browse technical skills, category filters (Java, Spring Boot, React, C#, Flutter, SQL, Docker), soft skills, and languages.
+              </p>
+            </div>
+            <a href="/skills" class="btn-outline" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; border-color: #34d399; color: #34d399;">
+              View Skills &amp; Stack ↗
+            </a>
+          </div>
         </div>
-        
-        <div class="skills-filter-tabs" id="skills-filter-tabs">
-          <button class="skill-tab active" data-skill-cat="all">All Skills</button>
-          <button class="skill-tab" data-skill-cat="Languages">Languages</button>
-          <button class="skill-tab" data-skill-cat="Frameworks">Frameworks</button>
-          <button class="skill-tab" data-skill-cat="Databases">Databases</button>
-          <button class="skill-tab" data-skill-cat="Developer Tools">Tools</button>
-        </div>
-
-        <div id="technical-skills-list" class="skills-groups reveal-stagger"></div>
-      </section>
-
-      <!-- Soft Skills section -->
-      <section class="section reveal" id="soft-skills">
-        <div class="section-header">
-          <span class="section-number">02</span>
-          <h3>Soft Skills</h3>
-          <div class="section-line"></div>
-        </div>
-        <div id="soft-skills-list" class="skills reveal-stagger"></div>
-      </section>
-
-      <!-- Languages section -->
-      <section class="section reveal" id="languages">
-        <div class="section-header">
-          <span class="section-number">03</span>
-          <h3>Languages</h3>
-          <div class="section-line"></div>
-        </div>
-        <div id="languages-list" class="skills reveal-stagger"></div>
       </section>
 
       <!-- Contact section -->
       <section class="section reveal" id="contact">
         <div class="section-header">
-          <span class="section-number">04</span>
+          <span class="section-number">01</span>
           <h3>Get In Touch</h3>
           <div class="section-line"></div>
         </div>
