@@ -27,18 +27,23 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Puppeteer Dependencies
+      - name: Install Puppeteer & AI Dependencies
         run: |
           npm init -y
-          npm install puppeteer
+          npm install puppeteer @google/generative-ai
 
-      - name: Take Professional Screenshot
+      - name: 🤖 Phase 2 - Run AI to Analyze Code & Compile New CV PDF
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/ai-cv-updater.js "${{ github.event.inputs.projectName }}" "Manual or Webhook trigger"
+
+      - name: 📸 Phase 1 - Take Professional Screenshot
         run: node scripts/take-screenshot.js "${{ github.event.inputs.targetUrl }}" "${{ github.event.inputs.projectName }}"
 
-      - name: Commit and Push New Screenshot
+      - name: Commit and Push New Assets
         run: |
-          git config --global user.name "Zayd Automation Bot"
-          git config --global user.email "automation@zaydaly05.com"
+          git config --global user.name "Zayd AI Automation"
+          git config --global user.email "ai@zaydaly05.com"
           git add public/assets/
-          git commit -m "Auto-generate new professional screenshot for ${{ github.event.inputs.projectName }}" || echo "No changes to commit"
+          git commit -m "Auto-generate AI CV updates and screenshots for ${{ github.event.inputs.projectName }}" || echo "No changes to commit"
           git push origin HEAD:main
