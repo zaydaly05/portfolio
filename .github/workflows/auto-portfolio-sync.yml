@@ -13,6 +13,8 @@ on:
 jobs:
   sync-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: 📥 Checkout Portfolio Repository
         uses: actions/checkout@v4
@@ -62,16 +64,7 @@ jobs:
             echo "No repository changes detected. Portfolio is up to date."
           fi
 
-      - name: 📱 Send Mobile WhatsApp Notification (GitHub Action)
-        if: always()
-        uses: kaviadigdarshan/whatsapp-actions-for-github@v1
-        continue-on-error: true
-        with:
-          account_sid: ${{ secrets.TWILIO_ACCOUNT_SID }}
-          auth_token: ${{ secrets.TWILIO_AUTH_TOKEN }}
-          from_phone_number: ${{ secrets.TWILIO_WHATSAPP_NUMBER || 'whatsapp:+14155238886' }}
-          to_phone_number: ${{ secrets.WHATSAPP_PHONE || 'whatsapp:+201017741741' }}
-          message: '🚀 Zayd Portfolio Automation: GitHub repos auto-sync executed successfully!'
+
 
       - name: 📱 Send Mobile WhatsApp Notification (CallMeBot API)
         if: always()
