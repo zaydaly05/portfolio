@@ -785,6 +785,7 @@ const openModal = ({ tag, title, subtitle, description, points = [], media = [] 
     initModalMedia(mediaContainer, media);
   }
 
+  document.body.appendChild(modal);
   modal.classList.remove("hidden");
   modal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
@@ -2425,6 +2426,7 @@ const setupCVViewerModal = () => {
     document.querySelectorAll("a[download*='CV']").forEach((link) => {
       link.href = `/assets/Zayd%20Ali%20Mohamed%20CV.pdf?v=${timestamp}`;
     });
+    document.body.appendChild(cvModal);
     cvModal.classList.remove("hidden");
     cvModal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
