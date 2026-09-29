@@ -69,7 +69,7 @@
         <li><a href="/projects">Projects Hub</a></li>
         <li><a href="/experience">Experience &amp; Reviews</a></li>
         <li><a href="/skills">Skills &amp; Tech Stack</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="/contact">Contact &amp; Hire</a></li>
       </ul>
       <div class="nav-actions">
         <button id="open-terminal-nav-btn" class="btn-outline btn-terminal-nav" type="button" title="Open Developer CLI">
@@ -87,7 +87,7 @@
           </svg>
           View CV
         </button>
-        <a class="btn" href="#contact">Hire Me</a>
+        <a class="btn" href="/contact">Hire Me</a>
         <!-- Hamburger (mobile only) -->
         <button class="hamburger-btn" id="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false">
           <span></span>
@@ -105,10 +105,10 @@
         <li><a href="/projects">Projects Hub</a></li>
         <li><a href="/experience">Experience &amp; Reviews</a></li>
         <li><a href="/skills">Skills &amp; Tech Stack</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="/contact">Contact &amp; Hire</a></li>
       </ul>
       <div class="mobile-nav-actions">
-        <a class="btn" href="#contact">Hire Me</a>
+        <a class="btn" href="/contact">Hire Me</a>
         <button id="mobile-terminal-btn" class="btn-outline" type="button">Terminal CLI</button>
       </div>
     </div>
@@ -295,82 +295,21 @@
               View Skills &amp; Stack ↗
             </a>
           </div>
-        </div>
-      </section>
 
-      <!-- Contact section -->
-      <section class="section reveal" id="contact">
-        <div class="section-header">
-          <span class="section-number">01</span>
-          <h3>Get In Touch</h3>
-          <div class="section-line"></div>
-        </div>
-
-        <div class="contact-grid-container">
-          <div class="contact-info-cards">
-            <div class="contact-quick-card">
-              <div class="quick-card-icon">📧</div>
-              <div class="quick-card-info">
-                <span>Email Address</span>
-                <strong>zaydaly0501@gmail.com</strong>
-              </div>
-              <button class="btn-copy-chip" data-copy="zaydaly0501@gmail.com">Copy</button>
+          <!-- Contact & Hire Banner -->
+          <div class="card gateway-card" style="padding: 28px; border-radius: var(--radius-md); background: var(--card); border: 1px solid var(--card-border); display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="font-size: 2.2rem; margin-bottom: 12px;">📬</div>
+              <span class="eyebrow" style="color: var(--brand); font-weight: 700;">Dedicated Page</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; margin: 6px 0 10px; color: var(--text);">Get In Touch &amp; Hire Zayd</h3>
+              <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin-bottom: 20px;">
+                Direct messaging form, 1-click email/WhatsApp/LinkedIn copy chips, interview booking banner, and FAQ answers.
+              </p>
             </div>
-
-            <div class="contact-quick-card">
-              <div class="quick-card-icon">📱</div>
-              <div class="quick-card-info">
-                <span>Phone / WhatsApp</span>
-                <strong>+20 101 774 1741</strong>
-              </div>
-              <button class="btn-copy-chip" data-copy="+201017741741">Copy</button>
-            </div>
-
-            <div class="contact-quick-card linkedin-card-badge" style="background: rgba(10, 102, 194, 0.12); border: 1px solid rgba(10, 102, 194, 0.3);">
-              <div class="quick-card-icon" style="background: rgba(10, 102, 194, 0.2); color: #0a66c2;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.64a1.64 1.64 0 1 0 0 3.28 1.64 1.64 0 0 0 0-3.28Z"/></svg>
-              </div>
-              <div class="quick-card-info">
-                <span>LinkedIn Profile</span>
-                <strong style="color: var(--text);">zayd-ali-17a85a1a0</strong>
-              </div>
-              <a href="https://www.linkedin.com/in/zayd-ali-17a85a1a0" target="_blank" rel="noopener" class="btn-copy-chip" style="background: #0a66c2; color: #fff; text-decoration: none;">Connect ↗</a>
-            </div>
-
-            <div class="contact-quick-card">
-              <div class="quick-card-icon">📍</div>
-              <div class="quick-card-info">
-                <span>Location</span>
-                <strong>Maadi, Cairo, Egypt</strong>
-              </div>
-            </div>
-
-            <div class="contact-schedule-banner">
-              <h5>Schedule a Direct Meeting</h5>
-              <p>Looking for a candidate or want to discuss an opportunity? Let's connect directly.</p>
-              <a href="mailto:zaydaly0501@gmail.com?subject=Interview%20/%20Opportunity%20Inquiry%20-%20Zayd%20Ali" class="btn btn-sm">
-                Schedule an Interview ✉️
-              </a>
-            </div>
+            <a href="/contact" class="btn" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px;">
+              Contact &amp; Hire Zayd ↗
+            </a>
           </div>
-
-          <form id="contact-form" class="contact-card">
-            <h4>Send Zayd a Direct Message</h4>
-            <div class="form-group">
-              <input type="text" name="name" placeholder="Your Name" required />
-            </div>
-            <div class="form-group">
-              <input type="email" name="email" placeholder="Your Email" required />
-            </div>
-            <div class="form-group">
-              <textarea name="message" placeholder="Your Message..." rows="5" required></textarea>
-            </div>
-            <button class="btn" type="submit">
-              Send Message
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            </button>
-            <p id="contact-status"></p>
-          </form>
         </div>
       </section>
     </main>
