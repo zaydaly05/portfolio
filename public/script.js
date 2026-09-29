@@ -1679,9 +1679,22 @@ const init = async () => {
 /* ============================================
    ANIMATED NUMBER STAT COUNTER BOXES
    ============================================ */
-const setupStatCounters = () => {
+const setupStatCounters = async () => {
   const counterEls = document.querySelectorAll(".stat-number-val");
   if (!counterEls.length) return;
+
+  try {
+    const res = await fetch("/api/github");
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.publicRepos) {
+        const repoStat = document.getElementById("github-repos-stat");
+        if (repoStat) repoStat.dataset.target = data.publicRepos;
+      }
+    }
+  } catch (err) {
+    console.error("Failed to fetch github stats for counters", err);
+  }
 
   const observer = new IntersectionObserver(
     (entries) => {
