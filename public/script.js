@@ -1677,6 +1677,7 @@ const init = async () => {
   setupHamburgerMenu();
   setupBackToTop();
   setupContactFormValidation();
+  setupFAQAccordion();
 
   // Particle system
   const canvas = document.getElementById("particles-canvas");
@@ -2566,6 +2567,54 @@ const setupContactFormValidation = () => {
     field.addEventListener("blur", () => validateField(field));
     field.addEventListener("input", () => {
       if (field.classList.contains("invalid")) validateField(field);
+    });
+  });
+};
+
+/* ============================================
+   INTERACTIVE FAQ ACCORDION
+   ============================================ */
+const setupFAQAccordion = () => {
+  const faqGrid = document.querySelector("#faq-section .faq-grid");
+  if (!faqGrid) return;
+
+  faqGrid.querySelectorAll(".card").forEach((card) => {
+    card.style.cursor = "pointer";
+    card.style.transition = "all 0.3s ease";
+
+    const question = card.querySelector("h5");
+    const answer = card.querySelector("p");
+
+    if (question) {
+      question.style.display = "flex";
+      question.style.justifyContent = "space-between";
+      question.style.alignItems = "center";
+
+      const arrow = document.createElement("span");
+      arrow.textContent = "▼";
+      arrow.style.fontSize = "0.75rem";
+      arrow.style.transition = "transform 0.3s ease";
+      arrow.style.color = "var(--brand)";
+      question.appendChild(arrow);
+    }
+
+    if (answer) {
+      answer.style.marginTop = "8px";
+    }
+
+    card.addEventListener("click", () => {
+      const isOpen = card.classList.contains("faq-open");
+      if (isOpen) {
+        card.classList.remove("faq-open");
+        const arrow = card.querySelector("h5 span:last-child");
+        if (arrow) arrow.style.transform = "rotate(0deg)";
+        if (answer) answer.style.display = "none";
+      } else {
+        card.classList.add("faq-open");
+        const arrow = card.querySelector("h5 span:last-child");
+        if (arrow) arrow.style.transform = "rotate(180deg)";
+        if (answer) answer.style.display = "block";
+      }
     });
   });
 };
