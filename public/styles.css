@@ -3422,3 +3422,122 @@ input.invalid, textarea.invalid {
     animation: none;
   }
 }
+
+/* ============================================
+   EXPERIENCE TIMELINE LAYOUT - FULL COLUMN
+   ============================================ */
+.experience-timeline {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 20px !important;
+  grid-template-columns: unset !important;
+  padding-left: 40px;
+  position: relative;
+}
+
+.experience-timeline::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: linear-gradient(
+    180deg,
+    var(--brand, #65f0ff) 0%,
+    var(--brand-2, #8a7bff) 60%,
+    rgba(101,240,255,0.08) 100%
+  );
+  border-radius: 2px;
+}
+
+.exp-timeline-card {
+  position: relative;
+}
+
+.exp-timeline-card::before {
+  content: "";
+  position: absolute;
+  left: -34px;
+  top: 22px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--brand, #65f0ff);
+  border: 2px solid var(--bg, #060918);
+  box-shadow: 0 0 0 3px rgba(101,240,255,0.2), 0 0 12px rgba(101,240,255,0.35);
+  z-index: 1;
+}
+
+/* Fix inner list styling in experience cards */
+.exp-timeline-card ul {
+  padding-left: 18px;
+  margin: 0;
+}
+
+.exp-timeline-card li {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  margin-bottom: 3px;
+}
+
+/* Hover polish for exp cards */
+.exp-timeline-card.card-clickable:hover {
+  border-color: var(--card-hover-border) !important;
+  transform: translateY(-3px) !important;
+}
+
+/* ============================================
+   MODAL CARD CONTENT STYLES  
+   ============================================ */
+#modal-description {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 8px 0 12px;
+}
+
+#modal-list ul,
+#modal-points {
+  padding-left: 20px;
+  margin: 0;
+}
+
+#modal-list li,
+#modal-points li {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+#modal-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 4px 0 16px;
+}
+
+.modal-card h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+/* Mobile: timeline layout full-width */
+@media (max-width: 768px) {
+  .experience-timeline {
+    padding-left: 28px;
+  }
+
+  .exp-timeline-card::before {
+    left: -22px;
+    width: 10px;
+    height: 10px;
+  }
+
+  .experience-timeline::before {
+    left: 8px;
+  }
+}

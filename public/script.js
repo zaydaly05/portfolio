@@ -704,10 +704,12 @@ const openModal = ({ tag, title, subtitle, description, points = [], media = [] 
   setText("modal-subtitle", subtitle);
   setText("modal-description", description);
 
-  const listContainer = document.getElementById("modal-list");
-  listContainer.innerHTML = points.length
-    ? `<ul>${points.map((point) => `<li>${point}</li>`).join("")}</ul>`
-    : "";
+  const listContainer = document.getElementById("modal-list") || document.getElementById("modal-points");
+  if (listContainer) {
+    listContainer.innerHTML = points.length
+      ? `<ul>${points.map((point) => `<li>${point}</li>`).join("")}</ul>`
+      : "";
+  }
 
   const mediaContainer = document.getElementById("modal-media");
   if (mediaContainer) {
@@ -762,14 +764,88 @@ const renderExperience = (items) => {
   const container = document.getElementById("experience-list");
   if (!container) return;
   const safeItems = Array.isArray(items) ? items : [];
+
+  // Timeline wrapper
+  container.className = "experience-timeline";
+
+  const companyColor = (company = "") => {
+    if (company.toLowerCase().includes("taqa")) return "var(--brand)";
+    if (company.toLowerCase().includes("cairo higher") || company.toLowerCase().includes("chi")) return "#a855f7";
+    return "#10b981";
+  };
+
+  const roleIcon = (role = "") => {
+    if (role.toLowerCase().includes("software")) return "💻";
+    if (role.toLowerCase().includes("it department")) return "🖥️";
+    if (role.toLowerCase().includes("data")) return "📊";
+    return "🏢";
+  };
+
   container.innerHTML = safeItems
     .map(
       (item) => `
-      <article class="card card-clickable reveal-card js-exp-card" tabindex="0" role="button" aria-label="Open ${item.role || "experience"} details">
-        <h4>${item.role || "-"}</h4>
-        <p class="meta"><strong>${item.company || "-"}</strong> · ${item.location || "-"}</p>
-        <p class="meta">${item.period || "-"}</p>
-        <ul>${(item.points || []).map((point) => `<li>${point}</li>`).join("")}</ul>
+      <article
+        class="card card-clickable reveal-card js-exp-card exp-timeline-card"
+        tabindex="0"
+        role="button"
+        aria-label="Open ${item.role || "experience"} details"
+        style="cursor:pointer;"
+      >
+        <div style="display:flex; align-items:flex-start; gap:14px;">
+          <!-- Icon -->
+          <div style="
+            width:44px; height:44px; border-radius:12px; flex-shrink:0;
+            background: rgba(255,255,255,0.04);
+            border:1px solid rgba(255,255,255,0.1);
+            display:flex; align-items:center; justify-content:center;
+            font-size:1.3rem;
+          ">${roleIcon(item.role)}</div>
+
+          <!-- Content -->
+          <div style="flex:1; min-width:0;">
+            <!-- Company badge -->
+            <span style="
+              display:inline-block;
+              font-size:0.72rem; font-weight:700; letter-spacing:0.06em;
+              text-transform:uppercase;
+              color:${companyColor(item.company)};
+              background: rgba(255,255,255,0.04);
+              border:1px solid rgba(255,255,255,0.1);
+              padding:2px 10px; border-radius:999px;
+              margin-bottom:6px;
+            ">${item.company || "–"}</span>
+
+            <!-- Role title -->
+            <h4 style="margin:0 0 4px; font-size:1.05rem; line-height:1.3; font-weight:700;">
+              ${item.role || "–"}
+            </h4>
+
+            <!-- Meta row -->
+            <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:10px;">
+              <span style="font-size:0.8rem; color:var(--text-secondary); display:flex; align-items:center; gap:4px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                ${item.period || "–"}
+              </span>
+              <span style="font-size:0.8rem; color:var(--text-secondary); display:flex; align-items:center; gap:4px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                ${item.location || "–"}
+              </span>
+            </div>
+
+            <!-- Preview bullet points (max 2) -->
+            ${(item.points || []).length > 0 ? `
+            <ul style="margin:0; padding-left:16px; font-size:0.85rem; color:var(--text-secondary); line-height:1.55;">
+              ${(item.points || []).slice(0, 2).map(p => `<li style="margin-bottom:3px;">${p}</li>`).join("")}
+              ${(item.points || []).length > 2 ? `<li style="list-style:none; margin-left:-16px; color:var(--brand); font-size:0.8rem; font-weight:600; margin-top:4px;">+${(item.points || []).length - 2} more →</li>` : ""}
+            </ul>` : ""}
+
+            <!-- CTA -->
+            <div style="margin-top:12px; display:flex; align-items:center; gap:6px; font-size:0.82rem; font-weight:600; color:var(--brand); opacity:0.85;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 16 12 12 16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              View Full Details
+            </div>
+          </div>
+        </div>
       </article>
     `
     )
@@ -806,6 +882,8 @@ const renderExperience = (items) => {
     };
   });
 };
+
+
 
 const renderProjects = (items) => {
   const container = document.getElementById("project-list");
@@ -947,10 +1025,29 @@ const renderEducation = (items) => {
   container.innerHTML = safeItems
     .map(
       (item) => `
-      <article class="card reveal-card">
-        <h4>${item.institution}</h4>
-        <p>${item.degree}</p>
-        <p class="meta">${item.period}</p>
+      <article class="card reveal-card" style="display:flex; align-items:flex-start; gap:14px;">
+        <div style="
+          width:44px; height:44px; border-radius:12px; flex-shrink:0;
+          background: rgba(168,85,247,0.1);
+          border:1px solid rgba(168,85,247,0.2);
+          display:flex; align-items:center; justify-content:center;
+          font-size:1.3rem;
+        ">🎓</div>
+        <div style="flex:1;">
+          <span style="
+            display:inline-block; font-size:0.72rem; font-weight:700;
+            text-transform:uppercase; letter-spacing:0.06em;
+            color:#a855f7; background:rgba(168,85,247,0.1);
+            border:1px solid rgba(168,85,247,0.25);
+            padding:2px 10px; border-radius:999px; margin-bottom:6px;
+          ">Education</span>
+          <h4 style="margin:0 0 4px; font-size:1rem; font-weight:700;">${item.institution}</h4>
+          <p style="margin:0 0 4px; font-size:0.88rem; color:var(--text-primary);">${item.degree}</p>
+          <p class="meta" style="display:flex; align-items:center; gap:4px; font-size:0.8rem;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            ${item.period}
+          </p>
+        </div>
       </article>
     `
     )
@@ -964,15 +1061,36 @@ const renderActivities = (items) => {
   container.innerHTML = safeItems
     .map(
       (item) => `
-      <article class="card reveal-card">
-        <h4>${item.name}</h4>
-        <p>${item.role}</p>
-        <p class="meta">${item.period}</p>
+      <article class="card reveal-card" style="display:flex; align-items:flex-start; gap:14px;">
+        <div style="
+          width:44px; height:44px; border-radius:12px; flex-shrink:0;
+          background: rgba(16,185,129,0.1);
+          border:1px solid rgba(16,185,129,0.2);
+          display:flex; align-items:center; justify-content:center;
+          font-size:1.3rem;
+        ">🏆</div>
+        <div style="flex:1;">
+          <span style="
+            display:inline-block; font-size:0.72rem; font-weight:700;
+            text-transform:uppercase; letter-spacing:0.06em;
+            color:#10b981; background:rgba(16,185,129,0.1);
+            border:1px solid rgba(16,185,129,0.25);
+            padding:2px 10px; border-radius:999px; margin-bottom:6px;
+          ">Club Activity</span>
+          <h4 style="margin:0 0 4px; font-size:1rem; font-weight:700;">${item.name}</h4>
+          <p style="margin:0 0 4px; font-size:0.88rem; color:var(--text-secondary);">${item.role}</p>
+          <p class="meta" style="display:flex; align-items:center; gap:4px; font-size:0.8rem;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            ${item.period}
+          </p>
+        </div>
       </article>
     `
     )
     .join("");
 };
+
+
 
 const renderTechnicalSkills = (groups) => {
   const container = document.getElementById("technical-skills-list");
