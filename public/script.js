@@ -1049,41 +1049,7 @@ const renderEducation = (items) => {
     .join("");
 };
 
-const renderActivities = (items) => {
-  const container = document.getElementById("activities-list");
-  if (!container) return;
-  const safeItems = Array.isArray(items) ? items : [];
-  container.innerHTML = safeItems
-    .map(
-      (item) => `
-      <article class="card reveal-card" style="display:flex; align-items:flex-start; gap:14px;">
-        <div style="
-          width:44px; height:44px; border-radius:12px; flex-shrink:0;
-          background: rgba(16,185,129,0.1);
-          border:1px solid rgba(16,185,129,0.2);
-          display:flex; align-items:center; justify-content:center;
-          font-size:1.3rem;
-        ">🏆</div>
-        <div style="flex:1;">
-          <span style="
-            display:inline-block; font-size:0.72rem; font-weight:700;
-            text-transform:uppercase; letter-spacing:0.06em;
-            color:#10b981; background:rgba(16,185,129,0.1);
-            border:1px solid rgba(16,185,129,0.25);
-            padding:2px 10px; border-radius:999px; margin-bottom:6px;
-          ">Club Activity</span>
-          <h4 style="margin:0 0 4px; font-size:1rem; font-weight:700;">${item.name}</h4>
-          <p style="margin:0 0 4px; font-size:0.88rem; color:var(--text-secondary);">${item.role}</p>
-          <p class="meta" style="display:flex; align-items:center; gap:4px; font-size:0.8rem;">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            ${item.period}
-          </p>
-        </div>
-      </article>
-    `
-    )
-    .join("");
-};
+
 
 
 
@@ -1413,7 +1379,6 @@ const init = async () => {
   renderExperience(data.experience);
   renderProjects(data.projects);
   renderEducation(data.education);
-  renderActivities(data.activities);
   renderTechnicalSkills(data.technicalSkills);
   renderSoftSkills(data.softSkills);
   renderLanguages(data.languages);
