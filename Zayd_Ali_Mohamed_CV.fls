@@ -127,6 +127,12 @@ OUTPUT Zayd_Ali_Mohamed_CV.aux
 INPUT /opt/texlive/texdir/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 INPUT /opt/texlive/texdir/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 INPUT /opt/texlive/texdir/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+INPUT ./Zayd_Ali_Mohamed_CV.out
+INPUT ./Zayd_Ali_Mohamed_CV.out
+INPUT Zayd_Ali_Mohamed_CV.out
+INPUT Zayd_Ali_Mohamed_CV.out
+INPUT ./Zayd_Ali_Mohamed_CV.out
+INPUT ./Zayd_Ali_Mohamed_CV.out
 OUTPUT Zayd_Ali_Mohamed_CV.out
 OUTPUT Zayd_Ali_Mohamed_CV.pdf
 INPUT /opt/texlive/texdir/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
