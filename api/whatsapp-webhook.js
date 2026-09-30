@@ -1,5 +1,6 @@
 const { WhatsAppClient } = require("@kapso/whatsapp-cloud-api");
 const { handleApprovalReply } = require("./whatsapp-approval");
+const { isAdminNumber, generateAISuggestion, executeBroadcast, saveWhatsAppContact, getStoredWhatsAppContacts } = require("./whatsapp-admin");
 
 /**
  * Kapso WhatsApp Cloud API Webhook & AI Assistant Endpoint
@@ -119,33 +120,109 @@ async function handleWebhookEvent(req, res) {
 
     console.log(`📩 Incoming WhatsApp message from ${fromNumber}: "${userText}"`);
 
-    // 1. Check if this is an Approval Reply from Admin
-    const approvalOutcome = handleApprovalReply(fromNumber, userText);
-    if (approvalOutcome) {
-      const { result } = approvalOutcome;
-      let replyMsg = "";
+    // Auto-save contact for future broadcasts
+    saveWhatsAppContact(fromNumber);
 
-      if (result.action === "APPROVE") {
-        replyMsg = "✅ *Action Approved!* Proceeding with the modification now... 🚀";
-      } else if (result.action === "REJECT") {
-        replyMsg = "🔴 *Action Rejected.* Modification cancelled & ignored.";
-      } else if (result.action === "MODIFY") {
-        replyMsg = `✏️ *Edit Requested*: "${result.instructions}". Applying changes... 🛠️`;
+    const isFromAdmin = isAdminNumber(fromNumber);
+
+    // -------------------------------------------------------------
+    // ADMIN ONLY COMMANDS (Zayd's Phone Number 201017741741 Only)
+    // -------------------------------------------------------------
+    if (isFromAdmin) {
+      const lower = userText.trim().toLowerCase();
+
+      // 1. Admin Broadcast Command (!broadcast <message> or !sendall <message>)
+      if (lower.startsWith("!broadcast") || lower.startsWith("!sendall")) {
+        const msgToSend = userText.replace(/^(!broadcast|!sendall)/i, "").trim();
+        if (!msgToSend) {
+          if (kapsoClient && activePhoneId) {
+            await kapsoClient.messages.sendText({
+              phoneNumberId: activePhoneId,
+              to: fromNumber,
+              body: "⚠️ *Usage*: `!broadcast <Your message to all contacts>`"
+            });
+          }
+          return;
+        }
+
+        console.log(`📢 Admin requested broadcast: "${msgToSend}"`);
+        const report = await executeBroadcast(msgToSend);
+
+        if (kapsoClient && activePhoneId) {
+          await kapsoClient.messages.sendText({
+            phoneNumberId: activePhoneId,
+            to: fromNumber,
+            body: `✅ *BROADCAST REPORT*\n\n- *Total Contacts*: ${report.total}\n- *Delivered*: ${report.successCount}\n- *Failed*: ${report.failCount}`
+          });
+        }
+        return;
       }
 
-      console.log(`🎯 Approval Handler triggered: ${result.action}`);
+      // 2. Admin AI Suggestions Command (!suggest <topic> or !ai <topic>)
+      if (lower.startsWith("!suggest") || lower.startsWith("!ai")) {
+        const topic = userText.replace(/^(!suggest|!ai)/i, "").trim();
+        const suggestion = generateAISuggestion(topic);
 
-      if (kapsoClient && activePhoneId) {
-        await kapsoClient.messages.sendText({
-          phoneNumberId: activePhoneId,
-          to: fromNumber,
-          body: replyMsg
-        });
+        if (kapsoClient && activePhoneId) {
+          await kapsoClient.messages.sendText({
+            phoneNumberId: activePhoneId,
+            to: fromNumber,
+            body: suggestion
+          });
+        }
+        return;
       }
-      return;
+
+      // 3. Admin Stats Command (!stats)
+      if (lower === "!stats") {
+        const contacts = getStoredWhatsAppContacts();
+        const statsMsg = `📊 *PORTFOLIO BOT STATS*\n\n` +
+          `👥 *Saved Contacts*: ${contacts.length}\n` +
+          `🟢 *Status*: Live on Vercel\n` +
+          `🔐 *Admin Phone*: Verified (${fromNumber})\n\n` +
+          `*Admin Commands*:\n` +
+          `- \`!broadcast <message>\` (Send message to all contacts)\n` +
+          `- \`!suggest styling\` (Get AI design & styling tips)\n` +
+          `- \`!suggest features\` (Get portfolio feature ideas)`;
+
+        if (kapsoClient && activePhoneId) {
+          await kapsoClient.messages.sendText({
+            phoneNumberId: activePhoneId,
+            to: fromNumber,
+            body: statsMsg
+          });
+        }
+        return;
+      }
+
+      // 4. Check if Admin is responding to an Approval Request (1 / 2 / 3)
+      const approvalOutcome = handleApprovalReply(fromNumber, userText);
+      if (approvalOutcome) {
+        const { result } = approvalOutcome;
+        let replyMsg = "";
+
+        if (result.action === "APPROVE") {
+          replyMsg = "✅ *Action Approved!* Proceeding with the modification now... 🚀";
+        } else if (result.action === "REJECT") {
+          replyMsg = "🔴 *Action Rejected.* Modification cancelled & ignored.";
+        } else if (result.action === "MODIFY") {
+          replyMsg = `✏️ *Edit Requested*: "${result.instructions}". Applying changes... 🛠️`;
+        }
+
+        if (kapsoClient && activePhoneId) {
+          await kapsoClient.messages.sendText({
+            phoneNumberId: activePhoneId,
+            to: fromNumber,
+            body: replyMsg
+          });
+        }
+        return;
+      }
     }
 
-    // 2. Standard AI Portfolio Assistant Response
+    // -------------------------------------------------------------
+    // STANDARD USER AUTO-REPLY (For all visitors/users)
+    // -------------------------------------------------------------
     const botReply = getAIResponse(userText);
 
     if (kapsoClient && activePhoneId) {
