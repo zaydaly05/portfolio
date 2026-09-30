@@ -961,4 +961,6 @@ if (require.main === module) {
   });
 }
 
+app.portfolioData = portfolioData;
 module.exports = app;
+

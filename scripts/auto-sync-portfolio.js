@@ -171,7 +171,7 @@ async function syncPortfolio() {
     try {
       console.log("☁️ Running Cloudinary Media Sync & Link Replacement...");
       const { execSync } = require('child_process');
-      execSync('node scripts/upload-to-cloudinary.js --replace', { stdio: 'inherit' });
+      execSync('node scripts/upload-to-cloudinary.js', { stdio: 'inherit' });
     } catch (cErr) {
       console.warn("⚠️ Cloudinary sync skipped or completed with note:", cErr.message);
     }
@@ -188,7 +188,7 @@ async function syncPortfolio() {
     let serverContent = fs.readFileSync(SERVER_JS_PATH, 'utf8');
 
     // Extract portfolioData object block using regex or structure
-    let _updatedCount = 0;
+    let updatedCount = 0;
     const addedProjects = [];
 
     validRepos.forEach(repo => {
@@ -259,6 +259,15 @@ async function syncPortfolio() {
     } else {
       console.log("🎉 Portfolio is already up to date with all GitHub repositories!");
     }
+
+    // 📄 Always regenerate executive CV PDF automatically
+    try {
+      console.log("📄 Automatically generating executive CV PDF...");
+      const { execSync } = require('child_process');
+      execSync('node scripts/generate-pdf-cv.js', { stdio: 'inherit' });
+    } catch (pdfErr) {
+      console.warn("⚠️ PDF auto-generation note:", pdfErr.message);
+    }
   } catch (error) {
     console.error("❌ Sync Error:", error.message);
     process.exit(1);
@@ -266,3 +275,4 @@ async function syncPortfolio() {
 }
 
 syncPortfolio();
+

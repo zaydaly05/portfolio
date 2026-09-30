@@ -43,6 +43,11 @@ jobs:
         with:
           root_file: latex-cv/Zayd_Ali_Mohamed_CV.tex
 
+      - name: 📄 Generate Executive CV PDF via Playwright
+        run: |
+          npx playwright install chromium || true
+          node scripts/generate-pdf-cv.js || true
+
       - name: 📋 Copy Compiled CV PDF to Website Folders
         run: |
           PDF_SRC=""
@@ -59,8 +64,9 @@ jobs:
             cp "$PDF_SRC" "public/assets/Zayd Ali Mohamed CV.pdf"
             echo "✅ CV PDF updated in Assets and Public folders from $PDF_SRC!"
           else
-            echo "⚠️ No compiled PDF found!"
+            echo "⚠️ Using Playwright generated PDF in Assets and Public folders!"
           fi
+
 
       - name: 🚀 Commit & Push Updates if Repos or CV Changed
         run: |

@@ -108,6 +108,11 @@ async function uploadAssets() {
       ? `zayd-portfolio/${subFolder}/${cleanFileName}`
       : `zayd-portfolio/${cleanFileName}`;
 
+    if (urlMap[assetKey] && !process.argv.includes('--force')) {
+      console.log(`[${i + 1}/${files.length}] Cached: ${assetKey}`);
+      continue;
+    }
+
     console.log(`[${i + 1}/${files.length}] Uploading ${assetKey}...`);
 
     try {

@@ -1,8 +1,13 @@
 {
   "version": 2,
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "public/**"
+    }
+  },
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/((?!assets/|.*\\.(pdf|png|jpg|jpeg|gif|css|js|ico|svg|mp4|webp|woff|woff2|ttf|otf)).*)",
       "destination": "/api/index.js"
     }
   ],
@@ -13,3 +18,4 @@
     }
   ]
 }
+
