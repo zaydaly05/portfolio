@@ -997,9 +997,22 @@ app.get("/contact", (req, res) => {
 
 // Catch-all: serve index.html for SPA routing (MUST be last)
 app.use((req, res) => {
-  if (req.path.startsWith("/api/") || req.path.startsWith("/assets/")) {
+  if (req.path.startsWith("/api/")) {
     return res.status(404).json({ error: "Not found" });
   }
+
+  if (req.path.startsWith("/assets/")) {
+    const filename = decodeURIComponent(req.path.replace(/^\/assets\//, ""));
+    for (const dir of assetDirs) {
+      const file = path.join(dir, filename);
+      if (fs.existsSync(file) && fs.statSync(file).isFile()) {
+        assetCacheHeaders(res, file);
+        return res.sendFile(file);
+      }
+    }
+    return res.status(404).json({ error: "Asset not found" });
+  }
+
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
