@@ -12,19 +12,15 @@
 \usepackage[english]{babel}
 \usepackage{tabularx}
 \usepackage{fontawesome5}
+\usepackage{geometry}
+
+\geometry{left=0.5in, top=0.5in, right=0.5in, bottom=0.5in}
 
 \pagestyle{fancy}
 \fancyhf{}
 \fancyfoot{}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
-
-% Adjust margins
-\addtolength{\oddsidemargin}{-0.5in}
-\addtolength{\evensidemargin}{-0.5in}
-\addtolength{\textwidth}{1in}
-\addtolength{\topmargin}{-.5in}
-\addtolength{\textheight}{1.0in}
 
 \urlstyle{same}
 
@@ -34,8 +30,8 @@
 
 % Sections formatting
 \titleformat{\section}{
-  \vspace{-4pt}\scshape\raggedright\large
-}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+  \vspace{-6pt}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-4pt}]
 
 % Custom commands
 \newcommand{\resumeItem}[1]{
@@ -49,14 +45,14 @@
     \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{-7pt}
+    \end{tabular*}\vspace{-6pt}
 }
 
 \newcommand{\resumeProjectHeading}[2]{
     \item
     \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
       \small#1 & #2 \\
-    \end{tabular*}\vspace{-7pt}
+    \end{tabular*}\vspace{-6pt}
 }
 
 \newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
@@ -65,27 +61,21 @@
 
 \newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
-\newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-4pt}}
 
 \begin{document}
 
 %----------HEADING----------
 \begin{center}
-    \textbf{\Huge \scshape Zayd Ali Mohamed} \\ \vspace{4pt}
-    \small Junior Computer Science Student | Software Developer \\ \vspace{4pt}
+    {\Huge \scshape \textbf{Zayd Ali Mohamed}} \\ \vspace{2pt}
+    \small Junior Computer Science Student | Software Developer \\ \vspace{2pt}
     \small \faPhone* 01017741741 ~|~ 
-    \faEnvelope \href{mailto:zaydaly0501@gmail.com}{ zaydaly0501@gmail.com} ~|~ 
-    \faLinkedin \href{https://www.linkedin.com/in/zayd-ali-17a85a1a0}{ linkedin.com/in/zayd-ali} ~|~ 
-    \faGithub \href{https://github.com/zaydaly05}{ github.com/zaydaly05} ~|~
+    \faEnvelope \href{mailto:zaydaly0501@gmail.com}{zaydaly0501@gmail.com} ~|~ 
+    \faLinkedin \href{https://www.linkedin.com/in/zayd-ali-17a85a1a0}{linkedin.com/in/zayd-ali} ~|~ 
+    \faGithub \href{https://github.com/zaydaly05}{github.com/zaydaly05} ~|~
     \faMapMarkerAlt Cairo, Egypt
 \end{center}
-
-%-----------SUMMARY-----------
-\section{Summary}
-\small{
-Motivated junior Computer Science student with a passion for software development, full-stack engineering, and mobile development. Experienced in building scalable web and mobile applications using Spring Boot, React, Node.js, Flutter, and .NET Core. Proven ability to learn rapidly, solve complex technical problems, and contribute effectively within agile team environments.
-}
 
 %-----------EDUCATION-----------
 \section{Education}
@@ -96,107 +86,71 @@ Motivated junior Computer Science student with a passion for software developmen
   \resumeSubHeadingListEnd
 
 %-----------EXPERIENCE-----------
-\section{Professional Experience}
+\section{Experience}
   \resumeSubHeadingListStart
-
-    \resumeSubheading
-      {Cairo Higher Institute}{Cairo, Egypt}
-      {IT Department Intern}{Aug 2025 -- Sep 2025}
-      \resumeItemListStart
-        \resumeItem{Created and managed institutional user email accounts using official custom domain policies.}
-        \resumeItem{Updated and maintained front-end digital assets on the official institute website using WordPress.}
-        \resumeItem{Managed institutional social media operations and edited digital media assets for public relations.}
-      \resumeItemListEnd
 
     \resumeSubheading
       {TAQA Arabia}{Cairo, Egypt}
       {Software Development Intern}{Jul 2025 -- Aug 2025}
       \resumeItemListStart
-        \resumeItem{Contributed to building the backend API and mobile user flows for the In Gaz API mobile application.}
-        \resumeItem{Collaborated with senior software engineers on API testing, endpoint optimization, and Swagger docs.}
+        \resumeItem{Contributed to developing the \textbf{In Gaz API Mobile Application} using Flutter frontend and C\# .NET Core Web API backend.}
+        \resumeItem{Engineered secure RESTful endpoints, MVC architecture, role-based access control, and Swagger documentation.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Cairo Higher Institute}{Cairo, Egypt}
+      {IT Department Intern}{Aug 2025 -- Sep 2025}
+      \resumeItemListStart
+        \resumeItem{Administered institutional user email accounts and custom domain security policies.}
+        \resumeItem{Updated and maintained front-end web portal assets on the official institute website via WordPress.}
       \resumeItemListEnd
 
     \resumeSubheading
       {TAQA Arabia}{Cairo, Egypt}
       {IT Department Intern}{Aug 2024 -- Sep 2024}
       \resumeItemListStart
-        \resumeItem{Assisted in corporate hardware and software management across enterprise endpoints.}
-        \resumeItem{Provided user account administration, access support, and IT infrastructure troubleshooting.}
+        \resumeItem{Managed device software configurations, user access control, and corporate IT infrastructure support.}
       \resumeItemListEnd
 
   \resumeSubHeadingListEnd
 
 %-----------PROJECTS-----------
-\section{Key Projects}
+\section{Projects}
     \resumeSubHeadingListStart
       \resumeProjectHeading
           {\textbf{Gulf Limousine Booking App} $|$ \emph{Flutter, Dart, Firebase, REST API}}{Jul 2026}
           \resumeItemListStart
-            \resumeItem{Cross-platform luxury limousine reservation \& fleet tracking mobile app featuring real-time driver allocation, vehicle selection, fare estimation, and client booking management.}
+            \resumeItem{Cross-platform luxury limousine reservation \& fleet tracking app featuring real-time driver allocation and fare estimation.}
           \resumeItemListEnd
 
       \resumeProjectHeading
-          {\textbf{Essmat Plastic Factory Management System} $|$ \emph{C\#, .NET, SQL Server, Entity Framework}}{Sep 2026}
+          {\textbf{Essmat Plastic Factory Management System} $|$ \emph{C\#, .NET, SQL Server, EF}}{Sep 2026}
           \resumeItemListStart
-            \resumeItem{Enterprise inventory and production management solution for plastic manufacturing, optimizing raw material tracking, order processing, and factory billing workflows.}
-          \resumeItemListEnd
-
-      \resumeProjectHeading
-          {\textbf{Dr. Naglaa Academic Biography Portal} $|$ \emph{HTML5, CSS3, JavaScript, Responsive UI}}{Sep 2026}
-          \resumeItemListStart
-            \resumeItem{Modern academic portfolio \& publication showcase website designed for university faculty, featuring curriculum vitae integration, research paper archives, and student contact channels.}
+            \resumeItem{Enterprise inventory and production system optimizing raw material tracking, order processing, and factory billing.}
           \resumeItemListEnd
 
       \resumeProjectHeading
           {\textbf{Food Ordering Management System} $|$ \emph{Spring Boot, React, Tailwind CSS, MongoDB}}{May 2026}
           \resumeItemListStart
-            \resumeItem{Engineered full-stack food ordering platform with Spring Boot REST APIs and React frontend.}
-            \resumeItem{Implemented secure JWT authentication, MongoDB schemas, cart state, and real-time order tracking.}
-            \resumeItem{Built comprehensive admin analytics dashboard displaying top-selling items and revenue metrics.}
+            \resumeItem{Full-stack ordering system with RESTful APIs, JWT authentication, cart state, order tracking, and Admin profit analytics.}
           \resumeItemListEnd
 
       \resumeProjectHeading
-          {\textbf{In Gaz API System} $|$ \emph{C\#, .NET Core Web API, Flutter, MVC}}{Jul 2025}
+          {\textbf{In Gaz API System} $|$ \emph{C\#, .NET Core Web API, Flutter}}{Jul 2025}
           \resumeItemListStart
-            \resumeItem{Architected cross-platform Flutter application integrated with .NET Core Web API backend.}
-            \resumeItem{Enforced secure role-based access control (RBAC), repository pattern, and Swagger API documentation.}
+            \resumeItem{Architected Flutter application integrated with .NET Core Web API backend, RBAC permissions, and Swagger docs.}
           \resumeItemListEnd
 
       \resumeProjectHeading
-          {\textbf{Employee Attendance \& Leave Platform} $|$ \emph{PHP, MySQL, HTML, CSS}}{Dec 2025}
+          {\textbf{Employee Attendance \& Leave Platform} $|$ \emph{PHP, MySQL, HTML/CSS}}{Dec 2025}
           \resumeItemListStart
-            \resumeItem{Developed employee portal managing automated check-in/out, leave requests, and approval flows.}
-            \resumeItem{Designed relational MySQL database schemas with role-based access control for HR admins and employees.}
+            \resumeItem{Web platform for automated attendance check-ins, leave request processing, and HR relational database management.}
           \resumeItemListEnd
 
       \resumeProjectHeading
-          {\textbf{Car Rental E-Commerce Platform} $|$ \emph{Node.js, Express, MongoDB, HTML, CSS, JavaScript}}{May 2025}
+          {\textbf{Dr. Naglaa Academic Biography Portal} $|$ \emph{HTML5, CSS3, JavaScript}}{Sep 2026}
           \resumeItemListStart
-            \resumeItem{Built interactive vehicle rental platform featuring car catalogs, booking management, and user profiles.}
-          \resumeItemListEnd
-
-      \resumeProjectHeading
-          {\textbf{Restaurant Management System} $|$ \emph{Java, JavaFX}}{Dec 2024}
-          \resumeItemListStart
-            \resumeItem{Created GUI application for managing job postings, candidate applications, and interview schedules.}
-          \resumeItemListEnd
-
-      \resumeProjectHeading
-          {\textbf{Driver Drowsiness Sleeping Alert System} $|$ \emph{Python, Flutter}}{Dec 2025}
-          \resumeItemListStart
-            \resumeItem{Designed responsive mobile HCI alert system prioritizing driver safety and real-time usability.}
-          \resumeItemListEnd
-
-      \resumeProjectHeading
-          {\textbf{Zaydentity Digital Identity Platform} $|$ \emph{HTML5, CSS3, JavaScript}}{Sep 2026}
-          \resumeItemListStart
-            \resumeItem{Digital personal branding \& bio-link platform consolidating developer links, project highlights, and verified professional credentials in a unified interactive card UI.}
-          \resumeItemListEnd
-
-      \resumeProjectHeading
-          {\textbf{WE Telecom Training Suite} $|$ \emph{Networking, C++, Telecommunications}}{Aug 2026}
-          \resumeItemListStart
-            \resumeItem{Technical codebase \& project artifacts developed during Telecom Egypt (WE) training, focusing on network protocol fundamentals, system administration, and enterprise infrastructure.}
+            \resumeItem{Academic portfolio \& publication showcase website featuring CV integration and research paper archives.}
           \resumeItemListEnd
     \resumeSubHeadingListEnd
 
@@ -204,20 +158,21 @@ Motivated junior Computer Science student with a passion for software developmen
 \section{Technical Skills}
  \begin{itemize}[leftmargin=0.15in, label={}]
     \small{\item{
-     \textbf{Languages}{: PHP, C, Python, Java, C++, C\#, HTML5, CSS3, JavaScript, SQL, Dart, Tailwind CSS} \\
-     \textbf{Frameworks \& Libraries}{: Node.js, Express.js, Spring Boot, React, Flutter, .NET Core, JavaFX} \\
-     \textbf{Databases}{: SQL, MySQL, MongoDB, Firebase} \\
-     \textbf{Tools \& Environment}{: Git, GitHub, VS Code, Android Studio, Apache NetBeans, XAMPP, Postman, Swagger} \\
-     \textbf{Core Concepts}{: Data Structures \& Algorithms, Object-Oriented Programming (OOP), RESTful APIs, MVC} \\
-     \textbf{Soft Skills \& Languages}{: Team Collaboration, Problem Solving, Time Management | Arabic (Native), English (Fluent)}
+     \textbf{Languages}{: Java, C\#, C++, C, Python, JavaScript, PHP, Dart, SQL, HTML5, CSS3} \\
+     \textbf{Frameworks \& Libraries}{: Spring Boot, React, Flutter, Express.js, Node.js, .NET Core Web API, JavaFX, Tailwind CSS} \\
+     \textbf{Databases \& Cloud}{: PostgreSQL, MySQL, MongoDB, Firebase, SQL Server} \\
+     \textbf{Tools \& Practices}{: Git, GitHub, Docker, VS Code, Android Studio, Postman, Swagger, OOP, REST APIs} \\
+     \textbf{Languages \& Soft Skills}{: Arabic (Native), English (Fluent) | Problem Solving, Teamwork, Rapid Upskilling}
     }}
  \end{itemize}
 
-%-----------ACTIVITIES-----------
-\section{Activities \& Memberships}
+%-----------ACTIVITIES & CERTIFICATIONS-----------
+\section{Activities \& Certifications}
   \resumeSubHeadingListStart
-    \resumeSubheading{ACPC Club (Arab Competitive Programming Contest)}{Misr International University}{Active Member}{2023 -- Present}
-    \resumeSubheading{IEEE Student Branch}{Misr International University}{Active Member}{2023 -- Present}
+    \resumeSubheading{ACPC Club (Arab Competitive Programming Contest)}{MIU}{Member}{2023 -- Present}
+    \resumeSubheading{IEEE Student Branch}{MIU}{Member}{2023 -- Present}
+    \resumeSubheading{TAQA Arabia Software Engineering Internship Certificate}{TAQA Arabia}{Awarded}{Aug 2025}
+    \resumeSubheading{Cisco JavaScript Essentials 1 \& 2 | Cisco C Essentials 1}{Cisco OpenEDG}{Certified}{Jul 2025}
   \resumeSubHeadingListEnd
 
 \end{document}
