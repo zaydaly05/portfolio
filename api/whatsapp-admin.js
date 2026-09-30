@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const { WhatsAppClient } = require('@kapso/whatsapp-cloud-api');
-const { connectDB, Contact } = require('../db');
 
 const KAPSO_API_KEY = process.env.KAPSO_API_KEY || process.env.WHATSAPP_TOKEN || 'c676aaa27bb56c780e049a192598345c821f11647327cbecafc84686e91c9471';
 const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID || '1423905784128972';
@@ -16,30 +15,36 @@ if (KAPSO_API_KEY) {
   });
 }
 
-// Local store for contacts who interacted via WhatsApp
-const WHATSAPP_CONTACTS_FILE = path.join(__dirname, '..', 'scratch', 'whatsapp-contacts.json');
+// Local stores for personal phone contacts & interactive history
+const PERSONAL_CONTACTS_FILE = path.join(__dirname, '..', 'scratch', 'personal-phone-contacts.json');
 
-function getStoredWhatsAppContacts() {
+function getStoredPersonalContacts() {
   try {
-    if (fs.existsSync(WHATSAPP_CONTACTS_FILE)) {
-      return JSON.parse(fs.readFileSync(WHATSAPP_CONTACTS_FILE, 'utf8'));
+    if (fs.existsSync(PERSONAL_CONTACTS_FILE)) {
+      return JSON.parse(fs.readFileSync(PERSONAL_CONTACTS_FILE, 'utf8'));
     }
   } catch (e) {}
   return [];
 }
 
-function saveWhatsAppContact(phone, name = 'WhatsApp Contact') {
+function savePersonalContact(phone, name = 'Phone Contact') {
   if (!phone) return;
-  const contacts = getStoredWhatsAppContacts();
+  const contacts = getStoredPersonalContacts();
   const clean = phone.replace(/[^0-9]/g, '');
-  if (!contacts.some(c => c.phone === clean)) {
+  if (clean && !contacts.some(c => c.phone === clean)) {
     contacts.push({ phone: clean, name, addedAt: new Date().toISOString() });
     try {
-      const dir = path.dirname(WHATSAPP_CONTACTS_FILE);
+      const dir = path.dirname(PERSONAL_CONTACTS_FILE);
       if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-      fs.writeFileSync(WHATSAPP_CONTACTS_FILE, JSON.stringify(contacts, null, 2), 'utf8');
+      fs.writeFileSync(PERSONAL_CONTACTS_FILE, JSON.stringify(contacts, null, 2), 'utf8');
     } catch (e) {}
   }
+}
+
+function addMultiplePersonalContacts(phoneListStr) {
+  const numbers = (phoneListStr || '').split(/[,; \n]+/).map(n => n.replace(/[^0-9]/g, '')).filter(Boolean);
+  numbers.forEach(n => savePersonalContact(n));
+  return numbers;
 }
 
 /**
@@ -73,22 +78,37 @@ function generateAISuggestion(queryTopic) {
   return "💡 *AI Portfolio Master Suggestions*:\n\n" +
     "🎨 *Styling*: Reply `!suggest styling` for color palettes, typography & glassmorphism tips.\n" +
     "🚀 *Features*: Reply `!suggest features` for modern interactive widgets & tools.\n" +
-    "📢 *Broadcast*: Reply `!broadcast <message>` to send a template message to all contacts.\n" +
-    "📊 *Stats*: Reply `!stats` to view contact count & bot analytics.";
+    "📢 *Broadcast*: Reply `!broadcast <numbers> \| <message>` to send to specific phone numbers.\n" +
+    "➕ *Add Contacts*: Reply `!addcontact 201017741741, 201234567890` to save phone contacts.";
 }
 
 /**
- * Send Broadcast Message / Template to All Contacts (Admin ONLY)
+ * Send Broadcast Text / Template Message to specified numbers or saved personal contacts
  */
-async function executeBroadcast(messageOrTemplate, isTemplate = false) {
-  const contacts = getStoredWhatsAppContacts();
-  const targetPhones = new Set(contacts.map(c => c.phone));
-  
-  // Include default admin recipient
-  targetPhones.add(ADMIN_PHONE);
+async function executePhoneBroadcast(inputPayload, isTemplate = false) {
+  let targetPhones = [];
+  let messageOrTemplateName = '';
 
-  const total = targetPhones.size;
-  console.log(`📢 [WhatsApp Admin] Starting broadcast to ${total} contacts...`);
+  // Check if payload contains phone numbers separated by '|'
+  if (inputPayload.includes('|')) {
+    const parts = inputPayload.split('|');
+    const numbersRaw = parts[0].trim();
+    messageOrTemplateName = parts.slice(1).join('|').trim();
+
+    targetPhones = numbersRaw.split(/[,; \n]+/).map(n => n.replace(/[^0-9]/g, '')).filter(Boolean);
+  } else {
+    // Default to stored personal phone contacts + admin phone
+    const saved = getStoredPersonalContacts();
+    targetPhones = saved.map(c => c.phone);
+    if (!targetPhones.includes(ADMIN_PHONE)) targetPhones.push(ADMIN_PHONE);
+    messageOrTemplateName = inputPayload.trim();
+  }
+
+  // Remove duplicates
+  targetPhones = Array.from(new Set(targetPhones));
+
+  const total = targetPhones.length;
+  console.log(`📢 [WhatsApp Admin] Sending broadcast to ${total} target phone numbers...`);
 
   let successCount = 0;
   let failCount = 0;
@@ -100,7 +120,7 @@ async function executeBroadcast(messageOrTemplate, isTemplate = false) {
           phoneNumberId: PHONE_NUMBER_ID,
           to: phone,
           template: {
-            name: messageOrTemplate,
+            name: messageOrTemplateName,
             language: { code: 'en_US' }
           }
         });
@@ -108,7 +128,7 @@ async function executeBroadcast(messageOrTemplate, isTemplate = false) {
         await kapsoClient.messages.sendText({
           phoneNumberId: PHONE_NUMBER_ID,
           to: phone,
-          body: `📢 *UPDATE FROM ZAYD'S PORTFOLIO*\n\n${messageOrTemplate}`
+          body: messageOrTemplateName
         });
       }
       successCount++;
@@ -118,14 +138,15 @@ async function executeBroadcast(messageOrTemplate, isTemplate = false) {
     }
   }
 
-  return { total, successCount, failCount };
+  return { total, successCount, failCount, targetPhones };
 }
 
 module.exports = {
   isAdminNumber,
   generateAISuggestion,
-  executeBroadcast,
-  saveWhatsAppContact,
-  getStoredWhatsAppContacts,
+  executePhoneBroadcast,
+  addMultiplePersonalContacts,
+  savePersonalContact,
+  getStoredPersonalContacts,
   ADMIN_PHONE
 };

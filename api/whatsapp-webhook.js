@@ -1,6 +1,13 @@
 const { WhatsAppClient } = require("@kapso/whatsapp-cloud-api");
 const { handleApprovalReply } = require("./whatsapp-approval");
-const { isAdminNumber, generateAISuggestion, executeBroadcast, saveWhatsAppContact, getStoredWhatsAppContacts } = require("./whatsapp-admin");
+const {
+  isAdminNumber,
+  generateAISuggestion,
+  executePhoneBroadcast,
+  addMultiplePersonalContacts,
+  savePersonalContact,
+  getStoredPersonalContacts
+} = require("./whatsapp-admin");
 
 /**
  * Kapso WhatsApp Cloud API Webhook & AI Assistant Endpoint
@@ -66,7 +73,6 @@ function handleWebhookVerification(req, res) {
 function parseIncomingMessage(body) {
   if (!body) return null;
 
-  // 1. Standard Meta Cloud API Payload
   if (body.object === "whatsapp_business_account") {
     const value = body.entry?.[0]?.changes?.[0]?.value;
     const msg = value?.messages?.[0];
@@ -85,7 +91,6 @@ function parseIncomingMessage(body) {
     return { from, text, phoneId };
   }
 
-  // 2. Kapso Native v2 Payload
   if (body.event === "message.received" || body.type === "message" || body.data) {
     const data = body.data || body;
     const from = data.from || data.phone_number || data.sender;
@@ -104,7 +109,6 @@ function parseIncomingMessage(body) {
  * POST Webhook Handler for Incoming WhatsApp Messages
  */
 async function handleWebhookEvent(req, res) {
-  // Always return 200 OK immediately
   res.status(200).json({ status: "received" });
 
   try {
@@ -120,9 +124,6 @@ async function handleWebhookEvent(req, res) {
 
     console.log(`📩 Incoming WhatsApp message from ${fromNumber}: "${userText}"`);
 
-    // Auto-save contact for future broadcasts
-    saveWhatsAppContact(fromNumber);
-
     const isFromAdmin = isAdminNumber(fromNumber);
 
     // -------------------------------------------------------------
@@ -131,34 +132,90 @@ async function handleWebhookEvent(req, res) {
     if (isFromAdmin) {
       const lower = userText.trim().toLowerCase();
 
-      // 1. Admin Broadcast Command (!broadcast <message> or !sendall <message>)
-      if (lower.startsWith("!broadcast") || lower.startsWith("!sendall")) {
-        const msgToSend = userText.replace(/^(!broadcast|!sendall)/i, "").trim();
-        if (!msgToSend) {
-          if (kapsoClient && activePhoneId) {
-            await kapsoClient.messages.sendText({
-              phoneNumberId: activePhoneId,
-              to: fromNumber,
-              body: "⚠️ *Usage*: `!broadcast <Your message to all contacts>`"
-            });
-          }
-          return;
-        }
-
-        console.log(`📢 Admin requested broadcast: "${msgToSend}"`);
-        const report = await executeBroadcast(msgToSend);
+      // 1. Add Personal Phone Contacts (!addcontact <numbers>)
+      if (lower.startsWith("!addcontact")) {
+        const rawNumbers = userText.replace(/^!addcontact/i, "").trim();
+        const added = addMultiplePersonalContacts(rawNumbers);
 
         if (kapsoClient && activePhoneId) {
           await kapsoClient.messages.sendText({
             phoneNumberId: activePhoneId,
             to: fromNumber,
-            body: `✅ *BROADCAST REPORT*\n\n- *Total Contacts*: ${report.total}\n- *Delivered*: ${report.successCount}\n- *Failed*: ${report.failCount}`
+            body: `✅ *Saved ${added.length} phone numbers to your personal contacts list!*`
           });
         }
         return;
       }
 
-      // 2. Admin AI Suggestions Command (!suggest <topic> or !ai <topic>)
+      // 2. List Personal Contacts (!listcontacts)
+      if (lower === "!listcontacts") {
+        const contacts = getStoredPersonalContacts();
+        let msg = `📱 *SAVED PHONE CONTACTS (${contacts.length})*:\n\n`;
+        if (contacts.length === 0) {
+          msg += "No contacts added yet. Use `!addcontact 201017741741, 201234567890` to add numbers.";
+        } else {
+          msg += contacts.map((c, i) => `${i + 1}. \`+${c.phone}\``).join("\n");
+        }
+
+        if (kapsoClient && activePhoneId) {
+          await kapsoClient.messages.sendText({
+            phoneNumberId: activePhoneId,
+            to: fromNumber,
+            body: msg
+          });
+        }
+        return;
+      }
+
+      // 3. Broadcast to Personal Contacts or Specified Phone Numbers (!broadcast <numbers | message>)
+      if (lower.startsWith("!broadcast") || lower.startsWith("!sendall")) {
+        const payload = userText.replace(/^(!broadcast|!sendall)/i, "").trim();
+        if (!payload) {
+          if (kapsoClient && activePhoneId) {
+            await kapsoClient.messages.sendText({
+              phoneNumberId: activePhoneId,
+              to: fromNumber,
+              body: "⚠️ *Usage*:\n" +
+                "1. Broadcast to saved contacts: `!broadcast Hello everyone!`\n" +
+                "2. Broadcast to specific phone numbers: `!broadcast 201017741741, 201234567890 | Your message here`"
+            });
+          }
+          return;
+        }
+
+        console.log(`📢 Admin requested phone broadcast: "${payload}"`);
+        const report = await executePhoneBroadcast(payload, false);
+
+        if (kapsoClient && activePhoneId) {
+          await kapsoClient.messages.sendText({
+            phoneNumberId: activePhoneId,
+            to: fromNumber,
+            body: `✅ *BROADCAST DELIVERY REPORT*\n\n` +
+              `- *Total Targets*: ${report.total}\n` +
+              `- *Delivered*: ${report.successCount}\n` +
+              `- *Failed*: ${report.failCount}\n\n` +
+              `📱 *Recipients*: ${report.targetPhones.map(p => '+' + p).join(', ')}`
+          });
+        }
+        return;
+      }
+
+      // 4. Send Template Message to Phone Numbers (!sendtemplate <template_name | numbers>)
+      if (lower.startsWith("!sendtemplate")) {
+        const payload = userText.replace(/^!sendtemplate/i, "").trim();
+        const report = await executePhoneBroadcast(payload, true);
+
+        if (kapsoClient && activePhoneId) {
+          await kapsoClient.messages.sendText({
+            phoneNumberId: activePhoneId,
+            to: fromNumber,
+            body: `📋 *TEMPLATE BROADCAST REPORT*\n\n- *Delivered*: ${report.successCount}/${report.total}`
+          });
+        }
+        return;
+      }
+
+      // 5. AI Suggestions Command (!suggest <topic> or !ai <topic>)
       if (lower.startsWith("!suggest") || lower.startsWith("!ai")) {
         const topic = userText.replace(/^(!suggest|!ai)/i, "").trim();
         const suggestion = generateAISuggestion(topic);
@@ -173,29 +230,7 @@ async function handleWebhookEvent(req, res) {
         return;
       }
 
-      // 3. Admin Stats Command (!stats)
-      if (lower === "!stats") {
-        const contacts = getStoredWhatsAppContacts();
-        const statsMsg = `📊 *PORTFOLIO BOT STATS*\n\n` +
-          `👥 *Saved Contacts*: ${contacts.length}\n` +
-          `🟢 *Status*: Live on Vercel\n` +
-          `🔐 *Admin Phone*: Verified (${fromNumber})\n\n` +
-          `*Admin Commands*:\n` +
-          `- \`!broadcast <message>\` (Send message to all contacts)\n` +
-          `- \`!suggest styling\` (Get AI design & styling tips)\n` +
-          `- \`!suggest features\` (Get portfolio feature ideas)`;
-
-        if (kapsoClient && activePhoneId) {
-          await kapsoClient.messages.sendText({
-            phoneNumberId: activePhoneId,
-            to: fromNumber,
-            body: statsMsg
-          });
-        }
-        return;
-      }
-
-      // 4. Check if Admin is responding to an Approval Request (1 / 2 / 3)
+      // 6. Check if Admin is responding to an Approval Request (1 / 2 / 3)
       const approvalOutcome = handleApprovalReply(fromNumber, userText);
       if (approvalOutcome) {
         const { result } = approvalOutcome;
