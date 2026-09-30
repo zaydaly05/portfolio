@@ -949,6 +949,11 @@ app.post("/api/star", postRateLimiter, async (req, res) => {
   res.json({ ok: true, stars, message: "Thank you for starring Zayd's portfolio!" });
 });
 
+// Kapso WhatsApp Cloud API Webhook Routes
+const { handleWebhookVerification, handleWebhookEvent } = require("./api/whatsapp-webhook");
+app.get("/api/whatsapp/webhook", handleWebhookVerification);
+app.post("/api/whatsapp/webhook", handleWebhookEvent);
+
 // Explicit Multi-Page HTML Routes
 app.get("/projects", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "projects.html"));

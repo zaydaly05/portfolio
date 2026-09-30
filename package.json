@@ -20,6 +20,7 @@
   "license": "ISC",
   "description": "Dynamic professional portfolio for Zayd Ali Mohamed",
   "dependencies": {
+    "@kapso/whatsapp-cloud-api": "^0.3.0",
     "cloudinary": "^2.11.0",
     "express": "^5.2.1",
     "mongoose": "^9.10.3"
