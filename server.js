@@ -79,6 +79,25 @@ const assetDirs = [
   path.join(__dirname, "..", "Assets")
 ];
 
+// High-priority asset interceptor (handles Vercel serverless rewrites and direct static requests)
+app.use((req, res, next) => {
+  const fullUrl = req.originalUrl || req.headers["x-matched-path"] || req.url || req.path || "";
+  if (fullUrl.includes("/assets/")) {
+    const match = fullUrl.match(/\/assets\/(.+)$/);
+    if (match) {
+      const filename = decodeURIComponent(match[1].split("?")[0]);
+      for (const dir of assetDirs) {
+        const file = path.join(dir, filename);
+        if (fs.existsSync(file) && fs.statSync(file).isFile()) {
+          assetCacheHeaders(res, file);
+          return res.sendFile(file);
+        }
+      }
+    }
+  }
+  next();
+});
+
 assetDirs.forEach(dir => {
   app.use(
     "/assets",
@@ -86,23 +105,6 @@ assetDirs.forEach(dir => {
       setHeaders: assetCacheHeaders
     })
   );
-});
-
-// Explicit route for assets serving (handles Vercel serverless paths)
-app.use("/assets", (req, res, next) => {
-  const reqUrl = req.originalUrl || req.url;
-  const match = reqUrl.match(/\/assets\/(.+)$/);
-  const filename = match ? decodeURIComponent(match[1].split('?')[0]) : "";
-  if (filename) {
-    for (const dir of assetDirs) {
-      const file = path.join(dir, filename);
-      if (fs.existsSync(file) && fs.statSync(file).isFile()) {
-        assetCacheHeaders(res, file);
-        return res.sendFile(file);
-      }
-    }
-  }
-  next();
 });
 
 // Then serve public folder
