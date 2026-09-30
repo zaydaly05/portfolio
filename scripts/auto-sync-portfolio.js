@@ -167,6 +167,15 @@ async function sendWhatsAppNotification(message) {
 
 async function syncPortfolio() {
   try {
+    // ☁️ 1. Run Cloudinary Media Sync & Link Replacement
+    try {
+      console.log("☁️ Running Cloudinary Media Sync & Link Replacement...");
+      const { execSync } = require('child_process');
+      execSync('node scripts/upload-to-cloudinary.js --replace', { stdio: 'inherit' });
+    } catch (cErr) {
+      console.warn("⚠️ Cloudinary sync skipped or completed with note:", cErr.message);
+    }
+
     const repos = await fetchGitHubRepos();
     if (!repos || repos.length === 0) {
       console.log("No repositories found.");

@@ -34,6 +34,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE || '201017741741' }}
           CALLMEBOT_API_KEY: ${{ secrets.CALLMEBOT_API_KEY }}
+          CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
         run: node scripts/auto-sync-portfolio.js
 
       - name: 📄 Auto-Compile LaTeX CV to PDF
