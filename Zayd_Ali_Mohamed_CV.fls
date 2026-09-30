@@ -120,6 +120,10 @@ INPUT /opt/texlive/texdir/texmf-dist/tex/latex/fontawesome5/fontawesome5-generic
 INPUT /opt/texlive/texdir/texmf-dist/tex/latex/fontawesome5/fontawesome5-generic-helper.sty
 INPUT /opt/texlive/texdir/texmf-dist/tex/latex/fontawesome5/fontawesome5-mapping.def
 INPUT /opt/texlive/texdir/texmf-dist/tex/latex/fontawesome5/fontawesome5-mapping.def
+INPUT /opt/texlive/texdir/texmf-dist/tex/latex/geometry/geometry.sty
+INPUT /opt/texlive/texdir/texmf-dist/tex/latex/geometry/geometry.sty
+INPUT /opt/texlive/texdir/texmf-dist/tex/generic/iftex/ifvtex.sty
+INPUT /opt/texlive/texdir/texmf-dist/tex/generic/iftex/ifvtex.sty
 INPUT ./Zayd_Ali_Mohamed_CV.aux
 INPUT ./Zayd_Ali_Mohamed_CV.aux
 INPUT Zayd_Ali_Mohamed_CV.aux
@@ -135,7 +139,8 @@ INPUT ./Zayd_Ali_Mohamed_CV.out
 INPUT ./Zayd_Ali_Mohamed_CV.out
 OUTPUT Zayd_Ali_Mohamed_CV.out
 OUTPUT Zayd_Ali_Mohamed_CV.pdf
-INPUT /opt/texlive/texdir/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
+INPUT /opt/texlive/texdir/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
+INPUT /opt/texlive/texdir/texmf-dist/fonts/tfm/public/cm/cmcsc10.tfm
 INPUT /opt/texlive/texdir/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT /opt/texlive/texdir/texmf-dist/tex/latex/fontawesome5/ufontawesomefree2.fd
 INPUT /opt/texlive/texdir/texmf-dist/tex/latex/fontawesome5/ufontawesomefree2.fd
