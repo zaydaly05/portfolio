@@ -76,8 +76,26 @@ const assetDirs = [
   path.join(__dirname, "public", "assets"),
   path.join(__dirname, "..", "public", "assets"),
   path.join(__dirname, "Assets"),
-  path.join(__dirname, "..", "Assets")
+  path.join(__dirname, "..", "Assets"),
+  path.join(__dirname, "public"),
+  path.join(__dirname, "..", "public"),
+  path.join(process.cwd(), "public"),
+  "/var/task/public/assets",
+  "/var/task/public",
+  "/var/task/Assets"
 ];
+
+function findAssetFile(filename) {
+  if (!filename) return null;
+  const decoded = decodeURIComponent(filename.split("?")[0]);
+  for (const dir of assetDirs) {
+    const file = path.join(dir, decoded);
+    if (fs.existsSync(file) && fs.statSync(file).isFile()) {
+      return file;
+    }
+  }
+  return null;
+}
 
 // High-priority asset interceptor (handles Vercel serverless query params, rewrites and direct static requests)
 app.use((req, res, next) => {
@@ -87,13 +105,10 @@ app.use((req, res, next) => {
   const assetPath = assetQuery || (match ? match[1] : null);
 
   if (assetPath) {
-    const filename = decodeURIComponent(assetPath.split("?")[0]);
-    for (const dir of assetDirs) {
-      const file = path.join(dir, filename);
-      if (fs.existsSync(file) && fs.statSync(file).isFile()) {
-        assetCacheHeaders(res, file);
-        return res.sendFile(file);
-      }
+    const file = findAssetFile(assetPath);
+    if (file) {
+      assetCacheHeaders(res, file);
+      return res.sendFile(file);
     }
   }
   next();
@@ -1008,15 +1023,11 @@ app.use((req, res) => {
   
   if (reqUrl.includes("/assets/")) {
     const match = reqUrl.match(/\/assets\/(.+)$/);
-    const filename = match ? decodeURIComponent(match[1].split('?')[0]) : "";
-    if (filename) {
-      for (const dir of assetDirs) {
-        const file = path.join(dir, filename);
-        if (fs.existsSync(file) && fs.statSync(file).isFile()) {
-          assetCacheHeaders(res, file);
-          return res.sendFile(file);
-        }
-      }
+    const filename = match ? match[1] : "";
+    const file = findAssetFile(filename);
+    if (file) {
+      assetCacheHeaders(res, file);
+      return res.sendFile(file);
     }
     return res.status(404).json({ error: "Asset not found" });
   }
