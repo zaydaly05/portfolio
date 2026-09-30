@@ -6,8 +6,6 @@
     }
   },
   "rewrites": [
-    { "source": "/cv.pdf", "destination": "/api/index.js?asset=cv.pdf" },
-    { "source": "/assets/(.*)", "destination": "/api/index.js?asset=$1" },
     { "source": "/api/(.*)", "destination": "/api/index.js" },
     { "source": "/projects", "destination": "/api/index.js" },
     { "source": "/experience", "destination": "/api/index.js" },

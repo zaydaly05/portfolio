@@ -88,10 +88,14 @@ const assetDirs = [
 function findAssetFile(filename) {
   if (!filename) return null;
   const decoded = decodeURIComponent(filename.split("?")[0]);
+  const targets = [decoded, path.basename(decoded)];
+
   for (const dir of assetDirs) {
-    const file = path.join(dir, decoded);
-    if (fs.existsSync(file) && fs.statSync(file).isFile()) {
-      return file;
+    for (const t of targets) {
+      const file = path.join(dir, t);
+      if (fs.existsSync(file) && fs.statSync(file).isFile()) {
+        return file;
+      }
     }
   }
   return null;
