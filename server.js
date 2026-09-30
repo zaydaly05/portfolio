@@ -72,12 +72,18 @@ const assetCacheHeaders = (res, filePath) => {
 
 app.use(
   "/assets",
-  express.static(path.join(__dirname, "Assets"), {
+  express.static(path.join(process.cwd(), "public", "assets"), {
     setHeaders: assetCacheHeaders
   })
 );
 
-// Also serve public/assets as fallback for /assets (covers Online Certificates subfolder etc.)
+app.use(
+  "/assets",
+  express.static(path.join(process.cwd(), "Assets"), {
+    setHeaders: assetCacheHeaders
+  })
+);
+
 app.use(
   "/assets",
   express.static(path.join(__dirname, "public", "assets"), {
@@ -85,10 +91,23 @@ app.use(
   })
 );
 
+app.use(
+  "/assets",
+  express.static(path.join(__dirname, "Assets"), {
+    setHeaders: assetCacheHeaders
+  })
+);
+
 // Then serve public folder
 app.use(
-  express.static(path.join(__dirname, "public"), {
+  express.static(path.join(process.cwd(), "public"), {
     index: false // Don't serve index.html for missing files
+  })
+);
+
+app.use(
+  express.static(path.join(__dirname, "public"), {
+    index: false
   })
 );
 
