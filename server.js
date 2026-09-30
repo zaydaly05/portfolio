@@ -522,19 +522,6 @@ app.get("/api/portfolio", (req, res) => {
   res.json(portfolioData);
 });
 
-app.get("/api/debug-assets", (req, res) => {
-  const info = {
-    cwd: process.cwd(),
-    dirname: __dirname,
-    cwd_files: fs.existsSync(process.cwd()) ? fs.readdirSync(process.cwd()) : [],
-    dirname_files: fs.existsSync(__dirname) ? fs.readdirSync(__dirname) : [],
-    cwd_public: fs.existsSync(path.join(process.cwd(), "public")) ? fs.readdirSync(path.join(process.cwd(), "public")) : "missing",
-    cwd_public_assets: fs.existsSync(path.join(process.cwd(), "public", "assets")) ? fs.readdirSync(path.join(process.cwd(), "public", "assets")).slice(0, 10) : "missing",
-    dirname_public_assets: fs.existsSync(path.join(__dirname, "..", "public", "assets")) ? fs.readdirSync(path.join(__dirname, "..", "public", "assets")).slice(0, 10) : "missing",
-  };
-  res.json(info);
-});
-
 // Live Status & Cairo Time API
 app.get("/api/status", (req, res) => {
   const cairoTime = new Date().toLocaleString("en-US", {
