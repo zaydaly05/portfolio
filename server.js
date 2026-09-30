@@ -70,33 +70,36 @@ const assetCacheHeaders = (res, filePath) => {
   }
 };
 
-app.use(
-  "/assets",
-  express.static(path.join(process.cwd(), "public", "assets"), {
-    setHeaders: assetCacheHeaders
-  })
-);
+const assetDirs = [
+  path.join(process.cwd(), "public", "assets"),
+  path.join(process.cwd(), "Assets"),
+  path.join(__dirname, "public", "assets"),
+  path.join(__dirname, "..", "public", "assets"),
+  path.join(__dirname, "Assets"),
+  path.join(__dirname, "..", "Assets")
+];
 
-app.use(
-  "/assets",
-  express.static(path.join(process.cwd(), "Assets"), {
-    setHeaders: assetCacheHeaders
-  })
-);
+assetDirs.forEach(dir => {
+  app.use(
+    "/assets",
+    express.static(dir, {
+      setHeaders: assetCacheHeaders
+    })
+  );
+});
 
-app.use(
-  "/assets",
-  express.static(path.join(__dirname, "public", "assets"), {
-    setHeaders: assetCacheHeaders
-  })
-);
-
-app.use(
-  "/assets",
-  express.static(path.join(__dirname, "Assets"), {
-    setHeaders: assetCacheHeaders
-  })
-);
+// Explicit route for assets serving (handles Vercel serverless paths)
+app.get("/assets/:filename", (req, res, next) => {
+  const filename = decodeURIComponent(req.params.filename);
+  for (const dir of assetDirs) {
+    const file = path.join(dir, filename);
+    if (fs.existsSync(file) && fs.statSync(file).isFile()) {
+      assetCacheHeaders(res, file);
+      return res.sendFile(file);
+    }
+  }
+  next();
+});
 
 // Then serve public folder
 app.use(
@@ -106,10 +109,11 @@ app.use(
 );
 
 app.use(
-  express.static(path.join(__dirname, "public"), {
+  express.static(path.join(__dirname, "..", "public"), {
     index: false
   })
 );
+
 
 const portfolioData = {
   profile: {
