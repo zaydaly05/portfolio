@@ -1,11 +1,12 @@
 const { WhatsAppClient } = require("@kapso/whatsapp-cloud-api");
+const { handleApprovalReply } = require("./whatsapp-approval");
 
 /**
  * Kapso WhatsApp Cloud API Webhook & AI Assistant Endpoint
  */
 
 const KAPSO_API_KEY = process.env.KAPSO_API_KEY || process.env.WHATSAPP_TOKEN || "c676aaa27bb56c780e049a192598345c821f11647327cbecafc84686e91c9471";
-const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID || "";
+let PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID || "1423905784128972";
 const VERIFY_TOKEN = process.env.WHATSAPP_VERIFY_TOKEN || "zayd_portfolio_verify_token";
 const BASE_URL = process.env.KAPSO_BASE_URL || "https://api.kapso.ai/meta/whatsapp";
 
@@ -24,7 +25,7 @@ function getAIResponse(userText) {
   const query = (userText || "").toLowerCase();
 
   if (query.includes("project") || query.includes("work") || query.includes("portfolio")) {
-    return "🚀 *Zayd's Featured Projects*:\n\n1. *AI Automation & Web Scraping Suite* - Enterprise data extraction\n2. *Dynamic Portfolio & Admin Dashboard* - Modern Node.js + MongoDB stack\n3. *WhatsApp AI Agent* - Automated messaging via Kapso Cloud API\n\nVisit: https://zayd-portfolio.vercel.app/projects for details!";
+    return "🚀 *Zayd's Featured Projects*:\n\n1. *AI Automation & Web Scraping Suite* - Enterprise data extraction\n2. *Dynamic Portfolio & Admin Dashboard* - Modern Node.js + MongoDB stack\n3. *WhatsApp AI Agent* - Automated messaging via Kapso Cloud API\n\nVisit: https://zayd05.vercel.app/projects for details!";
   }
 
   if (query.includes("skill") || query.includes("stack") || query.includes("tech")) {
@@ -50,64 +51,111 @@ function handleWebhookVerification(req, res) {
   const token = req.query["hub.verify_token"];
   const challenge = req.query["hub.challenge"];
 
-  if (mode === "subscribe" && token === VERIFY_TOKEN) {
+  if ((mode === "subscribe" && token === VERIFY_TOKEN) || req.query["verify"] === VERIFY_TOKEN) {
     console.log("✅ Kapso WhatsApp Webhook Verified Successfully!");
-    return res.status(200).send(challenge);
+    return res.status(200).send(challenge || "OK");
   }
 
-  console.warn("⚠️ Kapso WhatsApp Webhook Verification Failed. Invalid Token.");
-  return res.status(403).json({ error: "Verification token mismatch" });
+  return res.status(200).json({ status: "active", service: "Zayd Portfolio WhatsApp Webhook" });
+}
+
+/**
+ * Helper to parse incoming message payload from Meta or Kapso v2
+ */
+function parseIncomingMessage(body) {
+  if (!body) return null;
+
+  // 1. Standard Meta Cloud API Payload
+  if (body.object === "whatsapp_business_account") {
+    const value = body.entry?.[0]?.changes?.[0]?.value;
+    const msg = value?.messages?.[0];
+    if (!msg) return null;
+
+    const phoneId = value?.metadata?.phone_number_id;
+    const from = msg.from;
+    let text = "";
+
+    if (msg.type === "text") {
+      text = msg.text?.body || "";
+    } else if (msg.type === "interactive") {
+      text = msg.interactive?.button_reply?.title || msg.interactive?.list_reply?.title || "";
+    }
+
+    return { from, text, phoneId };
+  }
+
+  // 2. Kapso Native v2 Payload
+  if (body.event === "message.received" || body.type === "message" || body.data) {
+    const data = body.data || body;
+    const from = data.from || data.phone_number || data.sender;
+    const phoneId = data.phone_number_id || data.metadata?.phone_number_id;
+    const text = data.message?.text?.body || data.text || data.body || data.message?.body || "";
+
+    if (from) {
+      return { from, text, phoneId };
+    }
+  }
+
+  return null;
 }
 
 /**
  * POST Webhook Handler for Incoming WhatsApp Messages
  */
 async function handleWebhookEvent(req, res) {
-  // Always return 200 OK quickly to avoid webhook timeout retries
+  // Always return 200 OK immediately
   res.status(200).json({ status: "received" });
 
   try {
     const body = req.body;
-    if (!body || body.object !== "whatsapp_business_account") {
+    const parsed = parseIncomingMessage(body);
+
+    if (!parsed || !parsed.from) {
       return;
     }
 
-    const entry = body.entry?.[0];
-    const changes = entry?.changes?.[0];
-    const value = changes?.value;
-    const messages = value?.messages;
+    const { from: fromNumber, text: userText, phoneId } = parsed;
+    const activePhoneId = PHONE_NUMBER_ID || phoneId;
 
-    if (!messages || messages.length === 0) {
+    console.log(`📩 Incoming WhatsApp message from ${fromNumber}: "${userText}"`);
+
+    // 1. Check if this is an Approval Reply from Admin
+    const approvalOutcome = handleApprovalReply(fromNumber, userText);
+    if (approvalOutcome) {
+      const { result } = approvalOutcome;
+      let replyMsg = "";
+
+      if (result.action === "APPROVE") {
+        replyMsg = "✅ *Action Approved!* Proceeding with the modification now... 🚀";
+      } else if (result.action === "REJECT") {
+        replyMsg = "🔴 *Action Rejected.* Modification cancelled & ignored.";
+      } else if (result.action === "MODIFY") {
+        replyMsg = `✏️ *Edit Requested*: "${result.instructions}". Applying changes... 🛠️`;
+      }
+
+      console.log(`🎯 Approval Handler triggered: ${result.action}`);
+
+      if (kapsoClient && activePhoneId) {
+        await kapsoClient.messages.sendText({
+          phoneNumberId: activePhoneId,
+          to: fromNumber,
+          body: replyMsg
+        });
+      }
       return;
     }
 
-    const message = messages[0];
-    const fromNumber = message.from; // Sender phone number
-    const messageType = message.type;
-
-    let userText = "";
-    if (messageType === "text") {
-      userText = message.text?.body || "";
-    } else if (messageType === "interactive") {
-      userText = message.interactive?.button_reply?.title || message.interactive?.list_reply?.title || "";
-    }
-
-    console.log(`📩 Incoming WhatsApp from ${fromNumber}: "${userText}"`);
-
-    // Generate AI Auto-Reply
+    // 2. Standard AI Portfolio Assistant Response
     const botReply = getAIResponse(userText);
 
-    // Send reply via Kapso Cloud API if credentials are configured
-    if (kapsoClient && PHONE_NUMBER_ID) {
-      console.log(`📤 Sending AI reply via Kapso to ${fromNumber}...`);
+    if (kapsoClient && activePhoneId) {
+      console.log(`📤 Sending auto-reply via Kapso to ${fromNumber}...`);
       await kapsoClient.messages.sendText({
-        phoneNumberId: PHONE_NUMBER_ID,
+        phoneNumberId: activePhoneId,
         to: fromNumber,
         body: botReply
       });
       console.log("✅ Auto-reply delivered via Kapso!");
-    } else {
-      console.log("ℹ️ KAPSO_API_KEY or WHATSAPP_PHONE_NUMBER_ID not set. Reply logged locally:\n", botReply);
     }
   } catch (error) {
     console.error("❌ Error processing WhatsApp webhook event:", error.message || error);

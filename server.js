@@ -951,8 +951,28 @@ app.post("/api/star", postRateLimiter, async (req, res) => {
 
 // Kapso WhatsApp Cloud API Webhook Routes
 const { handleWebhookVerification, handleWebhookEvent } = require("./api/whatsapp-webhook");
+const { requestWhatsAppApproval, pendingApprovals } = require("./api/whatsapp-approval");
+
 app.get("/api/whatsapp/webhook", handleWebhookVerification);
 app.post("/api/whatsapp/webhook", handleWebhookEvent);
+
+// WhatsApp Human-in-the-Loop Approval Endpoints
+app.post("/api/whatsapp/request-approval", async (req, res) => {
+  const { actionName, description, timeoutMs } = req.body || {};
+  if (!actionName || !description) {
+    return res.status(400).json({ ok: false, error: "actionName and description are required." });
+  }
+
+  // Asynchronously request approval
+  const result = await requestWhatsAppApproval(actionName, description, timeoutMs || 300000);
+  res.json({ ok: true, result });
+});
+
+app.get("/api/whatsapp/pending-approvals", (req, res) => {
+  const list = Array.from(pendingApprovals.values()).filter(item => typeof item === "object" && item.id);
+  res.json({ ok: true, pendingCount: list.length, approvals: list });
+});
+
 
 // Explicit Multi-Page HTML Routes
 app.get("/projects", (req, res) => {
