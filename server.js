@@ -156,7 +156,7 @@ const portfolioData = {
       name: "Gulf Limousine Booking App",
       period: "July 2026",
       stack: "Flutter, Dart, Firebase, REST API",
-      image: "/assets/gulf-limousine.jpg",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790766/zayd-portfolio/gulf-limousine.jpg",
       github: "https://github.com/zaydaly05/Gulf_Limousine_App",
       description:
         "Cross-platform luxury limousine reservation & fleet tracking mobile app featuring real-time driver allocation, vehicle selection, fare estimation, and client booking management."
@@ -165,8 +165,8 @@ const portfolioData = {
       name: "Essmat Plastic Factory Management System",
       period: "September 2026",
       stack: "C#, .NET, SQL Server, Entity Framework",
-      image: "/assets/employee-e1.png",
-      pdfReport: "/assets/essmat-plastic-report.pdf",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
+      pdfReport: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790736/zayd-portfolio/essmat-plastic-report.pdf",
       github: "https://github.com/zaydaly05/EssmatPlastic",
       description:
         "Enterprise inventory and production management solution for plastic manufacturing, optimizing raw material tracking, order processing, and factory billing workflows."
@@ -175,7 +175,7 @@ const portfolioData = {
       name: "Dr. Naglaa Academic Biography Portal",
       period: "September 2026",
       stack: "HTML5, CSS3, JavaScript, Responsive UI",
-      image: "/assets/dr-nagla-bio.jpeg",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790721/zayd-portfolio/dr-nagla-bio.jpg",
       github: "https://github.com/zaydaly05/drNaglaBio",
       description:
         "Modern academic portfolio & publication showcase website designed for university faculty, featuring curriculum vitae integration, research paper archives, and student contact channels."
@@ -184,7 +184,7 @@ const portfolioData = {
       name: "Food Ordering Management System",
       period: "May 2026",
       stack: "Spring Boot, Tailwind, React, MongoDB",
-      image: "/assets/f1.png",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790738/zayd-portfolio/f1.png",
       github: "https://github.com/zaydaly05/food_ordering_system",
       description:
         "Developed a full-stack food ordering system with Spring Boot and a React + Tailwind frontend. Built RESTful APIs for authentication, menu management, cart operations, and order processing with MongoDB. Implemented role-based Admin and Customer flows with CRUD, order tracking, and analytics such as top-selling items and profit insights."
@@ -193,7 +193,7 @@ const portfolioData = {
       name: "In Gaz API System",
       period: "July 2025",
       stack: "C#, Flutter, .NET Core Web API",
-      image: "/assets/ingaz-1.jpeg",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790771/zayd-portfolio/ingaz-1.jpg",
       github: "https://github.com/zaydaly05/InGazAPI",
       description:
         "Built a Flutter frontend integrated with a C# .NET Core Web API backend using MVC, secure role-based access, CRUD operations, and Swagger testing."
@@ -202,7 +202,7 @@ const portfolioData = {
       name: "Employee Attendance & Leave System",
       period: "December 2025",
       stack: "HTML, CSS, PHP, MySQL",
-      image: "/assets/employee-e1.png",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
       github: "https://github.com/zaydaly05/Employee_Attendance-Leave_Management_System",
       description:
         "Developed a web-based attendance and leave platform with automated tracking and approval, event/announcement features, and secure relational role-based access."
@@ -211,7 +211,7 @@ const portfolioData = {
       name: "Car Rental Website",
       period: "May 2025",
       stack: "HTML, CSS, MongoDB, Node.js, JavaScript",
-      image: "/assets/car-rental-c1.png",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790715/zayd-portfolio/car-rental-c1.png",
       github: "https://github.com/zaydaly05/Car_Rental_Website",
       description:
         "Developed a comprehensive e-commerce style platform for users to browse and rent cars with authentication, catalog management, and order processing."
@@ -220,7 +220,7 @@ const portfolioData = {
       name: "Restaurant Management System",
       period: "December 2024",
       stack: "Java, JavaFX",
-      image: "/assets/restaurant-r1.png",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790805/zayd-portfolio/restaurant-r1.png",
       github: "https://github.com/zaydaly05/Restaurant_Management_System",
       description:
         "Created a recruitment system with a graphical user interface for managing job postings, applications, and interviews using Java and JavaFX."
@@ -229,7 +229,7 @@ const portfolioData = {
       name: "Sleeping Alert System",
       period: "December 2025",
       stack: "Python, Flutter",
-      image: "/assets/sleeping-alert-py2.jpeg",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790811/zayd-portfolio/sleeping-alert-py2.jpg",
       github: "https://github.com/zaydaly05/Sleep_Alert_System",
       description:
         "Developed a sleeping alert system for an HCI course, applying usability and interaction design principles with a responsive mobile interface."
@@ -238,7 +238,7 @@ const portfolioData = {
       name: "Zaydentity Digital Identity Platform",
       period: "September 2026",
       stack: "HTML5, CSS3, JavaScript",
-      image: "/assets/main-photo.jpeg",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790773/zayd-portfolio/main-photo.jpg",
       github: "https://github.com/zaydaly05/zaydentity",
       description:
         "Digital personal branding & bio-link platform consolidating developer links, project highlights, and verified professional credentials in a unified interactive card UI."
@@ -247,7 +247,7 @@ const portfolioData = {
       name: "WE Telecom Training Suite",
       period: "August 2026",
       stack: "Networking, C++, Telecommunications",
-      image: "/assets/chi-experience.jpeg",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790719/zayd-portfolio/chi-experience.jpg",
       github: "https://github.com/zaydaly05/WE_Intern",
       description:
         "Technical codebase & project artifacts developed during Telecom Egypt (WE) training, focusing on network protocol fundamentals, system administration, and enterprise infrastructure."
@@ -417,8 +417,8 @@ const portfolioData = {
       issuer: "TAQA Arabia — Software Engineering Dept",
       date: "August 2025",
       category: "Industry Experience",
-      image: "/assets/Online%20Certificates/Exp%20letter%20taqa%202025.png",
-      pdf: "/assets/Taqa25Crt.jpeg",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790780/zayd-portfolio/Online%20Certificates/Exp_letter_taqa_2025.png",
+      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790815/zayd-portfolio/Taqa25Crt.jpg",
       desc: "Official engineering internship certificate recognizing contribution to the In Gaz API mobile platform."
     },
     {
@@ -426,8 +426,8 @@ const portfolioData = {
       issuer: "Cisco Networking Academy & OpenEDG JS Institute",
       date: "July 2025",
       category: "Full-Stack Development",
-      image: "/assets/Online%20Certificates/js1.png",
-      pdf: "/assets/Online%20Certificates/JavaScriptEssentials2Update20250713-27-31fbam.pdf",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790791216/zayd-portfolio/Online%20Certificates/js1.png",
+      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790790/zayd-portfolio/Online%20Certificates/JavaScriptEssentials2Update20250713-27-31fbam.pdf",
       desc: "Advanced JavaScript ES6+, asynchronous programming, object-oriented concepts, and DOM manipulation."
     },
     {
@@ -435,8 +435,8 @@ const portfolioData = {
       issuer: "Cisco Networking Academy & OpenEDG C Institute",
       date: "July 2025",
       category: "Systems & Core Programming",
-      image: "/assets/Online%20Certificates/c-essentials-1.png",
-      pdf: "/assets/Online%20Certificates/CEssentials1Update20250709-29-hnum8q.pdf",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790774/zayd-portfolio/Online%20Certificates/c-essentials-1.png",
+      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790777/zayd-portfolio/Online%20Certificates/CEssentials1Update20250709-29-hnum8q.pdf",
       desc: "Low-level system programming, memory management, pointers, and algorithmic structures in C."
     },
     {
@@ -444,8 +444,8 @@ const portfolioData = {
       issuer: "Cisco Networking Academy",
       date: "July 2025",
       category: "Cybersecurity & Networks",
-      image: "/assets/Online%20Certificates/Introduction%20To%20Cybersecurity%20C.png",
-      pdf: "/assets/Online%20Certificates/I2CSUpdate20250709-27-93jy0g.pdf",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790785/zayd-portfolio/Online%20Certificates/Introduction_To_Cybersecurity_C.png",
+      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790784/zayd-portfolio/Online%20Certificates/I2CSUpdate20250709-27-93jy0g.pdf",
       desc: "Network security protocols, vulnerability analysis, encryption fundamentals, and threat mitigation."
     },
     {
@@ -453,8 +453,8 @@ const portfolioData = {
       issuer: "Cisco OpenEDG Academy",
       date: "July 2025",
       category: "Frontend Architecture",
-      image: "/assets/Online%20Certificates/css-essentials.png",
-      pdf: "/assets/Online%20Certificates/CSS.png",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790778/zayd-portfolio/Online%20Certificates/css-essentials.png",
+      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790779/zayd-portfolio/Online%20Certificates/CSS.png",
       desc: "Responsive layout design, Flexbox, CSS Grid, animation frameworks, and modern CSS3 aesthetics."
     },
     {
@@ -462,8 +462,8 @@ const portfolioData = {
       issuer: "Cairo Higher Institute — IT Dept",
       date: "September 2025",
       category: "Industry Experience",
-      image: "/assets/Online%20Certificates/Experience%20letter%20CHI.jpg",
-      pdf: "/assets/chi-experience.jpeg",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790781/zayd-portfolio/Online%20Certificates/Experience_letter_CHI.jpg",
+      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790719/zayd-portfolio/chi-experience.jpg",
       desc: "Institutional user account management, website front-end maintenance, and digital content production."
     }
   ]

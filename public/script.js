@@ -11,7 +11,7 @@ const WHATSAPP_NUMBER = "201017741741";
 const PROFILE_PHOTO_CANDIDATES = [
   "https://res.cloudinary.com/delnnzcph/image/upload/v1790790773/zayd-portfolio/main-photo.jpg",
   "https://res.cloudinary.com/delnnzcph/image/upload/v1790790773/zayd-portfolio/main-photo.jpg",
-  ".https://res.cloudinary.com/delnnzcph/image/upload/v1790790773/zayd-portfolio/main-photo.jpg",
+  "https://res.cloudinary.com/delnnzcph/image/upload/v1790790773/zayd-portfolio/main-photo.jpg",
   "../Assets/main-photo.jpeg",
   "Assets/main-photo.jpeg",
   "/Assets/main-photo.jpeg"
@@ -196,7 +196,7 @@ const fallbackPortfolio = {
       issuer: "TAQA Arabia — Software Engineering Dept",
       date: "August 2025",
       category: "Industry Experience",
-      image: "/assets/Online%20Certificates/Exp%20letter%20taqa%202025.png",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790780/zayd-portfolio/Online%20Certificates/Exp_letter_taqa_2025.png",
       pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790815/zayd-portfolio/Taqa25Crt.jpg",
       desc: "Official engineering internship certificate recognizing contribution to the In Gaz API mobile platform."
     },
@@ -205,8 +205,8 @@ const fallbackPortfolio = {
       issuer: "Cisco Networking Academy & OpenEDG JS Institute",
       date: "July 2025",
       category: "Full-Stack Development",
-      image: "/assets/Online%20Certificates/js1.png",
-      pdf: "/assets/Online%20Certificates/JavaScriptEssentials2Update20250713-27-31fbam.pdf",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790791216/zayd-portfolio/Online%20Certificates/js1.png",
+      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790790/zayd-portfolio/Online%20Certificates/JavaScriptEssentials2Update20250713-27-31fbam.pdf",
       desc: "Advanced JavaScript ES6+, asynchronous programming, object-oriented concepts, and DOM manipulation."
     },
     {
@@ -214,8 +214,8 @@ const fallbackPortfolio = {
       issuer: "Cisco Networking Academy & OpenEDG C Institute",
       date: "July 2025",
       category: "Systems & Core Programming",
-      image: "/assets/Online%20Certificates/c-essentials-1.png",
-      pdf: "/assets/Online%20Certificates/CEssentials1Update20250709-29-hnum8q.pdf",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790774/zayd-portfolio/Online%20Certificates/c-essentials-1.png",
+      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790777/zayd-portfolio/Online%20Certificates/CEssentials1Update20250709-29-hnum8q.pdf",
       desc: "Low-level system programming, memory management, pointers, and algorithmic structures in C."
     },
     {
@@ -223,8 +223,8 @@ const fallbackPortfolio = {
       issuer: "Cisco Networking Academy",
       date: "July 2025",
       category: "Cybersecurity & Networks",
-      image: "/assets/Online%20Certificates/Introduction%20To%20Cybersecurity%20C.png",
-      pdf: "/assets/Online%20Certificates/I2CSUpdate20250709-27-93jy0g.pdf",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790785/zayd-portfolio/Online%20Certificates/Introduction_To_Cybersecurity_C.png",
+      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790784/zayd-portfolio/Online%20Certificates/I2CSUpdate20250709-27-93jy0g.pdf",
       desc: "Network security protocols, vulnerability analysis, encryption fundamentals, and threat mitigation."
     },
     {
@@ -232,8 +232,8 @@ const fallbackPortfolio = {
       issuer: "Cisco OpenEDG Academy",
       date: "July 2025",
       category: "Frontend Architecture",
-      image: "/assets/Online%20Certificates/css-essentials.png",
-      pdf: "/assets/Online%20Certificates/CSS.png",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790778/zayd-portfolio/Online%20Certificates/css-essentials.png",
+      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790779/zayd-portfolio/Online%20Certificates/CSS.png",
       desc: "Responsive layout design, Flexbox, CSS Grid, animation frameworks, and modern CSS3 aesthetics."
     },
     {
@@ -241,7 +241,7 @@ const fallbackPortfolio = {
       issuer: "Cairo Higher Institute — IT Dept",
       date: "September 2025",
       category: "Industry Experience",
-      image: "/assets/Online%20Certificates/Experience%20letter%20CHI.jpg",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790781/zayd-portfolio/Online%20Certificates/Experience_letter_CHI.jpg",
       pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790719/zayd-portfolio/chi-experience.jpg",
       desc: "Institutional user account management, website front-end maintenance, and digital content production."
     }
@@ -1038,7 +1038,7 @@ const renderProjects = (items) => {
           ]
         : isFoodOrderingProject
         ? Array.from({ length: 16 }, (_, i) => ({
-            src: `/assets/f${i + 1}.png`,
+            src: `https://res.cloudinary.com/delnnzcph/image/upload/v17907907${[38,54,56,58,59,61,62,64,66,41,43,45,47,49,51,53][i]}/zayd-portfolio/f${i + 1}.png`,
             alt: `Food Ordering Management System screenshot f${i + 1}`
           }))
         : isInGazProject
