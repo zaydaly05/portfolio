@@ -81,7 +81,7 @@ const fallbackPortfolio = {
       period: "September 2026",
       stack: "C#, .NET, SQL Server, Entity Framework",
       image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
-      pdfReport: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790736/zayd-portfolio/essmat-plastic-report.pdf",
+      pdfReport: "/assets/essmat-plastic-report.pdf",
       github: "https://github.com/zaydaly05/EssmatPlastic",
       description: "Enterprise inventory and production management solution for plastic manufacturing, optimizing raw material tracking, order processing, and factory billing workflows."
     },
@@ -206,7 +206,7 @@ const fallbackPortfolio = {
       date: "July 2025",
       category: "Full-Stack Development",
       image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790791216/zayd-portfolio/Online%20Certificates/js1.png",
-      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790790/zayd-portfolio/Online%20Certificates/JavaScriptEssentials2Update20250713-27-31fbam.pdf",
+      pdf: "/assets/Online%20Certificates/JavaScriptEssentials2Update20250713-27-31fbam.pdf",
       desc: "Advanced JavaScript ES6+, asynchronous programming, object-oriented concepts, and DOM manipulation."
     },
     {
@@ -215,7 +215,7 @@ const fallbackPortfolio = {
       date: "July 2025",
       category: "Systems & Core Programming",
       image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790774/zayd-portfolio/Online%20Certificates/c-essentials-1.png",
-      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790777/zayd-portfolio/Online%20Certificates/CEssentials1Update20250709-29-hnum8q.pdf",
+      pdf: "/assets/Online%20Certificates/CEssentials1Update20250709-29-hnum8q.pdf",
       desc: "Low-level system programming, memory management, pointers, and algorithmic structures in C."
     },
     {
@@ -224,7 +224,7 @@ const fallbackPortfolio = {
       date: "July 2025",
       category: "Cybersecurity & Networks",
       image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790785/zayd-portfolio/Online%20Certificates/Introduction_To_Cybersecurity_C.png",
-      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790784/zayd-portfolio/Online%20Certificates/I2CSUpdate20250709-27-93jy0g.pdf",
+      pdf: "/assets/Online%20Certificates/I2CSUpdate20250709-27-93jy0g.pdf",
       desc: "Network security protocols, vulnerability analysis, encryption fundamentals, and threat mitigation."
     },
     {
