@@ -89,13 +89,17 @@ assetDirs.forEach(dir => {
 });
 
 // Explicit route for assets serving (handles Vercel serverless paths)
-app.get("/assets/:filename", (req, res, next) => {
-  const filename = decodeURIComponent(req.params.filename);
-  for (const dir of assetDirs) {
-    const file = path.join(dir, filename);
-    if (fs.existsSync(file) && fs.statSync(file).isFile()) {
-      assetCacheHeaders(res, file);
-      return res.sendFile(file);
+app.use("/assets", (req, res, next) => {
+  const reqUrl = req.originalUrl || req.url;
+  const match = reqUrl.match(/\/assets\/(.+)$/);
+  const filename = match ? decodeURIComponent(match[1].split('?')[0]) : "";
+  if (filename) {
+    for (const dir of assetDirs) {
+      const file = path.join(dir, filename);
+      if (fs.existsSync(file) && fs.statSync(file).isFile()) {
+        assetCacheHeaders(res, file);
+        return res.sendFile(file);
+      }
     }
   }
   next();
@@ -997,20 +1001,25 @@ app.get("/contact", (req, res) => {
 
 // Catch-all: serve index.html for SPA routing (MUST be last)
 app.use((req, res) => {
-  if (req.path.startsWith("/api/")) {
-    return res.status(404).json({ error: "Not found" });
-  }
-
-  if (req.path.startsWith("/assets/")) {
-    const filename = decodeURIComponent(req.path.replace(/^\/assets\//, ""));
-    for (const dir of assetDirs) {
-      const file = path.join(dir, filename);
-      if (fs.existsSync(file) && fs.statSync(file).isFile()) {
-        assetCacheHeaders(res, file);
-        return res.sendFile(file);
+  const reqUrl = req.originalUrl || req.url || req.path;
+  
+  if (reqUrl.includes("/assets/")) {
+    const match = reqUrl.match(/\/assets\/(.+)$/);
+    const filename = match ? decodeURIComponent(match[1].split('?')[0]) : "";
+    if (filename) {
+      for (const dir of assetDirs) {
+        const file = path.join(dir, filename);
+        if (fs.existsSync(file) && fs.statSync(file).isFile()) {
+          assetCacheHeaders(res, file);
+          return res.sendFile(file);
+        }
       }
     }
     return res.status(404).json({ error: "Asset not found" });
+  }
+
+  if (req.path.startsWith("/api/")) {
+    return res.status(404).json({ error: "Not found" });
   }
 
   res.sendFile(path.join(__dirname, "public", "index.html"));
