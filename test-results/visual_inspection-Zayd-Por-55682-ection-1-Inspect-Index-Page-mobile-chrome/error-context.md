@@ -1,0 +1,224 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: visual_inspection.spec.js >> Zayd Portfolio Image & Modal Visual Inspection >> 1. Inspect Index Page
+- Location: tests\visual_inspection.spec.js:54:3
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - link "Zayd Ali Mohamed home" [ref=e3] [cursor=pointer]:
+      - /url: "#hero"
+      - img "ZA" [ref=e4]
+    - generic [ref=e5]:
+      - button "CLI" [ref=e6] [cursor=pointer]
+      - button "☀️ Light Mode" [ref=e9] [cursor=pointer]
+      - link "Hire Me" [ref=e10] [cursor=pointer]:
+        - /url: /contact
+      - button "Open navigation menu" [ref=e11] [cursor=pointer]
+  - banner [ref=e15]:
+    - generic [ref=e16]:
+      - generic [ref=e18]: Available for Roles
+      - generic [ref=e19]: •
+      - generic [ref=e20]:
+        - text: "Cairo Time:"
+        - generic [ref=e24]: 10:43:41 PM
+    - generic [ref=e25]:
+      - generic [ref=e26]:
+        - paragraph [ref=e27]: Full-Stack & Mobile Software Developer
+        - heading "Zayd Ali Mohamed" [level=1] [ref=e28]
+        - heading "Software Developer" [level=2] [ref=e29]
+        - paragraph [ref=e31]: Motivated senior computer science student who loves technology and problem solving. I enjoy learning new skills, building practical projects, and taking part in workshops that strengthen my software development knowledge.
+        - generic [ref=e32]:
+          - generic [ref=e33]: ☕ Spring Boot
+          - generic [ref=e35]: ⚛️ React.js
+          - generic [ref=e37]: 📱 Flutter & Dart
+          - generic [ref=e39]: 🔷 C# .NET API
+          - generic [ref=e41]: 🗄️ SQL & MongoDB
+        - generic [ref=e43]:
+          - generic [ref=e44]: 📍 Maadi, Cairo
+          - generic [ref=e45]: ✉ zaydaly0501@gmail.com
+          - generic [ref=e46]: 📱 01017741741
+      - generic [ref=e48]:
+        - img "Zayd Ali Mohamed" [ref=e49]
+        - generic [ref=e50]:
+          - generic [ref=e51]: 💼
+          - generic [ref=e52]: TAQA Arabia Intern
+        - generic [ref=e53]:
+          - generic [ref=e54]: 🎓
+          - generic [ref=e55]: MIU CS Student
+    - generic [ref=e56]:
+      - link "LinkedIn Profile ↗" [ref=e57] [cursor=pointer]:
+        - /url: https://www.linkedin.com/in/zayd-ali-17a85a1a0
+      - link "GitHub Repos" [ref=e60] [cursor=pointer]:
+        - /url: https://github.com/zaydaly05
+      - button "Preview CV" [ref=e63] [cursor=pointer]
+      - link "Download CV" [ref=e67] [cursor=pointer]:
+        - /url: /assets/Zayd%20Ali%20Mohamed%20CV.pdf
+    - generic [ref=e71]:
+      - generic [ref=e72]: 03 / 03
+      - generic [ref=e74]:
+        - img "Zayd Software Architecture & Blueprint Design" [ref=e75]
+        - generic [ref=e76]:
+          - generic [ref=e77]:
+            - generic [ref=e78]: 🏢 ENTERPRISE MANAGEMENT SYSTEMS
+            - generic [ref=e79]: C# .NET · SQL Server · Entity Framework
+          - heading "Enterprise Inventory, Factory & Attendance Software" [level=3] [ref=e80]
+          - paragraph [ref=e81]: Designing production management solutions, automated employee leave tracking systems, and desktop application UI/UX built for stability.
+          - generic [ref=e82]:
+            - link "View Technical Stack ↗" [ref=e83] [cursor=pointer]:
+              - /url: /skills
+            - generic [ref=e84]:
+              - generic [ref=e85]: C# .NET
+              - generic [ref=e86]: SQL Server
+              - generic [ref=e87]: JavaFX
+              - generic [ref=e88]: OOP
+      - button "Previous Slide" [ref=e89] [cursor=pointer]: ‹
+      - button "Next Slide" [ref=e90] [cursor=pointer]: ›
+      - generic [ref=e91]:
+        - generic [ref=e92] [cursor=pointer]
+        - generic [ref=e93] [cursor=pointer]
+        - generic [ref=e94] [cursor=pointer]
+  - main [ref=e97]:
+    - generic [ref=e99]:
+      - generic [ref=e100]:
+        - generic [ref=e101]: 💻
+        - text: 0+
+        - generic [ref=e102]: Public GitHub Repositories
+      - generic [ref=e103]:
+        - generic [ref=e104]: 🚀
+        - text: 0+
+        - generic [ref=e105]: Production Projects Built
+      - generic [ref=e106]:
+        - generic [ref=e107]: ⚡
+        - text: 0+
+        - generic [ref=e108]: Technical Skill Categories
+      - generic [ref=e109]:
+        - generic [ref=e110]: 📜
+        - text: 0+
+        - generic [ref=e111]: Verified Certifications
+      - generic [ref=e112]:
+        - generic [ref=e113]: 🏢
+        - text: "0"
+        - generic [ref=e114]: Industry IT Internships
+    - generic [ref=e115]:
+      - generic [ref=e116]:
+        - generic [ref=e117]: "01"
+        - heading "Featured Flagship Projects" [level=3] [ref=e118]
+      - paragraph [ref=e119]: Top highlighted software systems engineered by Zayd Ali Mohamed.
+      - generic [ref=e120]:
+        - article [ref=e121]:
+          - generic [ref=e122]: Mobile App
+          - img "Gulf Limousine Booking App" [ref=e124]
+          - generic [ref=e125]:
+            - heading "Gulf Limousine Reservation & Fleet App" [level=4] [ref=e126]
+            - paragraph [ref=e127]: July 2026 · Flutter, Dart, Firebase, REST
+            - paragraph [ref=e128]: Cross-platform luxury limousine reservation & fleet tracking mobile app with real-time driver allocation, fare estimation, and client booking management.
+            - generic [ref=e129]:
+              - link "GitHub Repo ↗" [ref=e130] [cursor=pointer]:
+                - /url: https://github.com/zaydaly05/Gulf_Limousine_App
+              - link "Full Hub Details →" [ref=e131] [cursor=pointer]:
+                - /url: /projects
+        - article [ref=e132]:
+          - generic [ref=e133]: Full-Stack
+          - img "Food Ordering Management System" [ref=e135]
+          - generic [ref=e136]:
+            - heading "Full-Stack Food Ordering & Analytics System" [level=4] [ref=e137]
+            - paragraph [ref=e138]: May 2026 · Spring Boot, React, Tailwind, MongoDB
+            - paragraph [ref=e139]: Developed full-stack food ordering platform with Spring Boot backend, React UI, cart processing, role-based admin dashboard, and profit analytics.
+            - generic [ref=e140]:
+              - link "GitHub Repo ↗" [ref=e141] [cursor=pointer]:
+                - /url: https://github.com/zaydaly05/food_ordering_system
+              - link "Full Hub Details →" [ref=e142] [cursor=pointer]:
+                - /url: /projects
+        - article [ref=e143]:
+          - generic [ref=e144]: Enterprise C#
+          - img "Essmat Plastic Management System" [ref=e146]
+          - generic [ref=e147]:
+            - heading "Essmat Plastic Factory Management Solution" [level=4] [ref=e148]
+            - paragraph [ref=e149]: September 2026 · C#, .NET Core, SQL Server, Entity Framework
+            - paragraph [ref=e150]: Enterprise inventory and production management solution for plastic manufacturing, optimizing raw material tracking, order processing, and factory billing.
+            - generic [ref=e151]:
+              - link "GitHub Repo ↗" [ref=e152] [cursor=pointer]:
+                - /url: https://github.com/zaydaly05/EssmatPlastic
+              - link "Full Hub Details →" [ref=e153] [cursor=pointer]:
+                - /url: /projects
+    - generic [ref=e154]:
+      - generic [ref=e155]:
+        - generic [ref=e156]: "02"
+        - heading "Explore Portfolio Sections" [level=3] [ref=e157]
+      - generic [ref=e158]:
+        - generic [ref=e159]:
+          - generic [ref=e160]:
+            - generic [ref=e161]: 🚀
+            - generic [ref=e162]: 11+ Projects Sync
+            - heading "Projects Hub & Live GitHub Sync" [level=3] [ref=e163]
+            - paragraph [ref=e164]: Explore all 11+ production full-stack, mobile, and system projects, live search filters, and real-time GitHub activity sync.
+          - link "Explore Projects Hub ↗" [ref=e165] [cursor=pointer]:
+            - /url: /projects
+        - generic [ref=e166]:
+          - generic [ref=e167]:
+            - generic [ref=e168]: 💼
+            - generic [ref=e169]: TAQA Arabia & CHI
+            - heading "Experience, Resume & Reviews" [level=3] [ref=e170]
+            - paragraph [ref=e171]: Review TAQA Arabia & CHI internships, education background, interactive Overleaf LaTeX resume, and visitor reviews.
+          - link "View Experience & CV ↗" [ref=e172] [cursor=pointer]:
+            - /url: /experience
+        - generic [ref=e173]:
+          - generic [ref=e174]:
+            - generic [ref=e175]: ⚡
+            - generic [ref=e176]: Core Tech Stack
+            - heading "Skills, Tech Stack & Languages" [level=3] [ref=e177]
+            - paragraph [ref=e178]: Browse technical skills, category filters (Java, Spring Boot, React, C#, Flutter, SQL, Docker), soft skills, and languages.
+          - link "View Skills & Stack ↗" [ref=e179] [cursor=pointer]:
+            - /url: /skills
+        - generic [ref=e180]:
+          - generic [ref=e181]:
+            - generic [ref=e182]: 📬
+            - generic [ref=e183]: Direct Contact
+            - heading "Get In Touch & Hire Zayd" [level=3] [ref=e184]
+            - paragraph [ref=e185]: Direct messaging form, 1-click email/WhatsApp/LinkedIn copy chips, interview booking banner, and FAQ answers.
+          - link "Contact & Hire Zayd ↗" [ref=e186] [cursor=pointer]:
+            - /url: /contact
+  - button "Back to top"
+  - contentinfo [ref=e187]:
+    - generic [ref=e188]:
+      - paragraph [ref=e189]:
+        - text: Crafted with passion by
+        - strong [ref=e190]: Zayd Ali Mohamed
+        - text: .
+      - generic [ref=e191]:
+        - button "Terminal CLI" [ref=e192] [cursor=pointer]
+        - button "Ask AI Copilot" [ref=e193] [cursor=pointer]
+        - link "GitHub" [ref=e194] [cursor=pointer]:
+          - /url: https://github.com/zaydaly05
+        - link "LinkedIn" [ref=e195] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/zayd-ali-17a85a1a0
+        - link "Email" [ref=e196] [cursor=pointer]:
+          - /url: mailto:zaydaly0501@gmail.com
+      - paragraph [ref=e197]: © 2026 Zayd Ali Mohamed · Built with Node.js & Express
+  - button "Toggle Ask Zayd AI Copilot" [ref=e199] [cursor=pointer]:
+    - generic [ref=e204]: Ask Zayd AI
+  - generic [ref=e206]:
+    - button "Close" [ref=e207] [cursor=pointer]: ×
+    - generic [ref=e208]:
+      - generic [ref=e209]: ⭐
+      - generic [ref=e210]:
+        - heading "Enjoying Zayd's Portfolio?" [level=6] [ref=e211]
+        - paragraph [ref=e212]: Star the repo & leave a review on the Experience page!
+    - link "Leave Review & Star ↗" [ref=e214] [cursor=pointer]:
+      - /url: /experience#reviews-section
+```
