@@ -25,24 +25,39 @@ loadEnvFile(envPath);
 loadEnvFile(envLocalPath);
 
 // Configure Cloudinary
-if (process.env.CLOUDINARY_URL) {
-  cloudinary.config();
-} else if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
-  cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
-  });
-} else {
-  console.error('\n❌ ERROR: Cloudinary credentials missing!\n');
+let cloudUrl = (process.env.CLOUDINARY_URL || '').trim();
+// Automatically strip formatting brackets < > if user included them
+if (cloudUrl) {
+  cloudUrl = cloudUrl.replace(/<([^>]+)>/g, '$1');
+}
+let cloudName = (process.env.CLOUDINARY_CLOUD_NAME || '').replace(/[<>]/g, '').trim();
+let apiKey = (process.env.CLOUDINARY_API_KEY || '').replace(/[<>]/g, '').trim();
+let apiSecret = (process.env.CLOUDINARY_API_SECRET || '').replace(/[<>]/g, '').trim();
+
+if (cloudUrl) {
+  const match = cloudUrl.match(/^cloudinary:\/\/([^:]+):([^@]+)@(.+)$/i);
+  if (match) {
+    apiKey = match[1];
+    apiSecret = match[2];
+    cloudName = match[3].toLowerCase();
+  }
+}
+
+const isPlaceholder = cloudUrl.includes('API_KEY') || cloudName === 'your_cloud_name';
+
+if (!cloudName || !apiKey || !apiSecret || isPlaceholder) {
+  console.error('\n❌ ERROR: Cloudinary credentials missing or set to placeholder!\n');
   console.log('Please add your Cloudinary URL or credentials to .env.local:');
-  console.log('CLOUDINARY_URL=cloudinary://API_KEY:API_SECRET@CLOUD_NAME\n');
-  console.log('Or add individually:');
-  console.log('CLOUDINARY_CLOUD_NAME=your_cloud_name');
-  console.log('CLOUDINARY_API_KEY=your_api_key');
-  console.log('CLOUDINARY_API_SECRET=your_api_secret\n');
+  console.log('CLOUDINARY_URL=cloudinary://<API_KEY>:<API_SECRET>@<CLOUD_NAME>\n');
   process.exit(1);
 }
+
+cloudinary.config({
+  cloud_name: cloudName,
+  api_key: apiKey,
+  api_secret: apiSecret,
+  secure: true
+});
 
 const PUBLIC_ASSETS_DIR = path.join(__dirname, '..', 'public', 'assets');
 const MAP_FILE = path.join(__dirname, 'cloudinary-map.json');

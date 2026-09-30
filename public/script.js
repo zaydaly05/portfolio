@@ -9,9 +9,9 @@ const setText = (id, value) => {
 const THEME_STORAGE_KEY = "portfolio-theme";
 const WHATSAPP_NUMBER = "201017741741";
 const PROFILE_PHOTO_CANDIDATES = [
-  "/assets/main-photo.jpeg",
-  "assets/main-photo.jpeg",
-  "./assets/main-photo.jpeg",
+  "https://res.cloudinary.com/delnnzcph/image/upload/v1790790773/zayd-portfolio/main-photo.jpg",
+  "https://res.cloudinary.com/delnnzcph/image/upload/v1790790773/zayd-portfolio/main-photo.jpg",
+  ".https://res.cloudinary.com/delnnzcph/image/upload/v1790790773/zayd-portfolio/main-photo.jpg",
   "../Assets/main-photo.jpeg",
   "Assets/main-photo.jpeg",
   "/Assets/main-photo.jpeg"
@@ -72,7 +72,7 @@ const fallbackPortfolio = {
       name: "Gulf Limousine Booking App",
       period: "July 2026",
       stack: "Flutter, Dart, Firebase, REST API",
-      image: "/assets/gulf-limousine.jpg",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790766/zayd-portfolio/gulf-limousine.jpg",
       github: "https://github.com/zaydaly05/Gulf_Limousine_App",
       description: "Cross-platform luxury limousine reservation & fleet tracking mobile app featuring real-time driver allocation, vehicle selection, fare estimation, and client booking management."
     },
@@ -80,8 +80,8 @@ const fallbackPortfolio = {
       name: "Essmat Plastic Factory Management System",
       period: "September 2026",
       stack: "C#, .NET, SQL Server, Entity Framework",
-      image: "/assets/employee-e1.png",
-      pdfReport: "/assets/essmat-plastic-report.pdf",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
+      pdfReport: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790736/zayd-portfolio/essmat-plastic-report.pdf",
       github: "https://github.com/zaydaly05/EssmatPlastic",
       description: "Enterprise inventory and production management solution for plastic manufacturing, optimizing raw material tracking, order processing, and factory billing workflows."
     },
@@ -89,7 +89,7 @@ const fallbackPortfolio = {
       name: "Dr. Naglaa Academic Biography Portal",
       period: "September 2026",
       stack: "HTML5, CSS3, JavaScript, Responsive UI",
-      image: "/assets/dr-nagla-bio.jpeg",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790721/zayd-portfolio/dr-nagla-bio.jpg",
       github: "https://github.com/zaydaly05/drNaglaBio",
       description: "Modern academic portfolio & publication showcase website designed for university faculty, featuring curriculum vitae integration, research paper archives, and student contact channels."
     },
@@ -97,7 +97,7 @@ const fallbackPortfolio = {
       name: "Food Ordering Management System",
       period: "May 2026",
       stack: "Spring Boot, Tailwind, React, MongoDB",
-      image: "/assets/f1.png",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790738/zayd-portfolio/f1.png",
       github: "https://github.com/zaydaly05/food_ordering_system",
       description: "Developed a full-stack food ordering system with Spring Boot and a React + Tailwind frontend. Built RESTful APIs for authentication, menu management, cart operations, and order processing with MongoDB. Implemented role-based Admin and Customer flows with CRUD, order tracking, and analytics such as top-selling items and profit insights."
     },
@@ -105,7 +105,7 @@ const fallbackPortfolio = {
       name: "In Gaz API System",
       period: "July 2025",
       stack: "C#, Flutter, .NET Core Web API",
-      image: "/assets/ingaz-1.jpeg",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790771/zayd-portfolio/ingaz-1.jpg",
       github: "https://github.com/zaydaly05/InGazAPI",
       description: "Built a Flutter frontend integrated with a C# .NET Core Web API backend using MVC, secure role-based access, CRUD operations, and Swagger testing."
     },
@@ -113,7 +113,7 @@ const fallbackPortfolio = {
       name: "Employee Attendance & Leave System",
       period: "December 2025",
       stack: "HTML, CSS, PHP, MySQL",
-      image: "/assets/employee-e1.png",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
       github: "https://github.com/zaydaly05/Employee_Attendance-Leave_Management_System",
       description: "Developed a web-based attendance and leave platform with automated tracking and approval, event/announcement features, and secure relational role-based access."
     },
@@ -121,7 +121,7 @@ const fallbackPortfolio = {
       name: "Car Rental Website",
       period: "May 2025",
       stack: "HTML, CSS, MongoDB, Node.js, JavaScript",
-      image: "/assets/car-rental-c1.png",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790715/zayd-portfolio/car-rental-c1.png",
       github: "https://github.com/zaydaly05/Car_Rental_Website",
       description: "Developed a comprehensive e-commerce style platform for users to browse and rent cars with authentication, catalog management, and order processing."
     },
@@ -129,7 +129,7 @@ const fallbackPortfolio = {
       name: "Restaurant Management System",
       period: "December 2024",
       stack: "Java, JavaFX",
-      image: "/assets/restaurant-r1.png",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790805/zayd-portfolio/restaurant-r1.png",
       github: "https://github.com/zaydaly05/Restaurant_Management_System",
       description: "Created a recruitment system with a graphical user interface for managing job postings, applications, and interviews using Java and JavaFX."
     },
@@ -137,7 +137,7 @@ const fallbackPortfolio = {
       name: "Sleeping Alert System",
       period: "December 2025",
       stack: "Python, Flutter",
-      image: "/assets/sleeping-alert-py2.jpeg",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790811/zayd-portfolio/sleeping-alert-py2.jpg",
       github: "https://github.com/zaydaly05/Sleep_Alert_System",
       description: "Developed a sleeping alert system for an HCI course, applying usability and interaction design principles with a responsive mobile interface."
     },
@@ -145,7 +145,7 @@ const fallbackPortfolio = {
       name: "Zaydentity Digital Identity Platform",
       period: "September 2026",
       stack: "HTML5, CSS3, JavaScript",
-      image: "/assets/main-photo.jpeg",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790773/zayd-portfolio/main-photo.jpg",
       github: "https://github.com/zaydaly05/zaydentity",
       description: "Digital personal branding & bio-link platform consolidating developer links, project highlights, and verified professional credentials in a unified interactive card UI."
     },
@@ -153,7 +153,7 @@ const fallbackPortfolio = {
       name: "WE Telecom Training Suite",
       period: "August 2026",
       stack: "Networking, C++, Telecommunications",
-      image: "/assets/chi-experience.jpeg",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790719/zayd-portfolio/chi-experience.jpg",
       github: "https://github.com/zaydaly05/WE_Intern",
       description: "Technical codebase & project artifacts developed during Telecom Egypt (WE) training, focusing on network protocol fundamentals, system administration, and enterprise infrastructure."
     }
@@ -197,7 +197,7 @@ const fallbackPortfolio = {
       date: "August 2025",
       category: "Industry Experience",
       image: "/assets/Online%20Certificates/Exp%20letter%20taqa%202025.png",
-      pdf: "/assets/Taqa25Crt.jpeg",
+      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790815/zayd-portfolio/Taqa25Crt.jpg",
       desc: "Official engineering internship certificate recognizing contribution to the In Gaz API mobile platform."
     },
     {
@@ -242,7 +242,7 @@ const fallbackPortfolio = {
       date: "September 2025",
       category: "Industry Experience",
       image: "/assets/Online%20Certificates/Experience%20letter%20CHI.jpg",
-      pdf: "/assets/chi-experience.jpeg",
+      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790719/zayd-portfolio/chi-experience.jpg",
       desc: "Institutional user account management, website front-end maintenance, and digital content production."
     }
   ]
@@ -926,16 +926,16 @@ const renderExperience = (items) => {
       description: "Key Responsibilities, Achievements & Contributions:",
       points: item.points || [],
       media: isCairoHigherInstitute
-        ? [{ src: "/assets/chi-experience.jpeg", alt: "Cairo Higher Institute experience photo" }]
+        ? [{ src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790719/zayd-portfolio/chi-experience.jpg", alt: "Cairo Higher Institute experience photo" }]
         : isTaqaSoftwareDevelopment
           ? [
-              { src: "/assets/taqa25-exp.jpeg", alt: "TAQA Software Development Internship experience photo" },
-              { src: "/assets/taqa25-crt.jpeg", alt: "TAQA Software Development Internship official certificate" }
+              { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790814/zayd-portfolio/taqa25-exp.jpg", alt: "TAQA Software Development Internship experience photo" },
+              { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790813/zayd-portfolio/taqa25-crt.jpg", alt: "TAQA Software Development Internship official certificate" }
             ]
           : isTaqaItDepartment
             ? [
-                { src: "/assets/taqa24.jpeg", alt: "TAQA IT Department internship photo 1" },
-                { src: "/assets/taqa24e.jpeg", alt: "TAQA IT Department internship photo 2" }
+                { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790812/zayd-portfolio/taqa24.jpg", alt: "TAQA IT Department internship photo 1" },
+                { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790812/zayd-portfolio/taqa24e.jpg", alt: "TAQA IT Department internship photo 2" }
               ]
           : []
     };
@@ -970,7 +970,7 @@ const renderProjects = (items) => {
   container.innerHTML = safeItems
     .map((item) => {
       const githubUrl = getGithubUrl(item.name, item.github);
-      const imgUrl = (item.image && !item.image.endsWith('.pdf')) ? item.image : "/assets/dr-nagla-hero.png";
+      const imgUrl = (item.image && !item.image.endsWith('.pdf')) ? item.image : "https://res.cloudinary.com/delnnzcph/image/upload/v1790790725/zayd-portfolio/dr-nagla-hero.png";
       const pdfUrl = item.pdfReport || (item.image && item.image.endsWith('.pdf') ? item.image : null);
 
       return `
@@ -1025,16 +1025,16 @@ const renderProjects = (items) => {
       ],
       media: isDrNaglaBioProject
         ? [
-            { src: "/assets/dr-nagla-hero.png", alt: "Dr Naglaa Academic Portal Hero" },
-            { src: "/assets/dr-nagla-biography.png", alt: "Dr Naglaa Biography & Academic Credentials" },
-            { src: "/assets/dr-nagla-publications.png", alt: "Dr Naglaa Research Publications" },
-            { src: "/assets/dr-nagla-contact.png", alt: "Dr Naglaa Academic Contact Section" }
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790725/zayd-portfolio/dr-nagla-hero.png", alt: "Dr Naglaa Academic Portal Hero" },
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790722/zayd-portfolio/dr-nagla-biography.png", alt: "Dr Naglaa Biography & Academic Credentials" },
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790727/zayd-portfolio/dr-nagla-publications.png", alt: "Dr Naglaa Research Publications" },
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790723/zayd-portfolio/dr-nagla-contact.png", alt: "Dr Naglaa Academic Contact Section" }
           ]
         : isGulfLimousineProject
-        ? [{ src: "/assets/gulf-limousine.jpg", alt: "Gulf Limousine App real output preview" }]
+        ? [{ src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790766/zayd-portfolio/gulf-limousine.jpg", alt: "Gulf Limousine App real output preview" }]
         : isEssmatPlasticProject
         ? [
-            { src: "/assets/employee-e1.png", alt: "Essmat Plastic Management System dashboard" }
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png", alt: "Essmat Plastic Management System dashboard" }
           ]
         : isFoodOrderingProject
         ? Array.from({ length: 16 }, (_, i) => ({
@@ -1043,36 +1043,36 @@ const renderProjects = (items) => {
           }))
         : isInGazProject
         ? [
-            { src: "/assets/ingaz-1.jpeg", alt: "In Gaz API app screenshot 1" },
-            { src: "/assets/ingaz-2.jpeg", alt: "In Gaz API app screenshot 2" }
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790771/zayd-portfolio/ingaz-1.jpg", alt: "In Gaz API app screenshot 1" },
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790772/zayd-portfolio/ingaz-2.jpg", alt: "In Gaz API app screenshot 2" }
           ]
         : isCarRentalProject
         ? [
-            { src: "/assets/car-rental-c1.png", alt: "Car Rental Website screenshot c1" },
-            { src: "/assets/car-rental-c2.png", alt: "Car Rental Website screenshot c2" },
-            { src: "/assets/car-rental-c3.png", alt: "Car Rental Website screenshot c3" }
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790715/zayd-portfolio/car-rental-c1.png", alt: "Car Rental Website screenshot c1" },
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790716/zayd-portfolio/car-rental-c2.png", alt: "Car Rental Website screenshot c2" },
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790718/zayd-portfolio/car-rental-c3.png", alt: "Car Rental Website screenshot c3" }
           ]
         : isRestaurantProject
         ? [
-            { src: "/assets/restaurant-r1.png", alt: "Restaurant Management System screenshot r1" },
-            { src: "/assets/restaurant-r2.png", alt: "Restaurant Management System screenshot r2" },
-            { src: "/assets/restaurant-r3.png", alt: "Restaurant Management System screenshot r3" },
-            { src: "/assets/restaurant-r4.png", alt: "Restaurant Management System screenshot r4" },
-            { src: "/assets/restaurant-r5.png", alt: "Restaurant Management System screenshot r5" }
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790805/zayd-portfolio/restaurant-r1.png", alt: "Restaurant Management System screenshot r1" },
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790805/zayd-portfolio/restaurant-r2.png", alt: "Restaurant Management System screenshot r2" },
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790806/zayd-portfolio/restaurant-r3.png", alt: "Restaurant Management System screenshot r3" },
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790807/zayd-portfolio/restaurant-r4.png", alt: "Restaurant Management System screenshot r4" },
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790808/zayd-portfolio/restaurant-r5.png", alt: "Restaurant Management System screenshot r5" }
           ]
         : isSleepingAlertProject
         ? [
-            { src: "/assets/sleeping-alert-py2.jpeg", alt: "Sleeping Alert System screenshot py2" },
-            { src: "/assets/sleeping-alert-py1.mp4", type: "video", alt: "Sleeping Alert System demo video py1" }
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790811/zayd-portfolio/sleeping-alert-py2.jpg", alt: "Sleeping Alert System screenshot py2" },
+            { src: "https://res.cloudinary.com/delnnzcph/video/upload/v1790790810/zayd-portfolio/sleeping-alert-py1.mp4", type: "video", alt: "Sleeping Alert System demo video py1" }
           ]
         : isEmployeeAttendanceProject
         ? [
-            { src: "/assets/employee-e1.png", alt: "Employee Attendance and Leave System screenshot e1" },
-            { src: "/assets/employee-e2.png", alt: "Employee Attendance and Leave System screenshot e2" },
-            { src: "/assets/employee-e3.png", alt: "Employee Attendance and Leave System screenshot e3" },
-            { src: "/assets/employee-e4.png", alt: "Employee Attendance and Leave System screenshot e4" }
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png", alt: "Employee Attendance and Leave System screenshot e1" },
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790732/zayd-portfolio/employee-e2.png", alt: "Employee Attendance and Leave System screenshot e2" },
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790734/zayd-portfolio/employee-e3.png", alt: "Employee Attendance and Leave System screenshot e3" },
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790735/zayd-portfolio/employee-e4.png", alt: "Employee Attendance and Leave System screenshot e4" }
           ]
-        : [{ src: item.image || "/assets/main-photo.jpeg", alt: item.name }]
+        : [{ src: item.image || "https://res.cloudinary.com/delnnzcph/image/upload/v1790790773/zayd-portfolio/main-photo.jpg", alt: item.name }]
     };
   });
 };
