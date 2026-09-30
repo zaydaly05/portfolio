@@ -32,7 +32,7 @@ jobs:
       - name: 🔍 Run GitHub Repos Auto-Sync Engine
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE || '201017741741' }}
+          WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE }}
           CALLMEBOT_API_KEY: ${{ secrets.CALLMEBOT_API_KEY }}
           CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
         run: node scripts/auto-sync-portfolio.js
@@ -87,8 +87,9 @@ jobs:
         if: always()
         env:
           CALLMEBOT_KEY: ${{ secrets.CALLMEBOT_API_KEY }}
-          WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE || '201017741741' }}
+          WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE }}
         run: |
+          PHONE="${WHATSAPP_PHONE:-201017741741}"
           if [ -n "$CALLMEBOT_KEY" ]; then
-            curl -s "https://api.callmebot.com/whatsapp.php?phone=${WHATSAPP_PHONE}&text=Zayd+Portfolio+Automation:+Workflow+executed+successfully!+Portfolio+is+up+to+date.&apikey=$CALLMEBOT_KEY" || true
+            curl -s "https://api.callmebot.com/whatsapp.php?phone=${PHONE}&text=Zayd+Portfolio+Automation:+Workflow+executed+successfully!+Portfolio+is+up+to+date.&apikey=$CALLMEBOT_KEY" || true
           fi
