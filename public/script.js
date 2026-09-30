@@ -81,7 +81,7 @@ const fallbackPortfolio = {
       period: "September 2026",
       stack: "C#, .NET, SQL Server, Entity Framework",
       image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
-      pdfReport: "/assets/essmat-plastic-report.pdf",
+      pdfReport: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790736/zayd-portfolio/essmat-plastic-report.pdf",
       github: "https://github.com/zaydaly05/EssmatPlastic",
       description: "Enterprise inventory and production management solution for plastic manufacturing, optimizing raw material tracking, order processing, and factory billing workflows."
     },
