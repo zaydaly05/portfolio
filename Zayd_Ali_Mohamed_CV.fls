@@ -110,8 +110,8 @@ INPUT /opt/texlive/texdir/texmf-dist/tex/latex/fontawesome5/fontawesome5.sty
 INPUT /opt/texlive/texdir/texmf-dist/tex/latex/fontawesome5/fontawesome5.sty
 INPUT /opt/texlive/texdir/texmf-dist/tex/latex/l3kernel/expl3.sty
 INPUT /opt/texlive/texdir/texmf-dist/tex/latex/l3kernel/expl3.sty
-INPUT /opt/texlive/texdir/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
-INPUT /opt/texlive/texdir/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+INPUT /opt/texlive/texdir/texmf-dist/tex/latex/l3kernel/l3backend-pdftex.def
+INPUT /opt/texlive/texdir/texmf-dist/tex/latex/l3kernel/l3backend-pdftex.def
 INPUT /opt/texlive/texdir/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
 INPUT /opt/texlive/texdir/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
 INPUT /opt/texlive/texdir/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
