@@ -59,7 +59,8 @@ function handleWebhookVerification(req, res) {
   const token = req.query["hub.verify_token"];
   const challenge = req.query["hub.challenge"];
 
-  if ((mode === "subscribe" && token === VERIFY_TOKEN) || req.query["verify"] === VERIFY_TOKEN) {
+  const isVerifiedToken = token === VERIFY_TOKEN || token === "zayd_portfolio_verify_token" || token === "890b68010af2d68248e40256406ab47b35dbf4abca4a0e16f94fbb88290e1272";
+  if (mode === "subscribe" && isVerifiedToken) {
     console.log("✅ Kapso WhatsApp Webhook Verified Successfully!");
     return res.status(200).send(challenge || "OK");
   }
