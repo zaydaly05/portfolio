@@ -106,7 +106,7 @@ $data = [
             "name" => "Car Rental Website",
             "period" => "May 2025",
             "stack" => "HTML, CSS, MongoDB, Node.js, JavaScript",
-            "image" => "/assets/car-rental-c1.png",
+            "image" => "/assets/gulf-limousine.jpg",
             "github" => "https://github.com/zaydaly05/Car_Rental_Website",
             "description" => "Developed a comprehensive e-commerce style platform for users to browse and rent cars with authentication, catalog management, and order processing."
         ],

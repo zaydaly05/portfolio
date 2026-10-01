@@ -121,7 +121,7 @@ const fallbackPortfolio = {
       name: "Car Rental Website",
       period: "May 2025",
       stack: "HTML, CSS, MongoDB, Node.js, JavaScript",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790715/zayd-portfolio/car-rental-c1.png",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790766/zayd-portfolio/gulf-limousine.jpg",
       github: "https://github.com/zaydaly05/Car_Rental_Website",
       description: "Developed a comprehensive e-commerce style platform for users to browse and rent cars with authentication, catalog management, and order processing."
     },
@@ -1048,7 +1048,7 @@ const renderProjects = (items) => {
           ]
         : isCarRentalProject
         ? [
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790715/zayd-portfolio/car-rental-c1.png", alt: "Car Rental Website screenshot c1" },
+            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790766/zayd-portfolio/gulf-limousine.jpg", alt: "Car Rental Website logo preview" },
             { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790716/zayd-portfolio/car-rental-c2.png", alt: "Car Rental Website screenshot c2" },
             { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790718/zayd-portfolio/car-rental-c3.png", alt: "Car Rental Website screenshot c3" }
           ]
