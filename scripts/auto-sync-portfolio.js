@@ -210,6 +210,26 @@ async function syncPortfolio() {
     });
 
     if (addedProjects.length > 0) {
+      const projectDetails = addedProjects.map(p => `• *${p.name}* (${p.stack})`).join('\n');
+
+      // WhatsApp Interactive Approval Gate (Enabled when ENABLE_WHATSAPP_APPROVAL=true or in interactive mode)
+      if (process.env.ENABLE_WHATSAPP_APPROVAL === 'true' || process.env.REQUIRE_APPROVAL === 'true') {
+        const { requestWhatsAppApproval } = require('../api/whatsapp-approval');
+        console.log(`📱 Sending WhatsApp approval request for ${addedProjects.length} new project(s)...`);
+        
+        const approvalResult = await requestWhatsAppApproval(
+          "Portfolio Auto-Sync: Update server.js",
+          `Detected ${addedProjects.length} new GitHub project(s):\n${projectDetails}`,
+          300000 // 5 min timeout
+        );
+
+        if (!approvalResult || !approvalResult.approved) {
+          console.log(`🛑 WhatsApp Approval Status: ${approvalResult ? approvalResult.action : 'REJECTED'}. Modifications to server.js were cancelled.`);
+          return;
+        }
+        console.log("✅ WhatsApp Approval Received! Proceeding to update server.js...");
+      }
+
       console.log(`📝 Updating server.js with ${addedProjects.length} new projects...`);
 
       // Locate `projects: [` array inside server.js
