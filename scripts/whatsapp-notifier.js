@@ -88,32 +88,25 @@ async function sendWhatsAppAlert(type, actionName, details, meta = {}) {
 
   let sent = false;
 
-  // 1. Kapso WhatsApp Cloud API Delivery
+  // 1. Kapso WhatsApp Cloud API Delivery via Kapso SDK
   if (KAPSO_API_KEY && PHONE_NUMBER_ID) {
     try {
-      const response = await fetch(`${BASE_URL}/v18.0/${PHONE_NUMBER_ID}/messages`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${KAPSO_API_KEY}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          messaging_product: 'whatsapp',
-          to: WHATSAPP_PHONE,
-          type: 'text',
-          text: { body: formattedText }
-        })
+      const { WhatsAppClient } = require('@kapso/whatsapp-cloud-api');
+      const kapsoClient = new WhatsAppClient({
+        baseUrl: BASE_URL,
+        kapsoApiKey: KAPSO_API_KEY
       });
 
-      if (response.ok) {
-        console.log('✅ Sent via Kapso WhatsApp Cloud API!');
-        sent = true;
-      } else {
-        const errText = await response.text();
-        console.warn('⚠️ Kapso API response:', response.status, errText);
-      }
+      const res = await kapsoClient.messages.sendText({
+        phoneNumberId: PHONE_NUMBER_ID,
+        to: WHATSAPP_PHONE,
+        body: formattedText
+      });
+
+      console.log('✅ Sent via Kapso AI WhatsApp SDK!', res ? JSON.stringify(res) : '');
+      sent = true;
     } catch (err) {
-      console.warn('⚠️ Kapso WhatsApp dispatch error:', err.message);
+      console.warn('⚠️ Kapso WhatsApp dispatch note:', err.message);
     }
   }
 
