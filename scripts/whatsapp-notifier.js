@@ -20,7 +20,7 @@ if (fs.existsSync(envPath)) {
 
 const WHATSAPP_PHONE = (process.env.WHATSAPP_PHONE || '201017741741').replace(/[^0-9]/g, '');
 const KAPSO_API_KEY = process.env.KAPSO_API_KEY || process.env.WHATSAPP_TOKEN || '';
-const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID || '1423905784128972';
+const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID || '597907523413541';
 const CALLMEBOT_API_KEY = process.env.CALLMEBOT_API_KEY || '';
 const PUSHBULLET_TOKEN = process.env.PUSHBULLET_TOKEN || '';
 const BASE_URL = process.env.KAPSO_BASE_URL || 'https://api.kapso.ai/meta/whatsapp';

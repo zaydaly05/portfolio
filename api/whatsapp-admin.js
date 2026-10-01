@@ -3,7 +3,7 @@ const path = require('path');
 const { WhatsAppClient } = require('@kapso/whatsapp-cloud-api');
 
 const KAPSO_API_KEY = process.env.KAPSO_API_KEY || process.env.WHATSAPP_TOKEN || 'c676aaa27bb56c780e049a192598345c821f11647327cbecafc84686e91c9471';
-const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID || '1423905784128972';
+const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID || '597907523413541';
 const ADMIN_PHONE = (process.env.WHATSAPP_PHONE || process.env.RECIPIENT_PHONE || '201017741741').replace(/[^0-9]/g, '');
 const BASE_URL = process.env.KAPSO_BASE_URL || 'https://api.kapso.ai/meta/whatsapp';
 
