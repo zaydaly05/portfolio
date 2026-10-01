@@ -11,7 +11,7 @@ if (!cached) {
 }
 
 async function connectDB() {
-  const uri = process.env.MONGODB_URI || process.env.MONGODB_URL || process.env.portfolioDb_MONGODB_URI;
+  const uri = process.env.MONGODB_URI || process.env.MONGODB_URL;
   if (!uri) {
     // Return null if no URI configured - application will seamlessly fallback to local store
     return null;
