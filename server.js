@@ -214,7 +214,7 @@ const portfolioData = {
       name: "Essmat Plastic Factory Management System",
       period: "September 2026",
       stack: "C#, .NET, SQL Server, Entity Framework",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790864034/esmatPlastic.jpg",
       pdfReport: "/assets/essmat-plastic-report.pdf",
       github: "https://github.com/zaydaly05/EssmatPlastic",
       description:
@@ -233,7 +233,7 @@ const portfolioData = {
       name: "Food Ordering Management System",
       period: "May 2026",
       stack: "Spring Boot, Tailwind, React, MongoDB",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790738/zayd-portfolio/f1.png",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790864034/foodApplogo.png",
       github: "https://github.com/zaydaly05/food_ordering_system",
       description:
         "Developed a full-stack food ordering system with Spring Boot and a React + Tailwind frontend. Built RESTful APIs for authentication, menu management, cart operations, and order processing with MongoDB. Implemented role-based Admin and Customer flows with CRUD, order tracking, and analytics such as top-selling items and profit insights."
