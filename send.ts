@@ -48,7 +48,7 @@ export async function sendTextMessage(to: string, messageBody: string) {
 /**
  * Send a pre-approved template message via Kapso
  */
-export async function sendTemplateMessage(to: string, templateName: string, languageCode = "en_US") {
+export async function sendTemplateMessage(to: string, templateName: string, languageCode = "en_US", components: any[] = []) {
   console.log(`📋 Sending template message '${templateName}' via Kapso to ${to}...`);
 
   const response = await kapsoClient.messages.sendTemplate({
@@ -56,7 +56,8 @@ export async function sendTemplateMessage(to: string, templateName: string, lang
     to: to.replace(/[^0-9]/g, ""),
     template: {
       name: templateName,
-      language: { code: languageCode }
+      language: { code: languageCode },
+      components: components.length > 0 ? components : undefined
     }
   });
 
@@ -73,7 +74,7 @@ async function main() {
   console.log("==================================================");
 
   try {
-    const text = process.env.MSG_BODY || "🚀 Hello from Zayd's Portfolio Kapso WhatsApp Client!";
+    const text = "Hi \nmy new portfolio has been published \nvisit me on https://zaydaly05.com and leave me a nice feedback";
     await sendTextMessage(RECIPIENT_PHONE, text);
   } catch (error: any) {
     console.error("❌ Error sending message:", error.message || error);

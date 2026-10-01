@@ -44,7 +44,8 @@ console.log(`✅ 2a. Direct WhatsApp Mobile Link (Phone): ${directWhatsAppLink}`
 console.log(`✅ 2b. WhatsApp Username Link (@${WHATSAPP_USERNAME}): ${usernameWhatsAppLink}`);
 
 if (CALLMEBOT_API_KEY) {
-  const callMeBotUrl = `https://api.callmebot.com/whatsapp.php?phone=${WHATSAPP_PHONE}&text=${encodedText}&apikey=${CALLMEBOT_API_KEY}`;
+  const callMeBotPhone = process.env.CALLMEBOT_PHONE || WHATSAPP_PHONE;
+  const callMeBotUrl = `https://api.callmebot.com/whatsapp.php?phone=${callMeBotPhone}&text=${encodedText}&apikey=${CALLMEBOT_API_KEY}`;
   fetch(callMeBotUrl)
     .then(res => res.text())
     .then(txt => console.log("✅ 2b. CallMeBot automated WhatsApp delivery result:", txt.replace(/<[^>]*>?/gm, '')))

@@ -139,7 +139,8 @@ async function sendWhatsAppNotification(message) {
   }
 
   try {
-    const url = `https://api.callmebot.com/whatsapp.php?phone=${WHATSAPP_PHONE}&text=${encodedText}&apikey=${CALLMEBOT_API_KEY}`;
+    const callMeBotPhone = process.env.CALLMEBOT_PHONE || WHATSAPP_PHONE;
+    const url = `https://api.callmebot.com/whatsapp.php?phone=${callMeBotPhone}&text=${encodedText}&apikey=${CALLMEBOT_API_KEY}`;
     console.log("📱 Sending automated WhatsApp notification via CallMeBot...");
     const res = await fetch(url);
     const responseText = await res.text();

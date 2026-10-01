@@ -114,7 +114,8 @@ async function sendWhatsAppAlert(type, actionName, details, meta = {}) {
   if (!sent && CALLMEBOT_API_KEY) {
     try {
       const encodedText = encodeURIComponent(formattedText);
-      const url = `https://api.callmebot.com/whatsapp.php?phone=${WHATSAPP_PHONE}&text=${encodedText}&apikey=${CALLMEBOT_API_KEY}`;
+      const callMeBotPhone = process.env.CALLMEBOT_PHONE || WHATSAPP_PHONE;
+      const url = `https://api.callmebot.com/whatsapp.php?phone=${callMeBotPhone}&text=${encodedText}&apikey=${CALLMEBOT_API_KEY}`;
       const res = await fetch(url);
       const resText = await res.text();
       console.log('✅ Sent via CallMeBot WhatsApp API:', resText.replace(/<[^>]*>?/gm, ''));
