@@ -270,11 +270,12 @@ async function syncPortfolio() {
           }
         }
 
-        const notificationMsg = `🚀 *Zayd Portfolio Automated Sync*\n\n✅ Detected & integrated ${addedProjects.length} new GitHub project(s):\n` +
-          addedProjects.map(p => `• *${p.name}* (${p.stack})`).join('\n') +
-          `\n\n📌 Portfolio & CV sync completed. Deployment triggered!`;
-
-        await sendWhatsAppNotification(notificationMsg);
+        const { sendWhatsAppAlert } = require('./whatsapp-notifier');
+        await sendWhatsAppAlert(
+          'SUCCESS',
+          'Portfolio Auto-Sync Completed',
+          `Detected & integrated ${addedProjects.length} new GitHub project(s):\n` + addedProjects.map(p => `• *${p.name}* (${p.stack})`).join('\n')
+        );
       }
     } else {
       console.log("🎉 Portfolio is already up to date with all GitHub repositories!");
@@ -287,9 +288,15 @@ async function syncPortfolio() {
       execSync('node scripts/generate-pdf-cv.js', { stdio: 'inherit' });
     } catch (pdfErr) {
       console.warn("⚠️ PDF auto-generation note:", pdfErr.message);
+      const { sendWhatsAppAlert } = require('./whatsapp-notifier');
+      await sendWhatsAppAlert('WARNING', 'PDF CV Auto-Generation Warning', pdfErr.message);
     }
   } catch (error) {
     console.error("❌ Sync Error:", error.message);
+    try {
+      const { sendWhatsAppAlert } = require('./whatsapp-notifier');
+      await sendWhatsAppAlert('ERROR', 'Portfolio Sync Pipeline Failure', 'An error occurred during auto-sync execution.', { error: error.message });
+    } catch (e) {}
     process.exit(1);
   }
 }
