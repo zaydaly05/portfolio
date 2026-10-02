@@ -10,16 +10,15 @@ import { WhatsAppClient } from "@kapso/whatsapp-cloud-api";
  * - KAPSO_BASE_URL: (Optional) Base URL for Kapso proxy (default: https://api.kapso.ai/meta/whatsapp)
  */
 
-const KAPSO_API_KEY = process.env.KAPSO_API_KEY || process.env.WHATSAPP_TOKEN || "c676aaa27bb56c780e049a192598345c821f11647327cbecafc84686e91c9471";
-const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID || "597907523413541";
+const KAPSO_API_KEY = process.env.KAPSO_API_KEY || process.env.WHATSAPP_TOKEN || "e476793bcb69e8271bdf7948b28c3ef99bdcf3e26fbfe728b4cc30a779ed35f5";
+const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID || "1409896862201042";
 const RECIPIENT_PHONE = process.env.WHATSAPP_PHONE || process.env.RECIPIENT_PHONE || "201017741741";
 const BASE_URL = process.env.KAPSO_BASE_URL || "https://api.kapso.ai/meta/whatsapp";
 
 // Initialize the Kapso WhatsApp Client
 export const kapsoClient = new WhatsAppClient({
   baseUrl: BASE_URL,
-  kapsoApiKey: KAPSO_API_KEY,
-  accessToken: KAPSO_API_KEY // Fallback for raw Meta API access
+  kapsoApiKey: KAPSO_API_KEY
 });
 
 /**
