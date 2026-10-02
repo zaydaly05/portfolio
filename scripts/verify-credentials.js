@@ -44,9 +44,10 @@ async function verifyAllCredentials() {
         const txt = await res.text();
         results.push({ name: 'KAPSO_API_KEY & PHONE_ID', status: '⚠️ CHECK KEY', details: `Status ${res.status}: ${txt.slice(0, 80)}` });
       }
-    } catch (err) {
+    } catch {
       results.push({ name: 'KAPSO_API_KEY', status: '✅ MATCHED (OFFLINE CHECK)', details: `Key present (${kapsoApiKey.slice(0, 10)}...)` });
     }
+
   }
 
   // 2. Verify MongoDB Connection URI
@@ -85,13 +86,14 @@ async function verifyAllCredentials() {
         }
       } else {
         cloudinary.config({ cloudinary_url: rawCloudUrl });
-        const pingRes = await cloudinary.api.ping();
+        await cloudinary.api.ping();
         results.push({ name: 'CLOUDINARY_URL', status: '✅ MATCHED & VERIFIED', details: 'Cloudinary CDN API Ping: OK' });
       }
     } catch (err) {
       results.push({ name: 'CLOUDINARY_URL', status: '❌ INVALID KEY/URL', details: err.message });
     }
   }
+
 
 
   // 4. Verify GitHub Token

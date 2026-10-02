@@ -90,9 +90,11 @@ async function uploadAssets() {
   if (fs.existsSync(MAP_FILE)) {
     try {
       Object.assign(urlMap, JSON.parse(fs.readFileSync(MAP_FILE, 'utf8')));
-    } catch (e) {
+    } catch {
       // Ignore invalid JSON map
     }
+
+
   }
 
   for (let i = 0; i < files.length; i++) {

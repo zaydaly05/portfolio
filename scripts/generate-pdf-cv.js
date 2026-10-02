@@ -1,6 +1,5 @@
 const { chromium } = require("@playwright/test");
 const path = require("path");
-const fs = require("fs");
 
 const generateCV = async () => {
   console.log("Generating CV PDF matching exact desired structure...");

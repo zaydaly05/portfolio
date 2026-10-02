@@ -10,9 +10,7 @@ const path = require('path');
 
 const GITHUB_USERNAME = 'zaydaly05';
 const SERVER_JS_PATH = path.join(__dirname, '..', 'server.js');
-const WHATSAPP_PHONE = process.env.WHATSAPP_PHONE || '201017741741';
-const WHATSAPP_USERNAME = (process.env.WHATSAPP_USERNAME || 'zaydaly05').replace('@', '');
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || ''; // Free Telegram Bot Token
+
 async function fetchGitHubRepos() {
   console.log(`🔍 Fetching public repositories for ${GITHUB_USERNAME}...`);
   const headers = {
@@ -41,87 +39,6 @@ async function fetchGitHubRepos() {
   }
 }
 
-const PUSHBULLET_TOKEN = process.env.PUSHBULLET_TOKEN || ''; // Free Pushbullet Mobile App Token
-const _TARGET_EMAIL = process.env.TARGET_EMAIL || 'zaydaly0501@gmail.com';
-
-async function sendPushbulletNotification(message) {
-  if (!PUSHBULLET_TOKEN) return false;
-  try {
-    console.log("📲 Sending instant mobile push notification via Pushbullet...");
-    const res = await fetch('https://api.pushbullet.com/v2/pushes', {
-      method: 'POST',
-      headers: {
-        'Access-Token': PUSHBULLET_TOKEN,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        type: 'note',
-        title: 'Zayd Portfolio AutoSync 🚀',
-        body: message
-      })
-    });
-    if (res.ok) {
-      console.log("🚀 Mobile phone push notification delivered!");
-      return true;
-    }
-  } catch (err) {
-    console.error("❌ Pushbullet error:", err.message);
-  }
-  return false;
-}
-
-async function sendTelegramNotification(message) {
-  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return false;
-
-  try {
-    console.log("✈️ Sending instant Telegram alert...");
-    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: TELEGRAM_CHAT_ID,
-        text: message,
-        parse_mode: 'Markdown'
-      })
-    });
-    if (res.ok) {
-      console.log("🚀 Telegram notification delivered instantly!");
-      return true;
-    }
-  } catch (err) {
-    console.error("❌ Telegram notification error:", err.message);
-  }
-  return false;
-}
-
-async function sendWebhookNotification(message) {
-  if (!process.env.MAKE_WEBHOOK_URL) return false;
-  try {
-    console.log("🔗 Triggering Mobile Webhook (Zapier/Make)...");
-    const res = await fetch(process.env.MAKE_WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message, phone: WHATSAPP_PHONE })
-    });
-    if (res.ok) {
-      console.log("🚀 Mobile webhook notification triggered successfully!");
-      return true;
-    }
-  } catch (err) {
-    console.error("❌ Webhook error:", err.message);
-  }
-  return false;
-}
-
-async function sendWhatsAppNotification(message) {
-  try {
-    const { sendWhatsAppAlert } = require('./whatsapp-notifier');
-    await sendWhatsAppAlert('SUCCESS', 'Portfolio Sync Event', message);
-  } catch (_err) {
-    console.log("📱 Notification summary:\n", message);
-  }
-}
 
 
 async function syncPortfolio() {
@@ -146,8 +63,6 @@ async function syncPortfolio() {
 
     let serverContent = fs.readFileSync(SERVER_JS_PATH, 'utf8');
 
-    // Extract portfolioData object block using regex or structure
-    let updatedCount = 0;
     const addedProjects = [];
 
     validRepos.forEach(repo => {
@@ -164,9 +79,9 @@ async function syncPortfolio() {
           stack: `${repo.language || 'Software'}, GitHub, Open-Source`,
           description: `${repo.description} (Automatically synced from GitHub repository: github.com/${GITHUB_USERNAME}/${repo.name})`
         });
-        updatedCount++;
       }
     });
+
 
     if (addedProjects.length > 0) {
       const projectDetails = addedProjects.map(p => `• *${p.name}* (${p.stack})`).join('\n');
@@ -255,7 +170,9 @@ async function syncPortfolio() {
     try {
       const { sendWhatsAppAlert } = require('./whatsapp-notifier');
       await sendWhatsAppAlert('ERROR', 'Portfolio Sync Pipeline Failure', 'An error occurred during auto-sync execution.', { error: error.message });
-    } catch (e) {}
+    } catch {}
+
+
     process.exit(1);
   }
 }

@@ -140,9 +140,11 @@ async function sendWhatsAppAlert(type, actionName, details, meta = {}) {
     const logDir = path.dirname(logPath);
     if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
     fs.appendFileSync(logPath, `[${new Date().toISOString()}] [${type.toUpperCase()}] ${actionName}: ${details}\n`);
-  } catch (logErr) {
+  } catch {
     // Ignore log errors
   }
+
+
 
   return { success: sent, message: formattedText, directLink };
 }

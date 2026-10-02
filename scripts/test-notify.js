@@ -37,8 +37,9 @@ if (PUSHBULLET_TOKEN) {
 // 2. Kapso WhatsApp Cloud API Notification
 const { sendWhatsAppAlert } = require('./whatsapp-notifier');
 sendWhatsAppAlert('SUCCESS', 'Manual Notification Test', sampleMsg)
-  .then(res => console.log('✅ 2. Kapso WhatsApp Cloud API test completed!'))
+  .then(() => console.log('✅ 2. Kapso WhatsApp Cloud API test completed!'))
   .catch(err => console.log('❌ 2. Kapso WhatsApp test error:', err.message));
+
 
 
 // 3. Make Webhook
