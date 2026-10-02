@@ -292,36 +292,20 @@ const generateCV = async () => {
   const page = await browser.newPage();
   await page.setContent(htmlContent, { waitUntil: "networkidle" });
 
-  const targetPath1 = path.join(__dirname, "..", "Assets", "cv.pdf");
-  const targetPath2 = path.join(__dirname, "..", "Assets", "Zayd Ali Mohamed CV.pdf");
-  const publicTargetPath1 = path.join(__dirname, "..", "public", "assets", "cv.pdf");
-  const publicTargetPath2 = path.join(__dirname, "..", "public", "assets", "Zayd Ali Mohamed CV.pdf");
-  const publicRootPath1 = path.join(__dirname, "..", "public", "cv.pdf");
-  const publicRootPath2 = path.join(__dirname, "..", "public", "Zayd Ali Mohamed CV.pdf");
+  const singleCvPath = path.join(__dirname, "..", "public", "assets", "Zayd Ali Mohamed CV.pdf");
 
   await page.pdf({
-    path: targetPath1,
+    path: singleCvPath,
     format: "A4",
     printBackground: true,
     margin: { top: "8mm", bottom: "8mm", left: "10mm", right: "10mm" }
   });
 
-  // Duplicate to all public & asset target locations
-  fs.copyFileSync(targetPath1, targetPath2);
-  fs.copyFileSync(targetPath1, publicTargetPath1);
-  fs.copyFileSync(targetPath1, publicTargetPath2);
-  fs.copyFileSync(targetPath1, publicRootPath1);
-  fs.copyFileSync(targetPath1, publicRootPath2);
-
-  console.log("Successfully generated updated CV PDF matching exact desired structure at:");
-  console.log(" -", targetPath1);
-  console.log(" -", targetPath2);
-  console.log(" -", publicTargetPath1);
-  console.log(" -", publicTargetPath2);
-  console.log(" -", publicRootPath1);
-  console.log(" -", publicRootPath2);
+  console.log("Successfully generated single updated CV PDF at:");
+  console.log(" -", singleCvPath);
 
   await browser.close();
+
 };
 
 generateCV().catch((err) => {
