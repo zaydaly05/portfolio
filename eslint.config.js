@@ -7,8 +7,6 @@ module.exports = [
       "**/node_modules/**",
       "**/.next/**",
       "scratch/**",
-      ".wwebjs_auth/**",
-      ".wwebjs_cache/**",
       "playwright-report/**",
       "test-results/**",
       "public/assets/**",

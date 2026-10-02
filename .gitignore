@@ -1,9 +1,15 @@
 # Dependencies
 node_modules/
 
-# Local WhatsApp Session & Cache
-.wwebjs_auth/
-.wwebjs_cache/
+# LaTeX Temporary Build Outputs
+*.aux
+*.fdb_latexmk
+*.fls
+*.out
+*.synctex.gz
+*.toc
+*.log
+
 scratch/
 
 # Logs & Audit History
