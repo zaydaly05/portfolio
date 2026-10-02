@@ -21,7 +21,6 @@ if (fs.existsSync(envPath)) {
 const WHATSAPP_PHONE = (process.env.WHATSAPP_PHONE || '201017741741').replace(/[^0-9]/g, '');
 const KAPSO_API_KEY = process.env.KAPSO_API_KEY || process.env.WHATSAPP_TOKEN || '';
 const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID || '597907523413541';
-const CALLMEBOT_API_KEY = process.env.CALLMEBOT_API_KEY || '';
 const PUSHBULLET_TOKEN = process.env.PUSHBULLET_TOKEN || '';
 const BASE_URL = process.env.KAPSO_BASE_URL || 'https://api.kapso.ai/meta/whatsapp';
 
@@ -110,22 +109,7 @@ async function sendWhatsAppAlert(type, actionName, details, meta = {}) {
     }
   }
 
-  // 2. CallMeBot WhatsApp Delivery Fallback
-  if (!sent && CALLMEBOT_API_KEY) {
-    try {
-      const encodedText = encodeURIComponent(formattedText);
-      const callMeBotPhone = process.env.CALLMEBOT_PHONE || WHATSAPP_PHONE;
-      const url = `https://api.callmebot.com/whatsapp.php?phone=${callMeBotPhone}&text=${encodedText}&apikey=${CALLMEBOT_API_KEY}`;
-      const res = await fetch(url);
-      const resText = await res.text();
-      console.log('✅ Sent via CallMeBot WhatsApp API:', resText.replace(/<[^>]*>?/gm, ''));
-      sent = true;
-    } catch (err) {
-      console.warn('⚠️ CallMeBot error:', err.message);
-    }
-  }
-
-  // 3. Pushbullet Mobile App Fallback
+  // 2. Pushbullet Mobile App Fallback
   if (PUSHBULLET_TOKEN) {
     try {
       await fetch('https://api.pushbullet.com/v2/pushes', {

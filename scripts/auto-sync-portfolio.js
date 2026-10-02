@@ -115,56 +115,14 @@ async function sendWebhookNotification(message) {
 }
 
 async function sendWhatsAppNotification(message) {
-  const CALLMEBOT_API_KEY = process.env.CALLMEBOT_API_KEY || '';
-  const _TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '';
-  const encodedText = encodeURIComponent(message);
-  const directWhatsAppLink = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedText}`;
-  const usernameWhatsAppLink = `https://wa.me/${WHATSAPP_USERNAME}?text=${encodedText}`;
-
-  // Mobile Delivery Channels
-  await sendPushbulletNotification(message);
-  await sendWebhookNotification(message);
-  await sendTelegramNotification(message);
-
-  if (!CALLMEBOT_API_KEY) {
-    console.log("\n------------------------------------------------------------");
-    console.log("📱 NOTIFICATION SUMMARY:");
-    console.log(message);
-    console.log(`\n🔗 Direct WhatsApp Link (Phone ${WHATSAPP_PHONE}):`);
-    console.log(directWhatsAppLink);
-    console.log(`\n👤 WhatsApp Username Link (@${WHATSAPP_USERNAME}):`);
-    console.log(usernameWhatsAppLink);
-    console.log("------------------------------------------------------------\n");
-    return;
-  }
-
   try {
-    const callMeBotPhone = process.env.CALLMEBOT_PHONE || WHATSAPP_PHONE;
-    const url = `https://api.callmebot.com/whatsapp.php?phone=${callMeBotPhone}&text=${encodedText}&apikey=${CALLMEBOT_API_KEY}`;
-    console.log("📱 Sending automated WhatsApp notification via CallMeBot...");
-    const res = await fetch(url);
-    const responseText = await res.text();
-    if (res.ok && !responseText.includes("APIKey is invalid")) {
-      console.log("🚀 WhatsApp message delivered successfully to your phone!");
-    } else {
-      console.warn("⚠️ WhatsApp delivery note:", responseText.replace(/<[^>]*>?/gm, ''));
-      console.log("🔗 Backup WhatsApp Link:", directWhatsAppLink);
-    }
-  } catch (err) {
-    console.error("❌ Failed to send WhatsApp notification:", err.message);
-  }
-
-  // Persistent Audit Log (Works even if WhatsApp app is locked/offline)
-  try {
-    const logsDir = path.join(__dirname, '..', 'logs');
-    if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
-    const logEntry = `[${new Date().toISOString()}]\n${message}\n----------------------------------------\n`;
-    fs.appendFileSync(path.join(logsDir, 'sync-audit.log'), logEntry, 'utf8');
-    console.log("📁 Sync report logged to logs/sync-audit.log");
-  } catch {
-    // Ignore log file error
+    const { sendWhatsAppAlert } = require('./whatsapp-notifier');
+    await sendWhatsAppAlert('SUCCESS', 'Portfolio Sync Event', message);
+  } catch (_err) {
+    console.log("📱 Notification summary:\n", message);
   }
 }
+
 
 async function syncPortfolio() {
   try {

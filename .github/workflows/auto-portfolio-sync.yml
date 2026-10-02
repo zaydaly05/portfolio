@@ -36,7 +36,9 @@ jobs:
           WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE }}
           KAPSO_API_KEY: ${{ secrets.KAPSO_API_KEY }}
           WHATSAPP_PHONE_NUMBER_ID: ${{ secrets.WHATSAPP_PHONE_NUMBER_ID }}
-          CALLMEBOT_API_KEY: ${{ secrets.CALLMEBOT_API_KEY }}
+          KAPSO_WEBHOOK_SECRET: ${{ secrets.KAPSO_WEBHOOK_SECRET }}
+          WHATSAPP_VERIFY_TOKEN: ${{ secrets.WHATSAPP_VERIFY_TOKEN }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
           CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
         run: node scripts/auto-sync-portfolio.js
 
@@ -83,12 +85,11 @@ jobs:
             echo "No repository changes detected. Portfolio is up to date."
           fi
 
-      - name: 📱 Send Mobile WhatsApp Alert (Kapso AI & Fallbacks)
+      - name: 📱 Send Mobile WhatsApp Alert (Kapso Cloud API)
         if: always()
         env:
           KAPSO_API_KEY: ${{ secrets.KAPSO_API_KEY }}
           WHATSAPP_PHONE_NUMBER_ID: ${{ secrets.WHATSAPP_PHONE_NUMBER_ID }}
           WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE }}
-          CALLMEBOT_API_KEY: ${{ secrets.CALLMEBOT_API_KEY }}
         run: |
           npx tsx send.ts || node scripts/test-notify.js || true

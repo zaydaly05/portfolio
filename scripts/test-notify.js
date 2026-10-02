@@ -7,8 +7,6 @@ const path = require('path');
 const fs = require('fs');
 
 const WHATSAPP_PHONE = process.env.WHATSAPP_PHONE || '201017741741';
-const WHATSAPP_USERNAME = (process.env.WHATSAPP_USERNAME || 'zaydaly05').replace('@', '');
-const CALLMEBOT_API_KEY = process.env.CALLMEBOT_API_KEY || '';
 const MAKE_WEBHOOK_URL = process.env.MAKE_WEBHOOK_URL || '';
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '';
@@ -36,23 +34,12 @@ if (PUSHBULLET_TOKEN) {
   console.log("ℹ️ 1. Pushbullet Mobile Notification (Set PUSHBULLET_TOKEN in env for direct phone pushes).");
 }
 
-// 2. Direct WhatsApp Link & CallMeBot Automated Messaging
-const encodedText = encodeURIComponent(sampleMsg);
-const directWhatsAppLink = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedText}`;
-const usernameWhatsAppLink = `https://wa.me/${WHATSAPP_USERNAME}?text=${encodedText}`;
-console.log(`✅ 2a. Direct WhatsApp Mobile Link (Phone): ${directWhatsAppLink}`);
-console.log(`✅ 2b. WhatsApp Username Link (@${WHATSAPP_USERNAME}): ${usernameWhatsAppLink}`);
+// 2. Kapso WhatsApp Cloud API Notification
+const { sendWhatsAppAlert } = require('./whatsapp-notifier');
+sendWhatsAppAlert('SUCCESS', 'Manual Notification Test', sampleMsg)
+  .then(res => console.log('✅ 2. Kapso WhatsApp Cloud API test completed!'))
+  .catch(err => console.log('❌ 2. Kapso WhatsApp test error:', err.message));
 
-if (CALLMEBOT_API_KEY) {
-  const callMeBotPhone = process.env.CALLMEBOT_PHONE || WHATSAPP_PHONE;
-  const callMeBotUrl = `https://api.callmebot.com/whatsapp.php?phone=${callMeBotPhone}&text=${encodedText}&apikey=${CALLMEBOT_API_KEY}`;
-  fetch(callMeBotUrl)
-    .then(res => res.text())
-    .then(txt => console.log("✅ 2b. CallMeBot automated WhatsApp delivery result:", txt.replace(/<[^>]*>?/gm, '')))
-    .catch(err => console.log("❌ 2b. CallMeBot error:", err.message));
-} else {
-  console.log("ℹ️ 2b. CallMeBot automated WhatsApp API skipped (Set CALLMEBOT_API_KEY in environment or GitHub Secrets).");
-}
 
 // 3. Make Webhook
 if (MAKE_WEBHOOK_URL) {
