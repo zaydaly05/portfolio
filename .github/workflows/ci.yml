@@ -1,0 +1,45 @@
+name: Node.js CI & Playwright Test Suite
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    name: ⚙️ Build, Lint & E2E Test Suite
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      - name: 🔍 Run ESLint Code Quality Checks
+        run: npm run lint
+
+      - name: 📄 Verify Executive CV PDF Generation
+        run: node scripts/generate-pdf-cv.js
+
+      - name: 🎭 Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: 🚀 Run Playwright End-to-End Tests
+        run: npm test
+
+      - name: 📊 Upload Playwright Test Report (On Failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
