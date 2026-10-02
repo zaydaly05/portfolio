@@ -159,7 +159,8 @@ async function syncPortfolio() {
     try {
       console.log("📄 Automatically generating executive CV PDF...");
       const { execSync } = require('child_process');
-      execSync('node scripts/generate-pdf-cv.js', { stdio: 'inherit' });
+      execSync('npx playwright install chromium && node scripts/generate-pdf-cv.js', { stdio: 'inherit' });
+
     } catch (pdfErr) {
       console.warn("⚠️ PDF auto-generation note:", pdfErr.message);
       const { sendWhatsAppAlert } = require('./whatsapp-notifier');
