@@ -27,14 +27,15 @@ jobs:
       - name: 🔍 Run ESLint Code Quality Checks
         run: npm run lint
 
-      - name: 📄 Verify Executive CV PDF Generation
-        run: node scripts/generate-pdf-cv.js
-
       - name: 🎭 Install Playwright Browsers
         run: npx playwright install --with-deps chromium
 
+      - name: 📄 Verify Executive CV PDF Generation
+        run: node scripts/generate-pdf-cv.js
+
       - name: 🚀 Run Playwright End-to-End Tests
         run: npm test
+
 
       - name: 📊 Upload Playwright Test Report (On Failure)
         if: failure()
