@@ -3,7 +3,7 @@ const path = require("path");
 const fs = require("fs");
 
 const generateCV = async () => {
-  console.log("Generating Jake's Resume (JV's Resume) format PDF from portfolio data...");
+  console.log("Generating CV PDF matching exact desired structure...");
 
   const htmlContent = `
 <!DOCTYPE html>
@@ -12,11 +12,11 @@ const generateCV = async () => {
   <meta charset="UTF-8">
   <title>Zayd Ali Mohamed - Resume</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Latin+Modern+Roman:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Latin+Modern+Roman:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
     
     @page {
       size: A4;
-      margin: 12mm 12mm 12mm 12mm;
+      margin: 10mm 12mm 10mm 12mm;
     }
 
     * {
@@ -26,69 +26,72 @@ const generateCV = async () => {
     }
 
     body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      color: #111827;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      color: #000000;
       background: #ffffff;
       line-height: 1.35;
-      font-size: 9pt;
+      font-size: 9.5pt;
       -webkit-print-color-adjust: exact;
     }
 
-    /* HEADER - JAKE'S RESUME CENTERED STYLE */
+    /* HEADER */
     .header {
       text-align: center;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .name {
-      font-size: 22pt;
-      font-weight: 800;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 24pt;
+      font-weight: 400;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      letter-spacing: 0.02em;
       color: #000000;
       margin-bottom: 2px;
     }
 
-    .subtitle {
+    .address {
       font-size: 9.5pt;
-      font-weight: 500;
-      color: #374151;
+      color: #222222;
       margin-bottom: 4px;
     }
 
     .contact-row {
-      font-size: 8.5pt;
-      color: #374151;
+      font-size: 9pt;
+      color: #000000;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 12px;
     }
 
     .contact-row a {
-      color: #111827;
-      text-decoration: none;
-    }
-
-    .sep {
-      color: #9ca3af;
+      color: #000000;
+      text-decoration: underline;
     }
 
     /* SECTIONS */
     .section-header {
-      font-size: 10pt;
+      font-size: 11pt;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
       color: #000000;
-      border-bottom: 1px solid #111827;
+      border-bottom: 1px solid #000000;
       padding-bottom: 1px;
       margin-top: 10px;
       margin-bottom: 5px;
     }
 
-    /* SUBHEADINGS / ENTRIES */
+    /* SUMMARY */
+    .summary-text {
+      font-size: 9pt;
+      color: #111111;
+      text-align: justify;
+      line-height: 1.35;
+      margin-bottom: 4px;
+    }
+
+    /* ENTRIES */
     .entry {
       margin-bottom: 6px;
     }
@@ -97,7 +100,7 @@ const generateCV = async () => {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      font-size: 9pt;
+      font-size: 9.5pt;
     }
 
     .entry-bold {
@@ -107,36 +110,42 @@ const generateCV = async () => {
 
     .entry-italic {
       font-style: italic;
-      color: #374151;
+      color: #222222;
     }
 
     .entry-date {
-      font-weight: 500;
-      color: #111827;
+      font-weight: 700;
+      color: #000000;
       text-align: right;
     }
 
-    /* BULLET LISTS */
+    /* BULLETS */
     ul.bullets {
-      padding-left: 14px;
+      padding-left: 18px;
       margin-top: 2px;
+      list-style-type: disc;
     }
 
     ul.bullets li {
-      font-size: 8.5pt;
-      color: #1f2937;
-      margin-bottom: 1.5px;
-      line-height: 1.35;
+      font-size: 9pt;
+      color: #111111;
+      margin-bottom: 2px;
+      line-height: 1.3;
     }
 
-    /* SKILLS SECTION */
-    .skills-list {
-      font-size: 8.5pt;
-      color: #1f2937;
-      line-height: 1.45;
+    /* SKILLS */
+    .skills-block {
+      font-size: 9pt;
+      line-height: 1.4;
+      color: #111111;
     }
 
-    .skills-list strong {
+    .skills-block div {
+      margin-bottom: 1px;
+    }
+
+    .skills-block strong {
+      font-weight: 700;
       color: #000000;
     }
   </style>
@@ -146,23 +155,19 @@ const generateCV = async () => {
   <!-- HEADER -->
   <div class="header">
     <div class="name">Zayd Ali Mohamed</div>
-    <div class="subtitle">Junior Computer Science Student | Software Developer</div>
+    <div class="address">Maadi, Cairo</div>
     <div class="contact-row">
-      <span>📞 01017741741</span> <span class="sep">|</span>
-      <span>📧 <a href="mailto:zaydaly0501@gmail.com">zaydaly0501@gmail.com</a></span> <span class="sep">|</span>
-      <span>💼 <a href="https://www.linkedin.com/in/zayd-ali-17a85a1a0">linkedin.com/in/zayd-ali</a></span> <span class="sep">|</span>
-      <span>💻 <a href="https://github.com/zaydaly05">github.com/zaydaly05</a></span> <span class="sep">|</span>
-      <span>📍 Cairo, Egypt</span>
+      <span>📞 01017741741</span>
+      <span>✉️ <a href="mailto:zaydaly0501@gmail.com">zaydaly0501@gmail.com</a></span>
+      <span>💼 <a href="https://www.linkedin.com/in/zayd-ali-17a85a1a0">www.linkedin.com/in/zayd-ali-17a85a1a0</a></span>
+      <span>💻 <a href="https://github.com/zaydaly05">github.com/zaydaly05</a></span>
     </div>
   </div>
 
-  <!-- EDUCATION -->
-  <div class="section-header">Education</div>
-  <div class="entry">
-    <div class="entry-row">
-      <div><span class="entry-bold">Misr International University</span> <span class="sep">|</span> <span class="entry-italic">Bachelor of Science in Computer Science</span></div>
-      <div class="entry-date">Sep 2023 – Jun 2027</div>
-    </div>
+  <!-- SUMMARY -->
+  <div class="section-header">Summary</div>
+  <div class="summary-text">
+    Ambitious Junior Computer Science student with a strong foundation in problem-solving and a passion for technology, consistently advancing technical expertise through hands-on projects and workshops while striving to deliver impactful, scalable software solutions.
   </div>
 
   <!-- EXPERIENCE -->
@@ -170,33 +175,30 @@ const generateCV = async () => {
 
   <div class="entry">
     <div class="entry-row">
-      <div><span class="entry-bold">Software Development Intern</span> &bull; <span class="entry-italic">TAQA Arabia</span></div>
-      <div class="entry-date">Jul 2025 – Aug 2025</div>
+      <div class="entry-bold">Cairo Higher Institute</div>
+      <div class="entry-date">August 2025 – September 2025</div>
+    </div>
+    <div class="entry-row">
+      <div class="entry-italic">Full-Time Internship in IT Department</div>
+      <div class="entry-italic">1st Settlement, Cairo</div>
     </div>
     <ul class="bullets">
-      <li>Contributed to developing the <strong>In Gaz API Mobile Application</strong> using Flutter frontend and C# .NET Core Web API backend.</li>
-      <li>Engineered secure RESTful endpoints, MVC architecture, role-based access control, and Swagger testing documentation.</li>
+      <li>Managed institutional email accounts and maintained the website using WordPress.</li>
+      <li>Oversaw social media accounts and created multimedia content to enhance digital presence.</li>
     </ul>
   </div>
 
   <div class="entry">
     <div class="entry-row">
-      <div><span class="entry-bold">IT Department Intern</span> &bull; <span class="entry-italic">Cairo Higher Institute</span></div>
-      <div class="entry-date">Aug 2025 – Sep 2025</div>
+      <div class="entry-bold">TAQA Arabia</div>
+      <div class="entry-date">July 2025 – August 2025</div>
     </div>
-    <ul class="bullets">
-      <li>Administered institutional user email accounts and custom domain security policies.</li>
-      <li>Updated and maintained front-end web portal assets on the official institute website via WordPress.</li>
-    </ul>
-  </div>
-
-  <div class="entry">
     <div class="entry-row">
-      <div><span class="entry-bold">IT Department Intern</span> &bull; <span class="entry-italic">TAQA Arabia</span></div>
-      <div class="entry-date">Aug 2024 – Sep 2024</div>
+      <div class="entry-italic">Full-Time Internship in Software Development Department</div>
+      <div class="entry-italic">Maadi, Cairo</div>
     </div>
     <ul class="bullets">
-      <li>Managed software configurations, user account access control, and enterprise IT infrastructure support.</li>
+      <li>Developed an InGaz API Mobile Application</li>
     </ul>
   </div>
 
@@ -205,100 +207,82 @@ const generateCV = async () => {
 
   <div class="entry">
     <div class="entry-row">
-      <div><span class="entry-bold">Gulf Limousine Luxury Booking App</span> <span class="sep">|</span> <span class="entry-italic">Flutter, Dart, Firebase, REST API</span></div>
-      <div class="entry-date">Jul 2026</div>
+      <div><span class="entry-bold">Restaurant Management System</span> <span style="color:#555;">|</span> <span class="entry-italic">Java, JavaFX</span></div>
+      <div class="entry-date">Dec 2024</div>
     </div>
     <ul class="bullets">
-      <li>Cross-platform luxury limousine reservation & fleet tracking mobile app featuring real-time driver allocation and fare estimation.</li>
+      <li>GUI system for managing job postings, applications, and interviews using Java and JavaFX.</li>
     </ul>
   </div>
 
   <div class="entry">
     <div class="entry-row">
-      <div><span class="entry-bold">Essmat Plastic Factory Management System</span> <span class="sep">|</span> <span class="entry-italic">C#, .NET, SQL Server, Entity Framework</span></div>
-      <div class="entry-date">Sep 2026</div>
-    </div>
-    <ul class="bullets">
-      <li>Enterprise inventory and production system optimizing raw material tracking, order processing, and factory billing.</li>
-    </ul>
-  </div>
-
-  <div class="entry">
-    <div class="entry-row">
-      <div><span class="entry-bold">Food Ordering Management System</span> <span class="sep">|</span> <span class="entry-italic">Spring Boot, React, Tailwind CSS, MongoDB</span></div>
-      <div class="entry-date">May 2026</div>
-    </div>
-    <ul class="bullets">
-      <li>Full-stack ordering system with RESTful APIs, JWT authentication, cart state, order tracking, and Admin profit analytics.</li>
-    </ul>
-  </div>
-
-  <div class="entry">
-    <div class="entry-row">
-      <div><span class="entry-bold">In Gaz API Mobile & REST System</span> <span class="sep">|</span> <span class="entry-italic">Flutter, C# .NET Core Web API, Swagger</span></div>
+      <div><span class="entry-bold">InGaz API System</span> <span style="color:#555;">|</span> <span class="entry-italic">C#, Flutter</span></div>
       <div class="entry-date">Jul 2025</div>
     </div>
     <ul class="bullets">
-      <li>Flutter client integrated with C# ASP.NET Core API backend, role authentication, CRUD endpoints, and Swagger docs.</li>
+      <li>Flutter mobile app integrated with .NET Core Web API with secure role-based access, CRUD operations, and Swagger testing.</li>
     </ul>
   </div>
 
   <div class="entry">
     <div class="entry-row">
-      <div><span class="entry-bold">Employee Attendance & Leave Platform</span> <span class="sep">|</span> <span class="entry-italic">PHP, MySQL, HTML/CSS</span></div>
+      <div><span class="entry-bold">Employee Attendance System</span> <span style="color:#555;">|</span> <span class="entry-italic">HTML, CSS, PHP, MySQL</span></div>
       <div class="entry-date">Dec 2025</div>
     </div>
     <ul class="bullets">
-      <li>Web platform for automated attendance check-ins, leave request processing, and HR relational database management.</li>
+      <li>Web-based system for attendance and leave management with automated tracking and secure database design.</li>
     </ul>
   </div>
 
   <div class="entry">
     <div class="entry-row">
-      <div><span class="entry-bold">Dr. Naglaa Academic Biography Portal</span> <span class="sep">|</span> <span class="entry-italic">HTML5, CSS3, JavaScript</span></div>
-      <div class="entry-date">Sep 2026</div>
+      <div><span class="entry-bold">Food Ordering System</span> <span style="color:#555;">|</span> <span class="entry-italic">Spring Boot, React, MongoDB</span></div>
+      <div class="entry-date">May 2026</div>
     </div>
     <ul class="bullets">
-      <li>Academic portfolio & publication showcase website featuring CV integration and research paper archives.</li>
+      <li>Full-stack system with authentication, CRUD operations, and analytics for orders and user activity.</li>
     </ul>
   </div>
 
   <!-- TECHNICAL SKILLS -->
   <div class="section-header">Technical Skills</div>
-  <div class="skills-list">
-    <div><strong>Languages:</strong> Java, C#, C++, C, Python, JavaScript, PHP, Dart, SQL, HTML5, CSS3</div>
-    <div><strong>Frameworks & Libraries:</strong> Spring Boot, React, Flutter, Express.js, Node.js, .NET Core Web API, JavaFX, Tailwind CSS</div>
-    <div><strong>Databases & Cloud:</strong> PostgreSQL, MySQL, MongoDB, Firebase, SQL Server</div>
-    <div><strong>Tools & Practices:</strong> Git, GitHub, Docker, VS Code, Android Studio, Postman, Swagger, OOP, REST APIs</div>
-    <div><strong>Languages & Soft Skills:</strong> Arabic (Native), English (Fluent) | Problem Solving, Teamwork, Rapid Upskilling</div>
+  <div class="skills-block">
+    <div><strong>Languages:</strong> PHP, C ,Python, Java, HTML, CSS, JavaScript, SQL, C++, C#, Flutter, Dart, Tailwind</div>
+    <div><strong>Databases:</strong> SQL, MongoDB, Firebase</div>
+    <div><strong>Developer Tools:</strong> VS Code, Apache NetBeans, XAMPP, Git, GitHub, Android Studio</div>
+    <div><strong>Frameworks:</strong> NodeJs, ExpressJs, SpringBoot, React</div>
+    <div><strong>Microsoft Office 365:</strong> Word, Excel, Powerpoint, Access</div>
+    <div><strong>Design Tools:</strong> Adobe Photoshop, Adobe InDesign, Adobe Premiere, Filmora</div>
+    <div><strong>Data Analysis:</strong> Orange Data Mining, Power BI</div>
+    <div><strong>Other Skills:</strong> Data Structures, OOP</div>
   </div>
 
-  <!-- ACTIVITIES & CERTIFICATIONS -->
-  <div class="section-header">Activities & Certifications</div>
-  <div class="entry" style="margin-bottom: 2px;">
+  <!-- SOFT SKILLS -->
+  <div class="section-header">Soft Skills</div>
+  <ul class="bullets">
+    <li>Strong Teamwork Abilities</li>
+    <li>Problem-Solving</li>
+    <li>Time Management and Organizational Skills</li>
+  </ul>
+
+  <!-- EDUCATION -->
+  <div class="section-header">Education</div>
+  <div class="entry">
     <div class="entry-row">
-      <div><span class="entry-bold">ACPC Club (Arab Competitive Programming Contest)</span> &bull; <span class="entry-italic">Active Member</span></div>
-      <div class="entry-date">2023 – Present</div>
+      <div class="entry-bold">Misr International University</div>
+      <div class="entry-date">September 2023 – June 2027</div>
     </div>
+    <div class="entry-italic">Bachelor of Science in Computer Science</div>
   </div>
-  <div class="entry" style="margin-bottom: 2px;">
-    <div class="entry-row">
-      <div><span class="entry-bold">IEEE Student Branch</span> &bull; <span class="entry-italic">Active Member</span></div>
-      <div class="entry-date">2023 – Present</div>
-    </div>
-  </div>
-  <div class="entry" style="margin-bottom: 2px;">
-    <div class="entry-row">
-      <div><span class="entry-bold">TAQA Arabia Software Engineering Internship Certificate</span> &bull; <span class="entry-italic">TAQA Arabia</span></div>
-      <div class="entry-date">Aug 2025</div>
-    </div>
-  </div>
-  <div class="entry" style="margin-bottom: 2px;">
-    <div class="entry-row">
-      <div><span class="entry-bold">Cisco JavaScript Essentials 1 & 2 | Cisco C Essentials 1</span> &bull; <span class="entry-italic">Cisco OpenEDG Academy</span></div>
-      <div class="entry-date">Jul 2025</div>
-    </div>
-  </div>
+
+  <!-- LANGUAGES -->
+  <div class="section-header">Languages</div>
+  <ul class="bullets">
+    <li>Arabic: Native</li>
+    <li>Engilsh: Fluent</li>
+    <li>French: Beginner</li>
+  </ul>
 
 </body>
 </html>
@@ -329,7 +313,7 @@ const generateCV = async () => {
   fs.copyFileSync(targetPath1, publicRootPath1);
   fs.copyFileSync(targetPath1, publicRootPath2);
 
-  console.log("Successfully generated updated Jake's Resume format PDF at:");
+  console.log("Successfully generated updated CV PDF matching exact desired structure at:");
   console.log(" -", targetPath1);
   console.log(" -", targetPath2);
   console.log(" -", publicTargetPath1);
