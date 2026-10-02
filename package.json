@@ -9,6 +9,7 @@
     "upload-media": "node scripts/upload-to-cloudinary.js",
     "upload-media:replace": "node scripts/upload-to-cloudinary.js --replace",
     "test-notify": "node --env-file=.env.local scripts/test-notify.js",
+    "check-secrets": "node scripts/verify-credentials.js",
     "lint": "npx eslint server.js public/script.js scripts/",
     "lint:fix": "npx eslint --fix server.js public/script.js scripts/",
     "test": "npx playwright test",
