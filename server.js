@@ -109,14 +109,14 @@ function findAssetFile(filename) {
 }
 
 
-// High-priority asset interceptor (handles Vercel serverless query params, rewrites and direct static requests)
+// High-priority asset interceptor (handles Vercel serverless query params, asset rewrites and direct static requests)
 app.use((req, res, next) => {
   const assetQuery = req.query.asset;
   const fullUrl = req.originalUrl || req.headers["x-matched-path"] || req.url || req.path || "";
-  const match = fullUrl.match(/\/assets\/(.+)$/);
-  const assetPath = assetQuery || (match ? match[1] : null);
+  const match = fullUrl.match(/\/(assets\/)?(.+)$/);
+  const assetPath = assetQuery || (match ? match[2] : null);
 
-  if (assetPath) {
+  if (assetPath && (assetPath.toLowerCase().endsWith(".pdf") || fullUrl.includes("/assets/"))) {
     const file = findAssetFile(assetPath);
     if (file) {
       assetCacheHeaders(res, file);
@@ -125,6 +125,7 @@ app.use((req, res, next) => {
   }
   next();
 });
+
 
 assetDirs.forEach(dir => {
   app.use(
