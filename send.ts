@@ -73,8 +73,7 @@ async function main() {
   console.log("==================================================");
 
   try {
-    const text = "Hi \nmy new portfolio has been published \nvisit me on https://zaydaly05.com and leave me a nice feedback";
-    await sendTextMessage(RECIPIENT_PHONE, text);
+    await sendTemplateMessage(RECIPIENT_PHONE, "portfolio_published_alert", "en_US");
   } catch (error: any) {
     console.error("❌ Error sending message:", error.message || error);
     process.exit(1);
