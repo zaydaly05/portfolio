@@ -8,9 +8,9 @@ on:
         required: true
         default: 'https://zayd-portfolio.vercel.app'
       projectName:
-        description: 'Name of the project (e.g. Jira-UI-Automation)'
+        description: 'Name of the project'
         required: true
-        default: 'Jira-UI-Automation'
+        default: 'project'
   repository_dispatch:
     types: [ publish_to_portfolio ]
 
