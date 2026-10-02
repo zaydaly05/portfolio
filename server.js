@@ -88,7 +88,14 @@ const assetDirs = [
 function findAssetFile(filename) {
   if (!filename) return null;
   const decoded = decodeURIComponent(filename.split("?")[0]);
-  const targets = [decoded, path.basename(decoded)];
+  const baseName = path.basename(decoded);
+  const targets = [
+    decoded,
+    baseName,
+    "Zayd Ali Mohamed CV.pdf",
+    "cv.pdf",
+    "Zayd_Ali_Mohamed_CV.pdf"
+  ];
 
   for (const dir of assetDirs) {
     for (const t of targets) {
@@ -100,6 +107,7 @@ function findAssetFile(filename) {
   }
   return null;
 }
+
 
 // High-priority asset interceptor (handles Vercel serverless query params, rewrites and direct static requests)
 app.use((req, res, next) => {
