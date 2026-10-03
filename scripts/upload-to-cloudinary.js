@@ -94,7 +94,13 @@ async function uploadAssets() {
       // Ignore invalid JSON map
     }
 
-
+    // Clean up obsolete keys if local file no longer exists
+    Object.keys(urlMap).forEach((key) => {
+      const localFile = path.join(__dirname, '..', 'public', key.replace(/^\//, ''));
+      if (!fs.existsSync(localFile)) {
+        delete urlMap[key];
+      }
+    });
   }
 
   for (let i = 0; i < files.length; i++) {
