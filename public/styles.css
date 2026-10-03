@@ -2483,18 +2483,20 @@ textarea::placeholder {
    CV PDF VIEWER MODAL
    ============================================ */
 .cv-modal-card {
-  width: min(900px, 94vw);
-  height: min(85vh, 760px);
-  min-height: 600px;
-  max-width: none;
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-  overflow: hidden;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--card-hover-border);
-  z-index: 10001;
-  background: var(--bg-secondary, #12121e);
+  width: min(950px, 95vw) !important;
+  height: 85vh !important;
+  min-height: 600px !important;
+  max-height: 85vh !important;
+  max-width: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border-radius: var(--radius-md) !important;
+  border: 1px solid var(--card-hover-border) !important;
+  z-index: 10001 !important;
+  background: var(--bg-secondary, #12121e) !important;
+  margin: auto !important;
 }
 
 .cv-modal-header {
