@@ -65,6 +65,8 @@ const assetCacheHeaders = (res, filePath) => {
     res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     res.setHeader("Pragma", "no-cache");
     res.setHeader("Expires", "0");
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", "inline; filename=\"Zayd_Ali_Mohamed_CV.pdf\"");
   } else {
     res.setHeader("Cache-Control", "public, max-age=86400");
   }
@@ -93,8 +95,8 @@ function findAssetFile(filename) {
     decoded,
     baseName,
     "Zayd Ali Mohamed CV.pdf",
-    "cv.pdf",
-    "Zayd_Ali_Mohamed_CV.pdf"
+    "Zayd_Ali_Mohamed_CV.pdf",
+    "cv.pdf"
   ];
 
   for (const dir of assetDirs) {
@@ -116,10 +118,14 @@ app.use((req, res, next) => {
   const match = fullUrl.match(/\/(assets\/)?(.+)$/);
   const assetPath = assetQuery || (match ? match[2] : null);
 
-  if (assetPath && (assetPath.toLowerCase().endsWith(".pdf") || fullUrl.includes("/assets/"))) {
+  if (assetPath && (assetPath.toLowerCase().endsWith(".pdf") || fullUrl.toLowerCase().includes("cv") || fullUrl.includes("/assets/"))) {
     const file = findAssetFile(assetPath);
     if (file) {
       assetCacheHeaders(res, file);
+      if (file.toLowerCase().endsWith(".pdf")) {
+        res.contentType("application/pdf");
+        res.setHeader("Content-Disposition", "inline; filename=\"Zayd_Ali_Mohamed_CV.pdf\"");
+      }
       return res.sendFile(file);
     }
   }

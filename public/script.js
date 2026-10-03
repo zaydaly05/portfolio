@@ -2429,13 +2429,27 @@ const setupCVViewerModal = () => {
 
   const openCVModal = () => {
     const timestamp = Date.now();
+    const pdfUrl = `/assets/Zayd%20Ali%20Mohamed%20CV.pdf?v=${timestamp}`;
+    const pdfUrlWithToolbar = `${pdfUrl}#toolbar=1`;
+
+    const cvObject = document.getElementById("cv-object");
+    if (cvObject) {
+      cvObject.data = pdfUrlWithToolbar;
+    }
+
     const iframe = document.getElementById("cv-iframe");
     if (iframe) {
-      iframe.src = `/assets/Zayd%20Ali%20Mohamed%20CV.pdf?v=${timestamp}#toolbar=1`;
+      iframe.src = pdfUrlWithToolbar;
     }
-    document.querySelectorAll("a[download*='CV']").forEach((link) => {
-      link.href = `/assets/Zayd%20Ali%20Mohamed%20CV.pdf?v=${timestamp}`;
+
+    document.querySelectorAll("a[download*='CV'], .cv-modal-actions a, .cv-fallback-card a").forEach((link) => {
+      if (link.hasAttribute("download")) {
+        link.href = pdfUrl;
+      } else if (link.getAttribute("target") === "_blank") {
+        link.href = pdfUrl;
+      }
     });
+
     document.body.appendChild(cvModal);
     cvModal.classList.remove("hidden");
     cvModal.setAttribute("aria-hidden", "false");

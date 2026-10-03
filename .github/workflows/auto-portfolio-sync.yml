@@ -85,10 +85,14 @@ jobs:
         id: cv
         run: |
           CANONICAL="public/assets/Zayd Ali Mohamed CV.pdf"
+          UNDERSCORE="public/assets/Zayd_Ali_Mohamed_CV.pdf"
+          SHORT="public/assets/cv.pdf"
 
           # ── Try LaTeX output first (highest quality) ──
           if [ -f "Zayd_Ali_Mohamed_CV.pdf" ]; then
             cp "Zayd_Ali_Mohamed_CV.pdf" "$CANONICAL"
+            cp "$CANONICAL" "$UNDERSCORE"
+            cp "$CANONICAL" "$SHORT"
             SIZE=$(du -sh "$CANONICAL" | cut -f1)
             echo "cv_source=latex"      >> "$GITHUB_OUTPUT"
             echo "cv_size=${SIZE}"      >> "$GITHUB_OUTPUT"
@@ -100,6 +104,8 @@ jobs:
             node scripts/generate-pdf-cv.js || true
 
             if [ -f "$CANONICAL" ]; then
+              cp "$CANONICAL" "$UNDERSCORE" || true
+              cp "$CANONICAL" "$SHORT" || true
               SIZE=$(du -sh "$CANONICAL" | cut -f1)
               echo "cv_source=playwright" >> "$GITHUB_OUTPUT"
               echo "cv_size=${SIZE}"      >> "$GITHUB_OUTPUT"

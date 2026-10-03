@@ -160,7 +160,17 @@
           </div>
         </div>
         <div class="cv-iframe-container">
-          <iframe src="/assets/Zayd%20Ali%20Mohamed%20CV.pdf#toolbar=1" id="cv-iframe" title="Zayd Ali Mohamed CV PDF"></iframe>
+          <object data="/assets/Zayd%20Ali%20Mohamed%20CV.pdf#toolbar=1" type="application/pdf" id="cv-object" style="width:100%;height:100%;">
+            <iframe src="/assets/Zayd%20Ali%20Mohamed%20CV.pdf#toolbar=1" id="cv-iframe" title="Zayd Ali Mohamed CV PDF">
+              <div class="cv-fallback-card">
+                <p>📄 PDF preview is not directly supported in your browser.</p>
+                <div class="cv-fallback-actions">
+                  <a href="/assets/Zayd%20Ali%20Mohamed%20CV.pdf" target="_blank" class="btn btn-sm">Open CV in New Tab ↗</a>
+                  <a href="/assets/Zayd%20Ali%20Mohamed%20CV.pdf" download="Zayd Ali Mohamed CV.pdf" class="btn btn-sm">Download PDF 📥</a>
+                </div>
+              </div>
+            </iframe>
+          </object>
         </div>
       </div>
     </div>

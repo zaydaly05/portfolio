@@ -292,6 +292,8 @@ const generateCV = async () => {
   await page.setContent(htmlContent, { waitUntil: "networkidle" });
 
   const singleCvPath = path.join(__dirname, "..", "public", "assets", "Zayd Ali Mohamed CV.pdf");
+  const underscoreCvPath = path.join(__dirname, "..", "public", "assets", "Zayd_Ali_Mohamed_CV.pdf");
+  const shortCvPath = path.join(__dirname, "..", "public", "assets", "cv.pdf");
 
   await page.pdf({
     path: singleCvPath,
@@ -300,11 +302,16 @@ const generateCV = async () => {
     margin: { top: "8mm", bottom: "8mm", left: "10mm", right: "10mm" }
   });
 
+  const fs = require("fs");
+  fs.copyFileSync(singleCvPath, underscoreCvPath);
+  fs.copyFileSync(singleCvPath, shortCvPath);
+
   console.log("Successfully generated single updated CV PDF at:");
   console.log(" -", singleCvPath);
+  console.log(" -", underscoreCvPath);
+  console.log(" -", shortCvPath);
 
   await browser.close();
-
 };
 
 generateCV().catch((err) => {
