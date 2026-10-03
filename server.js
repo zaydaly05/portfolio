@@ -48,6 +48,15 @@ const postRateLimiter = (req, res, next) => {
   next();
 };
 
+// Normalize Vercel internal rewrites to ensure Express matches original requested URL
+app.use((req, res, next) => {
+  const matchedPath = req.headers["x-matched-path"] || req.headers["x-forwarded-uri"];
+  if (matchedPath) {
+    req.url = matchedPath;
+  }
+  next();
+});
+
 // Input Sanitization Helper Function
 const sanitize = (str) => {
   if (typeof str !== "string") return "";
@@ -1020,38 +1029,49 @@ app.get("/api/whatsapp/pending-approvals", (req, res) => {
 
 
 // Explicit Multi-Page HTML Routes
-app.get("/projects", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "projects.html"));
-});
+const servePage = (pageName) => (req, res) => {
+  res.sendFile(path.join(__dirname, "public", `${pageName}.html`));
+};
 
-app.get("/experience", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "experience.html"));
-});
-
-app.get("/skills", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "skills.html"));
-});
-
-app.get("/contact", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "contact.html"));
-});
+app.get(["/projects", "/projects.html"], servePage("projects"));
+app.get(["/experience", "/experience.html"], servePage("experience"));
+app.get(["/skills", "/skills.html"], servePage("skills"));
+app.get(["/contact", "/contact.html"], servePage("contact"));
 
 // Catch-all: serve index.html for SPA routing (MUST be last)
 app.use((req, res) => {
-  const reqUrl = req.originalUrl || req.url || req.path;
-  
-  if (reqUrl.includes("/assets/")) {
-    const match = reqUrl.match(/\/assets\/(.+)$/);
+  const reqUrl = req.headers["x-matched-path"] || req.headers["x-forwarded-uri"] || req.originalUrl || req.url || req.path || "";
+  const cleanPath = reqUrl.split("?")[0].toLowerCase();
+
+  if (cleanPath.includes("/assets/")) {
+    const match = reqUrl.match(/\/assets\/(.+)$/i);
     const filename = match ? match[1] : "";
     const file = findAssetFile(filename);
     if (file) {
       assetCacheHeaders(res, file);
+      if (file.toLowerCase().endsWith(".pdf")) {
+        res.contentType("application/pdf");
+        res.setHeader("Content-Disposition", "inline; filename=\"Zayd_Ali_Mohamed_CV.pdf\"");
+      }
       return res.sendFile(file);
     }
     return res.status(404).json({ error: "Asset not found" });
   }
 
-  if (req.path.startsWith("/api/")) {
+  if (cleanPath.endsWith("/projects") || cleanPath.endsWith("/projects.html")) {
+    return res.sendFile(path.join(__dirname, "public", "projects.html"));
+  }
+  if (cleanPath.endsWith("/experience") || cleanPath.endsWith("/experience.html")) {
+    return res.sendFile(path.join(__dirname, "public", "experience.html"));
+  }
+  if (cleanPath.endsWith("/skills") || cleanPath.endsWith("/skills.html")) {
+    return res.sendFile(path.join(__dirname, "public", "skills.html"));
+  }
+  if (cleanPath.endsWith("/contact") || cleanPath.endsWith("/contact.html")) {
+    return res.sendFile(path.join(__dirname, "public", "contact.html"));
+  }
+
+  if (cleanPath.startsWith("/api/") && !cleanPath.startsWith("/api/index")) {
     return res.status(404).json({ error: "Not found" });
   }
 
