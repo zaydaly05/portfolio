@@ -247,7 +247,7 @@ const generateCV = async () => {
   <!-- TECHNICAL SKILLS -->
   <div class="section-header">Technical Skills</div>
   <div class="skills-block">
-    <div><strong>Languages:</strong> PHP, C ,Python, Java, HTML, CSS, JavaScript, SQL, C++, C#, Flutter, Dart, Tailwind</div>
+    <div><strong>Languages:</strong> PHP, C, Python, Java, HTML, CSS, JavaScript, SQL, C++, C#, Flutter, Dart, Tailwind</div>
     <div><strong>Databases:</strong> SQL, MongoDB, Firebase</div>
     <div><strong>Developer Tools:</strong> VS Code, Apache NetBeans, XAMPP, Git, GitHub, Android Studio</div>
     <div><strong>Frameworks:</strong> NodeJs, ExpressJs, SpringBoot, React</div>
@@ -279,7 +279,7 @@ const generateCV = async () => {
   <div class="section-header">Languages</div>
   <ul class="bullets">
     <li>Arabic: Native</li>
-    <li>Engilsh: Fluent</li>
+    <li>English: Fluent</li>
     <li>French: Beginner</li>
   </ul>
 
