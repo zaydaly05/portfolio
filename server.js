@@ -1029,7 +1029,7 @@ app.post("/api/star", postRateLimiter, async (req, res) => {
 });
 
 // Dynamic CV URL API & Redirects
-const DEFAULT_CV_URL = "https://collection.cloudinary.com/delnnzcph/8af224dfdea2cedb263fa74148bbdd8d";
+const DEFAULT_CV_URL = "/assets/Zayd_Ali_Mohamed_CV.pdf";
 
 app.get("/api/cv-url", async (req, res) => {
   try {
@@ -1070,7 +1070,7 @@ app.post("/api/cv-url", postRateLimiter, async (req, res) => {
   res.json({ ok: true, url, message: "CV URL updated (local fallback)" });
 });
 
-app.get(["/cv", "/assets/Zayd_Ali_Mohamed_CV.pdf", "/assets/Zayd%20Ali%20Mohamed%20CV.pdf"], async (req, res) => {
+app.get("/cv", async (req, res) => {
   let targetUrl = DEFAULT_CV_URL;
   try {
     const db = await connectDB();
