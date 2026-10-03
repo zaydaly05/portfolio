@@ -1074,18 +1074,28 @@ app.post("/api/cv-url", postRateLimiter, async (req, res) => {
   res.json({ ok: true, url, message: "CV URL updated (local fallback)" });
 });
 
-app.get(["/cv", "/assets/Zayd_Ali_Mohamed_CV.pdf", "/assets/Zayd%20Ali%20Mohamed%20CV.pdf"], async (req, res) => {
+app.get("/cv", async (req, res) => {
   let targetUrl = DEFAULT_CV_URL;
   try {
     const db = await connectDB();
     if (db) {
       const config = await CvConfig.findOne({ key: "cv_url" });
-      if (config && config.url) {
+      if (config && config.url && config.url !== "/cv") {
         targetUrl = config.url;
       }
     }
   } catch (err) {}
-  res.redirect(302, targetUrl);
+
+  if (targetUrl.startsWith("http://") || targetUrl.startsWith("https://")) {
+    return res.redirect(302, targetUrl);
+  }
+
+  const file = findAssetFile("Zayd_Ali_Mohamed_CV.pdf");
+  if (file) {
+    assetCacheHeaders(res, file);
+    return res.sendFile(file);
+  }
+  res.sendFile(path.join(process.cwd(), "public", "assets", "Zayd_Ali_Mohamed_CV.pdf"));
 });
 
 // Kapso WhatsApp Cloud API Webhook Routes
