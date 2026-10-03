@@ -126,8 +126,7 @@ jobs:
             TIMESTAMP=$(date -u "+%Y-%m-%d %H:%M UTC")
             CV_LABEL="cv:${{ steps.cv.outputs.cv_source }}(${{ steps.cv.outputs.cv_size }})"
 
-            git add .
-            git commit -m "auto(sync): portfolio refresh [${TIMESTAMP}]
+            MSG="auto(sync): portfolio refresh [${TIMESTAMP}]
 
   📦 ${CHANGED} file(s) changed
   🖨️  ${CV_LABEL}
@@ -135,14 +134,18 @@ jobs:
   🔖 Trigger: ${{ github.event_name }}
 
   [skip ci]"
+
+            git add .
+            git commit -m "$MSG"
             git push
-            echo "pushed=true"         >> "$GITHUB_OUTPUT"
-            echo "changed=${CHANGED}"  >> "$GITHUB_OUTPUT"
+            echo "pushed=true"        >> "$GITHUB_OUTPUT"
+            echo "changed=${CHANGED}" >> "$GITHUB_OUTPUT"
           else
             echo "✅ Portfolio is already up to date — nothing to commit"
             echo "pushed=false" >> "$GITHUB_OUTPUT"
             echo "changed=0"    >> "$GITHUB_OUTPUT"
           fi
+
 
       # ──────────────────────────────────────────────────
       # 5. JOB SUMMARY  (visible on the Actions tab ✨)
