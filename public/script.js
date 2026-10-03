@@ -33,7 +33,11 @@ const fallbackPortfolio = {
       "Motivated junior computer science student who loves technology and problem solving. I enjoy learning new skills, working on projects, and being part of workshops to grow in software development."
   },
   education: [
-    { institution: "Misr International University", degree: "Bachelor of Science in Computer Science", period: "Sep 2023 - Jun 2027" }
+    {
+      institution: "Misr International University",
+      degree: "Bachelor of Science in Computer Science",
+      period: "Sep 2023 - Jun 2027"
+    }
   ],
   activities: [
     { name: "ACPC Club", role: "Member", period: "2023 - Present" },
@@ -74,16 +78,19 @@ const fallbackPortfolio = {
       stack: "Flutter, Dart, Firebase, REST API",
       image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790766/zayd-portfolio/gulf-limousine.jpg",
       github: "https://github.com/zaydaly05/Gulf_Limousine_App",
-      description: "Cross-platform luxury limousine reservation & fleet tracking mobile app featuring real-time driver allocation, vehicle selection, fare estimation, and client booking management."
+      description:
+        "Cross-platform luxury limousine reservation & fleet tracking mobile app featuring real-time driver allocation, vehicle selection, fare estimation, and client booking management."
     },
     {
       name: "Essmat Plastic Factory Management System",
       period: "September 2026",
       stack: "C#, .NET, SQL Server, Entity Framework",
       image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790864034/esmatPlastic.jpg",
-      pdfReport: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790736/zayd-portfolio/essmat-plastic-report.pdf",
+      pdfReport:
+        "https://res.cloudinary.com/delnnzcph/image/upload/v1790790736/zayd-portfolio/essmat-plastic-report.pdf",
       github: "https://github.com/zaydaly05/EssmatPlastic",
-      description: "Enterprise inventory and production management solution for plastic manufacturing, optimizing raw material tracking, order processing, and factory billing workflows."
+      description:
+        "Enterprise inventory and production management solution for plastic manufacturing, optimizing raw material tracking, order processing, and factory billing workflows."
     },
     {
       name: "Dr. Naglaa Academic Biography Portal",
@@ -91,7 +98,8 @@ const fallbackPortfolio = {
       stack: "HTML5, CSS3, JavaScript, Responsive UI",
       image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790721/zayd-portfolio/dr-nagla-bio.jpg",
       github: "https://github.com/zaydaly05/drNaglaBio",
-      description: "Modern academic portfolio & publication showcase website designed for university faculty, featuring curriculum vitae integration, research paper archives, and student contact channels."
+      description:
+        "Modern academic portfolio & publication showcase website designed for university faculty, featuring curriculum vitae integration, research paper archives, and student contact channels."
     },
     {
       name: "Food Ordering Management System",
@@ -99,7 +107,8 @@ const fallbackPortfolio = {
       stack: "Spring Boot, Tailwind, React, MongoDB",
       image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790864034/foodApplogo.png",
       github: "https://github.com/zaydaly05/food_ordering_system",
-      description: "Developed a full-stack food ordering system with Spring Boot and a React + Tailwind frontend. Built RESTful APIs for authentication, menu management, cart operations, and order processing with MongoDB. Implemented role-based Admin and Customer flows with CRUD, order tracking, and analytics such as top-selling items and profit insights."
+      description:
+        "Developed a full-stack food ordering system with Spring Boot and a React + Tailwind frontend. Built RESTful APIs for authentication, menu management, cart operations, and order processing with MongoDB. Implemented role-based Admin and Customer flows with CRUD, order tracking, and analytics such as top-selling items and profit insights."
     },
     {
       name: "In Gaz API System",
@@ -107,7 +116,8 @@ const fallbackPortfolio = {
       stack: "C#, Flutter, .NET Core Web API",
       image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790771/zayd-portfolio/ingaz-1.jpg",
       github: "https://github.com/zaydaly05/InGazAPI",
-      description: "Built a Flutter frontend integrated with a C# .NET Core Web API backend using MVC, secure role-based access, CRUD operations, and Swagger testing."
+      description:
+        "Built a Flutter frontend integrated with a C# .NET Core Web API backend using MVC, secure role-based access, CRUD operations, and Swagger testing."
     },
     {
       name: "Employee Attendance & Leave System",
@@ -115,7 +125,8 @@ const fallbackPortfolio = {
       stack: "HTML, CSS, PHP, MySQL",
       image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
       github: "https://github.com/zaydaly05/Employee_Attendance-Leave_Management_System",
-      description: "Developed a web-based attendance and leave platform with automated tracking and approval, event/announcement features, and secure relational role-based access."
+      description:
+        "Developed a web-based attendance and leave platform with automated tracking and approval, event/announcement features, and secure relational role-based access."
     },
     {
       name: "Car Rental Website",
@@ -123,7 +134,8 @@ const fallbackPortfolio = {
       stack: "HTML, CSS, MongoDB, Node.js, JavaScript",
       image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790766/zayd-portfolio/gulf-limousine.jpg",
       github: "https://github.com/zaydaly05/Car_Rental_Website",
-      description: "Developed a comprehensive e-commerce style platform for users to browse and rent cars with authentication, catalog management, and order processing."
+      description:
+        "Developed a comprehensive e-commerce style platform for users to browse and rent cars with authentication, catalog management, and order processing."
     },
     {
       name: "Restaurant Management System",
@@ -131,7 +143,8 @@ const fallbackPortfolio = {
       stack: "Java, JavaFX",
       image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790805/zayd-portfolio/restaurant-r1.png",
       github: "https://github.com/zaydaly05/Restaurant_Management_System",
-      description: "Created a recruitment system with a graphical user interface for managing job postings, applications, and interviews using Java and JavaFX."
+      description:
+        "Created a recruitment system with a graphical user interface for managing job postings, applications, and interviews using Java and JavaFX."
     },
     {
       name: "Sleeping Alert System",
@@ -139,7 +152,8 @@ const fallbackPortfolio = {
       stack: "Python, Flutter",
       image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790811/zayd-portfolio/sleeping-alert-py2.jpg",
       github: "https://github.com/zaydaly05/Sleep_Alert_System",
-      description: "Developed a sleeping alert system for an HCI course, applying usability and interaction design principles with a responsive mobile interface."
+      description:
+        "Developed a sleeping alert system for an HCI course, applying usability and interaction design principles with a responsive mobile interface."
     },
     {
       name: "Zaydentity Digital Identity Platform",
@@ -147,7 +161,8 @@ const fallbackPortfolio = {
       stack: "HTML5, CSS3, JavaScript",
       image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790773/zayd-portfolio/main-photo.jpg",
       github: "https://github.com/zaydaly05/zaydentity",
-      description: "Digital personal branding & bio-link platform consolidating developer links, project highlights, and verified professional credentials in a unified interactive card UI."
+      description:
+        "Digital personal branding & bio-link platform consolidating developer links, project highlights, and verified professional credentials in a unified interactive card UI."
     },
     {
       name: "WE Telecom Training Suite",
@@ -155,40 +170,156 @@ const fallbackPortfolio = {
       stack: "Networking, C++, Telecommunications",
       image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790719/zayd-portfolio/chi-experience.jpg",
       github: "https://github.com/zaydaly05/WE_Intern",
-      description: "Technical codebase & project artifacts developed during Telecom Egypt (WE) training, focusing on network protocol fundamentals, system administration, and enterprise infrastructure."
+      description:
+        "Technical codebase & project artifacts developed during Telecom Egypt (WE) training, focusing on network protocol fundamentals, system administration, and enterprise infrastructure."
     }
   ],
 
   featuredStack: [
-    { name: "Java & Spring Boot", category: "Backend", level: 90, color: "#6db33f", icon: "☕", projectsCount: 3, highlights: "Enterprise REST APIs, Spring Security, Microservices, JavaFX" },
-    { name: "React.js & Modern Web", category: "Frontend", level: 88, color: "#61dafb", icon: "⚛️", projectsCount: 4, highlights: "Dynamic UIs, SPA routing, Tailwind, State Management" },
-    { name: "Flutter & Dart", category: "Mobile", level: 85, color: "#02569b", icon: "📱", projectsCount: 3, highlights: "Cross-platform iOS/Android, Firebase, State Management, REST integration" },
-    { name: "C# & .NET Core", category: "Enterprise & API", level: 85, color: "#9b4f96", icon: "🔷", projectsCount: 3, highlights: "ASP.NET Core Web API, Entity Framework, C# Desktop Apps" },
-    { name: "SQL & NoSQL Databases", category: "Data Architecture", level: 88, color: "#47a248", icon: "🗄️", projectsCount: 5, highlights: "PostgreSQL, MySQL, MongoDB, Firebase Firestore, Schema Design" },
-    { name: "Node.js & Express", category: "Backend", level: 82, color: "#5fa04e", icon: "🟢", projectsCount: 2, highlights: "Node RESTful backends, JWT Authentication, Async I/O" },
-    { name: "Python", category: "Scripting & AI", level: 80, color: "#3776ab", icon: "🐍", projectsCount: 2, highlights: "Data structures, Automation scripts, Computer Vision / OpenCV" },
-    { name: "Git & Version Control", category: "DevOps & Tools", level: 92, color: "#f05032", icon: "🔀", projectsCount: 10, highlights: "Branching workflows, GitHub Sync, Collaborative Repos" }
+    {
+      name: "Java & Spring Boot",
+      category: "Backend",
+      level: 90,
+      color: "#6db33f",
+      icon: "☕",
+      projectsCount: 3,
+      highlights: "Enterprise REST APIs, Spring Security, Microservices, JavaFX"
+    },
+    {
+      name: "React.js & Modern Web",
+      category: "Frontend",
+      level: 88,
+      color: "#61dafb",
+      icon: "⚛️",
+      projectsCount: 4,
+      highlights: "Dynamic UIs, SPA routing, Tailwind, State Management"
+    },
+    {
+      name: "Flutter & Dart",
+      category: "Mobile",
+      level: 85,
+      color: "#02569b",
+      icon: "📱",
+      projectsCount: 3,
+      highlights: "Cross-platform iOS/Android, Firebase, State Management, REST integration"
+    },
+    {
+      name: "C# & .NET Core",
+      category: "Enterprise & API",
+      level: 85,
+      color: "#9b4f96",
+      icon: "🔷",
+      projectsCount: 3,
+      highlights: "ASP.NET Core Web API, Entity Framework, C# Desktop Apps"
+    },
+    {
+      name: "SQL & NoSQL Databases",
+      category: "Data Architecture",
+      level: 88,
+      color: "#47a248",
+      icon: "🗄️",
+      projectsCount: 5,
+      highlights: "PostgreSQL, MySQL, MongoDB, Firebase Firestore, Schema Design"
+    },
+    {
+      name: "Node.js & Express",
+      category: "Backend",
+      level: 82,
+      color: "#5fa04e",
+      icon: "🟢",
+      projectsCount: 2,
+      highlights: "Node RESTful backends, JWT Authentication, Async I/O"
+    },
+    {
+      name: "Python",
+      category: "Scripting & AI",
+      level: 80,
+      color: "#3776ab",
+      icon: "🐍",
+      projectsCount: 2,
+      highlights: "Data structures, Automation scripts, Computer Vision / OpenCV"
+    },
+    {
+      name: "Git & Version Control",
+      category: "DevOps & Tools",
+      level: 92,
+      color: "#f05032",
+      icon: "🔀",
+      projectsCount: 10,
+      highlights: "Branching workflows, GitHub Sync, Collaborative Repos"
+    }
   ],
   technicalSkills: [
-    { category: "Languages", items: ["Java", "Python", "C#", "C++", "C", "PHP", "Dart", "JavaScript", "SQL", "HTML5", "CSS3"] },
-    { category: "Frameworks", items: ["Spring Boot", "React", "Flutter", "Express.js", "Node.js", ".NET Core Web API", "JavaFX", "Tailwind CSS"] },
+    {
+      category: "Languages",
+      items: ["Java", "Python", "C#", "C++", "C", "PHP", "Dart", "JavaScript", "SQL", "HTML5", "CSS3"]
+    },
+    {
+      category: "Frameworks",
+      items: ["Spring Boot", "React", "Flutter", "Express.js", "Node.js", ".NET Core Web API", "JavaFX", "Tailwind CSS"]
+    },
     { category: "Databases", items: ["PostgreSQL", "MongoDB", "Firebase", "MySQL", "SQL Server"] },
-    { category: "Developer Tools", items: ["VS Code", "Git", "GitHub", "Android Studio", "Apache NetBeans", "XAMPP", "Docker", "Postman", "Swagger"] },
+    {
+      category: "Developer Tools",
+      items: ["VS Code", "Git", "GitHub", "Android Studio", "Apache NetBeans", "XAMPP", "Docker", "Postman", "Swagger"]
+    },
     { category: "Microsoft Office 365", items: ["Word", "Excel", "PowerPoint", "Access"] },
     { category: "Design Tools", items: ["Adobe Photoshop", "Adobe InDesign", "Adobe Premiere", "Filmora"] },
     { category: "Data Analysis", items: ["Orange Data Mining"] },
-    { category: "Other Skills", items: ["Data Structures & Algorithms", "Object-Oriented Programming (OOP)", "RESTful API Architecture", "Database Schema Design"] }
+    {
+      category: "Other Skills",
+      items: [
+        "Data Structures & Algorithms",
+        "Object-Oriented Programming (OOP)",
+        "RESTful API Architecture",
+        "Database Schema Design"
+      ]
+    }
   ],
   softSkills: [
-    { title: "Problem Solving & Analytical Thinking", icon: "🧩", desc: "Deconstructing complex enterprise requirements into modular, scalable object-oriented software architectures." },
-    { title: "Teamwork & Cross-functional Collaboration", icon: "🤝", desc: "Proven track record during TAQA Arabia & WE internships working alongside senior developers, IT teams, and stakeholders." },
-    { title: "Time Management & Agile Execution", icon: "⏱️", desc: "Balancing rigorous university software engineering coursework with commercial software client deliverables and internships." },
-    { title: "Adaptability & Continuous Upskilling", icon: "🚀", desc: "Rapidly mastering emerging frameworks (Spring Boot, Flutter, React) and integrating new tools into production." }
+    {
+      title: "Problem Solving & Analytical Thinking",
+      icon: "🧩",
+      desc: "Deconstructing complex enterprise requirements into modular, scalable object-oriented software architectures."
+    },
+    {
+      title: "Teamwork & Cross-functional Collaboration",
+      icon: "🤝",
+      desc: "Proven track record during TAQA Arabia & WE internships working alongside senior developers, IT teams, and stakeholders."
+    },
+    {
+      title: "Time Management & Agile Execution",
+      icon: "⏱️",
+      desc: "Balancing rigorous university software engineering coursework with commercial software client deliverables and internships."
+    },
+    {
+      title: "Adaptability & Continuous Upskilling",
+      icon: "🚀",
+      desc: "Rapidly mastering emerging frameworks (Spring Boot, Flutter, React) and integrating new tools into production."
+    }
   ],
   languages: [
-    { name: "Arabic", level: "Native Speaker", percent: 100, flag: "🇪🇬", desc: "Mother tongue — fluent in technical, written & verbal communication" },
-    { name: "English", level: "Fluent / Professional", percent: 90, flag: "🇬🇧", desc: "Full professional proficiency in engineering documentation & teamwork" },
-    { name: "French", level: "Elementary", percent: 35, flag: "🇫🇷", desc: "Basic conversational skills & foundational vocabulary" }
+    {
+      name: "Arabic",
+      level: "Native Speaker",
+      percent: 100,
+      flag: "🇪🇬",
+      desc: "Mother tongue — fluent in technical, written & verbal communication"
+    },
+    {
+      name: "English",
+      level: "Fluent / Professional",
+      percent: 90,
+      flag: "🇬🇧",
+      desc: "Full professional proficiency in engineering documentation & teamwork"
+    },
+    {
+      name: "French",
+      level: "Elementary",
+      percent: 35,
+      flag: "🇫🇷",
+      desc: "Basic conversational skills & foundational vocabulary"
+    }
   ],
   certificates: [
     {
@@ -196,7 +327,8 @@ const fallbackPortfolio = {
       issuer: "TAQA Arabia — Software Engineering Dept",
       date: "August 2025",
       category: "Industry Experience",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790780/zayd-portfolio/Online%20Certificates/Exp_letter_taqa_2025.png",
+      image:
+        "https://res.cloudinary.com/delnnzcph/image/upload/v1790790780/zayd-portfolio/Online%20Certificates/Exp_letter_taqa_2025.png",
       pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790815/zayd-portfolio/Taqa25Crt.jpg",
       desc: "Official engineering internship certificate recognizing contribution to the In Gaz API mobile platform."
     },
@@ -205,7 +337,8 @@ const fallbackPortfolio = {
       issuer: "Cisco Networking Academy & OpenEDG JS Institute",
       date: "July 2025",
       category: "Full-Stack Development",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790791216/zayd-portfolio/Online%20Certificates/js1.png",
+      image:
+        "https://res.cloudinary.com/delnnzcph/image/upload/v1790791216/zayd-portfolio/Online%20Certificates/js1.png",
       pdf: "/assets/Online%20Certificates/JavaScriptEssentials2Update20250713-27-31fbam.pdf",
       desc: "Advanced JavaScript ES6+, asynchronous programming, object-oriented concepts, and DOM manipulation."
     },
@@ -214,7 +347,8 @@ const fallbackPortfolio = {
       issuer: "Cisco Networking Academy & OpenEDG C Institute",
       date: "July 2025",
       category: "Systems & Core Programming",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790774/zayd-portfolio/Online%20Certificates/c-essentials-1.png",
+      image:
+        "https://res.cloudinary.com/delnnzcph/image/upload/v1790790774/zayd-portfolio/Online%20Certificates/c-essentials-1.png",
       pdf: "/assets/Online%20Certificates/CEssentials1Update20250709-29-hnum8q.pdf",
       desc: "Low-level system programming, memory management, pointers, and algorithmic structures in C."
     },
@@ -223,7 +357,8 @@ const fallbackPortfolio = {
       issuer: "Cisco Networking Academy",
       date: "July 2025",
       category: "Cybersecurity & Networks",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790785/zayd-portfolio/Online%20Certificates/Introduction_To_Cybersecurity_C.png",
+      image:
+        "https://res.cloudinary.com/delnnzcph/image/upload/v1790790785/zayd-portfolio/Online%20Certificates/Introduction_To_Cybersecurity_C.png",
       pdf: "/assets/Online%20Certificates/I2CSUpdate20250709-27-93jy0g.pdf",
       desc: "Network security protocols, vulnerability analysis, encryption fundamentals, and threat mitigation."
     },
@@ -232,7 +367,8 @@ const fallbackPortfolio = {
       issuer: "Cisco OpenEDG Academy",
       date: "July 2025",
       category: "Frontend Architecture",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790778/zayd-portfolio/Online%20Certificates/css-essentials.png",
+      image:
+        "https://res.cloudinary.com/delnnzcph/image/upload/v1790790778/zayd-portfolio/Online%20Certificates/css-essentials.png",
       pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790779/zayd-portfolio/Online%20Certificates/CSS.png",
       desc: "Responsive layout design, Flexbox, CSS Grid, animation frameworks, and modern CSS3 aesthetics."
     },
@@ -241,7 +377,8 @@ const fallbackPortfolio = {
       issuer: "Cairo Higher Institute — IT Dept",
       date: "September 2025",
       category: "Industry Experience",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790781/zayd-portfolio/Online%20Certificates/Experience_letter_CHI.jpg",
+      image:
+        "https://res.cloudinary.com/delnnzcph/image/upload/v1790790781/zayd-portfolio/Online%20Certificates/Experience_letter_CHI.jpg",
       pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790719/zayd-portfolio/chi-experience.jpg",
       desc: "Institutional user account management, website front-end maintenance, and digital content production."
     }
@@ -468,8 +605,10 @@ const setupCustomCursor = () => {
     return;
   }
 
-  let mouseX = 0, mouseY = 0;
-  let ringX = 0, ringY = 0;
+  let mouseX = 0,
+    mouseY = 0;
+  let ringX = 0,
+    ringY = 0;
 
   window.addEventListener("mousemove", (e) => {
     mouseX = e.clientX;
@@ -509,12 +648,16 @@ const setupScrollProgress = () => {
   const bar = document.getElementById("scroll-progress");
   if (!bar) return;
 
-  window.addEventListener("scroll", () => {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = docHeight > 0 ? scrollTop / docHeight : 0;
-    bar.style.transform = `scaleX(${progress})`;
-  }, { passive: true });
+  window.addEventListener(
+    "scroll",
+    () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+      bar.style.transform = `scaleX(${progress})`;
+    },
+    { passive: true }
+  );
 };
 
 /* ============================================
@@ -526,30 +669,34 @@ const setupNavbar = () => {
   const links = document.querySelectorAll(".nav-links a");
   const sections = document.querySelectorAll(".section");
 
-  window.addEventListener("scroll", () => {
-    // Add/remove scrolled class
-    if (window.scrollY > 60) {
-      nav.classList.add("scrolled");
-    } else {
-      nav.classList.remove("scrolled");
-    }
-
-    // Active link highlight
-    let current = "";
-    sections.forEach((section) => {
-      const sectionTop = section.offsetTop - 200;
-      if (window.scrollY >= sectionTop) {
-        current = section.getAttribute("id");
+  window.addEventListener(
+    "scroll",
+    () => {
+      // Add/remove scrolled class
+      if (window.scrollY > 60) {
+        nav.classList.add("scrolled");
+      } else {
+        nav.classList.remove("scrolled");
       }
-    });
 
-    links.forEach((link) => {
-      link.classList.remove("active");
-      if (link.getAttribute("data-section") === current) {
-        link.classList.add("active");
-      }
-    });
-  }, { passive: true });
+      // Active link highlight
+      let current = "";
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop - 200;
+        if (window.scrollY >= sectionTop) {
+          current = section.getAttribute("id");
+        }
+      });
+
+      links.forEach((link) => {
+        link.classList.remove("active");
+        if (link.getAttribute("data-section") === current) {
+          link.classList.add("active");
+        }
+      });
+    },
+    { passive: true }
+  );
 };
 
 /* ============================================
@@ -769,9 +916,7 @@ const openModal = ({ tag, title, subtitle, description, points = [], media = [] 
 
   const listContainer = document.getElementById("modal-list") || document.getElementById("modal-points");
   if (listContainer) {
-    listContainer.innerHTML = points.length
-      ? `<ul>${points.map((point) => `<li>${point}</li>`).join("")}</ul>`
-      : "";
+    listContainer.innerHTML = points.length ? `<ul>${points.map((point) => `<li>${point}</li>`).join("")}</ul>` : "";
   }
 
   const mediaContainer = document.getElementById("modal-media");
@@ -833,8 +978,10 @@ const renderExperience = (items) => {
 
   const companyStyle = (company = "") => {
     const c = company.toLowerCase();
-    if (c.includes("taqa")) return { color: "var(--brand)", bg: "var(--brand-glow)", border: "rgba(101, 240, 255, 0.25)" };
-    if (c.includes("cairo higher") || c.includes("chi")) return { color: "#c084fc", bg: "rgba(192, 132, 252, 0.15)", border: "rgba(192, 132, 252, 0.3)" };
+    if (c.includes("taqa"))
+      return { color: "var(--brand)", bg: "var(--brand-glow)", border: "rgba(101, 240, 255, 0.25)" };
+    if (c.includes("cairo higher") || c.includes("chi"))
+      return { color: "#c084fc", bg: "rgba(192, 132, 252, 0.15)", border: "rgba(192, 132, 252, 0.3)" };
     return { color: "#34d399", bg: "rgba(52, 211, 153, 0.15)", border: "rgba(52, 211, 153, 0.3)" };
   };
 
@@ -891,11 +1038,18 @@ const renderExperience = (items) => {
               </span>
             </div>
 
-            ${(item.points || []).length > 0 ? `
+            ${
+              (item.points || []).length > 0
+                ? `
             <ul class="exp-points-preview">
-              ${(item.points || []).slice(0, 2).map(p => `<li>${p}</li>`).join("")}
+              ${(item.points || [])
+                .slice(0, 2)
+                .map((p) => `<li>${p}</li>`)
+                .join("")}
               ${(item.points || []).length > 2 ? `<li class="exp-more-points">+${(item.points || []).length - 2} more responsibilities →</li>` : ""}
-            </ul>` : ""}
+            </ul>`
+                : ""
+            }
 
             <div style="margin-top:12px;">
               <span class="exp-action-btn">
@@ -926,29 +1080,44 @@ const renderExperience = (items) => {
       description: "Key Responsibilities, Achievements & Contributions:",
       points: item.points || [],
       media: isCairoHigherInstitute
-        ? [{ src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790719/zayd-portfolio/chi-experience.jpg", alt: "Cairo Higher Institute experience photo" }]
+        ? [
+            {
+              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790719/zayd-portfolio/chi-experience.jpg",
+              alt: "Cairo Higher Institute experience photo"
+            }
+          ]
         : isTaqaSoftwareDevelopment
           ? [
-              { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790814/zayd-portfolio/taqa25-exp.jpg", alt: "TAQA Software Development Internship experience photo" },
-              { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790813/zayd-portfolio/taqa25-crt.jpg", alt: "TAQA Software Development Internship official certificate" }
+              {
+                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790814/zayd-portfolio/taqa25-exp.jpg",
+                alt: "TAQA Software Development Internship experience photo"
+              },
+              {
+                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790813/zayd-portfolio/taqa25-crt.jpg",
+                alt: "TAQA Software Development Internship official certificate"
+              }
             ]
           : isTaqaItDepartment
             ? [
-                { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790812/zayd-portfolio/taqa24.jpg", alt: "TAQA IT Department internship photo 1" },
-                { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790812/zayd-portfolio/taqa24e.jpg", alt: "TAQA IT Department internship photo 2" }
+                {
+                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790812/zayd-portfolio/taqa24.jpg",
+                  alt: "TAQA IT Department internship photo 1"
+                },
+                {
+                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790812/zayd-portfolio/taqa24e.jpg",
+                  alt: "TAQA IT Department internship photo 2"
+                }
               ]
-          : []
+            : []
     };
   });
 };
-
-
 
 const renderProjects = (items) => {
   const container = document.getElementById("project-list");
   if (!container) return;
   const safeItems = Array.isArray(items) ? items : [];
-  
+
   const getGithubUrl = (name, customGithub) => {
     if (customGithub) return customGithub;
     const repoNameMap = {
@@ -964,14 +1133,20 @@ const renderProjects = (items) => {
       "zaydentity digital identity platform": "https://github.com/zaydaly05/zaydentity",
       "we telecom training suite": "https://github.com/zaydaly05/WE_Intern"
     };
-    return repoNameMap[(name || "").toLowerCase()] || `https://github.com/zaydaly05/${(name || "").replace(/[^a-zA-Z0-9_-]/g, "_")}`;
+    return (
+      repoNameMap[(name || "").toLowerCase()] ||
+      `https://github.com/zaydaly05/${(name || "").replace(/[^a-zA-Z0-9_-]/g, "_")}`
+    );
   };
 
   container.innerHTML = safeItems
     .map((item) => {
       const githubUrl = getGithubUrl(item.name, item.github);
-      const imgUrl = (item.image && !item.image.endsWith('.pdf')) ? item.image : "https://res.cloudinary.com/delnnzcph/image/upload/v1790790725/zayd-portfolio/dr-nagla-hero.png";
-      const pdfUrl = item.pdfReport || (item.image && item.image.endsWith('.pdf') ? item.image : null);
+      const imgUrl =
+        item.image && !item.image.endsWith(".pdf")
+          ? item.image
+          : "https://res.cloudinary.com/delnnzcph/image/upload/v1790790725/zayd-portfolio/dr-nagla-hero.png";
+      const pdfUrl = item.pdfReport || (item.image && item.image.endsWith(".pdf") ? item.image : null);
 
       return `
       <article class="card card-clickable reveal-card js-project-card" tabindex="0" role="button" aria-label="Open ${item.name || "project"} details">
@@ -1019,60 +1194,133 @@ const renderProjects = (items) => {
       title: item.name || "Project",
       subtitle: `${item.period || ""} · ${item.stack || ""}`,
       description: `${item.description || ""}\n\n🔗 GitHub Repo: ${githubUrl}`,
-      points: [
-        `Live repository link: ${githubUrl}`,
-        `Automatically synced with GitHub project commits`
-      ],
+      points: [`Live repository link: ${githubUrl}`, `Automatically synced with GitHub project commits`],
       media: isDrNaglaBioProject
         ? [
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790725/zayd-portfolio/dr-nagla-hero.png", alt: "Dr Naglaa Academic Portal Hero" },
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790722/zayd-portfolio/dr-nagla-biography.png", alt: "Dr Naglaa Biography & Academic Credentials" },
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790727/zayd-portfolio/dr-nagla-publications.png", alt: "Dr Naglaa Research Publications" },
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790723/zayd-portfolio/dr-nagla-contact.png", alt: "Dr Naglaa Academic Contact Section" }
+            {
+              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790725/zayd-portfolio/dr-nagla-hero.png",
+              alt: "Dr Naglaa Academic Portal Hero"
+            },
+            {
+              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790722/zayd-portfolio/dr-nagla-biography.png",
+              alt: "Dr Naglaa Biography & Academic Credentials"
+            },
+            {
+              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790727/zayd-portfolio/dr-nagla-publications.png",
+              alt: "Dr Naglaa Research Publications"
+            },
+            {
+              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790723/zayd-portfolio/dr-nagla-contact.png",
+              alt: "Dr Naglaa Academic Contact Section"
+            }
           ]
         : isGulfLimousineProject
-        ? [{ src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790766/zayd-portfolio/gulf-limousine.jpg", alt: "Gulf Limousine App real output preview" }]
-        : isEssmatPlasticProject
-        ? [
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png", alt: "Essmat Plastic Management System dashboard" }
-          ]
-        : isFoodOrderingProject
-        ? Array.from({ length: 16 }, (_, i) => ({
-            src: `https://res.cloudinary.com/delnnzcph/image/upload/v17907907${[38,54,56,58,59,61,62,64,66,41,43,45,47,49,51,53][i]}/zayd-portfolio/f${i + 1}.png`,
-            alt: `Food Ordering Management System screenshot f${i + 1}`
-          }))
-        : isInGazProject
-        ? [
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790771/zayd-portfolio/ingaz-1.jpg", alt: "In Gaz API app screenshot 1" },
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790772/zayd-portfolio/ingaz-2.jpg", alt: "In Gaz API app screenshot 2" }
-          ]
-        : isCarRentalProject
-        ? [
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790766/zayd-portfolio/gulf-limousine.jpg", alt: "Car Rental Website logo preview" },
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790716/zayd-portfolio/car-rental-c2.png", alt: "Car Rental Website screenshot c2" },
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790718/zayd-portfolio/car-rental-c3.png", alt: "Car Rental Website screenshot c3" }
-          ]
-        : isRestaurantProject
-        ? [
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790805/zayd-portfolio/restaurant-r1.png", alt: "Restaurant Management System screenshot r1" },
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790805/zayd-portfolio/restaurant-r2.png", alt: "Restaurant Management System screenshot r2" },
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790806/zayd-portfolio/restaurant-r3.png", alt: "Restaurant Management System screenshot r3" },
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790807/zayd-portfolio/restaurant-r4.png", alt: "Restaurant Management System screenshot r4" },
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790808/zayd-portfolio/restaurant-r5.png", alt: "Restaurant Management System screenshot r5" }
-          ]
-        : isSleepingAlertProject
-        ? [
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790811/zayd-portfolio/sleeping-alert-py2.jpg", alt: "Sleeping Alert System screenshot py2" },
-            { src: "https://res.cloudinary.com/delnnzcph/video/upload/v1790790810/zayd-portfolio/sleeping-alert-py1.mp4", type: "video", alt: "Sleeping Alert System demo video py1" }
-          ]
-        : isEmployeeAttendanceProject
-        ? [
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png", alt: "Employee Attendance and Leave System screenshot e1" },
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790732/zayd-portfolio/employee-e2.png", alt: "Employee Attendance and Leave System screenshot e2" },
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790734/zayd-portfolio/employee-e3.png", alt: "Employee Attendance and Leave System screenshot e3" },
-            { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790735/zayd-portfolio/employee-e4.png", alt: "Employee Attendance and Leave System screenshot e4" }
-          ]
-        : [{ src: item.image || "https://res.cloudinary.com/delnnzcph/image/upload/v1790790773/zayd-portfolio/main-photo.jpg", alt: item.name }]
+          ? [
+              {
+                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790766/zayd-portfolio/gulf-limousine.jpg",
+                alt: "Gulf Limousine App real output preview"
+              }
+            ]
+          : isEssmatPlasticProject
+            ? [
+                {
+                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
+                  alt: "Essmat Plastic Management System dashboard"
+                }
+              ]
+            : isFoodOrderingProject
+              ? Array.from({ length: 16 }, (_, i) => ({
+                  src: `https://res.cloudinary.com/delnnzcph/image/upload/v17907907${[38, 54, 56, 58, 59, 61, 62, 64, 66, 41, 43, 45, 47, 49, 51, 53][i]}/zayd-portfolio/f${i + 1}.png`,
+                  alt: `Food Ordering Management System screenshot f${i + 1}`
+                }))
+              : isInGazProject
+                ? [
+                    {
+                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790771/zayd-portfolio/ingaz-1.jpg",
+                      alt: "In Gaz API app screenshot 1"
+                    },
+                    {
+                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790772/zayd-portfolio/ingaz-2.jpg",
+                      alt: "In Gaz API app screenshot 2"
+                    }
+                  ]
+                : isCarRentalProject
+                  ? [
+                      {
+                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790766/zayd-portfolio/gulf-limousine.jpg",
+                        alt: "Car Rental Website logo preview"
+                      },
+                      {
+                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790716/zayd-portfolio/car-rental-c2.png",
+                        alt: "Car Rental Website screenshot c2"
+                      },
+                      {
+                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790718/zayd-portfolio/car-rental-c3.png",
+                        alt: "Car Rental Website screenshot c3"
+                      }
+                    ]
+                  : isRestaurantProject
+                    ? [
+                        {
+                          src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790805/zayd-portfolio/restaurant-r1.png",
+                          alt: "Restaurant Management System screenshot r1"
+                        },
+                        {
+                          src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790805/zayd-portfolio/restaurant-r2.png",
+                          alt: "Restaurant Management System screenshot r2"
+                        },
+                        {
+                          src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790806/zayd-portfolio/restaurant-r3.png",
+                          alt: "Restaurant Management System screenshot r3"
+                        },
+                        {
+                          src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790807/zayd-portfolio/restaurant-r4.png",
+                          alt: "Restaurant Management System screenshot r4"
+                        },
+                        {
+                          src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790808/zayd-portfolio/restaurant-r5.png",
+                          alt: "Restaurant Management System screenshot r5"
+                        }
+                      ]
+                    : isSleepingAlertProject
+                      ? [
+                          {
+                            src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790811/zayd-portfolio/sleeping-alert-py2.jpg",
+                            alt: "Sleeping Alert System screenshot py2"
+                          },
+                          {
+                            src: "https://res.cloudinary.com/delnnzcph/video/upload/v1790790810/zayd-portfolio/sleeping-alert-py1.mp4",
+                            type: "video",
+                            alt: "Sleeping Alert System demo video py1"
+                          }
+                        ]
+                      : isEmployeeAttendanceProject
+                        ? [
+                            {
+                              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
+                              alt: "Employee Attendance and Leave System screenshot e1"
+                            },
+                            {
+                              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790732/zayd-portfolio/employee-e2.png",
+                              alt: "Employee Attendance and Leave System screenshot e2"
+                            },
+                            {
+                              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790734/zayd-portfolio/employee-e3.png",
+                              alt: "Employee Attendance and Leave System screenshot e3"
+                            },
+                            {
+                              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790735/zayd-portfolio/employee-e4.png",
+                              alt: "Employee Attendance and Leave System screenshot e4"
+                            }
+                          ]
+                        : [
+                            {
+                              src:
+                                item.image ||
+                                "https://res.cloudinary.com/delnnzcph/image/upload/v1790790773/zayd-portfolio/main-photo.jpg",
+                              alt: item.name
+                            }
+                          ]
     };
   });
 };
@@ -1159,43 +1407,39 @@ const renderCertificates = (items) => {
   });
 };
 
-
-
-
-
 const TECH_BRAND_COLORS = {
-  "Java": "#e76f00",
+  Java: "#e76f00",
   "Spring Boot": "#6db33f",
-  "React": "#61dafb",
-  "Flutter": "#02569b",
-  "Dart": "#0175c2",
+  React: "#61dafb",
+  Flutter: "#02569b",
+  Dart: "#0175c2",
   "C#": "#9b4f96",
   "C++": "#00599c",
-  "C": "#a8b9cc",
-  "Python": "#3776ab",
-  "PHP": "#777bb4",
-  "JavaScript": "#f7df1e",
-  "TypeScript": "#3178c6",
-  "HTML5": "#e34f26",
-  "CSS3": "#1572b6",
-  "SQL": "#00758f",
-  "PostgreSQL": "#336791",
-  "MongoDB": "#47a248",
-  "Firebase": "#ffca28",
-  "MySQL": "#00758f",
+  C: "#a8b9cc",
+  Python: "#3776ab",
+  PHP: "#777bb4",
+  JavaScript: "#f7df1e",
+  TypeScript: "#3178c6",
+  HTML5: "#e34f26",
+  CSS3: "#1572b6",
+  SQL: "#00758f",
+  PostgreSQL: "#336791",
+  MongoDB: "#47a248",
+  Firebase: "#ffca28",
+  MySQL: "#00758f",
   "SQL Server": "#cc292b",
   "Node.js": "#5fa04e",
   "Express.js": "#828282",
   ".NET Core Web API": "#512bd4",
-  "JavaFX": "#e76f00",
+  JavaFX: "#e76f00",
   "Tailwind CSS": "#38bdf8",
   "VS Code": "#007acc",
-  "Git": "#f05032",
-  "GitHub": "#6e5494",
+  Git: "#f05032",
+  GitHub: "#6e5494",
   "Android Studio": "#3ddc84",
-  "Docker": "#2496ed",
-  "Postman": "#ff6c37",
-  "Swagger": "#85ea2d"
+  Docker: "#2496ed",
+  Postman: "#ff6c37",
+  Swagger: "#85ea2d"
 };
 
 const renderFeaturedStack = (items) => {
@@ -1241,9 +1485,9 @@ const renderTechnicalSkills = (groups) => {
   const safeGroups = Array.isArray(groups) ? groups : [];
 
   const categoryIcons = {
-    "Languages": "💻",
-    "Databases": "🗄️",
-    "Frameworks": "⚙️",
+    Languages: "💻",
+    Databases: "🗄️",
+    Frameworks: "⚙️",
     "Developer Tools": "🛠️",
     "Microsoft Office 365": "📊",
     "Design Tools": "🎨",
@@ -1555,13 +1799,17 @@ const setupScrollIndicator = () => {
   if (!indicator) return;
 
   let hidden = false;
-  window.addEventListener("scroll", () => {
-    if (!hidden && window.scrollY > 100) {
-      indicator.style.opacity = "0";
-      indicator.style.transition = "opacity 0.5s ease";
-      hidden = true;
-    }
-  }, { passive: true });
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!hidden && window.scrollY > 100) {
+        indicator.style.opacity = "0";
+        indicator.style.transition = "opacity 0.5s ease";
+        hidden = true;
+      }
+    },
+    { passive: true }
+  );
 };
 
 /* ============================================
@@ -1755,12 +2003,12 @@ const setupReviewsSystem = async () => {
         reviewsContainer.innerHTML = data.reviews
           .map(
             (rev) => `
-          <div class="card review-card" style="${rev.isLinkedin ? 'border-left: 4px solid #0a66c2;' : ''}">
+          <div class="card review-card" style="${rev.isLinkedin ? "border-left: 4px solid #0a66c2;" : ""}">
             <div class="review-header">
               <div style="width: 100%;">
                 <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 4px;">
                   <h5 class="reviewer-name" style="margin: 0; line-height: 1.2;">${rev.name}</h5>
-                  ${rev.isLinkedin ? '<span class="linkedin-badge" title="Verified Recommendation" style="color: #0a66c2; display: flex; align-items: center; flex-shrink: 0; margin-left: 12px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></span>' : ''}
+                  ${rev.isLinkedin ? '<span class="linkedin-badge" title="Verified Recommendation" style="color: #0a66c2; display: flex; align-items: center; flex-shrink: 0; margin-left: 12px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></span>' : ""}
                 </div>
                 <span class="reviewer-role">${rev.role}</span>
               </div>
@@ -1987,36 +2235,61 @@ const setupHeroSlider = () => {
     timer = null;
   };
 
-  if (prevBtn) prevBtn.addEventListener("click", () => { prevSlide(); startAutoPlay(); });
-  if (nextBtn) nextBtn.addEventListener("click", () => { nextSlide(); startAutoPlay(); });
+  if (prevBtn)
+    prevBtn.addEventListener("click", () => {
+      prevSlide();
+      startAutoPlay();
+    });
+  if (nextBtn)
+    nextBtn.addEventListener("click", () => {
+      nextSlide();
+      startAutoPlay();
+    });
 
   dots.forEach((dot, idx) => {
-    dot.addEventListener("click", () => { goToSlide(idx); startAutoPlay(); });
+    dot.addEventListener("click", () => {
+      goToSlide(idx);
+      startAutoPlay();
+    });
   });
 
   // Touch Swipe Support
   let touchStartX = 0;
   let touchEndX = 0;
 
-  slider.addEventListener("touchstart", (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-  }, { passive: true });
+  slider.addEventListener(
+    "touchstart",
+    (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    },
+    { passive: true }
+  );
 
-  slider.addEventListener("touchend", (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    if (touchStartX - touchEndX > 50) {
-      nextSlide();
-      startAutoPlay();
-    } else if (touchEndX - touchStartX > 50) {
-      prevSlide();
-      startAutoPlay();
-    }
-  }, { passive: true });
+  slider.addEventListener(
+    "touchend",
+    (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) {
+        nextSlide();
+        startAutoPlay();
+      } else if (touchEndX - touchStartX > 50) {
+        prevSlide();
+        startAutoPlay();
+      }
+    },
+    { passive: true }
+  );
 
   // Keyboard Arrow Control when slider is focused or hovered
   let isHovered = false;
-  slider.addEventListener("mouseenter", () => { isHovered = true; stopAutoPlay(); });
-  slider.addEventListener("mouseleave", () => { isHovered = false; startAutoPlay(); });
+  slider.addEventListener("mouseenter", () => {
+    isHovered = true;
+    stopAutoPlay();
+  });
+  slider.addEventListener("mouseleave", () => {
+    isHovered = false;
+    startAutoPlay();
+  });
 
   document.addEventListener("keydown", (e) => {
     if (!isHovered) return;
@@ -2126,10 +2399,26 @@ const setupProjectFiltering = (projects) => {
       if (!matchSearch) return false;
 
       if (currentCategory === "all") return true;
-      if (currentCategory === "fullstack") return p.stack.toLowerCase().includes("spring") || p.stack.toLowerCase().includes("react") || p.stack.toLowerCase().includes("full-stack");
-      if (currentCategory === "mobile") return p.stack.toLowerCase().includes("flutter") || p.stack.toLowerCase().includes("api") || p.stack.toLowerCase().includes("c#");
-      if (currentCategory === "web") return p.stack.toLowerCase().includes("html") || p.stack.toLowerCase().includes("php") || p.stack.toLowerCase().includes("node");
-      if (currentCategory === "systems") return p.stack.toLowerCase().includes("java") || p.stack.toLowerCase().includes("python");
+      if (currentCategory === "fullstack")
+        return (
+          p.stack.toLowerCase().includes("spring") ||
+          p.stack.toLowerCase().includes("react") ||
+          p.stack.toLowerCase().includes("full-stack")
+        );
+      if (currentCategory === "mobile")
+        return (
+          p.stack.toLowerCase().includes("flutter") ||
+          p.stack.toLowerCase().includes("api") ||
+          p.stack.toLowerCase().includes("c#")
+        );
+      if (currentCategory === "web")
+        return (
+          p.stack.toLowerCase().includes("html") ||
+          p.stack.toLowerCase().includes("php") ||
+          p.stack.toLowerCase().includes("node")
+        );
+      if (currentCategory === "systems")
+        return p.stack.toLowerCase().includes("java") || p.stack.toLowerCase().includes("python");
 
       return true;
     });
@@ -2301,7 +2590,9 @@ const setupTerminalCLI = () => {
         const cairoStr = new Date().toLocaleString("en-US", { timeZone: "Africa/Cairo" });
         printLine(`Cairo Local Time: ${cairoStr}`);
       } else if (cmd === "hire") {
-        printLine(`Great choice! Zayd is actively open for software development roles. Email zaydaly0501@gmail.com or use the Contact form!`);
+        printLine(
+          `Great choice! Zayd is actively open for software development roles. Email zaydaly0501@gmail.com or use the Contact form!`
+        );
       } else if (cmd === "clear") {
         output.innerHTML = "";
       } else if (cmd === "sudo") {
@@ -2427,7 +2718,7 @@ const setupCVViewerModal = () => {
 
   if (!cvModal) return;
 
-  let cachedCvUrl = "/assets/Zayd_Ali_Mohamed_CV.pdf";
+  let cachedCvUrl = "https://collection.cloudinary.com/delnnzcph/8af224dfdea2cedb263fa74148bbdd8d";
 
   fetch("/api/cv-url")
     .then((res) => res.json())
@@ -2449,21 +2740,22 @@ const setupCVViewerModal = () => {
       }
     } catch (_) {}
 
-    const toolbarUrl = cvUrl.includes("#") ? cvUrl : `${cvUrl}#toolbar=1`;
+    const iframe = document.getElementById("cv-iframe");
+    if (iframe) {
+      iframe.src = cvUrl;
+    }
 
     const cvObject = document.getElementById("cv-object");
     if (cvObject) {
-      cvObject.data = toolbarUrl;
+      cvObject.data = cvUrl;
     }
 
-    const iframe = document.getElementById("cv-iframe");
-    if (iframe) {
-      iframe.src = toolbarUrl;
-    }
-
-    document.querySelectorAll("a[download*='CV'], #download-cv, .cv-modal-actions a, .cv-fallback-card a").forEach((link) => {
-      link.href = cvUrl;
-    });
+    document
+      .querySelectorAll("a[download*='CV'], #download-cv, .cv-modal-actions a, .cv-fallback-card a")
+      .forEach((link) => {
+        link.href = cvUrl;
+        link.target = "_blank";
+      });
 
     document.body.appendChild(cvModal);
     cvModal.classList.remove("hidden");
@@ -2578,13 +2870,17 @@ const setupBackToTop = () => {
   const btn = document.getElementById("back-to-top-btn");
   if (!btn) return;
 
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 400) {
-      btn.classList.add("visible");
-    } else {
-      btn.classList.remove("visible");
-    }
-  }, { passive: true });
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (window.scrollY > 400) {
+        btn.classList.add("visible");
+      } else {
+        btn.classList.remove("visible");
+      }
+    },
+    { passive: true }
+  );
 
   btn.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -2672,4 +2968,3 @@ const setupFAQAccordion = () => {
     });
   });
 };
-

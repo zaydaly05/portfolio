@@ -77,7 +77,7 @@ const assetCacheHeaders = (res, filePath) => {
     res.setHeader("Pragma", "no-cache");
     res.setHeader("Expires", "0");
     res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", "inline; filename=\"Zayd_Ali_Mohamed_CV.pdf\"");
+    res.setHeader("Content-Disposition", 'inline; filename="Zayd_Ali_Mohamed_CV.pdf"');
   } else {
     res.setHeader("Cache-Control", "public, max-age=86400");
   }
@@ -103,18 +103,11 @@ function findAssetFile(filename) {
   const raw = filename.split("?")[0].split("#")[0];
   const decoded = decodeURIComponent(raw);
   const baseName = path.basename(decoded);
-  const targets = [
-    raw,
-    decoded,
-    baseName,
-    "Zayd Ali Mohamed CV.pdf",
-    "Zayd_Ali_Mohamed_CV.pdf",
-    "cv.pdf"
-  ];
+  const targets = [raw, decoded, baseName, "Zayd Ali Mohamed CV.pdf", "Zayd_Ali_Mohamed_CV.pdf", "cv.pdf"];
 
   for (const dir of assetDirs) {
     if (!fs.existsSync(dir)) continue;
-    
+
     // First try exact paths
     for (const t of targets) {
       const file = path.join(dir, t);
@@ -127,10 +120,13 @@ function findAssetFile(filename) {
     try {
       const filesInDir = fs.readdirSync(dir);
       for (const t of targets) {
-        const found = filesInDir.find(f => 
-          f.toLowerCase() === t.toLowerCase() ||
-          f.toLowerCase() === baseName.toLowerCase() ||
-          (t.toLowerCase().endsWith(".pdf") && f.toLowerCase().endsWith(".pdf") && (f.toLowerCase().includes("zayd") || f.toLowerCase().includes("cv")))
+        const found = filesInDir.find(
+          (f) =>
+            f.toLowerCase() === t.toLowerCase() ||
+            f.toLowerCase() === baseName.toLowerCase() ||
+            (t.toLowerCase().endsWith(".pdf") &&
+              f.toLowerCase().endsWith(".pdf") &&
+              (f.toLowerCase().includes("zayd") || f.toLowerCase().includes("cv")))
         );
         if (found) {
           const matchFile = path.join(dir, found);
@@ -144,7 +140,6 @@ function findAssetFile(filename) {
   return null;
 }
 
-
 // High-priority asset interceptor (handles Vercel serverless query params, asset rewrites and direct static requests)
 app.use((req, res, next) => {
   const assetQuery = req.query.asset;
@@ -152,13 +147,16 @@ app.use((req, res, next) => {
   const match = fullUrl.match(/\/(assets\/)?(.+)$/);
   const assetPath = assetQuery || (match ? match[2] : null);
 
-  if (assetPath && (assetPath.toLowerCase().endsWith(".pdf") || fullUrl.toLowerCase().includes("cv") || fullUrl.includes("/assets/"))) {
+  if (
+    assetPath &&
+    (assetPath.toLowerCase().endsWith(".pdf") || fullUrl.toLowerCase().includes("cv") || fullUrl.includes("/assets/"))
+  ) {
     const file = findAssetFile(assetPath);
     if (file) {
       assetCacheHeaders(res, file);
       if (file.toLowerCase().endsWith(".pdf")) {
         res.contentType("application/pdf");
-        res.setHeader("Content-Disposition", "inline; filename=\"Zayd_Ali_Mohamed_CV.pdf\"");
+        res.setHeader("Content-Disposition", 'inline; filename="Zayd_Ali_Mohamed_CV.pdf"');
       }
       return res.sendFile(file);
     }
@@ -166,8 +164,7 @@ app.use((req, res, next) => {
   next();
 });
 
-
-assetDirs.forEach(dir => {
+assetDirs.forEach((dir) => {
   app.use(
     "/assets",
     express.static(dir, {
@@ -188,7 +185,6 @@ app.use(
     index: false
   })
 );
-
 
 const portfolioData = {
   profile: {
@@ -515,7 +511,8 @@ const portfolioData = {
       issuer: "TAQA Arabia — Software Engineering Dept",
       date: "August 2025",
       category: "Industry Experience",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790780/zayd-portfolio/Online%20Certificates/Exp_letter_taqa_2025.png",
+      image:
+        "https://res.cloudinary.com/delnnzcph/image/upload/v1790790780/zayd-portfolio/Online%20Certificates/Exp_letter_taqa_2025.png",
       pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790815/zayd-portfolio/Taqa25Crt.jpg",
       desc: "Official engineering internship certificate recognizing contribution to the In Gaz API mobile platform."
     },
@@ -524,7 +521,8 @@ const portfolioData = {
       issuer: "Cisco Networking Academy & OpenEDG JS Institute",
       date: "July 2025",
       category: "Full-Stack Development",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790791216/zayd-portfolio/Online%20Certificates/js1.png",
+      image:
+        "https://res.cloudinary.com/delnnzcph/image/upload/v1790791216/zayd-portfolio/Online%20Certificates/js1.png",
       pdf: "/assets/Online%20Certificates/JavaScriptEssentials2Update20250713-27-31fbam.pdf",
       desc: "Advanced JavaScript ES6+, asynchronous programming, object-oriented concepts, and DOM manipulation."
     },
@@ -533,7 +531,8 @@ const portfolioData = {
       issuer: "Cisco Networking Academy & OpenEDG C Institute",
       date: "July 2025",
       category: "Systems & Core Programming",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790774/zayd-portfolio/Online%20Certificates/c-essentials-1.png",
+      image:
+        "https://res.cloudinary.com/delnnzcph/image/upload/v1790790774/zayd-portfolio/Online%20Certificates/c-essentials-1.png",
       pdf: "/assets/Online%20Certificates/CEssentials1Update20250709-29-hnum8q.pdf",
       desc: "Low-level system programming, memory management, pointers, and algorithmic structures in C."
     },
@@ -542,7 +541,8 @@ const portfolioData = {
       issuer: "Cisco Networking Academy",
       date: "July 2025",
       category: "Cybersecurity & Networks",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790785/zayd-portfolio/Online%20Certificates/Introduction_To_Cybersecurity_C.png",
+      image:
+        "https://res.cloudinary.com/delnnzcph/image/upload/v1790790785/zayd-portfolio/Online%20Certificates/Introduction_To_Cybersecurity_C.png",
       pdf: "/assets/Online%20Certificates/I2CSUpdate20250709-27-93jy0g.pdf",
       desc: "Network security protocols, vulnerability analysis, encryption fundamentals, and threat mitigation."
     },
@@ -551,7 +551,8 @@ const portfolioData = {
       issuer: "Cisco OpenEDG Academy",
       date: "July 2025",
       category: "Frontend Architecture",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790778/zayd-portfolio/Online%20Certificates/css-essentials.png",
+      image:
+        "https://res.cloudinary.com/delnnzcph/image/upload/v1790790778/zayd-portfolio/Online%20Certificates/css-essentials.png",
       pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790779/zayd-portfolio/Online%20Certificates/CSS.png",
       desc: "Responsive layout design, Flexbox, CSS Grid, animation frameworks, and modern CSS3 aesthetics."
     },
@@ -560,7 +561,8 @@ const portfolioData = {
       issuer: "Cairo Higher Institute — IT Dept",
       date: "September 2025",
       category: "Industry Experience",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790781/zayd-portfolio/Online%20Certificates/Experience_letter_CHI.jpg",
+      image:
+        "https://res.cloudinary.com/delnnzcph/image/upload/v1790790781/zayd-portfolio/Online%20Certificates/Experience_letter_CHI.jpg",
       pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790719/zayd-portfolio/chi-experience.jpg",
       desc: "Institutional user account management, website front-end maintenance, and digital content production."
     }
@@ -683,10 +685,10 @@ app.get("/api/github", async (req, res) => {
 app.post("/api/github-webhook", express.json(), (req, res) => {
   // We can add signature verification here if a secret is configured
   console.log("GitHub Webhook received! Invalidating local GitHub cache...");
-  
+
   // Instantly expire the cache
   githubCache.timestamp = 0;
-  
+
   res.status(200).json({ success: true, message: "GitHub cache invalidated successfully. Ready for real-time sync." });
 });
 
@@ -881,7 +883,8 @@ const getStoredReviews = () => {
       name: "Mohammed Essam El Din",
       role: "SWE @ El Zatuna | IBM Student Ambassador @ MIU",
       rating: 5,
-      comment: "I'm proud to recommend my friend and colleague, Zayd, whose dedication, knowledge, and willingness to help others truly set him apart. Throughout our time working and studying together, Zayd consistently demonstrated a strong commitment not only to his own learning but also to supporting those around him. One of Zayd's most admirable qualities is his willingness to help others.",
+      comment:
+        "I'm proud to recommend my friend and colleague, Zayd, whose dedication, knowledge, and willingness to help others truly set him apart. Throughout our time working and studying together, Zayd consistently demonstrated a strong commitment not only to his own learning but also to supporting those around him. One of Zayd's most admirable qualities is his willingness to help others.",
       date: "2025-07-09",
       isLinkedin: true
     },
@@ -890,7 +893,8 @@ const getStoredReviews = () => {
       name: "Ahmed Hatem",
       role: "Electronics and Communication Engineering Student @MIU",
       rating: 5,
-      comment: "Zayd is a hardworking and creative Computer Science student with a strong passion for software engineering. He approaches every task with focus and a problem-solving mindset. I'm confident he has a bright future ahead in tech.",
+      comment:
+        "Zayd is a hardworking and creative Computer Science student with a strong passion for software engineering. He approaches every task with focus and a problem-solving mindset. I'm confident he has a bright future ahead in tech.",
       date: "2025-07-09",
       isLinkedin: true
     },
@@ -1029,7 +1033,7 @@ app.post("/api/star", postRateLimiter, async (req, res) => {
 });
 
 // Dynamic CV URL API & Redirects
-const DEFAULT_CV_URL = "/assets/Zayd_Ali_Mohamed_CV.pdf";
+const DEFAULT_CV_URL = "https://collection.cloudinary.com/delnnzcph/8af224dfdea2cedb263fa74148bbdd8d";
 
 app.get("/api/cv-url", async (req, res) => {
   try {
@@ -1070,7 +1074,7 @@ app.post("/api/cv-url", postRateLimiter, async (req, res) => {
   res.json({ ok: true, url, message: "CV URL updated (local fallback)" });
 });
 
-app.get("/cv", async (req, res) => {
+app.get(["/cv", "/assets/Zayd_Ali_Mohamed_CV.pdf", "/assets/Zayd%20Ali%20Mohamed%20CV.pdf"], async (req, res) => {
   let targetUrl = DEFAULT_CV_URL;
   try {
     const db = await connectDB();
@@ -1104,10 +1108,9 @@ app.post("/api/whatsapp/request-approval", async (req, res) => {
 });
 
 app.get("/api/whatsapp/pending-approvals", (req, res) => {
-  const list = Array.from(pendingApprovals.values()).filter(item => typeof item === "object" && item.id);
+  const list = Array.from(pendingApprovals.values()).filter((item) => typeof item === "object" && item.id);
   res.json({ ok: true, pendingCount: list.length, approvals: list });
 });
-
 
 // Explicit Multi-Page HTML Routes
 const servePage = (pageName) => (req, res) => {
@@ -1121,7 +1124,8 @@ app.get(["/contact", "/contact.html"], servePage("contact"));
 
 // Catch-all: serve index.html for SPA routing (MUST be last)
 app.use((req, res) => {
-  const reqUrl = req.headers["x-matched-path"] || req.headers["x-forwarded-uri"] || req.originalUrl || req.url || req.path || "";
+  const reqUrl =
+    req.headers["x-matched-path"] || req.headers["x-forwarded-uri"] || req.originalUrl || req.url || req.path || "";
   const cleanPath = reqUrl.split("?")[0].toLowerCase();
 
   if (cleanPath.includes("/assets/")) {
@@ -1132,7 +1136,7 @@ app.use((req, res) => {
       assetCacheHeaders(res, file);
       if (file.toLowerCase().endsWith(".pdf")) {
         res.contentType("application/pdf");
-        res.setHeader("Content-Disposition", "inline; filename=\"Zayd_Ali_Mohamed_CV.pdf\"");
+        res.setHeader("Content-Disposition", 'inline; filename="Zayd_Ali_Mohamed_CV.pdf"');
       }
       return res.sendFile(file);
     }
@@ -1167,4 +1171,3 @@ if (require.main === module) {
 
 app.portfolioData = portfolioData;
 module.exports = app;
-
