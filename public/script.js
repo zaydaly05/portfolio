@@ -2740,22 +2740,21 @@ const setupCVViewerModal = () => {
       }
     } catch (_) {}
 
-    const toolbarUrl = cvUrl.includes("#") ? cvUrl : `${cvUrl}#toolbar=1`;
-
-    const cvObject = document.getElementById("cv-object");
-    if (cvObject) {
-      cvObject.data = toolbarUrl;
+    const cvImage = document.getElementById("cv-image");
+    if (cvImage) {
+      const imgUrl = cvUrl.replace(/\.pdf$/i, ".png");
+      cvImage.src = imgUrl;
     }
 
-    const iframe = document.getElementById("cv-iframe");
-    if (iframe) {
-      iframe.src = toolbarUrl;
+    let downloadUrl = cvUrl;
+    if (downloadUrl.includes("res.cloudinary.com") && !downloadUrl.includes("fl_attachment")) {
+      downloadUrl = downloadUrl.replace("/upload/", "/upload/fl_attachment:Zayd_Ali_Mohamed_CV/");
     }
 
     document
       .querySelectorAll("a[download*='CV'], #download-cv, .cv-modal-actions a, .cv-fallback-card a")
       .forEach((link) => {
-        link.href = cvUrl;
+        link.href = downloadUrl;
         if (link.hasAttribute("download")) {
           link.removeAttribute("target");
         }
