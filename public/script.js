@@ -875,6 +875,7 @@ const openLightbox = (images, startIndex = 0) => {
   lightboxState.index = Math.max(0, Math.min(startIndex, images.length - 1));
   lightboxState.open = true;
 
+  document.body.appendChild(lightbox);
   lightbox.classList.remove("hidden");
   lightbox.setAttribute("aria-hidden", "false");
   updateLightbox();
@@ -2583,7 +2584,10 @@ const setupTerminalCLI = () => {
       } else if (cmd === "cv") {
         printLine(`Opening CV Viewer modal...`);
         const cvModal = document.getElementById("cv-viewer-modal");
-        if (cvModal) cvModal.classList.remove("hidden");
+        if (cvModal) {
+          document.body.appendChild(cvModal);
+          cvModal.classList.remove("hidden");
+        }
       } else if (cmd === "whoami") {
         printLine(`guest@recruiter-workstation ~ Welcome to Zayd Ali Mohamed's Portfolio!`);
       } else if (cmd === "date") {
