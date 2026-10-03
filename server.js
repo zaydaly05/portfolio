@@ -1033,7 +1033,7 @@ app.post("/api/star", postRateLimiter, async (req, res) => {
 });
 
 // Dynamic CV URL API & Redirects
-const DEFAULT_CV_URL = "https://collection.cloudinary.com/delnnzcph/8af224dfdea2cedb263fa74148bbdd8d";
+const DEFAULT_CV_URL = "https://res.cloudinary.com/delnnzcph/image/upload/v1790790818/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf";
 
 app.get("/api/cv-url", async (req, res) => {
   try {
@@ -1041,7 +1041,11 @@ app.get("/api/cv-url", async (req, res) => {
     if (db) {
       const config = await CvConfig.findOne({ key: "cv_url" });
       if (config && config.url) {
-        return res.json({ ok: true, url: config.url });
+        let cleanUrl = config.url;
+        if (cleanUrl.includes("collection.cloudinary.com")) {
+          cleanUrl = DEFAULT_CV_URL;
+        }
+        return res.json({ ok: true, url: cleanUrl });
       }
     }
   } catch (err) {
@@ -1081,7 +1085,7 @@ app.get("/cv", async (req, res) => {
     if (db) {
       const config = await CvConfig.findOne({ key: "cv_url" });
       if (config && config.url) {
-        targetUrl = config.url;
+        targetUrl = config.url.includes("collection.cloudinary.com") ? DEFAULT_CV_URL : config.url;
       }
     }
   } catch (err) {}

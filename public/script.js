@@ -2718,13 +2718,13 @@ const setupCVViewerModal = () => {
 
   if (!cvModal) return;
 
-  let cachedCvUrl = "https://collection.cloudinary.com/delnnzcph/8af224dfdea2cedb263fa74148bbdd8d";
+  let cachedCvUrl = "https://res.cloudinary.com/delnnzcph/image/upload/v1790790818/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf";
 
   fetch("/api/cv-url")
     .then((res) => res.json())
     .then((data) => {
       if (data && data.url) {
-        cachedCvUrl = data.url;
+        cachedCvUrl = data.url.includes("collection.cloudinary.com") ? "https://res.cloudinary.com/delnnzcph/image/upload/v1790790818/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf" : data.url;
       }
     })
     .catch(() => {});
@@ -2735,8 +2735,8 @@ const setupCVViewerModal = () => {
       const res = await fetch("/api/cv-url");
       const data = await res.json();
       if (data && data.url) {
-        cvUrl = data.url;
-        cachedCvUrl = data.url;
+        cvUrl = data.url.includes("collection.cloudinary.com") ? "https://res.cloudinary.com/delnnzcph/image/upload/v1790790818/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf" : data.url;
+        cachedCvUrl = cvUrl;
       }
     } catch (_) {}
 
