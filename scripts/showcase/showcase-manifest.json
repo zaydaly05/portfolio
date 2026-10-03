@@ -1,48 +1,48 @@
 {
-  "lastUpdated": "2026-10-03T21:32:18.983Z",
+  "lastUpdated": "2026-10-03T21:52:15.343Z",
   "projects": {
     "drNaglaBio": {
       "name": "Dr. Naglaa Academic Biography Portal",
       "slug": "drNaglaBio",
       "github": "https://github.com/zaydaly05/drNaglaBio",
       "status": "Completed",
-      "updatedAt": "2026-10-03T21:29:41.451Z",
+      "updatedAt": "2026-10-03T21:49:43.704Z",
       "screenshots": [
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061431/zayd-portfolio/showcase/drNaglaBio/drNaglaBio-landing.jpg",
           "alt": "Dr. Naglaa Academic Biography Portal - Main Application Landing Screen",
           "type": "image",
-          "hash": "1100011001000111110010110011100100000111101111110100001100000000"
+          "hash": "1100111001110110011011000111010001011101011111101100001011000010"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061426/zayd-portfolio/showcase/drNaglaBio/drNaglaBio-feature-2.jpg",
           "alt": "Dr. Naglaa Academic Biography Portal - Application Feature View 2",
           "type": "image",
-          "hash": "1011111101100000011000101000011011100001111110111000000110000101"
+          "hash": "1000110100001100110101101101001001111011001110110000000110000000"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061427/zayd-portfolio/showcase/drNaglaBio/drNaglaBio-feature-3.jpg",
           "alt": "Dr. Naglaa Academic Biography Portal - Application Feature View 3",
           "type": "image",
-          "hash": "1001111011010110110110001110100000001101100110101011000001100100"
+          "hash": "1010111001101000001111111111100100110000111000111001001010100100"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061428/zayd-portfolio/showcase/drNaglaBio/drNaglaBio-feature-4.jpg",
           "alt": "Dr. Naglaa Academic Biography Portal - Application Feature View 4",
           "type": "image",
-          "hash": "1000101110100010110100100100101100111001100101100101011111011000"
+          "hash": "1110011111000011110011110001011010000011011100111110000110000011"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061429/zayd-portfolio/showcase/drNaglaBio/drNaglaBio-feature-5.jpg",
           "alt": "Dr. Naglaa Academic Biography Portal - Application Feature View 5",
           "type": "image",
-          "hash": "1001101010110010111101001111111011001011000110100011101011101000"
+          "hash": "1000011011000010100011011101110011001011010011110000111001110100"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061430/zayd-portfolio/showcase/drNaglaBio/drNaglaBio-feature-6.jpg",
           "alt": "Dr. Naglaa Academic Biography Portal - Application Feature View 6",
           "type": "image",
-          "hash": "1111101010110011000101010010100001010111001011000001001010011011"
+          "hash": "1010111111001001010101011000000111100010100110001000010100111001"
         }
       ],
       "analysis": {
@@ -53,7 +53,7 @@
         "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\drNaglaBio"
       },
       "diagnostics": {
-        "startedAt": "2026-10-03T21:29:41.451Z",
+        "startedAt": "2026-10-03T21:49:43.704Z",
         "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\drNaglaBio",
         "startCmd": "npx serve -s . -p {PORT}",
         "port": 4050,
@@ -67,25 +67,25 @@
       "slug": "zaydentity",
       "github": "https://github.com/zaydaly05/zaydentity",
       "status": "Completed",
-      "updatedAt": "2026-10-03T21:30:44.475Z",
+      "updatedAt": "2026-10-03T21:50:41.675Z",
       "screenshots": [
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061557/zayd-portfolio/showcase/zaydentity/zaydentity-landing.jpg",
           "alt": "Zaydentity Digital Identity Platform - Main Application Landing Screen",
           "type": "image",
-          "hash": "1110110011011011110110100001110101111011010010011100110001101101"
+          "hash": "1111110011011011110110100001110101111011010001000000110100110001"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061552/zayd-portfolio/showcase/zaydentity/zaydentity-feature-2.jpg",
           "alt": "Zaydentity Digital Identity Platform - Application Interface: n8n Hub",
           "type": "image",
-          "hash": "1000100000111011111111101010111000110111001011111101101010000101"
+          "hash": "1000100000111011111111101010111000110111111100011000001000001100"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061553/zayd-portfolio/showcase/zaydentity/zaydentity-feature-3.jpg",
           "alt": "Zaydentity Digital Identity Platform - Application Interface: Deploy to Vercel",
           "type": "image",
-          "hash": "1011000000001111101001001100101110100100011100111100110110000000"
+          "hash": "1000000001110110011100101110100011000010100111111100111011110110"
         }
       ],
       "analysis": {
@@ -96,7 +96,7 @@
         "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\zaydentity"
       },
       "diagnostics": {
-        "startedAt": "2026-10-03T21:30:44.475Z",
+        "startedAt": "2026-10-03T21:50:41.675Z",
         "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\zaydentity",
         "startCmd": "npm run dev -- -p {PORT}",
         "port": 4050,
@@ -110,7 +110,7 @@
       "slug": "Car_Rental_Website",
       "github": "https://github.com/zaydaly05/Car_Rental_Website",
       "status": "Unsupported",
-      "updatedAt": "2026-10-03T21:30:38.732Z",
+      "updatedAt": "2026-10-03T21:50:36.266Z",
       "screenshots": [],
       "analysis": {
         "framework": "Codebase / CLI / Utilities",
@@ -121,7 +121,7 @@
       },
       "reason": "Repository contains no runnable web application or static index.html entry point.",
       "diagnostics": {
-        "startedAt": "2026-10-03T21:30:38.732Z",
+        "startedAt": "2026-10-03T21:50:36.266Z",
         "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\Car_Rental_Website",
         "startCmd": null,
         "port": null,
@@ -135,7 +135,7 @@
       "slug": "Gulf_Limousine_App",
       "github": "https://github.com/zaydaly05/Gulf_Limousine_App",
       "status": "Failed",
-      "updatedAt": "2026-10-03T21:29:35.714Z",
+      "updatedAt": "2026-10-03T21:49:38.243Z",
       "screenshots": [],
       "analysis": {
         "framework": "Static HTML5 / CSS3 / JavaScript",
@@ -145,7 +145,7 @@
         "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\Gulf_Limousine_App\\web"
       },
       "diagnostics": {
-        "startedAt": "2026-10-03T21:29:35.714Z",
+        "startedAt": "2026-10-03T21:49:38.243Z",
         "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\Gulf_Limousine_App\\web",
         "startCmd": "npx serve -s . -p {PORT}",
         "port": 4050,
@@ -160,7 +160,7 @@
       "slug": "EssmatPlastic",
       "github": "https://github.com/zaydaly05/EssmatPlastic",
       "status": "Unsupported",
-      "updatedAt": "2026-10-03T21:29:41.444Z",
+      "updatedAt": "2026-10-03T21:49:43.697Z",
       "screenshots": [],
       "analysis": {
         "framework": ".NET Desktop / Domain Library",
@@ -170,7 +170,7 @@
         "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\EssmatPlastic"
       },
       "diagnostics": {
-        "startedAt": "2026-10-03T21:29:41.444Z",
+        "startedAt": "2026-10-03T21:49:43.697Z",
         "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\EssmatPlastic",
         "startCmd": null,
         "port": null,
@@ -185,43 +185,43 @@
       "slug": "food_ordering_system",
       "github": "https://github.com/zaydaly05/food_ordering_system",
       "status": "Completed",
-      "updatedAt": "2026-10-03T21:30:02.185Z",
+      "updatedAt": "2026-10-03T21:50:01.842Z",
       "screenshots": [
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061797/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-landing.jpg",
           "alt": "Food Ordering Management System - Main Application Landing Screen",
           "type": "image",
-          "hash": "1101111110001110000111011111100001011010100001110010000110011000"
+          "hash": "1001001110110101010010100101101101111111100000100010010101000001"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061794/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-2.jpg",
           "alt": "Food Ordering Management System - Application Feature View 2",
           "type": "image",
-          "hash": "1011011010101011011001001110011110100001000110010010010110010111"
+          "hash": "1000101111001101110011110111101101111000000100001000110010100001"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061795/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-3.jpg",
           "alt": "Food Ordering Management System - Application Interface: FoodApp",
           "type": "image",
-          "hash": "1011100000001101111111111111100011110101110110010110000011000100"
+          "hash": "1000101001111000011101000111001011100100001000100001011101000111"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061796/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-4.jpg",
           "alt": "Food Ordering Management System - Application Interface: About Us",
           "type": "image",
-          "hash": "1011100010010110011000111111110010111001110000100100100110011111"
+          "hash": "1111111001000110011000001111010011111101110001000000001100101010"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061797/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-5.jpg",
           "alt": "Food Ordering Management System - Application Interface: WhatsApp",
           "type": "image",
-          "hash": "1011010010110100011111110010101001011011100000000100101000001010"
+          "hash": "1011110110101000001100000000000011011011100000010011101011110011"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791062965/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-6.jpg",
           "alt": "Food Ordering Management System - Application Interface: Login / Signup",
           "type": "image",
-          "hash": "1011000111111011101001011110110101111000101010100000010000001101"
+          "hash": "1101010110011010100111100011010100110100110001001001001011100001"
         }
       ],
       "analysis": {
@@ -232,7 +232,7 @@
         "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\food_ordering_system\\mvc\\frontend"
       },
       "diagnostics": {
-        "startedAt": "2026-10-03T21:30:02.185Z",
+        "startedAt": "2026-10-03T21:50:01.842Z",
         "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\food_ordering_system\\mvc\\frontend",
         "startCmd": "npx serve -s build -p {PORT}",
         "port": 4050,
@@ -246,7 +246,7 @@
       "slug": "InGazAPI",
       "github": "https://github.com/zaydaly05/InGazAPI",
       "status": "Failed",
-      "updatedAt": "2026-10-03T21:30:29.796Z",
+      "updatedAt": "2026-10-03T21:50:27.375Z",
       "screenshots": [],
       "analysis": {
         "framework": ".NET Web API / Application",
@@ -256,7 +256,7 @@
         "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\InGazAPI"
       },
       "diagnostics": {
-        "startedAt": "2026-10-03T21:30:29.796Z",
+        "startedAt": "2026-10-03T21:50:27.375Z",
         "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\InGazAPI",
         "startCmd": "dotnet run --urls http://localhost:{PORT}",
         "port": 4050,
@@ -271,7 +271,7 @@
       "slug": "Employee_Attendance-Leave_Management_System",
       "github": "https://github.com/zaydaly05/Employee_Attendance-Leave_Management_System",
       "status": "Unsupported",
-      "updatedAt": "2026-10-03T21:30:38.728Z",
+      "updatedAt": "2026-10-03T21:50:36.260Z",
       "screenshots": [],
       "analysis": {
         "framework": "Codebase / CLI / Utilities",
@@ -282,7 +282,7 @@
       },
       "reason": "Repository contains no runnable web application or static index.html entry point.",
       "diagnostics": {
-        "startedAt": "2026-10-03T21:30:38.728Z",
+        "startedAt": "2026-10-03T21:50:36.260Z",
         "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\Employee_Attendance-Leave_Management_System",
         "startCmd": null,
         "port": null,
@@ -296,7 +296,7 @@
       "slug": "Restaurant_Management_System",
       "github": "https://github.com/zaydaly05/Restaurant_Management_System",
       "status": "Unsupported",
-      "updatedAt": "2026-10-03T21:30:38.737Z",
+      "updatedAt": "2026-10-03T21:50:36.271Z",
       "screenshots": [],
       "analysis": {
         "framework": "Codebase / CLI / Utilities",
@@ -307,7 +307,7 @@
       },
       "reason": "Repository contains no runnable web application or static index.html entry point.",
       "diagnostics": {
-        "startedAt": "2026-10-03T21:30:38.737Z",
+        "startedAt": "2026-10-03T21:50:36.271Z",
         "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\Restaurant_Management_System",
         "startCmd": null,
         "port": null,
@@ -321,7 +321,7 @@
       "slug": "Sleep_Alert_System",
       "github": "https://github.com/zaydaly05/Sleep_Alert_System",
       "status": "Failed",
-      "updatedAt": "2026-10-03T21:30:38.742Z",
+      "updatedAt": "2026-10-03T21:50:36.276Z",
       "screenshots": [],
       "analysis": {
         "framework": "Static HTML5 / CSS3 / JavaScript",
@@ -331,7 +331,7 @@
         "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\Sleep_Alert_System\\web"
       },
       "diagnostics": {
-        "startedAt": "2026-10-03T21:30:38.742Z",
+        "startedAt": "2026-10-03T21:50:36.276Z",
         "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\Sleep_Alert_System\\web",
         "startCmd": "npx serve -s . -p {PORT}",
         "port": 4050,
@@ -346,7 +346,7 @@
       "slug": "WE_Intern",
       "github": "https://github.com/zaydaly05/WE_Intern",
       "status": "Unsupported",
-      "updatedAt": "2026-10-03T21:32:18.979Z",
+      "updatedAt": "2026-10-03T21:52:15.339Z",
       "screenshots": [],
       "analysis": {
         "framework": "Codebase / CLI / Utilities",
@@ -357,7 +357,7 @@
       },
       "reason": "Repository contains no runnable web application or static index.html entry point.",
       "diagnostics": {
-        "startedAt": "2026-10-03T21:32:18.979Z",
+        "startedAt": "2026-10-03T21:52:15.339Z",
         "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\WE_Intern",
         "startCmd": null,
         "port": null,
