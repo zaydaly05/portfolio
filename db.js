@@ -65,13 +65,24 @@ const contactSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
+const cvConfigSchema = new mongoose.Schema({
+  key: { type: String, default: "cv_url", unique: true },
+  url: {
+    type: String,
+    default: "https://collection.cloudinary.com/delnnzcph/8af224dfdea2cedb263fa74148bbdd8d"
+  },
+  updatedAt: { type: Date, default: Date.now }
+});
+
 const Review = mongoose.models.Review || mongoose.model("Review", reviewSchema);
 const Star = mongoose.models.Star || mongoose.model("Star", starSchema);
 const Contact = mongoose.models.Contact || mongoose.model("Contact", contactSchema);
+const CvConfig = mongoose.models.CvConfig || mongoose.model("CvConfig", cvConfigSchema);
 
 module.exports = {
   connectDB,
   Review,
   Star,
-  Contact
+  Contact,
+  CvConfig
 };

@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const os = require("os");
-const { connectDB, Review, Star, Contact } = require("./db");
+const { connectDB, Review, Star, Contact, CvConfig } = require("./db");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -1026,6 +1026,62 @@ app.post("/api/star", postRateLimiter, async (req, res) => {
   } catch {}
 
   res.json({ ok: true, stars, message: "Thank you for starring Zayd's portfolio!" });
+});
+
+// Dynamic CV URL API & Redirects
+const DEFAULT_CV_URL = "https://collection.cloudinary.com/delnnzcph/8af224dfdea2cedb263fa74148bbdd8d";
+
+app.get("/api/cv-url", async (req, res) => {
+  try {
+    const db = await connectDB();
+    if (db) {
+      const config = await CvConfig.findOne({ key: "cv_url" });
+      if (config && config.url) {
+        return res.json({ ok: true, url: config.url });
+      }
+    }
+  } catch (err) {
+    console.error("Error fetching CV URL from MongoDB:", err.message);
+  }
+  res.json({ ok: true, url: DEFAULT_CV_URL });
+});
+
+app.post("/api/cv-url", postRateLimiter, async (req, res) => {
+  const { url } = req.body || {};
+  if (!url || typeof url !== "string") {
+    return res.status(400).json({ ok: false, error: "Valid url parameter required" });
+  }
+
+  try {
+    const db = await connectDB();
+    if (db) {
+      const updated = await CvConfig.findOneAndUpdate(
+        { key: "cv_url" },
+        { url, updatedAt: new Date() },
+        { upsert: true, new: true, setDefaultsOnInsert: true }
+      );
+      return res.json({ ok: true, url: updated.url, message: "CV URL updated successfully in database" });
+    }
+  } catch (err) {
+    console.error("Error updating CV URL in MongoDB:", err.message);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+
+  res.json({ ok: true, url, message: "CV URL updated (local fallback)" });
+});
+
+app.get(["/cv", "/assets/Zayd_Ali_Mohamed_CV.pdf", "/assets/Zayd%20Ali%20Mohamed%20CV.pdf"], async (req, res) => {
+  let targetUrl = DEFAULT_CV_URL;
+  try {
+    const db = await connectDB();
+    if (db) {
+      const config = await CvConfig.findOne({ key: "cv_url" });
+      if (config && config.url) {
+        targetUrl = config.url;
+      }
+    }
+  } catch (err) {}
+  res.redirect(302, targetUrl);
 });
 
 // Kapso WhatsApp Cloud API Webhook Routes

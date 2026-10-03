@@ -4908,7 +4908,7 @@ textarea.invalid {
   overflow: hidden;
   border-radius: var(--radius-md, 16px);
   background: var(--card-bg, rgba(15, 23, 42, 0.65));
-  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  border: 1px solid var(--border-color, rgba(206, 202, 202, 0.71));
   display: flex;
   flex-direction: column;
   transition:
@@ -5498,7 +5498,9 @@ textarea.invalid {
   flex-direction: column;
   gap: 16px;
   padding: 24px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .review-card:hover {
@@ -5559,23 +5561,61 @@ textarea.invalid {
   margin-top: auto;
 }
 
-
-
 /* ============================================
    PHONE OPTIMIZED VIEW (MAX 500px)
    ============================================ */
 @media (max-width: 500px) {
-  body { font-size: 14px; }
-  .section { padding-top: 50px; padding-left: 12px; padding-right: 12px; }
-  .card, .review-card { padding: 16px; }
-  h1 { font-size: 1.8rem !important; }
-  h2, h3 { font-size: 1.5rem !important; }
-  .form-row-2col, .form-row-2 { flex-direction: column; gap: 12px; }
-  .form-input { min-width: 100%; }
-  .hero-meta { flex-wrap: wrap; justify-content: center; }
-  .modal-card, .modal-content { margin: 2vh auto; width: 95vw; padding: 16px; }
-  .footer-container { flex-direction: column; text-align: center; gap: 16px; }
-  .footer-links { flex-wrap: wrap; justify-content: center; }
-  .review-header { flex-direction: column; gap: 8px; }
-  .review-stars { align-self: flex-start; }
+  body {
+    font-size: 14px;
+  }
+  .section {
+    padding-top: 50px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .card,
+  .review-card {
+    padding: 16px;
+  }
+  h1 {
+    font-size: 1.8rem !important;
+  }
+  h2,
+  h3 {
+    font-size: 1.5rem !important;
+  }
+  .form-row-2col,
+  .form-row-2 {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .form-input {
+    min-width: 100%;
+  }
+  .hero-meta {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .modal-card,
+  .modal-content {
+    margin: 2vh auto;
+    width: 95vw;
+    padding: 16px;
+  }
+  .footer-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+  .footer-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .review-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .review-stars {
+    align-self: flex-start;
+  }
 }
