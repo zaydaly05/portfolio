@@ -1190,13 +1190,19 @@ const renderProjects = (items) => {
     const isEssmatPlasticProject = nameLower.includes("essmat plastic");
     const isDrNaglaBioProject = nameLower.includes("dr. naglaa");
 
+    const autoScreenshots = Array.isArray(item.screenshots) && item.screenshots.length > 0 ? item.screenshots : null;
+
     return {
-      tag: "Project Details",
+      tag: item.showcaseStatus === "Completed" ? "Project Details · Showcase Captured" : "Project Details",
       title: item.name || "Project",
       subtitle: `${item.period || ""} · ${item.stack || ""}`,
       description: `${item.description || ""}\n\n🔗 GitHub Repo: ${githubUrl}`,
-      points: [`Live repository link: ${githubUrl}`, `Automatically synced with GitHub project commits`],
-      media: isDrNaglaBioProject
+      points: [
+        `Live repository link: ${githubUrl}`,
+        `Automatically synced with GitHub project commits`,
+        item.showcaseStatus ? `Automated Showcase Status: ${item.showcaseStatus}` : null
+      ].filter(Boolean),
+      media: autoScreenshots || (isDrNaglaBioProject
         ? [
             {
               src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790725/zayd-portfolio/dr-nagla-hero.png",
@@ -1321,7 +1327,7 @@ const renderProjects = (items) => {
                                 "https://res.cloudinary.com/delnnzcph/image/upload/v1790790773/zayd-portfolio/main-photo.jpg",
                               alt: item.name
                             }
-                          ]
+                          ])
     };
   });
 };
@@ -2545,6 +2551,7 @@ const setupTerminalCLI = () => {
       const cmd = val.toLowerCase();
       if (cmd === "help") {
         printLine(`Available Commands:
+  • <span class="term-cmd">showcase</span> - View live automated screenshot showcase status
   • <span class="term-cmd">skills</span>   - List Zayd's technical skill set
   • <span class="term-cmd">projects</span> - Display Zayd's top projects & tech stacks
   • <span class="term-cmd">exp</span>      - Display internship & work experience
@@ -2554,6 +2561,26 @@ const setupTerminalCLI = () => {
   • <span class="term-cmd">date</span>     - Show current Cairo date & time
   • <span class="term-cmd">hire</span>     - Quick message for recruiters
   • <span class="term-cmd">clear</span>    - Clear terminal output screen`);
+      } else if (cmd === "showcase" || cmd === "screenshots") {
+        printLine(`Fetching automated project showcase status... 📸`);
+        fetch("/api/showcase/status")
+          .then((res) => res.json())
+          .then((data) => {
+            const projects = data.projects || {};
+            const keys = Object.keys(projects);
+            if (!keys.length) {
+              printLine(`No automated project showcases recorded yet. Run showcase pipeline to generate.`);
+              return;
+            }
+            printLine(`Automated Project Showcase Status (Updated: ${new Date(data.lastUpdated).toLocaleString()}):`);
+            keys.forEach((key) => {
+              const p = projects[key];
+              const shotCount = (p.screenshots || []).length;
+              const badge = p.status === "Completed" ? `[COMPLETED - ${shotCount} shots]` : `[${p.status || "UNKNOWN"}]`;
+              printLine(`  • <strong>${p.name}</strong> (${p.slug}): ${badge}`);
+            });
+          })
+          .catch(() => printLine(`Failed to fetch showcase status.`));
       } else if (cmd === "skills") {
         printLine(`Zayd's Technical Skills:
   [Languages] Java, C#, C++, Python, JavaScript, PHP, Dart, SQL

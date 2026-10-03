@@ -35,3 +35,6 @@ Thumbs.db
 
 playwright-report/
 test-results/
+
+# Temporary sandbox build workspaces
+temp_projects/

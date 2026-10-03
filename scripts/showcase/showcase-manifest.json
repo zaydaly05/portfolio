@@ -1,0 +1,320 @@
+{
+  "lastUpdated": "2026-10-03T21:11:49.928Z",
+  "projects": {
+    "drNaglaBio": {
+      "name": "Dr. Naglaa Academic Biography Portal",
+      "slug": "drNaglaBio",
+      "github": "https://github.com/zaydaly05/drNaglaBio",
+      "status": "Completed",
+      "updatedAt": "2026-10-03T21:03:11.455Z",
+      "screenshots": [
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061431/zayd-portfolio/showcase/drNaglaBio/drNaglaBio-landing.jpg",
+          "alt": "Dr. Naglaa Academic Biography Portal - Main Application Landing Screen",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061426/zayd-portfolio/showcase/drNaglaBio/drNaglaBio-feature-2.jpg",
+          "alt": "Dr. Naglaa Academic Biography Portal - Application Feature View 2",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061427/zayd-portfolio/showcase/drNaglaBio/drNaglaBio-feature-3.jpg",
+          "alt": "Dr. Naglaa Academic Biography Portal - Application Feature View 3",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061428/zayd-portfolio/showcase/drNaglaBio/drNaglaBio-feature-4.jpg",
+          "alt": "Dr. Naglaa Academic Biography Portal - Application Feature View 4",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061429/zayd-portfolio/showcase/drNaglaBio/drNaglaBio-feature-5.jpg",
+          "alt": "Dr. Naglaa Academic Biography Portal - Application Feature View 5",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061430/zayd-portfolio/showcase/drNaglaBio/drNaglaBio-feature-6.jpg",
+          "alt": "Dr. Naglaa Academic Biography Portal - Application Feature View 6",
+          "type": "image"
+        }
+      ],
+      "analysis": {
+        "framework": "Static HTML5 / CSS3 / JavaScript",
+        "language": "HTML/CSS/JS",
+        "isWebRunnable": true,
+        "startCmd": "npx serve -p {PORT} ."
+      }
+    },
+    "zaydentity": {
+      "name": "Zaydentity Digital Identity Platform",
+      "slug": "zaydentity",
+      "github": "https://github.com/zaydaly05/zaydentity",
+      "status": "Completed",
+      "updatedAt": "2026-10-03T21:04:17.729Z",
+      "screenshots": [
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061557/zayd-portfolio/showcase/zaydentity/zaydentity-landing.jpg",
+          "alt": "Zaydentity Digital Identity Platform - Main Application Landing Screen",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061552/zayd-portfolio/showcase/zaydentity/zaydentity-feature-2.jpg",
+          "alt": "Zaydentity Digital Identity Platform - Application Feature View 2",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061553/zayd-portfolio/showcase/zaydentity/zaydentity-feature-3.jpg",
+          "alt": "Zaydentity Digital Identity Platform - Application Feature View 3",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061554/zayd-portfolio/showcase/zaydentity/zaydentity-feature-4.jpg",
+          "alt": "Zaydentity Digital Identity Platform - Application Feature View 4",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061555/zayd-portfolio/showcase/zaydentity/zaydentity-feature-5.jpg",
+          "alt": "Zaydentity Digital Identity Platform - Application Feature View 5",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061556/zayd-portfolio/showcase/zaydentity/zaydentity-feature-6.jpg",
+          "alt": "Zaydentity Digital Identity Platform - Application Interface: Undo",
+          "type": "image"
+        }
+      ],
+      "analysis": {
+        "framework": "Next.js",
+        "language": "JavaScript/TypeScript",
+        "isWebRunnable": true,
+        "startCmd": "npm run dev -- -p {PORT}"
+      }
+    },
+    "Car_Rental_Website": {
+      "name": "Car Rental Website",
+      "slug": "Car_Rental_Website",
+      "github": "https://github.com/zaydaly05/Car_Rental_Website",
+      "status": "Unsupported",
+      "updatedAt": "2026-10-03T21:06:20.223Z",
+      "screenshots": [],
+      "analysis": {
+        "framework": "Codebase / CLI / Utilities",
+        "language": "JavaScript",
+        "isWebRunnable": false,
+        "startCmd": null
+      },
+      "reason": "Repository is non-visual or CLI/library project without a web server interface."
+    },
+    "Gulf_Limousine_App": {
+      "name": "Gulf Limousine Booking App",
+      "slug": "Gulf_Limousine_App",
+      "github": "https://github.com/zaydaly05/Gulf_Limousine_App",
+      "status": "Completed",
+      "updatedAt": "2026-10-03T21:07:37.976Z",
+      "screenshots": [
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061700/zayd-portfolio/showcase/Gulf_Limousine_App/Gulf_Limousine_App-landing.jpg",
+          "alt": "Gulf Limousine Booking App - Main Application Landing Screen",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061699/zayd-portfolio/showcase/Gulf_Limousine_App/Gulf_Limousine_App-feature-2.jpg",
+          "alt": "Gulf Limousine Booking App - Application Feature View 2",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061698/zayd-portfolio/showcase/Gulf_Limousine_App/Gulf_Limousine_App-details.jpg",
+          "alt": "Gulf Limousine Booking App - Dashboard Details & Functional Section",
+          "type": "image"
+        }
+      ],
+      "analysis": {
+        "framework": "Flutter Web",
+        "language": "Dart / Flutter",
+        "isWebRunnable": true,
+        "startCmd": "flutter run -d web-server --web-port {PORT}"
+      }
+    },
+    "EssmatPlastic": {
+      "name": "Essmat Plastic Factory Management System",
+      "slug": "EssmatPlastic",
+      "github": "https://github.com/zaydaly05/EssmatPlastic",
+      "status": "Completed",
+      "updatedAt": "2026-10-03T21:08:20.923Z",
+      "screenshots": [
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061720/zayd-portfolio/showcase/EssmatPlastic/EssmatPlastic-landing.jpg",
+          "alt": "Essmat Plastic Factory Management System - Main Application Landing Screen",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061718/zayd-portfolio/showcase/EssmatPlastic/EssmatPlastic-feature-2.jpg",
+          "alt": "Essmat Plastic Factory Management System - Application Feature View 2",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061719/zayd-portfolio/showcase/EssmatPlastic/EssmatPlastic-feature-3.jpg",
+          "alt": "Essmat Plastic Factory Management System - Application Interface: EssmatPlastic/",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061719/zayd-portfolio/showcase/EssmatPlastic/EssmatPlastic-feature-4.jpg",
+          "alt": "Essmat Plastic Factory Management System - Application Interface: .github/",
+          "type": "image"
+        }
+      ],
+      "analysis": {
+        "framework": "Node.js",
+        "language": "JavaScript/TypeScript",
+        "isWebRunnable": true,
+        "startCmd": "npx serve -p {PORT} ."
+      }
+    },
+    "food_ordering_system": {
+      "name": "Food Ordering Management System",
+      "slug": "food_ordering_system",
+      "github": "https://github.com/zaydaly05/food_ordering_system",
+      "status": "Completed",
+      "updatedAt": "2026-10-03T21:09:01.684Z",
+      "screenshots": [
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061797/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-landing.jpg",
+          "alt": "Food Ordering Management System - Main Application Landing Screen",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061794/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-2.jpg",
+          "alt": "Food Ordering Management System - Application Feature View 2",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061795/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-3.jpg",
+          "alt": "Food Ordering Management System - Application Interface: food_ordering_system/",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061796/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-4.jpg",
+          "alt": "Food Ordering Management System - Application Interface: .gitignore",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061797/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-5.jpg",
+          "alt": "Food Ordering Management System - Application Interface: .vscode/",
+          "type": "image"
+        }
+      ],
+      "analysis": {
+        "framework": "React",
+        "language": "JavaScript/TypeScript",
+        "isWebRunnable": true,
+        "startCmd": "npx serve -s . -p {PORT}"
+      }
+    },
+    "InGazAPI": {
+      "name": "In Gaz API System",
+      "slug": "InGazAPI",
+      "github": "https://github.com/zaydaly05/InGazAPI",
+      "status": "Completed",
+      "updatedAt": "2026-10-03T21:09:58.516Z",
+      "screenshots": [
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061862/zayd-portfolio/showcase/InGazAPI/InGazAPI-landing.jpg",
+          "alt": "In Gaz API System - Main Application Landing Screen",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061861/zayd-portfolio/showcase/InGazAPI/InGazAPI-feature-2.jpg",
+          "alt": "In Gaz API System - Application Feature View 2",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061861/zayd-portfolio/showcase/InGazAPI/InGazAPI-details.jpg",
+          "alt": "In Gaz API System - Dashboard Details & Functional Section",
+          "type": "image"
+        }
+      ],
+      "analysis": {
+        "framework": ".NET Web Application",
+        "language": "C# / .NET",
+        "isWebRunnable": true,
+        "startCmd": "dotnet run --urls http://localhost:{PORT}"
+      }
+    },
+    "Employee_Attendance-Leave_Management_System": {
+      "name": "Employee Attendance & Leave System",
+      "slug": "Employee_Attendance-Leave_Management_System",
+      "github": "https://github.com/zaydaly05/Employee_Attendance-Leave_Management_System",
+      "status": "Unsupported",
+      "updatedAt": "2026-10-03T21:11:03.312Z",
+      "screenshots": [],
+      "analysis": {
+        "framework": "Codebase / CLI / Utilities",
+        "language": "JavaScript",
+        "isWebRunnable": false,
+        "startCmd": null
+      },
+      "reason": "Repository is non-visual or CLI/library project without a web server interface."
+    },
+    "Restaurant_Management_System": {
+      "name": "Restaurant Management System",
+      "slug": "Restaurant_Management_System",
+      "github": "https://github.com/zaydaly05/Restaurant_Management_System",
+      "status": "Unsupported",
+      "updatedAt": "2026-10-03T21:11:05.628Z",
+      "screenshots": [],
+      "analysis": {
+        "framework": "Codebase / CLI / Utilities",
+        "language": "JavaScript",
+        "isWebRunnable": false,
+        "startCmd": null
+      },
+      "reason": "Repository is non-visual or CLI/library project without a web server interface."
+    },
+    "Sleep_Alert_System": {
+      "name": "Sleeping Alert System",
+      "slug": "Sleep_Alert_System",
+      "github": "https://github.com/zaydaly05/Sleep_Alert_System",
+      "status": "Completed",
+      "updatedAt": "2026-10-03T21:11:06.822Z",
+      "screenshots": [
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061887/zayd-portfolio/showcase/Sleep_Alert_System/Sleep_Alert_System-landing.jpg",
+          "alt": "Sleeping Alert System - Main Application Landing Screen",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061886/zayd-portfolio/showcase/Sleep_Alert_System/Sleep_Alert_System-feature-2.jpg",
+          "alt": "Sleeping Alert System - Application Feature View 2",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061885/zayd-portfolio/showcase/Sleep_Alert_System/Sleep_Alert_System-details.jpg",
+          "alt": "Sleeping Alert System - Dashboard Details & Functional Section",
+          "type": "image"
+        }
+      ],
+      "analysis": {
+        "framework": "Flutter Web",
+        "language": "Dart / Flutter",
+        "isWebRunnable": true,
+        "startCmd": "flutter run -d web-server --web-port {PORT}"
+      }
+    },
+    "WE_Intern": {
+      "name": "WE Telecom Training Suite",
+      "slug": "WE_Intern",
+      "github": "https://github.com/zaydaly05/WE_Intern",
+      "status": "Unsupported",
+      "updatedAt": "2026-10-03T21:11:48.734Z",
+      "screenshots": [],
+      "analysis": {
+        "framework": "Codebase / CLI / Utilities",
+        "language": "JavaScript",
+        "isWebRunnable": false,
+        "startCmd": null
+      },
+      "reason": "Repository is non-visual or CLI/library project without a web server interface."
+    }
+  }
+}

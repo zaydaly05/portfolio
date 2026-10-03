@@ -569,8 +569,60 @@ const portfolioData = {
   ]
 };
 
+const getShowcaseManifest = () => {
+  const manifestPath = path.join(__dirname, 'scripts', 'showcase', 'showcase-manifest.json');
+  if (fs.existsSync(manifestPath)) {
+    try {
+      return JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+    } catch {}
+  }
+  return { projects: {} };
+};
+
 app.get("/api/portfolio", (req, res) => {
-  res.json(portfolioData);
+  const showcase = getShowcaseManifest();
+  const enrichedProjects = portfolioData.projects.map((p) => {
+    const githubUrl = p.github || "";
+    const match = githubUrl.match(/github\.com\/[^/]+\/([^/#?]+)/i);
+    const slug = match ? match[1].replace(/\.git$/i, "") : p.name.toLowerCase().replace(/[^a-z0-9_-]/g, "-");
+    const pShowcase = (showcase.projects && showcase.projects[slug]) || {};
+    return {
+      ...p,
+      slug,
+      showcaseStatus: pShowcase.status || "Pending",
+      showcaseReason: pShowcase.reason || null,
+      screenshots: pShowcase.screenshots && pShowcase.screenshots.length ? pShowcase.screenshots : undefined
+    };
+  });
+  res.json({ ...portfolioData, projects: enrichedProjects });
+});
+
+// Intelligent Automated Project Showcase API
+app.get("/api/showcase/status", (req, res) => {
+  const showcase = getShowcaseManifest();
+  res.json({
+    lastUpdated: showcase.lastUpdated || null,
+    projects: showcase.projects || {}
+  });
+});
+
+app.post("/api/showcase/generate", postRateLimiter, async (req, res) => {
+  const { projectName } = req.body || {};
+  try {
+    const { processProjectShowcase, runAllShowcases } = require("./scripts/showcase/showcase-manager");
+    res.json({ success: true, message: "Automated project showcase generation triggered in background." });
+
+    if (projectName) {
+      const target = portfolioData.projects.find((p) => p.name.toLowerCase().includes(projectName.toLowerCase()));
+      if (target) {
+        processProjectShowcase(target).catch((err) => console.error("Async Showcase Error:", err.message));
+      }
+    } else {
+      runAllShowcases(portfolioData.projects).catch((err) => console.error("Async Showcase Error:", err.message));
+    }
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 // Live Status & Cairo Time API

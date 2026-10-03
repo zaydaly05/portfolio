@@ -48,6 +48,27 @@ test.describe('Zayd Portfolio Full End-to-End Suite', () => {
 
     // Reset search
     await searchInput.fill('');
+
+    // Open first project card modal details
+    await projectCards.first().click();
+    const detailsModal = page.locator('#details-modal');
+    await expect(detailsModal).not.toHaveClass(/hidden/);
+    await expect(page.locator('#modal-title')).not.toBeEmpty();
+
+    // Verify modal media container exists and contains media
+    const mediaContainer = page.locator('#modal-media');
+    await expect(mediaContainer).toBeVisible();
+
+    // Close modal
+    await page.locator('#modal-close').click();
+    await expect(detailsModal).toHaveClass(/hidden/);
+  });
+
+  test('Showcase API returns status and generated project metadata', async ({ request }) => {
+    const response = await request.get('/api/showcase/status');
+    expect(response.status()).toBe(200);
+    const data = await response.json();
+    expect(data).toHaveProperty('projects');
   });
 
   test('Experience page loads timeline, CV modal, and community reviews API', async ({ page }) => {
