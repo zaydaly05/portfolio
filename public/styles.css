@@ -1140,10 +1140,11 @@ textarea::placeholder {
   height: 100vh;
   z-index: 9999;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding: 5vh 20px;
+  padding: 20px;
   overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .modal.hidden {
@@ -1162,13 +1163,13 @@ textarea::placeholder {
   position: relative;
   z-index: 1;
   width: min(760px, 92%);
-  margin: 5vh auto;
+  margin: auto;
   background: var(--card);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-lg);
   padding: 32px;
-  max-height: max-content;
-  overflow-y: visible;
+  max-height: 85vh;
+  overflow-y: auto;
   backdrop-filter: blur(20px) saturate(150%);
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
   animation: modalSlideIn 0.4s var(--transition-spring) forwards;
@@ -1343,7 +1344,7 @@ textarea::placeholder {
 .lightbox {
   position: fixed;
   inset: 0;
-  z-index: 700;
+  z-index: 10010;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1657,8 +1658,7 @@ textarea::placeholder {
   }
 
   .modal {
-    margin: 20px;
-    max-height: calc(100vh - 40px);
+    padding: 16px;
   }
 
   .modal-content {
@@ -1726,7 +1726,7 @@ textarea::placeholder {
   }
 
   .modal {
-    margin: 16px;
+    padding: 12px;
   }
 
   .modal-content {
@@ -5598,7 +5598,7 @@ textarea.invalid {
   }
   .modal-card,
   .modal-content {
-    margin: 2vh auto;
+    margin: auto;
     width: 95vw;
     padding: 16px;
   }
