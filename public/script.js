@@ -1225,14 +1225,38 @@ const renderProjects = (items) => {
           ? [
               {
                 src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790766/zayd-portfolio/gulf-limousine.jpg",
-                alt: "Gulf Limousine App real output preview"
+                alt: "Gulf Limousine App - Luxury Mobile Reservation Interface"
+              },
+              {
+                src: "/assets/showcase/Gulf_Limousine_App/Gulf_Limousine_App-landing.jpg",
+                alt: "Gulf Limousine App - Android Mobile Viewport Booking Screen"
+              },
+              {
+                src: "/assets/showcase/Gulf_Limousine_App/Gulf_Limousine_App-feature-1.jpg",
+                alt: "Gulf Limousine App - Vehicle Fleet Selection View"
+              },
+              {
+                src: "/assets/showcase/Gulf_Limousine_App/Gulf_Limousine_App-details.jpg",
+                alt: "Gulf Limousine App - Fare Estimation & Trip Details"
               }
             ]
           : isEssmatPlasticProject
             ? [
                 {
                   src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790864034/esmatPlastic.jpg",
-                  alt: "Essmat Plastic Factory Management System Architecture & Data Schema"
+                  alt: "Essmat Plastic Factory Management System - Architecture & Data Schema"
+                },
+                {
+                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790736/zayd-portfolio/essmat-plastic-report.pdf",
+                  alt: "Essmat Plastic Factory Management System - Official PDF Report Document"
+                },
+                {
+                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
+                  alt: "Essmat Plastic Factory Management System - Inventory & Material Management View"
+                },
+                {
+                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790732/zayd-portfolio/employee-e2.png",
+                  alt: "Essmat Plastic Factory Management System - Factory Orders & Billing Interface"
                 }
               ]
             : isFoodOrderingProject
@@ -1243,103 +1267,123 @@ const renderProjects = (items) => {
                   },
                   {
                     src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061794/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-2.jpg",
-                    alt: "Food Ordering Management System - Application Feature View 2"
+                    alt: "Food Ordering Management System - Food Hub Menu Browse"
                   },
                   {
                     src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061795/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-3.jpg",
-                    alt: "Food Ordering Management System - Application Interface: FoodApp"
+                    alt: "Food Ordering Management System - Customer Cart & Order Summary"
                   },
                   {
                     src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061796/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-4.jpg",
-                    alt: "Food Ordering Management System - Application Interface: About Us"
+                    alt: "Food Ordering Management System - Restaurant Management Portal"
                   },
                   {
                     src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061797/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-5.jpg",
-                    alt: "Food Ordering Management System - Application Interface: WhatsApp"
+                    alt: "Food Ordering Management System - WhatsApp Support Integration"
                   },
                   {
                     src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791062965/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-6.jpg",
-                    alt: "Food Ordering Management System - Application Interface: Login / Signup"
+                    alt: "Food Ordering Management System - User Authentication & Login Portal"
                   }
                 ]
               : isInGazProject
                 ? [
                     {
                       src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790771/zayd-portfolio/ingaz-1.jpg",
-                      alt: "In Gaz API app screenshot 1"
+                      alt: "In Gaz API System - Flutter Mobile App Screen 1"
                     },
                     {
                       src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790772/zayd-portfolio/ingaz-2.jpg",
-                      alt: "In Gaz API app screenshot 2"
+                      alt: "In Gaz API System - Flutter Mobile App Screen 2"
+                    },
+                    {
+                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061861/zayd-portfolio/showcase/InGazAPI/InGazAPI-landing.jpg",
+                      alt: "In Gaz API System - .NET Core Web API Swagger Documentation"
+                    },
+                    {
+                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061862/zayd-portfolio/showcase/InGazAPI/InGazAPI-details.jpg",
+                      alt: "In Gaz API System - MVC Controller Data Endpoint Schema"
                     }
                   ]
                 : isCarRentalProject
                   ? [
                       {
-                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790766/zayd-portfolio/gulf-limousine.jpg",
-                        alt: "Car Rental Website logo preview"
+                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790715/zayd-portfolio/car-rental-c1.png",
+                        alt: "Car Rental Website - Vehicle Fleet Catalog Overview"
                       },
                       {
                         src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790716/zayd-portfolio/car-rental-c2.png",
-                        alt: "Car Rental Website screenshot c2"
+                        alt: "Car Rental Website - Car Specifications & Features View"
                       },
                       {
                         src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790718/zayd-portfolio/car-rental-c3.png",
-                        alt: "Car Rental Website screenshot c3"
+                        alt: "Car Rental Website - Customer Booking & Checkout Form"
+                      },
+                      {
+                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790707/zayd-portfolio/c1.png",
+                        alt: "Car Rental Website - Platform Main Landing Page"
                       }
                     ]
                   : isRestaurantProject
                     ? [
                         {
                           src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790805/zayd-portfolio/restaurant-r1.png",
-                          alt: "Restaurant Management System screenshot r1"
+                          alt: "Restaurant Management System - JavaFX Main Login & Role Selection"
                         },
                         {
                           src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790805/zayd-portfolio/restaurant-r2.png",
-                          alt: "Restaurant Management System screenshot r2"
+                          alt: "Restaurant Management System - Food & Menu Order Interface"
                         },
                         {
                           src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790806/zayd-portfolio/restaurant-r3.png",
-                          alt: "Restaurant Management System screenshot r3"
+                          alt: "Restaurant Management System - Table Allocation Grid View"
                         },
                         {
                           src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790807/zayd-portfolio/restaurant-r4.png",
-                          alt: "Restaurant Management System screenshot r4"
+                          alt: "Restaurant Management System - Reservation System View"
                         },
                         {
                           src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790808/zayd-portfolio/restaurant-r5.png",
-                          alt: "Restaurant Management System screenshot r5"
+                          alt: "Restaurant Management System - Billing & Order Summary"
                         }
                       ]
                     : isSleepingAlertProject
                       ? [
                           {
                             src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790811/zayd-portfolio/sleeping-alert-py2.jpg",
-                            alt: "Sleeping Alert System screenshot py2"
+                            alt: "Sleeping Alert System - OpenCV Drowsiness Detection Photo"
                           },
                           {
                             src: "https://res.cloudinary.com/delnnzcph/video/upload/v1790790810/zayd-portfolio/sleeping-alert-py1.mp4",
                             type: "video",
-                            alt: "Sleeping Alert System demo video py1"
+                            alt: "Sleeping Alert System - Realtime Facial Bounding Box Video Demo"
+                          },
+                          {
+                            src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061885/zayd-portfolio/showcase/Sleep_Alert_System/Sleep_Alert_System-landing.jpg",
+                            alt: "Sleeping Alert System - Mobile Flutter Monitor Screen"
+                          },
+                          {
+                            src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061887/zayd-portfolio/showcase/Sleep_Alert_System/Sleep_Alert_System-details.jpg",
+                            alt: "Sleeping Alert System - Driver Eye Aspect Ratio Threshold Dashboard"
                           }
                         ]
                       : isEmployeeAttendanceProject
                         ? [
                             {
                               src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
-                              alt: "Employee Attendance and Leave System screenshot e1"
+                              alt: "Employee Attendance and Leave System - Admin Dashboard Overview"
                             },
                             {
                               src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790732/zayd-portfolio/employee-e2.png",
-                              alt: "Employee Attendance and Leave System screenshot e2"
+                              alt: "Employee Attendance and Leave System - New Assessment / Post Announcement"
                             },
                             {
                               src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790734/zayd-portfolio/employee-e3.png",
-                              alt: "Employee Attendance and Leave System screenshot e3"
+                              alt: "Employee Attendance and Leave System - Login & Landing Screen"
                             },
                             {
                               src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790735/zayd-portfolio/employee-e4.png",
-                              alt: "Employee Attendance and Leave System screenshot e4"
+                              alt: "Employee Attendance and Leave System - Leave History & Status Table"
                             }
                           ]
                         : [

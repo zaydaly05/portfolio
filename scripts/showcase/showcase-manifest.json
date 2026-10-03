@@ -1,16 +1,16 @@
 {
-  "lastUpdated": "2026-10-04T01:00:00.000Z",
+  "lastUpdated": "2026-10-04T01:05:00.000Z",
   "projects": {
     "drNaglaBio": {
       "name": "Dr. Naglaa Academic Biography Portal",
       "slug": "drNaglaBio",
       "github": "https://github.com/zaydaly05/drNaglaBio",
       "status": "Completed",
-      "updatedAt": "2026-10-04T01:00:00.000Z",
+      "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061431/zayd-portfolio/showcase/drNaglaBio/drNaglaBio-landing.jpg",
-          "alt": "Dr. Naglaa Academic Biography Portal - Main Application Landing Screen",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790725/zayd-portfolio/dr-nagla-hero.png",
+          "alt": "Dr. Naglaa Academic Biography Portal - Hero Landing Header",
           "type": "image"
         },
         {
@@ -20,12 +20,12 @@
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790727/zayd-portfolio/dr-nagla-publications.png",
-          "alt": "Dr Naglaa Research Publications",
+          "alt": "Dr Naglaa Research Publications Archive",
           "type": "image"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790723/zayd-portfolio/dr-nagla-contact.png",
-          "alt": "Dr Naglaa Academic Contact Section",
+          "alt": "Dr Naglaa Student Contact Portal",
           "type": "image"
         }
       ],
@@ -40,16 +40,26 @@
       "slug": "zaydentity",
       "github": "https://github.com/zaydaly05/zaydentity",
       "status": "Completed",
-      "updatedAt": "2026-10-04T01:00:00.000Z",
+      "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061557/zayd-portfolio/showcase/zaydentity/zaydentity-landing.jpg",
-          "alt": "Zaydentity Digital Identity Platform - Main Application Landing Screen",
+          "alt": "Zaydentity Digital Identity Platform - Main Bio-Link Landing Screen",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061552/zayd-portfolio/showcase/zaydentity/zaydentity-feature-2.jpg",
+          "alt": "Zaydentity Digital Identity Platform - Interactive Developer Skills Matrix",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061553/zayd-portfolio/showcase/zaydentity/zaydentity-feature-3.jpg",
+          "alt": "Zaydentity Digital Identity Platform - Project Showcase Gallery",
           "type": "image"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791064635/zayd-portfolio/showcase/zaydentity/zaydentity-details.jpg",
-          "alt": "Zaydentity Digital Identity Platform - Dashboard Details & Functional Section",
+          "alt": "Zaydentity Digital Identity Platform - Verified Credentials Card",
           "type": "image"
         }
       ],
@@ -64,21 +74,26 @@
       "slug": "Car_Rental_Website",
       "github": "https://github.com/zaydaly05/Car_Rental_Website",
       "status": "Completed",
-      "updatedAt": "2026-10-04T01:00:00.000Z",
+      "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790715/zayd-portfolio/car-rental-c1.png",
-          "alt": "Car Rental Website - Fleet Catalog & Vehicle Selection",
+          "alt": "Car Rental Website - Vehicle Fleet Catalog Overview",
           "type": "image"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790716/zayd-portfolio/car-rental-c2.png",
-          "alt": "Car Rental Website - Vehicle Details & Features",
+          "alt": "Car Rental Website - Car Specifications & Features View",
           "type": "image"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790718/zayd-portfolio/car-rental-c3.png",
-          "alt": "Car Rental Website - Reservation & Checkout Form",
+          "alt": "Car Rental Website - Customer Booking & Checkout Form",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790707/zayd-portfolio/c1.png",
+          "alt": "Car Rental Website - Platform Main Landing Page",
           "type": "image"
         }
       ],
@@ -93,11 +108,26 @@
       "slug": "Gulf_Limousine_App",
       "github": "https://github.com/zaydaly05/Gulf_Limousine_App",
       "status": "Completed",
-      "updatedAt": "2026-10-04T01:00:00.000Z",
+      "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790766/zayd-portfolio/gulf-limousine.jpg",
-          "alt": "Gulf Limousine App - Mobile Luxury Reservation Interface",
+          "alt": "Gulf Limousine App - Luxury Mobile Reservation Interface",
+          "type": "image"
+        },
+        {
+          "src": "/assets/showcase/Gulf_Limousine_App/Gulf_Limousine_App-landing.jpg",
+          "alt": "Gulf Limousine App - Android Mobile Viewport Booking Screen",
+          "type": "image"
+        },
+        {
+          "src": "/assets/showcase/Gulf_Limousine_App/Gulf_Limousine_App-feature-1.jpg",
+          "alt": "Gulf Limousine App - Vehicle Fleet Selection View",
+          "type": "image"
+        },
+        {
+          "src": "/assets/showcase/Gulf_Limousine_App/Gulf_Limousine_App-details.jpg",
+          "alt": "Gulf Limousine App - Fare Estimation & Trip Details",
           "type": "image"
         }
       ],
@@ -112,11 +142,26 @@
       "slug": "EssmatPlastic",
       "github": "https://github.com/zaydaly05/EssmatPlastic",
       "status": "Completed",
-      "updatedAt": "2026-10-04T01:00:00.000Z",
+      "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790864034/esmatPlastic.jpg",
-          "alt": "Essmat Plastic Factory Management System - Architecture & Factory Schema",
+          "alt": "Essmat Plastic Factory Management System - Architecture & Data Schema",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790736/zayd-portfolio/essmat-plastic-report.pdf",
+          "alt": "Essmat Plastic Factory Management System - Official PDF Report Document",
+          "type": "pdf"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
+          "alt": "Essmat Plastic Factory Management System - Inventory & Material Management View",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790732/zayd-portfolio/employee-e2.png",
+          "alt": "Essmat Plastic Factory Management System - Factory Orders & Billing Interface",
           "type": "image"
         }
       ],
@@ -131,7 +176,7 @@
       "slug": "food_ordering_system",
       "github": "https://github.com/zaydaly05/food_ordering_system",
       "status": "Completed",
-      "updatedAt": "2026-10-04T01:00:00.000Z",
+      "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061797/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-landing.jpg",
@@ -140,7 +185,7 @@
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061794/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-2.jpg",
-          "alt": "Food Ordering Management System - Food Hub Menu",
+          "alt": "Food Ordering Management System - Food Hub Menu Browse",
           "type": "image"
         },
         {
@@ -151,6 +196,16 @@
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061796/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-4.jpg",
           "alt": "Food Ordering Management System - Restaurant Management Portal",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061797/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-5.jpg",
+          "alt": "Food Ordering Management System - WhatsApp Support Integration",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791062965/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-6.jpg",
+          "alt": "Food Ordering Management System - User Authentication & Login Portal",
           "type": "image"
         }
       ],
@@ -165,7 +220,7 @@
       "slug": "InGazAPI",
       "github": "https://github.com/zaydaly05/InGazAPI",
       "status": "Completed",
-      "updatedAt": "2026-10-04T01:00:00.000Z",
+      "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790771/zayd-portfolio/ingaz-1.jpg",
@@ -175,6 +230,16 @@
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790772/zayd-portfolio/ingaz-2.jpg",
           "alt": "In Gaz API System - Flutter Mobile App Screen 2",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061861/zayd-portfolio/showcase/InGazAPI/InGazAPI-landing.jpg",
+          "alt": "In Gaz API System - .NET Core Web API Swagger Documentation",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061862/zayd-portfolio/showcase/InGazAPI/InGazAPI-details.jpg",
+          "alt": "In Gaz API System - MVC Controller Data Endpoint Schema",
           "type": "image"
         }
       ],
@@ -189,7 +254,7 @@
       "slug": "Employee_Attendance-Leave_Management_System",
       "github": "https://github.com/zaydaly05/Employee_Attendance-Leave_Management_System",
       "status": "Completed",
-      "updatedAt": "2026-10-04T01:00:00.000Z",
+      "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
@@ -223,26 +288,26 @@
       "slug": "Restaurant_Management_System",
       "github": "https://github.com/zaydaly05/Restaurant_Management_System",
       "status": "Completed",
-      "updatedAt": "2026-10-04T01:00:00.000Z",
+      "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790805/zayd-portfolio/restaurant-r1.png",
-          "alt": "Restaurant Management System - JavaFX Main Login Interface",
+          "alt": "Restaurant Management System - JavaFX Main Login & Role Selection",
           "type": "image"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790805/zayd-portfolio/restaurant-r2.png",
-          "alt": "Restaurant Management System - Menu Ordering System",
+          "alt": "Restaurant Management System - Food & Menu Order Interface",
           "type": "image"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790806/zayd-portfolio/restaurant-r3.png",
-          "alt": "Restaurant Management System - Table Allocation View",
+          "alt": "Restaurant Management System - Table Allocation Grid View",
           "type": "image"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790807/zayd-portfolio/restaurant-r4.png",
-          "alt": "Restaurant Management System - Reservation System",
+          "alt": "Restaurant Management System - Reservation System View",
           "type": "image"
         },
         {
@@ -262,7 +327,7 @@
       "slug": "Sleep_Alert_System",
       "github": "https://github.com/zaydaly05/Sleep_Alert_System",
       "status": "Completed",
-      "updatedAt": "2026-10-04T01:00:00.000Z",
+      "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790811/zayd-portfolio/sleeping-alert-py2.jpg",
@@ -271,8 +336,18 @@
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/video/upload/v1790790810/zayd-portfolio/sleeping-alert-py1.mp4",
-          "alt": "Sleeping Alert System - Realtime Face Detection Video Demo",
+          "alt": "Sleeping Alert System - Realtime Facial Bounding Box Video Demo",
           "type": "video"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061885/zayd-portfolio/showcase/Sleep_Alert_System/Sleep_Alert_System-landing.jpg",
+          "alt": "Sleeping Alert System - Mobile Flutter Monitor Screen",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061887/zayd-portfolio/showcase/Sleep_Alert_System/Sleep_Alert_System-details.jpg",
+          "alt": "Sleeping Alert System - Driver Eye Aspect Ratio Threshold Dashboard",
+          "type": "image"
         }
       ],
       "analysis": {
@@ -286,16 +361,26 @@
       "slug": "WE_Intern",
       "github": "https://github.com/zaydaly05/WE_Intern",
       "status": "Completed",
-      "updatedAt": "2026-10-04T01:00:00.000Z",
+      "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790719/zayd-portfolio/chi-experience.jpg",
-          "alt": "WE Telecom Training Suite - Training Lab Experience Photo",
+          "alt": "WE Telecom Training Suite - Telecom Training Lab Experience Photo",
           "type": "image"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790737/zayd-portfolio/ExplettCHI.jpg",
           "alt": "WE Telecom Training Suite - Official Telecom Egypt Certificate",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790812/zayd-portfolio/taqa24.jpg",
+          "alt": "WE Telecom Training Suite - Network Protocol & Infrastructure View",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790812/zayd-portfolio/taqa24e.jpg",
+          "alt": "WE Telecom Training Suite - Systems Administration & Network Lab",
           "type": "image"
         }
       ],

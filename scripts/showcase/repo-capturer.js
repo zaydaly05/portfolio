@@ -89,12 +89,13 @@ async function validatePageDOM(page) {
     }
 
     // 3. Minimum DOM Element Richness Check
-    const elements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, button, a, img, svg, canvas, table, form, input, select, .card, .box, article, div');
-    if (elements.length < 4 || text.trim().length < 5) {
+    const hasFlutter = document.querySelector('flt-glass-pane, flutter-view, flt-scene-host, canvas') !== null;
+    const elements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, button, a, img, svg, canvas, table, form, input, select, .card, .box, article, div, flt-glass-pane, flutter-view');
+    if (!hasFlutter && (elements.length < 4 || text.trim().length < 5)) {
       return { valid: false, reason: 'INVALID_BLANK_SCREEN' };
     }
 
-    return { valid: true, title, elementCount: elements.length };
+    return { valid: true, title, elementCount: elements.length, hasFlutter };
   });
 }
 
