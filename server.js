@@ -48,11 +48,13 @@ const postRateLimiter = (req, res, next) => {
   next();
 };
 
-// Normalize Vercel internal rewrites to ensure Express matches original requested URL
+// Normalize Vercel internal rewrites to ensure Express matches original requested URL while preserving query parameters
 app.use((req, res, next) => {
   const matchedPath = req.headers["x-matched-path"] || req.headers["x-forwarded-uri"];
   if (matchedPath) {
-    req.url = matchedPath;
+    const queryIndex = req.url.indexOf("?");
+    const queryString = queryIndex !== -1 ? req.url.slice(queryIndex) : "";
+    req.url = matchedPath.includes("?") ? matchedPath : `${matchedPath}${queryString}`;
   }
   next();
 });
