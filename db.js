@@ -69,7 +69,7 @@ const cvConfigSchema = new mongoose.Schema({
   key: { type: String, default: "cv_url", unique: true },
   url: {
     type: String,
-    default: "https://collection.cloudinary.com/delnnzcph/8af224dfdea2cedb263fa74148bbdd8d"
+    default: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790818/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf"
   },
   updatedAt: { type: Date, default: Date.now }
 });

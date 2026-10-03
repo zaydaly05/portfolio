@@ -1044,6 +1044,11 @@ app.get("/api/cv-url", async (req, res) => {
         let cleanUrl = config.url;
         if (cleanUrl.includes("collection.cloudinary.com")) {
           cleanUrl = DEFAULT_CV_URL;
+          await CvConfig.findOneAndUpdate(
+            { key: "cv_url" },
+            { url: DEFAULT_CV_URL, updatedAt: new Date() },
+            { upsert: true }
+          ).catch(() => {});
         }
         return res.json({ ok: true, url: cleanUrl });
       }
