@@ -102,13 +102,21 @@ async function captureProjectScreenshots(targetUrl, projectSlug, options = {}) {
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
-  console.log(`[Capturer] Launching Playwright browser to capture ${projectSlug} at ${targetUrl}...`);
+  const isMobileApp = options.isMobile || (options.framework && (options.framework.includes('Flutter') || options.framework.includes('Mobile'))) || projectSlug.toLowerCase().includes('app') || projectSlug.toLowerCase().includes('mobile');
+
+  console.log(`[Capturer] Launching Playwright browser to capture ${projectSlug} at ${targetUrl} (${isMobileApp ? 'Android Mobile Viewport' : 'Desktop Viewport'})...`);
   const browser = await chromium.launch({
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
 
-  const context = await browser.newContext({
+  const context = await browser.newContext(isMobileApp ? {
+    viewport: { width: 412, height: 915 },
+    deviceScaleFactor: 2.6,
+    isMobile: true,
+    hasTouch: true,
+    userAgent: 'Mozilla/5.0 (Linux; Android 13; Pixel 7 Build/TQ3A.230901.001) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36 PortfolioShowcaseBot/2.0'
+  } : {
     viewport: { width: 1920, height: 1080 },
     deviceScaleFactor: 2,
     userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 PortfolioShowcaseBot/2.0'

@@ -128,7 +128,9 @@ async function processProjectShowcase(project, options = {}) {
     saveManifest(manifest);
 
     const screenshots = await captureProjectScreenshots(runnerResult.targetUrl, slug, {
-      routesToExplore: analysis.routesToExplore
+      routesToExplore: analysis.routesToExplore,
+      framework: analysis.framework,
+      language: analysis.language
     });
 
     manifest.projects[slug].diagnostics.acceptedCount = screenshots.length;

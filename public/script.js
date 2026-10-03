@@ -1231,15 +1231,37 @@ const renderProjects = (items) => {
           : isEssmatPlasticProject
             ? [
                 {
-                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
-                  alt: "Essmat Plastic Management System dashboard"
+                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790864034/esmatPlastic.jpg",
+                  alt: "Essmat Plastic Factory Management System Architecture & Data Schema"
                 }
               ]
             : isFoodOrderingProject
-              ? Array.from({ length: 16 }, (_, i) => ({
-                  src: `https://res.cloudinary.com/delnnzcph/image/upload/v17907907${[38, 54, 56, 58, 59, 61, 62, 64, 66, 41, 43, 45, 47, 49, 51, 53][i]}/zayd-portfolio/f${i + 1}.png`,
-                  alt: `Food Ordering Management System screenshot f${i + 1}`
-                }))
+              ? [
+                  {
+                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061797/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-landing.jpg",
+                    alt: "Food Ordering Management System - Main Application Landing Screen"
+                  },
+                  {
+                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061794/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-2.jpg",
+                    alt: "Food Ordering Management System - Application Feature View 2"
+                  },
+                  {
+                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061795/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-3.jpg",
+                    alt: "Food Ordering Management System - Application Interface: FoodApp"
+                  },
+                  {
+                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061796/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-4.jpg",
+                    alt: "Food Ordering Management System - Application Interface: About Us"
+                  },
+                  {
+                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061797/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-5.jpg",
+                    alt: "Food Ordering Management System - Application Interface: WhatsApp"
+                  },
+                  {
+                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791062965/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-6.jpg",
+                    alt: "Food Ordering Management System - Application Interface: Login / Signup"
+                  }
+                ]
               : isInGazProject
                 ? [
                     {
