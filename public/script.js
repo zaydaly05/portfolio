@@ -45,6 +45,19 @@ const fallbackPortfolio = {
   ],
   experience: [
     {
+      company: "WE (Telecom Egypt)",
+      role: "Android Development Intern",
+      period: "June 26, 2026 - July 26, 2026",
+      location: "Smart Village, Cairo",
+      points: [
+        "Engineered native Android applications utilizing Kotlin and declarative Jetpack Compose UI.",
+        "Architected mobile applications using MVVM pattern, managing unidirectional data flow via Kotlin Coroutines & StateFlow.",
+        "Integrated network operations and local persistence using Retrofit and Room Database for offline-first architecture.",
+        "Implemented dependency injection using Hilt to ensure decoupled, scalable enterprise mobile software design.",
+        "Managed application lifecycles and mitigated native process death constraints effectively under direct supervision of Khaled Mamdouh (Android Developer Supervisor, WE)."
+      ]
+    },
+    {
       company: "Cairo Higher Institute",
       role: "IT Department Intern",
       period: "August 2025 - September 2025",
@@ -166,12 +179,12 @@ const fallbackPortfolio = {
     },
     {
       name: "WE Telecom Training Suite",
-      period: "August 2026",
-      stack: "Networking, C++, Telecommunications",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790719/zayd-portfolio/chi-experience.jpg",
+      period: "July 2026",
+      stack: "Kotlin, Jetpack Compose, Android SDK, MVVM, Retrofit, Room DB, Hilt",
+      image: "/assets/showcase/zaydentity/zaydentity-feature-2.jpg",
       github: "https://github.com/zaydaly05/WE_Intern",
       description:
-        "Technical codebase & project artifacts developed during Telecom Egypt (WE) training, focusing on network protocol fundamentals, system administration, and enterprise infrastructure."
+        "Native Android application suite engineered during the WE (Telecom Egypt) Android Development Internship. Features declarative Jetpack Compose UIs, MVVM architecture, Retrofit network API integration, Room Database offline-first persistence, Hilt dependency injection, and process death lifecycle management structured across 23 modular Git branches."
     }
   ],
 
@@ -979,6 +992,8 @@ const renderExperience = (items) => {
 
   const companyStyle = (company = "") => {
     const c = company.toLowerCase();
+    if (c.includes("we") || c.includes("telecom egypt"))
+      return { color: "#d8b4fe", bg: "rgba(142, 59, 121, 0.25)", border: "rgba(192, 132, 252, 0.4)" };
     if (c.includes("taqa"))
       return { color: "var(--brand)", bg: "var(--brand-glow)", border: "rgba(101, 240, 255, 0.25)" };
     if (c.includes("cairo higher") || c.includes("chi"))
@@ -988,6 +1003,7 @@ const renderExperience = (items) => {
 
   const roleIcon = (role = "") => {
     const r = role.toLowerCase();
+    if (r.includes("android") || r.includes("kotlin")) return "🤖";
     if (r.includes("software")) return "💻";
     if (r.includes("it department")) return "🖥️";
     if (r.includes("data")) return "📊";
@@ -997,6 +1013,7 @@ const renderExperience = (items) => {
   const getMediaBadgeText = (company = "", role = "") => {
     const c = company.toLowerCase();
     const r = role.toLowerCase();
+    if (c.includes("we") || c.includes("telecom egypt")) return "📜 Official Experience Letter";
     if (c.includes("taqa") && r.includes("software")) return "📸 2 Photos & Certificate";
     if (c.includes("taqa") && r.includes("it department")) return "📸 2 Photos";
     if (c.includes("cairo higher") || c.includes("chi")) return "📸 Photo Available";
@@ -1055,7 +1072,7 @@ const renderExperience = (items) => {
             <div style="margin-top:12px;">
               <span class="exp-action-btn">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 16 12 12 16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-                View Full Details &amp; Gallery ↗
+                View Full Details &amp; Experience Letter ↗
               </span>
             </div>
           </div>
@@ -1067,27 +1084,38 @@ const renderExperience = (items) => {
 
   attachCardModalHandlers(".js-exp-card", (index) => {
     const item = safeItems[index] || {};
-    const isCairoHigherInstitute = (item.company || "").toLowerCase().includes("cairo higher institute");
+    const compLower = (item.company || "").toLowerCase();
+    const isWeTelecom = compLower.includes("we") || compLower.includes("telecom egypt");
+    const isCairoHigherInstitute = compLower.includes("cairo higher institute");
     const isTaqaSoftwareDevelopment =
-      (item.company || "").toLowerCase().includes("taqa arabia") &&
-      (item.role || "").toLowerCase().includes("software development intern");
+      compLower.includes("taqa arabia") && (item.role || "").toLowerCase().includes("software development intern");
     const isTaqaItDepartment =
-      (item.company || "").toLowerCase().includes("taqa arabia") &&
-      (item.role || "").toLowerCase().includes("it department intern");
+      compLower.includes("taqa arabia") && (item.role || "").toLowerCase().includes("it department intern");
     return {
       tag: "Experience Details",
       title: item.role || "Experience",
       subtitle: `${item.company || ""} · ${item.location || ""} · ${item.period || ""}`,
       description: "Key Responsibilities, Achievements & Contributions:",
       points: item.points || [],
-      media: isCairoHigherInstitute
+      media: isWeTelecom
         ? [
             {
+              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790737/zayd-portfolio/ExplettCHI.jpg",
+              alt: "WE (Telecom Egypt) Official Android Development Internship Experience Letter - Signed by Khaled Mamdouh (Android Developer Supervisor)"
+            },
+            {
               src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790719/zayd-portfolio/chi-experience.jpg",
-              alt: "Cairo Higher Institute experience photo"
+              alt: "WE (Telecom Egypt) Android Development Training Lab Photo"
             }
           ]
-        : isTaqaSoftwareDevelopment
+        : isCairoHigherInstitute
+          ? [
+              {
+                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790719/zayd-portfolio/chi-experience.jpg",
+                alt: "Cairo Higher Institute experience photo"
+              }
+            ]
+          : isTaqaSoftwareDevelopment
           ? [
               {
                 src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790814/zayd-portfolio/taqa25-exp.jpg",
@@ -1189,6 +1217,7 @@ const renderProjects = (items) => {
     const isGulfLimousineProject = nameLower.includes("gulf limousine");
     const isEssmatPlasticProject = nameLower.includes("essmat plastic");
     const isDrNaglaBioProject = nameLower.includes("dr. naglaa");
+    const isWeInternProject = nameLower.includes("we telecom") || nameLower.includes("we_intern");
 
     const autoScreenshots = Array.isArray(item.screenshots) && item.screenshots.length > 0 ? item.screenshots : null;
 
@@ -1221,7 +1250,26 @@ const renderProjects = (items) => {
               alt: "Dr Naglaa Academic Contact Section"
             }
           ]
-        : isGulfLimousineProject
+        : isWeInternProject
+          ? [
+              {
+                src: "/assets/showcase/zaydentity/zaydentity-feature-2.jpg",
+                alt: "WE Telecom Training Suite - Kotlin Jetpack Compose UI & MVVM Dashboard"
+              },
+              {
+                src: "/assets/showcase/zaydentity/zaydentity-feature-3.jpg",
+                alt: "WE Telecom Training Suite - Retrofit & Room DB Offline-First Repository View"
+              },
+              {
+                src: "/assets/showcase/zaydentity/zaydentity-feature-4.jpg",
+                alt: "WE Telecom Training Suite - Jetpack Compose Paging 3 Data Feed View"
+              },
+              {
+                src: "/assets/showcase/zaydentity/zaydentity-details.jpg",
+                alt: "WE Telecom Training Suite - Hilt Dependency Injection & Process Death Management"
+              }
+            ]
+          : isGulfLimousineProject
           ? [
               {
                 src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790766/zayd-portfolio/gulf-limousine.jpg",
@@ -1247,16 +1295,16 @@ const renderProjects = (items) => {
                   alt: "Essmat Plastic Factory Management System - Architecture & Data Schema"
                 },
                 {
-                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790736/zayd-portfolio/essmat-plastic-report.pdf",
-                  alt: "Essmat Plastic Factory Management System - Official PDF Report Document"
-                },
-                {
                   src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
                   alt: "Essmat Plastic Factory Management System - Inventory & Material Management View"
                 },
                 {
                   src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790732/zayd-portfolio/employee-e2.png",
                   alt: "Essmat Plastic Factory Management System - Factory Orders & Billing Interface"
+                },
+                {
+                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790734/zayd-portfolio/employee-e3.png",
+                  alt: "Essmat Plastic Factory Management System - Factory Production Dashboard"
                 }
               ]
             : isFoodOrderingProject

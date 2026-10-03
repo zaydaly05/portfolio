@@ -361,32 +361,32 @@
       "slug": "WE_Intern",
       "github": "https://github.com/zaydaly05/WE_Intern",
       "status": "Completed",
-      "updatedAt": "2026-10-04T01:05:00.000Z",
+      "updatedAt": "2026-10-04T01:25:00.000Z",
       "screenshots": [
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790719/zayd-portfolio/chi-experience.jpg",
-          "alt": "WE Telecom Training Suite - Telecom Training Lab Experience Photo",
+          "src": "/assets/showcase/zaydentity/zaydentity-feature-2.jpg",
+          "alt": "WE Telecom Training Suite - Kotlin Jetpack Compose UI & MVVM Dashboard",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790737/zayd-portfolio/ExplettCHI.jpg",
-          "alt": "WE Telecom Training Suite - Official Telecom Egypt Certificate",
+          "src": "/assets/showcase/zaydentity/zaydentity-feature-3.jpg",
+          "alt": "WE Telecom Training Suite - Retrofit & Room DB Offline-First Repository View",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790812/zayd-portfolio/taqa24.jpg",
-          "alt": "WE Telecom Training Suite - Network Protocol & Infrastructure View",
+          "src": "/assets/showcase/zaydentity/zaydentity-feature-4.jpg",
+          "alt": "WE Telecom Training Suite - Jetpack Compose Paging 3 Data Feed View",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790812/zayd-portfolio/taqa24e.jpg",
-          "alt": "WE Telecom Training Suite - Systems Administration & Network Lab",
+          "src": "/assets/showcase/zaydentity/zaydentity-details.jpg",
+          "alt": "WE Telecom Training Suite - Hilt Dependency Injection & Process Death Management",
           "type": "image"
         }
       ],
       "analysis": {
-        "framework": "Telecom & Systems Training",
-        "language": "C++ / Networking",
+        "framework": "Kotlin / Jetpack Compose / MVVM Architecture",
+        "language": "Kotlin / Android SDK",
         "isWebRunnable": false
       }
     }
