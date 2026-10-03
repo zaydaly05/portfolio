@@ -1,49 +1,65 @@
 {
-  "lastUpdated": "2026-10-03T21:11:49.928Z",
+  "lastUpdated": "2026-10-03T21:32:18.983Z",
   "projects": {
     "drNaglaBio": {
       "name": "Dr. Naglaa Academic Biography Portal",
       "slug": "drNaglaBio",
       "github": "https://github.com/zaydaly05/drNaglaBio",
       "status": "Completed",
-      "updatedAt": "2026-10-03T21:03:11.455Z",
+      "updatedAt": "2026-10-03T21:29:41.451Z",
       "screenshots": [
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061431/zayd-portfolio/showcase/drNaglaBio/drNaglaBio-landing.jpg",
           "alt": "Dr. Naglaa Academic Biography Portal - Main Application Landing Screen",
-          "type": "image"
+          "type": "image",
+          "hash": "1100011001000111110010110011100100000111101111110100001100000000"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061426/zayd-portfolio/showcase/drNaglaBio/drNaglaBio-feature-2.jpg",
           "alt": "Dr. Naglaa Academic Biography Portal - Application Feature View 2",
-          "type": "image"
+          "type": "image",
+          "hash": "1011111101100000011000101000011011100001111110111000000110000101"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061427/zayd-portfolio/showcase/drNaglaBio/drNaglaBio-feature-3.jpg",
           "alt": "Dr. Naglaa Academic Biography Portal - Application Feature View 3",
-          "type": "image"
+          "type": "image",
+          "hash": "1001111011010110110110001110100000001101100110101011000001100100"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061428/zayd-portfolio/showcase/drNaglaBio/drNaglaBio-feature-4.jpg",
           "alt": "Dr. Naglaa Academic Biography Portal - Application Feature View 4",
-          "type": "image"
+          "type": "image",
+          "hash": "1000101110100010110100100100101100111001100101100101011111011000"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061429/zayd-portfolio/showcase/drNaglaBio/drNaglaBio-feature-5.jpg",
           "alt": "Dr. Naglaa Academic Biography Portal - Application Feature View 5",
-          "type": "image"
+          "type": "image",
+          "hash": "1001101010110010111101001111111011001011000110100011101011101000"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061430/zayd-portfolio/showcase/drNaglaBio/drNaglaBio-feature-6.jpg",
           "alt": "Dr. Naglaa Academic Biography Portal - Application Feature View 6",
-          "type": "image"
+          "type": "image",
+          "hash": "1111101010110011000101010010100001010111001011000001001010011011"
         }
       ],
       "analysis": {
         "framework": "Static HTML5 / CSS3 / JavaScript",
         "language": "HTML/CSS/JS",
         "isWebRunnable": true,
-        "startCmd": "npx serve -p {PORT} ."
+        "startCmd": "npx serve -s . -p {PORT}",
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\drNaglaBio"
+      },
+      "diagnostics": {
+        "startedAt": "2026-10-03T21:29:41.451Z",
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\drNaglaBio",
+        "startCmd": "npx serve -s . -p {PORT}",
+        "port": 4050,
+        "targetUrl": "http://localhost:4050",
+        "acceptedCount": 6,
+        "rejectedReasons": []
       }
     },
     "zaydentity": {
@@ -51,44 +67,42 @@
       "slug": "zaydentity",
       "github": "https://github.com/zaydaly05/zaydentity",
       "status": "Completed",
-      "updatedAt": "2026-10-03T21:04:17.729Z",
+      "updatedAt": "2026-10-03T21:30:44.475Z",
       "screenshots": [
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061557/zayd-portfolio/showcase/zaydentity/zaydentity-landing.jpg",
           "alt": "Zaydentity Digital Identity Platform - Main Application Landing Screen",
-          "type": "image"
+          "type": "image",
+          "hash": "1110110011011011110110100001110101111011010010011100110001101101"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061552/zayd-portfolio/showcase/zaydentity/zaydentity-feature-2.jpg",
-          "alt": "Zaydentity Digital Identity Platform - Application Feature View 2",
-          "type": "image"
+          "alt": "Zaydentity Digital Identity Platform - Application Interface: n8n Hub",
+          "type": "image",
+          "hash": "1000100000111011111111101010111000110111001011111101101010000101"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061553/zayd-portfolio/showcase/zaydentity/zaydentity-feature-3.jpg",
-          "alt": "Zaydentity Digital Identity Platform - Application Feature View 3",
-          "type": "image"
-        },
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061554/zayd-portfolio/showcase/zaydentity/zaydentity-feature-4.jpg",
-          "alt": "Zaydentity Digital Identity Platform - Application Feature View 4",
-          "type": "image"
-        },
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061555/zayd-portfolio/showcase/zaydentity/zaydentity-feature-5.jpg",
-          "alt": "Zaydentity Digital Identity Platform - Application Feature View 5",
-          "type": "image"
-        },
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061556/zayd-portfolio/showcase/zaydentity/zaydentity-feature-6.jpg",
-          "alt": "Zaydentity Digital Identity Platform - Application Interface: Undo",
-          "type": "image"
+          "alt": "Zaydentity Digital Identity Platform - Application Interface: Deploy to Vercel",
+          "type": "image",
+          "hash": "1011000000001111101001001100101110100100011100111100110110000000"
         }
       ],
       "analysis": {
         "framework": "Next.js",
         "language": "JavaScript/TypeScript",
         "isWebRunnable": true,
-        "startCmd": "npm run dev -- -p {PORT}"
+        "startCmd": "npm run dev -- -p {PORT}",
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\zaydentity"
+      },
+      "diagnostics": {
+        "startedAt": "2026-10-03T21:30:44.475Z",
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\zaydentity",
+        "startCmd": "npm run dev -- -p {PORT}",
+        "port": 4050,
+        "targetUrl": "http://localhost:4050",
+        "acceptedCount": 3,
+        "rejectedReasons": []
       }
     },
     "Car_Rental_Website": {
@@ -96,225 +110,261 @@
       "slug": "Car_Rental_Website",
       "github": "https://github.com/zaydaly05/Car_Rental_Website",
       "status": "Unsupported",
-      "updatedAt": "2026-10-03T21:06:20.223Z",
+      "updatedAt": "2026-10-03T21:30:38.732Z",
       "screenshots": [],
       "analysis": {
         "framework": "Codebase / CLI / Utilities",
         "language": "JavaScript",
         "isWebRunnable": false,
-        "startCmd": null
+        "startCmd": null,
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\Car_Rental_Website"
       },
-      "reason": "Repository is non-visual or CLI/library project without a web server interface."
+      "reason": "Repository contains no runnable web application or static index.html entry point.",
+      "diagnostics": {
+        "startedAt": "2026-10-03T21:30:38.732Z",
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\Car_Rental_Website",
+        "startCmd": null,
+        "port": null,
+        "targetUrl": null,
+        "acceptedCount": 0,
+        "rejectedReasons": []
+      }
     },
     "Gulf_Limousine_App": {
       "name": "Gulf Limousine Booking App",
       "slug": "Gulf_Limousine_App",
       "github": "https://github.com/zaydaly05/Gulf_Limousine_App",
-      "status": "Completed",
-      "updatedAt": "2026-10-03T21:07:37.976Z",
-      "screenshots": [
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061700/zayd-portfolio/showcase/Gulf_Limousine_App/Gulf_Limousine_App-landing.jpg",
-          "alt": "Gulf Limousine Booking App - Main Application Landing Screen",
-          "type": "image"
-        },
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061699/zayd-portfolio/showcase/Gulf_Limousine_App/Gulf_Limousine_App-feature-2.jpg",
-          "alt": "Gulf Limousine Booking App - Application Feature View 2",
-          "type": "image"
-        },
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061698/zayd-portfolio/showcase/Gulf_Limousine_App/Gulf_Limousine_App-details.jpg",
-          "alt": "Gulf Limousine Booking App - Dashboard Details & Functional Section",
-          "type": "image"
-        }
-      ],
+      "status": "Failed",
+      "updatedAt": "2026-10-03T21:29:35.714Z",
+      "screenshots": [],
       "analysis": {
-        "framework": "Flutter Web",
-        "language": "Dart / Flutter",
+        "framework": "Static HTML5 / CSS3 / JavaScript",
+        "language": "HTML/CSS/JS",
         "isWebRunnable": true,
-        "startCmd": "flutter run -d web-server --web-port {PORT}"
-      }
+        "startCmd": "npx serve -s . -p {PORT}",
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\Gulf_Limousine_App\\web"
+      },
+      "diagnostics": {
+        "startedAt": "2026-10-03T21:29:35.714Z",
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\Gulf_Limousine_App\\web",
+        "startCmd": "npx serve -s . -p {PORT}",
+        "port": 4050,
+        "targetUrl": "http://localhost:4050",
+        "acceptedCount": 0,
+        "rejectedReasons": []
+      },
+      "reason": "Screenshot Quality Gate rejected all candidates (directory listings, blank screens, or errors)."
     },
     "EssmatPlastic": {
       "name": "Essmat Plastic Factory Management System",
       "slug": "EssmatPlastic",
       "github": "https://github.com/zaydaly05/EssmatPlastic",
-      "status": "Completed",
-      "updatedAt": "2026-10-03T21:08:20.923Z",
-      "screenshots": [
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061720/zayd-portfolio/showcase/EssmatPlastic/EssmatPlastic-landing.jpg",
-          "alt": "Essmat Plastic Factory Management System - Main Application Landing Screen",
-          "type": "image"
-        },
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061718/zayd-portfolio/showcase/EssmatPlastic/EssmatPlastic-feature-2.jpg",
-          "alt": "Essmat Plastic Factory Management System - Application Feature View 2",
-          "type": "image"
-        },
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061719/zayd-portfolio/showcase/EssmatPlastic/EssmatPlastic-feature-3.jpg",
-          "alt": "Essmat Plastic Factory Management System - Application Interface: EssmatPlastic/",
-          "type": "image"
-        },
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061719/zayd-portfolio/showcase/EssmatPlastic/EssmatPlastic-feature-4.jpg",
-          "alt": "Essmat Plastic Factory Management System - Application Interface: .github/",
-          "type": "image"
-        }
-      ],
+      "status": "Unsupported",
+      "updatedAt": "2026-10-03T21:29:41.444Z",
+      "screenshots": [],
       "analysis": {
-        "framework": "Node.js",
-        "language": "JavaScript/TypeScript",
-        "isWebRunnable": true,
-        "startCmd": "npx serve -p {PORT} ."
-      }
+        "framework": ".NET Desktop / Domain Library",
+        "language": "C# / .NET",
+        "isWebRunnable": false,
+        "startCmd": null,
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\EssmatPlastic"
+      },
+      "diagnostics": {
+        "startedAt": "2026-10-03T21:29:41.444Z",
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\EssmatPlastic",
+        "startCmd": null,
+        "port": null,
+        "targetUrl": null,
+        "acceptedCount": 0,
+        "rejectedReasons": []
+      },
+      "reason": "C# solution contains desktop GUI or class libraries without a browser web frontend."
     },
     "food_ordering_system": {
       "name": "Food Ordering Management System",
       "slug": "food_ordering_system",
       "github": "https://github.com/zaydaly05/food_ordering_system",
       "status": "Completed",
-      "updatedAt": "2026-10-03T21:09:01.684Z",
+      "updatedAt": "2026-10-03T21:30:02.185Z",
       "screenshots": [
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061797/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-landing.jpg",
           "alt": "Food Ordering Management System - Main Application Landing Screen",
-          "type": "image"
+          "type": "image",
+          "hash": "1101111110001110000111011111100001011010100001110010000110011000"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061794/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-2.jpg",
           "alt": "Food Ordering Management System - Application Feature View 2",
-          "type": "image"
+          "type": "image",
+          "hash": "1011011010101011011001001110011110100001000110010010010110010111"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061795/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-3.jpg",
-          "alt": "Food Ordering Management System - Application Interface: food_ordering_system/",
-          "type": "image"
+          "alt": "Food Ordering Management System - Application Interface: FoodApp",
+          "type": "image",
+          "hash": "1011100000001101111111111111100011110101110110010110000011000100"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061796/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-4.jpg",
-          "alt": "Food Ordering Management System - Application Interface: .gitignore",
-          "type": "image"
+          "alt": "Food Ordering Management System - Application Interface: About Us",
+          "type": "image",
+          "hash": "1011100010010110011000111111110010111001110000100100100110011111"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061797/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-5.jpg",
-          "alt": "Food Ordering Management System - Application Interface: .vscode/",
-          "type": "image"
+          "alt": "Food Ordering Management System - Application Interface: WhatsApp",
+          "type": "image",
+          "hash": "1011010010110100011111110010101001011011100000000100101000001010"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791062965/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-6.jpg",
+          "alt": "Food Ordering Management System - Application Interface: Login / Signup",
+          "type": "image",
+          "hash": "1011000111111011101001011110110101111000101010100000010000001101"
         }
       ],
       "analysis": {
         "framework": "React",
         "language": "JavaScript/TypeScript",
         "isWebRunnable": true,
-        "startCmd": "npx serve -s . -p {PORT}"
+        "startCmd": "npx serve -s build -p {PORT}",
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\food_ordering_system\\mvc\\frontend"
+      },
+      "diagnostics": {
+        "startedAt": "2026-10-03T21:30:02.185Z",
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\food_ordering_system\\mvc\\frontend",
+        "startCmd": "npx serve -s build -p {PORT}",
+        "port": 4050,
+        "targetUrl": "http://localhost:4050",
+        "acceptedCount": 6,
+        "rejectedReasons": []
       }
     },
     "InGazAPI": {
       "name": "In Gaz API System",
       "slug": "InGazAPI",
       "github": "https://github.com/zaydaly05/InGazAPI",
-      "status": "Completed",
-      "updatedAt": "2026-10-03T21:09:58.516Z",
-      "screenshots": [
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061862/zayd-portfolio/showcase/InGazAPI/InGazAPI-landing.jpg",
-          "alt": "In Gaz API System - Main Application Landing Screen",
-          "type": "image"
-        },
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061861/zayd-portfolio/showcase/InGazAPI/InGazAPI-feature-2.jpg",
-          "alt": "In Gaz API System - Application Feature View 2",
-          "type": "image"
-        },
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061861/zayd-portfolio/showcase/InGazAPI/InGazAPI-details.jpg",
-          "alt": "In Gaz API System - Dashboard Details & Functional Section",
-          "type": "image"
-        }
-      ],
+      "status": "Failed",
+      "updatedAt": "2026-10-03T21:30:29.796Z",
+      "screenshots": [],
       "analysis": {
-        "framework": ".NET Web Application",
+        "framework": ".NET Web API / Application",
         "language": "C# / .NET",
         "isWebRunnable": true,
-        "startCmd": "dotnet run --urls http://localhost:{PORT}"
-      }
+        "startCmd": "dotnet run --urls http://localhost:{PORT}",
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\InGazAPI"
+      },
+      "diagnostics": {
+        "startedAt": "2026-10-03T21:30:29.796Z",
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\InGazAPI",
+        "startCmd": "dotnet run --urls http://localhost:{PORT}",
+        "port": 4050,
+        "targetUrl": "http://localhost:4050",
+        "acceptedCount": 0,
+        "rejectedReasons": []
+      },
+      "reason": "Screenshot Quality Gate rejected all candidates (directory listings, blank screens, or errors)."
     },
     "Employee_Attendance-Leave_Management_System": {
       "name": "Employee Attendance & Leave System",
       "slug": "Employee_Attendance-Leave_Management_System",
       "github": "https://github.com/zaydaly05/Employee_Attendance-Leave_Management_System",
       "status": "Unsupported",
-      "updatedAt": "2026-10-03T21:11:03.312Z",
+      "updatedAt": "2026-10-03T21:30:38.728Z",
       "screenshots": [],
       "analysis": {
         "framework": "Codebase / CLI / Utilities",
         "language": "JavaScript",
         "isWebRunnable": false,
-        "startCmd": null
+        "startCmd": null,
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\Employee_Attendance-Leave_Management_System"
       },
-      "reason": "Repository is non-visual or CLI/library project without a web server interface."
+      "reason": "Repository contains no runnable web application or static index.html entry point.",
+      "diagnostics": {
+        "startedAt": "2026-10-03T21:30:38.728Z",
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\Employee_Attendance-Leave_Management_System",
+        "startCmd": null,
+        "port": null,
+        "targetUrl": null,
+        "acceptedCount": 0,
+        "rejectedReasons": []
+      }
     },
     "Restaurant_Management_System": {
       "name": "Restaurant Management System",
       "slug": "Restaurant_Management_System",
       "github": "https://github.com/zaydaly05/Restaurant_Management_System",
       "status": "Unsupported",
-      "updatedAt": "2026-10-03T21:11:05.628Z",
+      "updatedAt": "2026-10-03T21:30:38.737Z",
       "screenshots": [],
       "analysis": {
         "framework": "Codebase / CLI / Utilities",
         "language": "JavaScript",
         "isWebRunnable": false,
-        "startCmd": null
+        "startCmd": null,
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\Restaurant_Management_System"
       },
-      "reason": "Repository is non-visual or CLI/library project without a web server interface."
+      "reason": "Repository contains no runnable web application or static index.html entry point.",
+      "diagnostics": {
+        "startedAt": "2026-10-03T21:30:38.737Z",
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\Restaurant_Management_System",
+        "startCmd": null,
+        "port": null,
+        "targetUrl": null,
+        "acceptedCount": 0,
+        "rejectedReasons": []
+      }
     },
     "Sleep_Alert_System": {
       "name": "Sleeping Alert System",
       "slug": "Sleep_Alert_System",
       "github": "https://github.com/zaydaly05/Sleep_Alert_System",
-      "status": "Completed",
-      "updatedAt": "2026-10-03T21:11:06.822Z",
-      "screenshots": [
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061887/zayd-portfolio/showcase/Sleep_Alert_System/Sleep_Alert_System-landing.jpg",
-          "alt": "Sleeping Alert System - Main Application Landing Screen",
-          "type": "image"
-        },
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061886/zayd-portfolio/showcase/Sleep_Alert_System/Sleep_Alert_System-feature-2.jpg",
-          "alt": "Sleeping Alert System - Application Feature View 2",
-          "type": "image"
-        },
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061885/zayd-portfolio/showcase/Sleep_Alert_System/Sleep_Alert_System-details.jpg",
-          "alt": "Sleeping Alert System - Dashboard Details & Functional Section",
-          "type": "image"
-        }
-      ],
+      "status": "Failed",
+      "updatedAt": "2026-10-03T21:30:38.742Z",
+      "screenshots": [],
       "analysis": {
-        "framework": "Flutter Web",
-        "language": "Dart / Flutter",
+        "framework": "Static HTML5 / CSS3 / JavaScript",
+        "language": "HTML/CSS/JS",
         "isWebRunnable": true,
-        "startCmd": "flutter run -d web-server --web-port {PORT}"
-      }
+        "startCmd": "npx serve -s . -p {PORT}",
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\Sleep_Alert_System\\web"
+      },
+      "diagnostics": {
+        "startedAt": "2026-10-03T21:30:38.742Z",
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\Sleep_Alert_System\\web",
+        "startCmd": "npx serve -s . -p {PORT}",
+        "port": 4050,
+        "targetUrl": "http://localhost:4050",
+        "acceptedCount": 0,
+        "rejectedReasons": []
+      },
+      "reason": "Screenshot Quality Gate rejected all candidates (directory listings, blank screens, or errors)."
     },
     "WE_Intern": {
       "name": "WE Telecom Training Suite",
       "slug": "WE_Intern",
       "github": "https://github.com/zaydaly05/WE_Intern",
       "status": "Unsupported",
-      "updatedAt": "2026-10-03T21:11:48.734Z",
+      "updatedAt": "2026-10-03T21:32:18.979Z",
       "screenshots": [],
       "analysis": {
         "framework": "Codebase / CLI / Utilities",
         "language": "JavaScript",
         "isWebRunnable": false,
-        "startCmd": null
+        "startCmd": null,
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\WE_Intern"
       },
-      "reason": "Repository is non-visual or CLI/library project without a web server interface."
+      "reason": "Repository contains no runnable web application or static index.html entry point.",
+      "diagnostics": {
+        "startedAt": "2026-10-03T21:32:18.979Z",
+        "appDir": "C:\\Users\\Dell\\Desktop\\zayd-portfolio\\temp_projects\\WE_Intern",
+        "startCmd": null,
+        "port": null,
+        "targetUrl": null,
+        "acceptedCount": 0,
+        "rejectedReasons": []
+      }
     }
   }
 }

@@ -1,17 +1,18 @@
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
 
 /**
- * Intelligent Repository Analyzer
- * Analyzes repository files (README, package.json, source files, config files)
- * to determine project type, framework, build/run commands, ports, and routes.
+ * Advanced Repository Analyzer & Application Entry Finder
+ * Recursively inspects repository root and subdirectories (frontend, client, web, mvc, ui, etc.)
+ * to locate actual runnable web applications and prevent generic static directory listing fallbacks.
  */
 
 function analyzeRepository(repoPath, projectInfo = {}) {
   const result = {
     name: projectInfo.name || path.basename(repoPath),
     repoPath,
+    appDir: repoPath,
+    relativePath: '',
     isSupported: true,
     isWebRunnable: true,
     framework: 'Unknown',
@@ -30,15 +31,25 @@ function analyzeRepository(repoPath, projectInfo = {}) {
     return result;
   }
 
-  const files = fs.readdirSync(repoPath);
-  const pkgPath = path.join(repoPath, 'package.json');
-  const indexHtmlPath = path.join(repoPath, 'index.html');
-  const pubspecPath = path.join(repoPath, 'pubspec.yaml');
-  const csprojFiles = files.filter(f => f.endsWith('.csproj') || f.endsWith('.sln'));
-  const pomPath = path.join(repoPath, 'pom.xml');
-  const reqTxtPath = path.join(repoPath, 'requirements.txt');
+  // 1. Locate actual web application subfolder if present
+  const appSubDir = findWebApplicationSubfolder(repoPath);
+  if (appSubDir) {
+    result.appDir = appSubDir;
+    result.relativePath = path.relative(repoPath, appSubDir).replace(/\\/g, '/');
+  }
 
-  // 1. Node.js / React / Next.js / Vite Projects
+  const targetDir = result.appDir;
+  const files = fs.readdirSync(targetDir);
+  const pkgPath = path.join(targetDir, 'package.json');
+  const pubspecPath = path.join(targetDir, 'pubspec.yaml');
+  const csprojFiles = files.filter(f => f.endsWith('.csproj') || f.endsWith('.sln'));
+  const pomPath = path.join(targetDir, 'pom.xml');
+  const reqTxtPath = path.join(targetDir, 'requirements.txt');
+
+  // Check if index.html exists in targetDir or its common public/dist/build subfolders
+  const indexHtmlPath = findIndexHtml(targetDir);
+
+  // 2. Node.js / React / Next.js / Vite / Express Web Projects
   if (fs.existsSync(pkgPath)) {
     try {
       const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
@@ -49,45 +60,77 @@ function analyzeRepository(repoPath, projectInfo = {}) {
 
       if (deps['next']) {
         result.framework = 'Next.js';
-        result.installCmd = 'npm install --prefer-offline --no-audit';
+        result.installCmd = 'npm install --prefer-offline --no-audit --legacy-peer-deps';
         result.startCmd = scripts.dev ? 'npm run dev -- -p {PORT}' : 'npx next dev -p {PORT}';
         result.routesToExplore = ['/', '/#projects', '/#about', '/#contact'];
-      } else if (deps['react'] || deps['vite']) {
-        result.framework = deps['vite'] ? 'React (Vite)' : 'React';
-        result.installCmd = 'npm install --prefer-offline --no-audit';
-        result.startCmd = scripts.dev ? 'npm run dev -- --port {PORT}' : 'npx serve -s . -p {PORT}';
-      } else if (deps['express'] || scripts.start || pkg.main) {
-        result.framework = 'Node.js / Express';
-        result.installCmd = 'npm install --prefer-offline --no-audit';
-        const mainFile = pkg.main || (fs.existsSync(path.join(repoPath, 'server.js')) ? 'server.js' : (fs.existsSync(path.join(repoPath, 'app.js')) ? 'app.js' : 'index.js'));
-        result.startCmd = scripts.start ? 'npm start' : `node ${mainFile}`;
-      } else {
-        result.framework = 'Node.js';
-        result.installCmd = 'npm install --prefer-offline --no-audit';
-        result.startCmd = 'npx serve -p {PORT} .';
+        return result;
+      }
+      
+      if (deps['vite']) {
+        result.framework = 'React (Vite)';
+        result.installCmd = 'npm install --prefer-offline --no-audit --legacy-peer-deps';
+        result.startCmd = scripts.dev ? 'npm run dev -- --port {PORT} --host' : 'npx vite --port {PORT} --host';
+        extractRoutesFromRepo(targetDir, result);
+        return result;
       }
 
-      // Check for available routes in project files
-      extractRoutesFromRepo(repoPath, result);
-      return result;
+      if (deps['react-scripts'] || deps['react']) {
+        result.framework = 'React';
+        result.installCmd = 'npm install --prefer-offline --no-audit --legacy-peer-deps';
+        if (fs.existsSync(path.join(targetDir, 'build'))) {
+          result.startCmd = 'npx serve -s build -p {PORT}';
+        } else if (fs.existsSync(path.join(targetDir, 'dist'))) {
+          result.startCmd = 'npx serve -s dist -p {PORT}';
+        } else if (scripts.dev) {
+          result.startCmd = 'npm run dev -- --port {PORT}';
+        } else if (scripts.start) {
+          result.startCmd = process.platform === 'win32' ? 'set PORT={PORT} && npm start' : 'PORT={PORT} npm start';
+        } else if (indexHtmlPath) {
+          result.startCmd = 'npx serve -s . -p {PORT}';
+        } else {
+          result.startCmd = 'npx serve -s public -p {PORT}';
+        }
+        extractRoutesFromRepo(targetDir, result);
+        return result;
+      }
+
+      if (deps['express'] || scripts.start || pkg.main) {
+        result.framework = 'Node.js / Express';
+        result.installCmd = 'npm install --prefer-offline --no-audit';
+        const mainFile = pkg.main || (fs.existsSync(path.join(targetDir, 'server.js')) ? 'server.js' : (fs.existsSync(path.join(targetDir, 'app.js')) ? 'app.js' : 'index.js'));
+        result.startCmd = scripts.start ? 'npm start' : `node ${mainFile}`;
+        extractRoutesFromRepo(targetDir, result);
+        return result;
+      }
+
+      // If package.json exists but has no web dev scripts, check if static index.html exists
+      if (indexHtmlPath) {
+        const serveSubDir = path.relative(targetDir, path.dirname(indexHtmlPath)).replace(/\\/g, '/') || '.';
+        result.framework = 'Static Web App';
+        result.startCmd = `npx serve -s ${serveSubDir} -p {PORT}`;
+        extractRoutesFromHtml(indexHtmlPath, result);
+        return result;
+      }
+
     } catch (err) {
-      console.warn(`[Analyzer] Note parsing package.json in ${repoPath}: ${err.message}`);
+      console.warn(`[Analyzer] Note parsing package.json in ${targetDir}: ${err.message}`);
     }
   }
 
-  // 2. Static HTML/CSS/JS Projects
-  if (fs.existsSync(indexHtmlPath)) {
+  // 3. Genuine Static HTML/CSS/JS Projects (MUST have an actual index.html)
+  if (indexHtmlPath) {
+    const serveSubDir = path.relative(targetDir, path.dirname(indexHtmlPath)).replace(/\\/g, '/') || '.';
     result.framework = 'Static HTML5 / CSS3 / JavaScript';
     result.language = 'HTML/CSS/JS';
     result.installCmd = null;
-    result.startCmd = 'npx serve -p {PORT} .';
+    result.startCmd = `npx serve -s ${serveSubDir} -p {PORT}`;
     extractRoutesFromHtml(indexHtmlPath, result);
     return result;
   }
 
-  // 3. Flutter / Flutter Web
+  // 4. Flutter / Flutter Web
   if (fs.existsSync(pubspecPath)) {
-    const hasWebFolder = fs.existsSync(path.join(repoPath, 'web'));
+    const hasWebFolder = fs.existsSync(path.join(targetDir, 'web'));
     result.language = 'Dart / Flutter';
     if (hasWebFolder) {
       result.framework = 'Flutter Web';
@@ -102,16 +145,30 @@ function analyzeRepository(repoPath, projectInfo = {}) {
     return result;
   }
 
-  // 4. .NET / C#
+  // 5. .NET / C#
   if (csprojFiles.length > 0) {
     result.language = 'C# / .NET';
-    result.framework = '.NET Web Application';
-    result.installCmd = 'dotnet restore';
-    result.startCmd = 'dotnet run --urls http://localhost:{PORT}';
+    // Check if it's a web project (API with Swagger or Web App) vs Desktop WPF/WinForms/Domain library
+    const isWebProject = csprojFiles.some(f => {
+      const pContent = fs.readFileSync(path.join(targetDir, f), 'utf8');
+      return pContent.includes('Microsoft.NET.Sdk.Web') || pContent.includes('Swashbuckle') || pContent.includes('Endpoints');
+    });
+
+    if (isWebProject) {
+      result.framework = '.NET Web API / Application';
+      result.installCmd = 'dotnet restore';
+      result.startCmd = 'dotnet run --urls http://localhost:{PORT}';
+      result.routesToExplore = ['/', '/swagger/index.html', '/swagger'];
+    } else {
+      result.isSupported = false;
+      result.isWebRunnable = false;
+      result.framework = '.NET Desktop / Domain Library';
+      result.reason = 'C# solution contains desktop GUI or class libraries without a browser web frontend.';
+    }
     return result;
   }
 
-  // 5. Java / JavaFX / Spring Boot
+  // 6. Java / Spring Boot
   if (fs.existsSync(pomPath)) {
     result.language = 'Java';
     const pomContent = fs.readFileSync(pomPath, 'utf8');
@@ -128,7 +185,7 @@ function analyzeRepository(repoPath, projectInfo = {}) {
     return result;
   }
 
-  // 6. Python Web
+  // 7. Python Web
   if (fs.existsSync(reqTxtPath) || files.some(f => f.endsWith('.py'))) {
     result.language = 'Python';
     result.framework = 'Python Web';
@@ -138,12 +195,64 @@ function analyzeRepository(repoPath, projectInfo = {}) {
     return result;
   }
 
-  // Fallback for non-web / unknown
+  // CRITICAL RULE: NEVER ACCEPT A REPOSITORY WITHOUT A VALID WEB ENTRY POINT OR INDEX.HTML
   result.isSupported = false;
   result.isWebRunnable = false;
   result.framework = 'Codebase / CLI / Utilities';
-  result.reason = 'Repository is non-visual or CLI/library project without a web server interface.';
+  result.reason = 'Repository contains no runnable web application or static index.html entry point.';
   return result;
+}
+
+function findWebApplicationSubfolder(repoPath) {
+  const candidates = [
+    'frontend', 'client', 'web', 'ui', 'app', 'site',
+    'mvc/frontend', 'mvc/web', 'src/frontend', 'src/web',
+    'public', 'dist'
+  ];
+
+  for (const c of candidates) {
+    const full = path.join(repoPath, c);
+    if (fs.existsSync(full) && fs.statSync(full).isDirectory()) {
+      const hasPkg = fs.existsSync(path.join(full, 'package.json'));
+      const hasIndex = fs.existsSync(path.join(full, 'index.html')) || fs.existsSync(path.join(full, 'public', 'index.html'));
+      if (hasPkg || hasIndex) {
+        return full;
+      }
+    }
+  }
+
+  // Scan 1-level deep subdirectories for package.json with web dependencies
+  try {
+    const subdirs = fs.readdirSync(repoPath).filter(f => {
+      const full = path.join(repoPath, f);
+      return fs.statSync(full).isDirectory() && !f.startsWith('.') && f !== 'node_modules';
+    });
+
+    for (const sub of subdirs) {
+      const full = path.join(repoPath, sub);
+      const pkgPath = path.join(full, 'package.json');
+      if (fs.existsSync(pkgPath)) {
+        const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+        const deps = { ...(pkg.dependencies || {}), ...(pkg.devDependencies || {}) };
+        if (deps['next'] || deps['react'] || deps['vite'] || deps['express'] || deps['vue'] || deps['angular']) {
+          return full;
+        }
+      }
+    }
+  } catch {}
+
+  return null;
+}
+
+function findIndexHtml(dirPath) {
+  const possibilities = [
+    path.join(dirPath, 'index.html'),
+    path.join(dirPath, 'public', 'index.html'),
+    path.join(dirPath, 'dist', 'index.html'),
+    path.join(dirPath, 'build', 'index.html'),
+    path.join(dirPath, 'src', 'index.html')
+  ];
+  return possibilities.find(p => fs.existsSync(p)) || null;
 }
 
 function extractRoutesFromHtml(indexPath, result) {
@@ -173,4 +282,4 @@ function extractRoutesFromRepo(repoPath, result) {
   } catch {}
 }
 
-module.exports = { analyzeRepository };
+module.exports = { analyzeRepository, findWebApplicationSubfolder };

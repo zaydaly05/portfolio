@@ -6,9 +6,9 @@ const { startProject } = require('./repo-runner');
 const { captureProjectScreenshots } = require('./repo-capturer');
 
 /**
- * Intelligent Showcase Manager & Orchestrator
- * Coordinates repository cloning, analysis, execution, screenshot capture,
- * Cloudinary asset synchronization, and portfolio integration.
+ * Intelligent Showcase Manager & Orchestrator v2.0
+ * Enforces strict Quality Gate validation, status lifecycle (COMPLETED, PARTIAL, FAILED, UNSUPPORTED),
+ * diagnostic logging, and screenshot preservation.
  */
 
 const MANIFEST_PATH = path.join(__dirname, 'showcase-manifest.json');
@@ -46,30 +46,39 @@ async function processProjectShowcase(project, options = {}) {
   console.log(`   Repo URL: ${githubUrl || 'N/A'}`);
   console.log(`========================================`);
 
-  manifest.projects[slug] = manifest.projects[slug] || {
+  const existingProjectData = manifest.projects[slug] || {};
+  const previousGoodScreenshots = existingProjectData.screenshots || [];
+
+  manifest.projects[slug] = {
+    ...existingProjectData,
     name: project.name,
     slug,
     github: githubUrl,
-    status: 'Pending',
+    status: 'Analyzing',
     updatedAt: new Date().toISOString(),
-    screenshots: []
+    diagnostics: {
+      startedAt: new Date().toISOString(),
+      appDir: null,
+      startCmd: null,
+      port: null,
+      targetUrl: null,
+      acceptedCount: 0,
+      rejectedReasons: []
+    }
   };
-
-  manifest.projects[slug].status = 'Analyzing';
   saveManifest(manifest);
 
   // 1. Prepare repository directory
   let repoPath = path.join(TEMP_PROJECTS_DIR, slug);
-
-  // Check if repo already exists locally in workspace or temp_projects
   const workspaceLocalRepo = path.join(__dirname, '..', '..', slug);
+
   if (fs.existsSync(workspaceLocalRepo) && fs.statSync(workspaceLocalRepo).isDirectory()) {
     repoPath = workspaceLocalRepo;
   } else if (!fs.existsSync(repoPath) && githubUrl) {
     if (!fs.existsSync(TEMP_PROJECTS_DIR)) {
       fs.mkdirSync(TEMP_PROJECTS_DIR, { recursive: true });
     }
-    console.log(`[Showcase] Cloning ${githubUrl} into isolated sandbox: ${repoPath}...`);
+    console.log(`[Showcase] Cloning ${githubUrl} into sandbox: ${repoPath}...`);
     try {
       execSync(`git clone --depth 1 ${githubUrl} "${repoPath}"`, { stdio: 'inherit', timeout: 60000 });
     } catch (cErr) {
@@ -83,14 +92,18 @@ async function processProjectShowcase(project, options = {}) {
     framework: analysis.framework,
     language: analysis.language,
     isWebRunnable: analysis.isWebRunnable,
-    startCmd: analysis.startCmd
+    startCmd: analysis.startCmd,
+    appDir: analysis.appDir
   };
+  manifest.projects[slug].diagnostics.appDir = analysis.appDir;
+  manifest.projects[slug].diagnostics.startCmd = analysis.startCmd;
 
   if (!analysis.isWebRunnable) {
-    console.log(`[Showcase] ⚠️ Project "${project.name}" is marked as unsupported/non-web.`);
+    console.log(`[Showcase] ⚠️ Project "${project.name}" is marked as Unsupported/Non-Web.`);
     console.log(`   Reason: ${analysis.reason}`);
     manifest.projects[slug].status = 'Unsupported';
     manifest.projects[slug].reason = analysis.reason;
+    manifest.projects[slug].screenshots = previousGoodScreenshots; // Preserve previous good screenshots
     saveManifest(manifest);
     return manifest.projects[slug];
   }
@@ -101,13 +114,16 @@ async function processProjectShowcase(project, options = {}) {
 
   let runnerResult = null;
   try {
-    runnerResult = await startProject(analysis, { timeoutMs: 35000 });
+    runnerResult = await startProject(analysis, { timeoutMs: 40000 });
+
+    manifest.projects[slug].diagnostics.port = runnerResult.port;
+    manifest.projects[slug].diagnostics.targetUrl = runnerResult.targetUrl;
 
     if (!runnerResult.isReady) {
-      throw new Error(`Application failed to start or accept HTTP connections on port ${runnerResult.port}`);
+      throw new Error(`Application server failed to respond at ${runnerResult.targetUrl}`);
     }
 
-    // 4. Capture Screenshots
+    // 4. Capture & Validate Screenshots
     manifest.projects[slug].status = 'Capturing';
     saveManifest(manifest);
 
@@ -115,23 +131,39 @@ async function processProjectShowcase(project, options = {}) {
       routesToExplore: analysis.routesToExplore
     });
 
-    if (screenshots && screenshots.length > 0) {
+    manifest.projects[slug].diagnostics.acceptedCount = screenshots.length;
+
+    // Strict Quality Gate Status Evaluation
+    if (screenshots && screenshots.length >= 2) {
       manifest.projects[slug].status = 'Completed';
       manifest.projects[slug].screenshots = screenshots.map(s => ({
         src: s.relativePath,
         alt: `${project.name} - ${s.caption}`,
-        type: 'image'
+        type: 'image',
+        hash: s.hash
       }));
-      console.log(`[Showcase] ✅ Successfully updated showcase for ${project.name} with ${screenshots.length} screenshots!`);
+      console.log(`[Showcase] ✅ Showcase COMPLETED for ${project.name} with ${screenshots.length} valid screenshots!`);
+    } else if (screenshots && screenshots.length === 1) {
+      manifest.projects[slug].status = 'Partial';
+      manifest.projects[slug].screenshots = screenshots.map(s => ({
+        src: s.relativePath,
+        alt: `${project.name} - ${s.caption}`,
+        type: 'image',
+        hash: s.hash
+      }));
+      console.log(`[Showcase] ⚠️ Showcase PARTIAL for ${project.name} with 1 valid screenshot.`);
     } else {
       manifest.projects[slug].status = 'Failed';
-      manifest.projects[slug].reason = 'No valid screenshots were captured during browser exploration.';
+      manifest.projects[slug].reason = 'Screenshot Quality Gate rejected all candidates (directory listings, blank screens, or errors).';
+      manifest.projects[slug].screenshots = previousGoodScreenshots; // Preserve previous good screenshots
+      console.error(`[Showcase] ❌ Showcase FAILED for ${project.name}: No valid screenshots passed Quality Gate.`);
     }
 
   } catch (err) {
-    console.error(`[Showcase] ❌ Failed to generate showcase for ${project.name}:`, err.message);
+    console.error(`[Showcase] ❌ Failed showcase generation for ${project.name}:`, err.message);
     manifest.projects[slug].status = 'Failed';
     manifest.projects[slug].reason = err.message;
+    manifest.projects[slug].screenshots = previousGoodScreenshots; // Preserve previous good screenshots
   } finally {
     if (runnerResult && runnerResult.stop) {
       console.log(`[Showcase] Terminating isolated process tree for ${project.name}...`);
@@ -141,24 +173,25 @@ async function processProjectShowcase(project, options = {}) {
 
   saveManifest(manifest);
 
-  // 5. Cloudinary Media Upload & Mapping (if configured)
-  try {
-    const cloudScript = path.join(__dirname, '..', 'upload-to-cloudinary.js');
-    if (fs.existsSync(cloudScript)) {
-      console.log('[Showcase] Running Cloudinary media sync to update image URLs...');
-      execSync('node scripts/upload-to-cloudinary.js', { stdio: 'ignore' });
-      const mapPath = path.join(__dirname, '..', 'cloudinary-map.json');
-      if (fs.existsSync(mapPath)) {
-        const cloudMap = JSON.parse(fs.readFileSync(mapPath, 'utf8'));
-        // Update local screenshot URLs to Cloudinary CDN URLs if mapped
-        manifest.projects[slug].screenshots = manifest.projects[slug].screenshots.map(s => ({
-          ...s,
-          src: cloudMap[s.src] || s.src
-        }));
-        saveManifest(manifest);
+  // 5. Cloudinary Media Upload & Mapping (if configured & valid screenshots exist)
+  if (manifest.projects[slug].screenshots && manifest.projects[slug].screenshots.length > 0) {
+    try {
+      const cloudScript = path.join(__dirname, '..', 'upload-to-cloudinary.js');
+      if (fs.existsSync(cloudScript)) {
+        console.log('[Showcase] Running Cloudinary media sync to update image URLs...');
+        execSync('node scripts/upload-to-cloudinary.js', { stdio: 'ignore' });
+        const mapPath = path.join(__dirname, '..', 'cloudinary-map.json');
+        if (fs.existsSync(mapPath)) {
+          const cloudMap = JSON.parse(fs.readFileSync(mapPath, 'utf8'));
+          manifest.projects[slug].screenshots = manifest.projects[slug].screenshots.map(s => ({
+            ...s,
+            src: cloudMap[s.src] || s.src
+          }));
+          saveManifest(manifest);
+        }
       }
-    }
-  } catch {}
+    } catch {}
+  }
 
   return manifest.projects[slug];
 }

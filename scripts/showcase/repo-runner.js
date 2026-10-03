@@ -55,6 +55,7 @@ function stopProcessTree(pid) {
 
 async function startProject(analysisResult, options = {}) {
   const { repoPath, installCmd, startCmd } = analysisResult;
+  const appDir = analysisResult.appDir || repoPath;
   const timeoutMs = options.timeoutMs || 45000;
 
   if (!startCmd) {
@@ -68,17 +69,18 @@ async function startProject(analysisResult, options = {}) {
   console.log(`\n========================================`);
   console.log(`🚀 Starting Project: ${analysisResult.name}`);
   console.log(`   Framework: ${analysisResult.framework}`);
+  console.log(`   Working Dir: ${appDir}`);
   console.log(`   Command:   ${formattedStartCmd}`);
   console.log(`   Target:    ${targetUrl}`);
   console.log(`========================================\n`);
 
   // 1. Install dependencies if needed
   if (installCmd && !options.skipInstall) {
-    const nodeModulesExist = fsExists(path.join(repoPath, 'node_modules'));
+    const nodeModulesExist = fsExists(path.join(appDir, 'node_modules'));
     if (!nodeModulesExist) {
-      console.log(`[Runner] Installing dependencies via: ${installCmd}...`);
+      console.log(`[Runner] Installing dependencies in ${appDir} via: ${installCmd}...`);
       try {
-        execSync(installCmd, { cwd: repoPath, stdio: 'inherit', timeout: 90000 });
+        execSync(installCmd, { cwd: appDir, stdio: 'inherit', timeout: 90000 });
       } catch (iErr) {
         console.warn(`[Runner] Warning during install step: ${iErr.message}`);
       }
@@ -95,9 +97,8 @@ async function startProject(analysisResult, options = {}) {
     FORCE_COLOR: '0'
   };
 
-  const isCmdFile = process.platform === 'win32';
   const child = spawn(formattedStartCmd, {
-    cwd: repoPath,
+    cwd: appDir,
     shell: true,
     env,
     detached: false
