@@ -45,6 +45,11 @@ function hammingDistance(hash1, hash2) {
   return dist;
 }
 
+function computeSimilarityPercentage(hash1, hash2) {
+  const dist = hammingDistance(hash1, hash2);
+  return (1 - (dist / 64)) * 100;
+}
+
 function isBlankBuffer(buffer) {
   if (!buffer || buffer.length < 10000) return true; // Files < 10KB are invalid/blank
   const step = Math.max(1, Math.floor(buffer.length / 100));
@@ -112,13 +117,13 @@ async function captureProjectScreenshots(targetUrl, projectSlug, options = {}) {
 
   const context = await browser.newContext(isMobileApp ? {
     viewport: { width: 412, height: 915 },
-    deviceScaleFactor: 2.6,
+    deviceScaleFactor: 1.0,
     isMobile: true,
     hasTouch: true,
     userAgent: 'Mozilla/5.0 (Linux; Android 13; Pixel 7 Build/TQ3A.230901.001) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36 PortfolioShowcaseBot/2.0'
   } : {
     viewport: { width: 1920, height: 1080 },
-    deviceScaleFactor: 2,
+    deviceScaleFactor: 1.0,
     userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 PortfolioShowcaseBot/2.0'
   });
 
@@ -218,9 +223,14 @@ async function captureProjectScreenshots(targetUrl, projectSlug, options = {}) {
         }
 
         const candHash = computePerceptualHash(candidateBuffer);
-        const isDuplicate = acceptedHashes.some(h => hammingDistance(h, candHash) <= 4);
+        let maxSimFound = 0;
+        const isDuplicate = acceptedHashes.some(h => {
+          const sim = computeSimilarityPercentage(h, candHash);
+          if (sim > maxSimFound) maxSimFound = sim;
+          return sim > 15; // Similarity must not be more than 15%
+        });
         if (isDuplicate) {
-          console.warn(`   ⚠️ Route rejected: INVALID_DUPLICATE_SCREEN (visually identical)`);
+          console.warn(`   ⚠️ Route rejected: INVALID_DUPLICATE_SCREEN (Similarity ${maxSimFound.toFixed(1)}% exceeds 15% maximum limit)`);
           continue;
         }
 
@@ -260,9 +270,14 @@ async function captureProjectScreenshots(targetUrl, projectSlug, options = {}) {
             if (isBlankBuffer(candBuf)) continue;
 
             const candHash = computePerceptualHash(candBuf);
-            const isDup = acceptedHashes.some(h => hammingDistance(h, candHash) <= 4);
+            let simFound = 0;
+            const isDup = acceptedHashes.some(h => {
+              const sim = computeSimilarityPercentage(h, candHash);
+              if (sim > simFound) simFound = sim;
+              return sim > 15; // Similarity must not be more than 15%
+            });
             if (isDup) {
-              console.warn(`   ⚠️ Rejection: Visual duplicate of previously captured screen.`);
+              console.warn(`   ⚠️ Rejection: Visual duplicate of previously captured screen (Similarity ${simFound.toFixed(1)}% exceeds 15% maximum limit).`);
               continue;
             }
 
