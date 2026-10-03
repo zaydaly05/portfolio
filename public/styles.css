@@ -2485,6 +2485,7 @@ textarea::placeholder {
 .cv-modal-card {
   width: min(900px, 94vw);
   height: min(85vh, 760px);
+  min-height: 600px;
   max-width: none;
   display: flex;
   flex-direction: column;
@@ -2492,6 +2493,8 @@ textarea::placeholder {
   overflow: hidden;
   border-radius: var(--radius-md);
   border: 1px solid var(--card-hover-border);
+  z-index: 10001;
+  background: var(--bg-secondary, #12121e);
 }
 
 .cv-modal-header {
