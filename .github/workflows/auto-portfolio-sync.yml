@@ -52,6 +52,15 @@ jobs:
         with:
           root_file: latex-cv/Zayd_Ali_Mohamed_CV.tex
 
+      - name: 📋 Copy LaTeX PDF to public/assets/ (canonical location)
+        run: |
+          if [ -f "Zayd_Ali_Mohamed_CV.pdf" ]; then
+            cp "Zayd_Ali_Mohamed_CV.pdf" "public/assets/Zayd Ali Mohamed CV.pdf"
+            echo "✅ Copied LaTeX PDF to public/assets/"
+          else
+            echo "⚠️ LaTeX PDF not found at root, skipping copy."
+          fi
+
       - name: 📄 Generate Single Executive CV PDF
         run: |
           npx playwright install chromium || true

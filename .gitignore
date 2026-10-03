@@ -10,6 +10,9 @@ node_modules/
 *.toc
 *.log
 
+# Root-level LaTeX-compiled CV (build artifact — canonical copy is public/assets/)
+Zayd_Ali_Mohamed_CV.pdf
+
 scratch/
 
 # Logs & Audit History
