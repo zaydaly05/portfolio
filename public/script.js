@@ -179,12 +179,12 @@ const fallbackPortfolio = {
     },
     {
       name: "WE Telecom Training Suite",
-      period: "July 2026",
-      stack: "Kotlin, Jetpack Compose, Android SDK, MVVM, Retrofit, Room DB, Hilt",
-      image: "/assets/showcase/zaydentity/zaydentity-feature-2.jpg",
+      period: "August 2026",
+      stack: "Networking, C++, Telecommunications",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790719/zayd-portfolio/chi-experience.jpg",
       github: "https://github.com/zaydaly05/WE_Intern",
       description:
-        "Native Android application suite engineered during the WE (Telecom Egypt) Android Development Internship. Features declarative Jetpack Compose UIs, MVVM architecture, Retrofit network API integration, Room Database offline-first persistence, Hilt dependency injection, and process death lifecycle management structured across 23 modular Git branches."
+        "Technical codebase & project artifacts developed during Telecom Egypt (WE) training, focusing on network protocol fundamentals, system administration, and enterprise infrastructure."
     }
   ],
 
@@ -1116,28 +1116,28 @@ const renderExperience = (items) => {
               }
             ]
           : isTaqaSoftwareDevelopment
-          ? [
-              {
-                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790814/zayd-portfolio/taqa25-exp.jpg",
-                alt: "TAQA Software Development Internship experience photo"
-              },
-              {
-                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790813/zayd-portfolio/taqa25-crt.jpg",
-                alt: "TAQA Software Development Internship official certificate"
-              }
-            ]
-          : isTaqaItDepartment
             ? [
                 {
-                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790812/zayd-portfolio/taqa24.jpg",
-                  alt: "TAQA IT Department internship photo 1"
+                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790814/zayd-portfolio/taqa25-exp.jpg",
+                  alt: "TAQA Software Development Internship experience photo"
                 },
                 {
-                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790812/zayd-portfolio/taqa24e.jpg",
-                  alt: "TAQA IT Department internship photo 2"
+                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790813/zayd-portfolio/taqa25-crt.jpg",
+                  alt: "TAQA Software Development Internship official certificate"
                 }
               ]
-            : []
+            : isTaqaItDepartment
+              ? [
+                  {
+                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790812/zayd-portfolio/taqa24.jpg",
+                    alt: "TAQA IT Department internship photo 1"
+                  },
+                  {
+                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790812/zayd-portfolio/taqa24e.jpg",
+                    alt: "TAQA IT Department internship photo 2"
+                  }
+                ]
+              : []
     };
   });
 };
@@ -1217,7 +1217,6 @@ const renderProjects = (items) => {
     const isGulfLimousineProject = nameLower.includes("gulf limousine");
     const isEssmatPlasticProject = nameLower.includes("essmat plastic");
     const isDrNaglaBioProject = nameLower.includes("dr. naglaa");
-    const isWeInternProject = nameLower.includes("we telecom") || nameLower.includes("we_intern");
 
     const autoScreenshots = Array.isArray(item.screenshots) && item.screenshots.length > 0 ? item.screenshots : null;
 
@@ -1231,217 +1230,200 @@ const renderProjects = (items) => {
         `Automatically synced with GitHub project commits`,
         item.showcaseStatus ? `Automated Showcase Status: ${item.showcaseStatus}` : null
       ].filter(Boolean),
-      media: autoScreenshots || (isDrNaglaBioProject
-        ? [
-            {
-              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790725/zayd-portfolio/dr-nagla-hero.png",
-              alt: "Dr Naglaa Academic Portal Hero"
-            },
-            {
-              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790722/zayd-portfolio/dr-nagla-biography.png",
-              alt: "Dr Naglaa Biography & Academic Credentials"
-            },
-            {
-              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790727/zayd-portfolio/dr-nagla-publications.png",
-              alt: "Dr Naglaa Research Publications"
-            },
-            {
-              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790723/zayd-portfolio/dr-nagla-contact.png",
-              alt: "Dr Naglaa Academic Contact Section"
-            }
-          ]
-        : isWeInternProject
+      media:
+        autoScreenshots ||
+        (isDrNaglaBioProject
           ? [
               {
-                src: "/assets/showcase/zaydentity/zaydentity-feature-2.jpg",
-                alt: "WE Telecom Training Suite - Kotlin Jetpack Compose UI & MVVM Dashboard"
+                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790725/zayd-portfolio/dr-nagla-hero.png",
+                alt: "Dr Naglaa Academic Portal Hero"
               },
               {
-                src: "/assets/showcase/zaydentity/zaydentity-feature-3.jpg",
-                alt: "WE Telecom Training Suite - Retrofit & Room DB Offline-First Repository View"
+                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790722/zayd-portfolio/dr-nagla-biography.png",
+                alt: "Dr Naglaa Biography & Academic Credentials"
               },
               {
-                src: "/assets/showcase/zaydentity/zaydentity-feature-4.jpg",
-                alt: "WE Telecom Training Suite - Jetpack Compose Paging 3 Data Feed View"
+                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790727/zayd-portfolio/dr-nagla-publications.png",
+                alt: "Dr Naglaa Research Publications"
               },
               {
-                src: "/assets/showcase/zaydentity/zaydentity-details.jpg",
-                alt: "WE Telecom Training Suite - Hilt Dependency Injection & Process Death Management"
+                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790723/zayd-portfolio/dr-nagla-contact.png",
+                alt: "Dr Naglaa Academic Contact Section"
               }
             ]
           : isGulfLimousineProject
-          ? [
-              {
-                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790766/zayd-portfolio/gulf-limousine.jpg",
-                alt: "Gulf Limousine App - Luxury Mobile Reservation Interface"
-              },
-              {
-                src: "/assets/showcase/Gulf_Limousine_App/Gulf_Limousine_App-landing.jpg",
-                alt: "Gulf Limousine App - Android Mobile Viewport Booking Screen"
-              },
-              {
-                src: "/assets/showcase/Gulf_Limousine_App/Gulf_Limousine_App-feature-1.jpg",
-                alt: "Gulf Limousine App - Vehicle Fleet Selection View"
-              },
-              {
-                src: "/assets/showcase/Gulf_Limousine_App/Gulf_Limousine_App-details.jpg",
-                alt: "Gulf Limousine App - Fare Estimation & Trip Details"
-              }
-            ]
-          : isEssmatPlasticProject
             ? [
                 {
-                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790864034/esmatPlastic.jpg",
-                  alt: "Essmat Plastic Factory Management System - Architecture & Data Schema"
+                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790766/zayd-portfolio/gulf-limousine.jpg",
+                  alt: "Gulf Limousine App - Luxury Mobile Reservation Interface"
                 },
                 {
-                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
-                  alt: "Essmat Plastic Factory Management System - Inventory & Material Management View"
+                  src: "/assets/showcase/Gulf_Limousine_App/Gulf_Limousine_App-landing.jpg",
+                  alt: "Gulf Limousine App - Android Mobile Viewport Booking Screen"
                 },
                 {
-                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790732/zayd-portfolio/employee-e2.png",
-                  alt: "Essmat Plastic Factory Management System - Factory Orders & Billing Interface"
+                  src: "/assets/showcase/Gulf_Limousine_App/Gulf_Limousine_App-feature-1.jpg",
+                  alt: "Gulf Limousine App - Vehicle Fleet Selection View"
                 },
                 {
-                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790734/zayd-portfolio/employee-e3.png",
-                  alt: "Essmat Plastic Factory Management System - Factory Production Dashboard"
+                  src: "/assets/showcase/Gulf_Limousine_App/Gulf_Limousine_App-details.jpg",
+                  alt: "Gulf Limousine App - Fare Estimation & Trip Details"
                 }
               ]
-            : isFoodOrderingProject
+            : isEssmatPlasticProject
               ? [
                   {
-                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061797/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-landing.jpg",
-                    alt: "Food Ordering Management System - Main Application Landing Screen"
+                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790864034/esmatPlastic.jpg",
+                    alt: "Essmat Plastic Factory Management System - Architecture & Data Schema"
                   },
                   {
-                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061794/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-2.jpg",
-                    alt: "Food Ordering Management System - Food Hub Menu Browse"
+                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790736/zayd-portfolio/essmat-plastic-report.pdf",
+                    alt: "Essmat Plastic Factory Management System - Official PDF Report Document"
                   },
                   {
-                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061795/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-3.jpg",
-                    alt: "Food Ordering Management System - Customer Cart & Order Summary"
+                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
+                    alt: "Essmat Plastic Factory Management System - Inventory & Material Management View"
                   },
                   {
-                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061796/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-4.jpg",
-                    alt: "Food Ordering Management System - Restaurant Management Portal"
-                  },
-                  {
-                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061797/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-5.jpg",
-                    alt: "Food Ordering Management System - WhatsApp Support Integration"
-                  },
-                  {
-                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791062965/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-6.jpg",
-                    alt: "Food Ordering Management System - User Authentication & Login Portal"
+                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790732/zayd-portfolio/employee-e2.png",
+                    alt: "Essmat Plastic Factory Management System - Factory Orders & Billing Interface"
                   }
                 ]
-              : isInGazProject
+              : isFoodOrderingProject
                 ? [
                     {
-                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790771/zayd-portfolio/ingaz-1.jpg",
-                      alt: "In Gaz API System - Flutter Mobile App Screen 1"
+                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061797/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-landing.jpg",
+                      alt: "Food Ordering Management System - Main Application Landing Screen"
                     },
                     {
-                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790772/zayd-portfolio/ingaz-2.jpg",
-                      alt: "In Gaz API System - Flutter Mobile App Screen 2"
+                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061794/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-2.jpg",
+                      alt: "Food Ordering Management System - Food Hub Menu Browse"
                     },
                     {
-                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061861/zayd-portfolio/showcase/InGazAPI/InGazAPI-landing.jpg",
-                      alt: "In Gaz API System - .NET Core Web API Swagger Documentation"
+                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061795/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-3.jpg",
+                      alt: "Food Ordering Management System - Customer Cart & Order Summary"
                     },
                     {
-                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061862/zayd-portfolio/showcase/InGazAPI/InGazAPI-details.jpg",
-                      alt: "In Gaz API System - MVC Controller Data Endpoint Schema"
+                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061796/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-4.jpg",
+                      alt: "Food Ordering Management System - Restaurant Management Portal"
+                    },
+                    {
+                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061797/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-5.jpg",
+                      alt: "Food Ordering Management System - WhatsApp Support Integration"
+                    },
+                    {
+                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791062965/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-6.jpg",
+                      alt: "Food Ordering Management System - User Authentication & Login Portal"
                     }
                   ]
-                : isCarRentalProject
+                : isInGazProject
                   ? [
                       {
-                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790715/zayd-portfolio/car-rental-c1.png",
-                        alt: "Car Rental Website - Vehicle Fleet Catalog Overview"
+                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790771/zayd-portfolio/ingaz-1.jpg",
+                        alt: "In Gaz API System - Flutter Mobile App Screen 1"
                       },
                       {
-                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790716/zayd-portfolio/car-rental-c2.png",
-                        alt: "Car Rental Website - Car Specifications & Features View"
+                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790772/zayd-portfolio/ingaz-2.jpg",
+                        alt: "In Gaz API System - Flutter Mobile App Screen 2"
                       },
                       {
-                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790718/zayd-portfolio/car-rental-c3.png",
-                        alt: "Car Rental Website - Customer Booking & Checkout Form"
+                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061861/zayd-portfolio/showcase/InGazAPI/InGazAPI-landing.jpg",
+                        alt: "In Gaz API System - .NET Core Web API Swagger Documentation"
                       },
                       {
-                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790707/zayd-portfolio/c1.png",
-                        alt: "Car Rental Website - Platform Main Landing Page"
+                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061862/zayd-portfolio/showcase/InGazAPI/InGazAPI-details.jpg",
+                        alt: "In Gaz API System - MVC Controller Data Endpoint Schema"
                       }
                     ]
-                  : isRestaurantProject
+                  : isCarRentalProject
                     ? [
                         {
-                          src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790805/zayd-portfolio/restaurant-r1.png",
-                          alt: "Restaurant Management System - JavaFX Main Login & Role Selection"
+                          src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790715/zayd-portfolio/car-rental-c1.png",
+                          alt: "Car Rental Website - Vehicle Fleet Catalog Overview"
                         },
                         {
-                          src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790805/zayd-portfolio/restaurant-r2.png",
-                          alt: "Restaurant Management System - Food & Menu Order Interface"
+                          src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790716/zayd-portfolio/car-rental-c2.png",
+                          alt: "Car Rental Website - Car Specifications & Features View"
                         },
                         {
-                          src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790806/zayd-portfolio/restaurant-r3.png",
-                          alt: "Restaurant Management System - Table Allocation Grid View"
+                          src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790718/zayd-portfolio/car-rental-c3.png",
+                          alt: "Car Rental Website - Customer Booking & Checkout Form"
                         },
                         {
-                          src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790807/zayd-portfolio/restaurant-r4.png",
-                          alt: "Restaurant Management System - Reservation System View"
-                        },
-                        {
-                          src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790808/zayd-portfolio/restaurant-r5.png",
-                          alt: "Restaurant Management System - Billing & Order Summary"
+                          src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790707/zayd-portfolio/c1.png",
+                          alt: "Car Rental Website - Platform Main Landing Page"
                         }
                       ]
-                    : isSleepingAlertProject
+                    : isRestaurantProject
                       ? [
                           {
-                            src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790811/zayd-portfolio/sleeping-alert-py2.jpg",
-                            alt: "Sleeping Alert System - OpenCV Drowsiness Detection Photo"
+                            src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790805/zayd-portfolio/restaurant-r1.png",
+                            alt: "Restaurant Management System - JavaFX Main Login & Role Selection"
                           },
                           {
-                            src: "https://res.cloudinary.com/delnnzcph/video/upload/v1790790810/zayd-portfolio/sleeping-alert-py1.mp4",
-                            type: "video",
-                            alt: "Sleeping Alert System - Realtime Facial Bounding Box Video Demo"
+                            src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790805/zayd-portfolio/restaurant-r2.png",
+                            alt: "Restaurant Management System - Food & Menu Order Interface"
                           },
                           {
-                            src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061885/zayd-portfolio/showcase/Sleep_Alert_System/Sleep_Alert_System-landing.jpg",
-                            alt: "Sleeping Alert System - Mobile Flutter Monitor Screen"
+                            src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790806/zayd-portfolio/restaurant-r3.png",
+                            alt: "Restaurant Management System - Table Allocation Grid View"
                           },
                           {
-                            src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061887/zayd-portfolio/showcase/Sleep_Alert_System/Sleep_Alert_System-details.jpg",
-                            alt: "Sleeping Alert System - Driver Eye Aspect Ratio Threshold Dashboard"
+                            src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790807/zayd-portfolio/restaurant-r4.png",
+                            alt: "Restaurant Management System - Reservation System View"
+                          },
+                          {
+                            src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790808/zayd-portfolio/restaurant-r5.png",
+                            alt: "Restaurant Management System - Billing & Order Summary"
                           }
                         ]
-                      : isEmployeeAttendanceProject
+                      : isSleepingAlertProject
                         ? [
                             {
-                              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
-                              alt: "Employee Attendance and Leave System - Admin Dashboard Overview"
+                              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790811/zayd-portfolio/sleeping-alert-py2.jpg",
+                              alt: "Sleeping Alert System - OpenCV Drowsiness Detection Photo"
                             },
                             {
-                              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790732/zayd-portfolio/employee-e2.png",
-                              alt: "Employee Attendance and Leave System - New Assessment / Post Announcement"
+                              src: "https://res.cloudinary.com/delnnzcph/video/upload/v1790790810/zayd-portfolio/sleeping-alert-py1.mp4",
+                              type: "video",
+                              alt: "Sleeping Alert System - Realtime Facial Bounding Box Video Demo"
                             },
                             {
-                              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790734/zayd-portfolio/employee-e3.png",
-                              alt: "Employee Attendance and Leave System - Login & Landing Screen"
+                              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061885/zayd-portfolio/showcase/Sleep_Alert_System/Sleep_Alert_System-landing.jpg",
+                              alt: "Sleeping Alert System - Mobile Flutter Monitor Screen"
                             },
                             {
-                              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790735/zayd-portfolio/employee-e4.png",
-                              alt: "Employee Attendance and Leave System - Leave History & Status Table"
+                              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061887/zayd-portfolio/showcase/Sleep_Alert_System/Sleep_Alert_System-details.jpg",
+                              alt: "Sleeping Alert System - Driver Eye Aspect Ratio Threshold Dashboard"
                             }
                           ]
-                        : [
-                            {
-                              src:
-                                item.image ||
-                                "https://res.cloudinary.com/delnnzcph/image/upload/v1790790773/zayd-portfolio/main-photo.jpg",
-                              alt: item.name
-                            }
-                          ])
+                        : isEmployeeAttendanceProject
+                          ? [
+                              {
+                                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
+                                alt: "Employee Attendance and Leave System - Admin Dashboard Overview"
+                              },
+                              {
+                                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790732/zayd-portfolio/employee-e2.png",
+                                alt: "Employee Attendance and Leave System - New Assessment / Post Announcement"
+                              },
+                              {
+                                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790734/zayd-portfolio/employee-e3.png",
+                                alt: "Employee Attendance and Leave System - Login & Landing Screen"
+                              },
+                              {
+                                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790735/zayd-portfolio/employee-e4.png",
+                                alt: "Employee Attendance and Leave System - Leave History & Status Table"
+                              }
+                            ]
+                          : [
+                              {
+                                src:
+                                  item.image ||
+                                  "https://res.cloudinary.com/delnnzcph/image/upload/v1790790773/zayd-portfolio/main-photo.jpg",
+                                alt: item.name
+                              }
+                            ])
     };
   });
 };
@@ -2690,7 +2672,8 @@ const setupTerminalCLI = () => {
             keys.forEach((key) => {
               const p = projects[key];
               const shotCount = (p.screenshots || []).length;
-              const badge = p.status === "Completed" ? `[COMPLETED - ${shotCount} shots]` : `[${p.status || "UNKNOWN"}]`;
+              const badge =
+                p.status === "Completed" ? `[COMPLETED - ${shotCount} shots]` : `[${p.status || "UNKNOWN"}]`;
               printLine(`  • <strong>${p.name}</strong> (${p.slug}): ${badge}`);
             });
           })
@@ -2863,13 +2846,16 @@ const setupCVViewerModal = () => {
 
   if (!cvModal) return;
 
-  let cachedCvUrl = "https://res.cloudinary.com/delnnzcph/image/upload/v1790790818/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf";
+  let cachedCvUrl =
+    "https://res.cloudinary.com/delnnzcph/image/upload/v1790790818/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf";
 
   fetch("/api/cv-url")
     .then((res) => res.json())
     .then((data) => {
       if (data && data.url) {
-        cachedCvUrl = data.url.includes("collection.cloudinary.com") ? "https://res.cloudinary.com/delnnzcph/image/upload/v1790790818/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf" : data.url;
+        cachedCvUrl = data.url.includes("collection.cloudinary.com")
+          ? "https://res.cloudinary.com/delnnzcph/image/upload/v1790790818/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf"
+          : data.url;
       }
     })
     .catch(() => {});
@@ -2880,7 +2866,9 @@ const setupCVViewerModal = () => {
       const res = await fetch("/api/cv-url");
       const data = await res.json();
       if (data && data.url) {
-        cvUrl = data.url.includes("collection.cloudinary.com") ? "https://res.cloudinary.com/delnnzcph/image/upload/v1790790818/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf" : data.url;
+        cvUrl = data.url.includes("collection.cloudinary.com")
+          ? "https://res.cloudinary.com/delnnzcph/image/upload/v1790790818/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf"
+          : data.url;
         cachedCvUrl = cvUrl;
       }
     } catch (_) {}
