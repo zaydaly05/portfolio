@@ -1033,14 +1033,14 @@ app.post("/api/star", postRateLimiter, async (req, res) => {
 });
 
 // Dynamic CV URL API & Redirects
-const DEFAULT_CV_URL = "/assets/Zayd_Ali_Mohamed_CV.pdf";
+const DEFAULT_CV_URL = "https://collection.cloudinary.com/delnnzcph/8af224dfdea2cedb263fa74148bbdd8d";
 
 app.get("/api/cv-url", async (req, res) => {
   try {
     const db = await connectDB();
     if (db) {
       const config = await CvConfig.findOne({ key: "cv_url" });
-      if (config && config.url && !config.url.includes("res.cloudinary.com")) {
+      if (config && config.url) {
         return res.json({ ok: true, url: config.url });
       }
     }
@@ -1080,22 +1080,13 @@ app.get("/cv", async (req, res) => {
     const db = await connectDB();
     if (db) {
       const config = await CvConfig.findOne({ key: "cv_url" });
-      if (config && config.url && config.url !== "/cv") {
+      if (config && config.url) {
         targetUrl = config.url;
       }
     }
   } catch (err) {}
 
-  if (targetUrl.startsWith("http://") || targetUrl.startsWith("https://")) {
-    return res.redirect(302, targetUrl);
-  }
-
-  const file = findAssetFile("Zayd_Ali_Mohamed_CV.pdf");
-  if (file) {
-    assetCacheHeaders(res, file);
-    return res.sendFile(file);
-  }
-  res.sendFile(path.join(process.cwd(), "public", "assets", "Zayd_Ali_Mohamed_CV.pdf"));
+  res.redirect(302, targetUrl);
 });
 
 // Kapso WhatsApp Cloud API Webhook Routes

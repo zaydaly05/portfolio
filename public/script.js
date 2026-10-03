@@ -2718,12 +2718,12 @@ const setupCVViewerModal = () => {
 
   if (!cvModal) return;
 
-  let cachedCvUrl = "/assets/Zayd_Ali_Mohamed_CV.pdf";
+  let cachedCvUrl = "https://collection.cloudinary.com/delnnzcph/8af224dfdea2cedb263fa74148bbdd8d";
 
   fetch("/api/cv-url")
     .then((res) => res.json())
     .then((data) => {
-      if (data && data.url && !data.url.includes("res.cloudinary.com")) {
+      if (data && data.url) {
         cachedCvUrl = data.url;
       }
     })
@@ -2734,7 +2734,7 @@ const setupCVViewerModal = () => {
     try {
       const res = await fetch("/api/cv-url");
       const data = await res.json();
-      if (data && data.url && !data.url.includes("res.cloudinary.com")) {
+      if (data && data.url) {
         cvUrl = data.url;
         cachedCvUrl = data.url;
       }
@@ -2742,17 +2742,14 @@ const setupCVViewerModal = () => {
 
     const iframe = document.getElementById("cv-iframe");
     if (iframe) {
-      const toolbarUrl = cvUrl.includes("#") ? cvUrl : `${cvUrl}#toolbar=1`;
-      iframe.src = toolbarUrl;
+      iframe.src = cvUrl;
     }
 
     document
       .querySelectorAll("a[download*='CV'], #download-cv, .cv-modal-actions a, .cv-fallback-card a")
       .forEach((link) => {
         link.href = cvUrl;
-        if (link.hasAttribute("download")) {
-          link.removeAttribute("target");
-        }
+        link.setAttribute("target", "_blank");
       });
 
     document.body.appendChild(cvModal);
