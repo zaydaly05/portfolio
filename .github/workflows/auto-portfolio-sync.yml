@@ -126,14 +126,7 @@ jobs:
             TIMESTAMP=$(date -u "+%Y-%m-%d %H:%M UTC")
             CV_LABEL="cv:${{ steps.cv.outputs.cv_source }}(${{ steps.cv.outputs.cv_size }})"
 
-            MSG="auto(sync): portfolio refresh [${TIMESTAMP}]
-
-  📦 ${CHANGED} file(s) changed
-  🖨️  ${CV_LABEL}
-  ⚡ Repo sync: ${{ steps.repo_sync.outputs.sync_duration }}
-  🔖 Trigger: ${{ github.event_name }}
-
-  [skip ci]"
+            MSG=$(printf "auto(sync): portfolio refresh [${TIMESTAMP}]\n\n  📦 ${CHANGED} file(s) changed\n  🖨️  ${CV_LABEL}\n  ⚡ Repo sync: ${{ steps.repo_sync.outputs.sync_duration }}\n  🔖 Trigger: ${{ github.event_name }}\n\n  [skip ci]")
 
             git add .
             git commit -m "$MSG"
