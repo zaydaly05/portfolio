@@ -100,9 +100,11 @@ const assetDirs = [
 
 function findAssetFile(filename) {
   if (!filename) return null;
-  const decoded = decodeURIComponent(filename.split("?")[0]);
+  const raw = filename.split("?")[0].split("#")[0];
+  const decoded = decodeURIComponent(raw);
   const baseName = path.basename(decoded);
   const targets = [
+    raw,
     decoded,
     baseName,
     "Zayd Ali Mohamed CV.pdf",
@@ -111,12 +113,33 @@ function findAssetFile(filename) {
   ];
 
   for (const dir of assetDirs) {
+    if (!fs.existsSync(dir)) continue;
+    
+    // First try exact paths
     for (const t of targets) {
       const file = path.join(dir, t);
       if (fs.existsSync(file) && fs.statSync(file).isFile()) {
         return file;
       }
     }
+
+    // Fallback: Case-insensitive scan for Linux / Vercel serverless
+    try {
+      const filesInDir = fs.readdirSync(dir);
+      for (const t of targets) {
+        const found = filesInDir.find(f => 
+          f.toLowerCase() === t.toLowerCase() ||
+          f.toLowerCase() === baseName.toLowerCase() ||
+          (t.toLowerCase().endsWith(".pdf") && f.toLowerCase().endsWith(".pdf") && (f.toLowerCase().includes("zayd") || f.toLowerCase().includes("cv")))
+        );
+        if (found) {
+          const matchFile = path.join(dir, found);
+          if (fs.existsSync(matchFile) && fs.statSync(matchFile).isFile()) {
+            return matchFile;
+          }
+        }
+      }
+    } catch {}
   }
   return null;
 }
