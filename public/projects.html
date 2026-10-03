@@ -4,11 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Projects & GitHub Hub | Zayd Ali Mohamed</title>
-    <link rel="icon" type="image/png" href="https://res.cloudinary.com/delnnzcph/image/upload/v1790790772/zayd-portfolio/logo.png" />
-    <meta name="description" content="Explore Zayd Ali Mohamed's full-stack web and mobile software projects, GitHub repositories, code architecture, and live project screenshots." />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://res.cloudinary.com/delnnzcph/image/upload/v1790790772/zayd-portfolio/logo.png"
+    />
+    <meta
+      name="description"
+      content="Explore Zayd Ali Mohamed's full-stack web and mobile software projects, GitHub repositories, code architecture, and live project screenshots."
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css?v=3" />
   </head>
   <body>
@@ -21,7 +31,12 @@
     <!-- Fixed Navigation -->
     <nav class="nav" id="navbar">
       <a href="/" class="logo" aria-label="Home">
-        <img src="https://res.cloudinary.com/delnnzcph/image/upload/v1790790772/zayd-portfolio/logo.png" alt="ZA" width="48" height="48" />
+        <img
+          src="https://res.cloudinary.com/delnnzcph/image/upload/v1790790772/zayd-portfolio/logo.png"
+          alt="ZA"
+          width="48"
+          height="48"
+        />
       </a>
       <ul class="nav-links" id="nav-links">
         <li><a href="/">Home</a></li>
@@ -61,7 +76,10 @@
       <div class="page-header-container">
         <span class="eyebrow">Production Repositories & Applications</span>
         <h1>Projects & GitHub Hub</h1>
-        <p class="page-header-desc">Explore 11+ production web applications, cross-platform mobile apps, enterprise backend systems, and live GitHub repositories.</p>
+        <p class="page-header-desc">
+          Explore 11+ production web applications, cross-platform mobile apps, enterprise backend systems, and live
+          GitHub repositories.
+        </p>
       </div>
     </header>
 
@@ -157,7 +175,6 @@
       </div>
     </div>
 
-
     <!-- CV Viewer Modal -->
     <div class="modal hidden" id="cv-viewer-modal" aria-hidden="true" role="dialog">
       <div class="modal-backdrop" id="cv-modal-backdrop"></div>
@@ -175,13 +192,32 @@
           </div>
         </div>
         <div class="cv-iframe-container">
-          <object data="/assets/Zayd%20Ali%20Mohamed%20CV.pdf#toolbar=1" type="application/pdf" id="cv-object" style="width:100%;height:100%;">
-            <iframe src="/assets/Zayd%20Ali%20Mohamed%20CV.pdf#toolbar=1" id="cv-iframe" title="Zayd Ali Mohamed CV PDF">
+          <object
+            data="/assets/Zayd%20Ali%20Mohamed%20CV.pdf#toolbar=1"
+            type="application/pdf"
+            id="cv-object"
+            style="width: 100%; height: 100%"
+          >
+            <iframe
+              src="/assets/Zayd%20Ali%20Mohamed%20CV.pdf#toolbar=1"
+              id="cv-iframe"
+              title="Zayd Ali Mohamed CV PDF"
+            >
               <div class="cv-fallback-card">
                 <p>📄 PDF preview is not directly supported in your browser.</p>
                 <div class="cv-fallback-actions">
-                  <a href="/assets/Zayd%20Ali%20Mohamed%20CV.pdf" target="_blank" class="btn btn-sm">Open CV in New Tab ↗</a>
-                  <a href="/assets/Zayd%20Ali%20Mohamed%20CV.pdf" download="Zayd Ali Mohamed CV.pdf" class="btn btn-sm">Download PDF 📥</a>
+                  <a
+                    href="https://collection.cloudinary.com/delnnzcph/724532fcb8c4d608ac0f57f3b9dcf1f3"
+                    target="_blank"
+                    class="btn btn-sm"
+                    >Open CV in New Tab ↗</a
+                  >
+                  <a
+                    href="https://collection.cloudinary.com/delnnzcph/724532fcb8c4d608ac0f57f3b9dcf1f3"
+                    download="Zayd Ali Mohamed CV.pdf"
+                    class="btn btn-sm"
+                    >Download PDF 📥</a
+                  >
                 </div>
               </div>
             </iframe>
@@ -218,12 +254,23 @@
       <div class="terminal-body" id="terminal-body">
         <div class="terminal-welcome">
           <p class="term-glow">Welcome to Zayd Ali Mohamed's Interactive Terminal CLI v2.0!</p>
-          <p>Type <span class="term-cmd">help</span> to see available commands (e.g., <span class="term-cmd">skills</span>, <span class="term-cmd">projects</span>, <span class="term-cmd">exp</span>, <span class="term-cmd">contact</span>, <span class="term-cmd">cv</span>, <span class="term-cmd">clear</span>).</p>
+          <p>
+            Type <span class="term-cmd">help</span> to see available commands (e.g.,
+            <span class="term-cmd">skills</span>, <span class="term-cmd">projects</span>,
+            <span class="term-cmd">exp</span>, <span class="term-cmd">contact</span>, <span class="term-cmd">cv</span>,
+            <span class="term-cmd">clear</span>).
+          </p>
         </div>
         <div id="terminal-output"></div>
         <form id="terminal-input-form" class="terminal-input-row">
           <span class="term-prompt">zayd@portfolio:~$</span>
-          <input type="text" id="terminal-input" autocomplete="off" spellcheck="false" placeholder="type a command..." />
+          <input
+            type="text"
+            id="terminal-input"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="type a command..."
+          />
         </form>
       </div>
     </div>
@@ -234,10 +281,10 @@
       <button id="ai-chat-toggle-btn" class="ai-chat-toggle-btn" aria-label="Toggle Ask Zayd AI Copilot">
         <div class="ai-avatar-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12A10 10 0 0 1 12 2z"/>
-            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
-            <line x1="9" y1="9" x2="9.01" y2="9"/>
-            <line x1="15" y1="9" x2="15.01" y2="9"/>
+            <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12A10 10 0 0 1 12 2z" />
+            <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+            <line x1="9" y1="9" x2="9.01" y2="9" />
+            <line x1="15" y1="9" x2="15.01" y2="9" />
           </svg>
         </div>
         <span class="ai-btn-text">Ask Zayd AI</span>
@@ -260,7 +307,8 @@
         <div class="ai-chat-body" id="ai-chat-body">
           <div class="ai-chat-msg ai-msg-bot">
             <div class="msg-content">
-              👋 Hi! I'm Zayd's AI assistant. Ask me anything about Zayd's technical background, projects, Spring Boot, React, C#, Flutter skills, or experience at TAQA Arabia!
+              👋 Hi! I'm Zayd's AI assistant. Ask me anything about Zayd's technical background, projects, Spring Boot,
+              React, C#, Flutter skills, or experience at TAQA Arabia!
             </div>
           </div>
           <div class="ai-suggestions-row" id="ai-initial-suggestions">
@@ -274,7 +322,10 @@
         <form id="ai-chat-form" class="ai-chat-input-row">
           <input type="text" id="ai-chat-input" placeholder="Ask Zayd AI anything..." autocomplete="off" />
           <button type="submit" class="ai-send-btn" aria-label="Send message">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="22" y1="2" x2="11" y2="13" />
+              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            </svg>
           </button>
         </form>
       </div>
