@@ -139,8 +139,8 @@ async function captureProjectScreenshots(targetUrl, projectSlug, options = {}) {
       return page.goto(targetUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
     });
     
-    // Application-aware readiness check
-    await page.waitForTimeout(2000);
+    // Application-aware readiness check (waiting for WebAssembly / Flutter Canvas initialization)
+    await page.waitForTimeout(5000);
 
     // Validate DOM before capture
     const domCheck = await validatePageDOM(page);
