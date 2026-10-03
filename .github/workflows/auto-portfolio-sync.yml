@@ -164,7 +164,7 @@ jobs:
       # 6. WHATSAPP NOTIFICATION
       # ──────────────────────────────────────────────────
       - name: 📱 Send WhatsApp Alert (Kapso)
-        if: always()
+        if: false  # ⏸️ PAUSED — re-enable by changing to: always()
         env:
           KAPSO_API_KEY: ${{ secrets.KAPSO_API_KEY }}
           WHATSAPP_PHONE_NUMBER_ID: ${{ secrets.WHATSAPP_PHONE_NUMBER_ID }}
