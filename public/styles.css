@@ -1526,7 +1526,7 @@ textarea::placeholder {
   object-fit: cover;
   object-position: top center;
   display: block;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
@@ -5995,8 +5995,13 @@ textarea.invalid {
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5), 0 0 40px rgba(101, 240, 255, 0.12) !important;
   position: relative;
-  overflow: hidden;
+  max-height: 88vh !important;
+  overflow-y: auto !important;
   padding: 32px !important;
+}
+
+.cv-modal-card {
+  overflow: hidden !important;
 }
 
 .modal-card::before {
