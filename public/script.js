@@ -755,15 +755,16 @@ const buildMediaHtml = (media) => {
       if (item.type === "video") {
         return `
           <figure class="modal-media-item">
+            <div class="modal-media-badge-index">🎬 Video Demo</div>
             <video src="${item.src}" controls preload="metadata" playsinline></video>
           </figure>
         `;
       }
 
       const currentImageIndex = imageIndex;
-      const eager = imageIndex < 3;
+      const eager = imageIndex < 6;
       imageIndex += 1;
-      const alt = item.alt || `Project media ${idx + 1}`;
+      const alt = item.alt || `Screenshot ${idx + 1}`;
 
       return `
         <figure
@@ -773,6 +774,7 @@ const buildMediaHtml = (media) => {
           role="button"
           aria-label="View ${alt} full size"
         >
+          <div class="modal-media-badge-index">#${currentImageIndex + 1}</div>
           <div class="modal-media-skeleton" aria-hidden="true"></div>
           <img
             ${eager ? `src="${item.src}"` : `data-src="${item.src}"`}
@@ -781,7 +783,10 @@ const buildMediaHtml = (media) => {
             decoding="async"
             ${eager && currentImageIndex === 0 ? 'fetchpriority="high"' : ""}
           />
-          <span class="modal-media-zoom-hint" aria-hidden="true">Click to enlarge</span>
+          <div class="modal-media-zoom-overlay">
+            <span class="zoom-icon">🔍</span>
+            <span>Click to Enlarge</span>
+          </div>
         </figure>
       `;
     })
@@ -932,31 +937,65 @@ const shiftLightbox = (delta) => {
   updateLightbox();
 };
 
-const openModal = ({ tag, title, subtitle, description, points = [], media = [] }) => {
+const openModal = ({
+  tag,
+  title,
+  subtitle,
+  description,
+  points = [],
+  media = [],
+  stack = "",
+  githubUrl = "",
+  pdfUrl = null
+}) => {
   const modal = document.getElementById("details-modal");
   if (!modal) return;
 
-  setText("modal-tag", tag);
+  setText("modal-tag", tag || "Details");
   setText("modal-title", title);
   setText("modal-subtitle", subtitle);
   setText("modal-description", description);
 
+  // Render Tech Stack Pills
+  const techContainer = document.getElementById("modal-tech-pills");
+  if (techContainer) {
+    const techItems = stack ? stack.split(",").map((s) => s.trim()) : [];
+    techContainer.innerHTML = techItems.length
+      ? techItems.map((tech) => `<span class="modal-tech-pill">⚡ ${tech}</span>`).join("")
+      : "";
+  }
+
+  // Render Architecture / Points List
   const listContainer = document.getElementById("modal-list") || document.getElementById("modal-points");
   if (listContainer) {
     listContainer.innerHTML = points.length
       ? `<div class="modal-specs-grid">${points
-          .map(
-            (point) => `
+          .map((point) => {
+            let icon = "⚡";
+            if (point.includes("GitHub") || point.includes("Repository")) icon = "🔗";
+            else if (point.includes("Timeline") || point.includes("Deliverable")) icon = "📅";
+            else if (point.includes("Verification") || point.includes("Showcase")) icon = "🚀";
+            else if (point.includes("Supervisor") || point.includes("Signed")) icon = "📜";
+            return `
           <div class="modal-spec-card">
-            <span class="modal-spec-icon">⚡</span>
+            <span class="modal-spec-icon">${icon}</span>
             <span class="modal-spec-text">${point}</span>
           </div>
-        `
-          )
+        `;
+          })
           .join("")}</div>`
       : "";
   }
 
+  // Render Gallery Counter Badge
+  const countBadge = document.getElementById("modal-gallery-count");
+  if (countBadge) {
+    countBadge.textContent = media.length
+      ? `${media.length} High-Res ${media.length === 1 ? "Item" : "Screenshots & Media"}`
+      : "0 Media Files";
+  }
+
+  // Render Media Grid
   const mediaContainer = document.getElementById("modal-media");
   if (mediaContainer) {
     mediaContainer.className = media.length
@@ -964,8 +1003,29 @@ const openModal = ({ tag, title, subtitle, description, points = [], media = [] 
       : "modal-media-placeholder";
     mediaContainer.innerHTML = media.length
       ? buildMediaHtml(media)
-      : "<p>Add your project/experience images here later.</p>";
+      : "<p style='color:var(--muted);text-align:center;padding:20px;'>No screenshots uploaded for this entry.</p>";
     initModalMedia(mediaContainer, media);
+  }
+
+  // Footer Buttons
+  const githubBtn = document.getElementById("modal-github-btn");
+  if (githubBtn) {
+    if (githubUrl) {
+      githubBtn.href = githubUrl;
+      githubBtn.style.display = "inline-flex";
+    } else {
+      githubBtn.style.display = "none";
+    }
+  }
+
+  const pdfBtn = document.getElementById("modal-pdf-btn");
+  if (pdfBtn) {
+    if (pdfUrl) {
+      pdfBtn.href = pdfUrl;
+      pdfBtn.style.display = "inline-flex";
+    } else {
+      pdfBtn.style.display = "none";
+    }
   }
 
   document.body.appendChild(modal);
@@ -1256,220 +1316,153 @@ const renderProjects = (items) => {
     const nameLower = (item.name || "").toLowerCase();
     const githubUrl = getGithubUrl(item.name, item.github);
 
-    const isInGazProject = nameLower.includes("in gaz api");
-    const isCarRentalProject = nameLower.includes("car rental website");
-    const isRestaurantProject = nameLower.includes("restaurant management system");
-    const isSleepingAlertProject = nameLower.includes("sleeping alert system");
-    const isEmployeeAttendanceProject = nameLower.includes("employee attendance");
-    const isFoodOrderingProject = nameLower.includes("food ordering management system");
+    const isDrNaglaBioProject = nameLower.includes("dr. naglaa") || nameLower.includes("drnagla");
+    const isZaydentityProject = nameLower.includes("zaydentity");
+    const isCarRentalProject = nameLower.includes("car rental");
     const isGulfLimousineProject = nameLower.includes("gulf limousine");
-    const isEssmatPlasticProject = nameLower.includes("essmat plastic");
-    const isDrNaglaBioProject = nameLower.includes("dr. naglaa");
+    const isEssmatPlasticProject = nameLower.includes("essmat");
+    const isFoodOrderingProject = nameLower.includes("food ordering");
+    const isInGazProject = nameLower.includes("in gaz");
+    const isEmployeeAttendanceProject = nameLower.includes("employee attendance");
+    const isRestaurantProject = nameLower.includes("restaurant");
+    const isSleepingAlertProject = nameLower.includes("sleeping alert") || nameLower.includes("sleep alert");
+    const isWeTelecomProject = nameLower.includes("we telecom") || nameLower.includes("we intern");
 
-    const autoScreenshots = Array.isArray(item.screenshots) && item.screenshots.length > 0 ? item.screenshots : null;
+    const projectScreenshotsMap = {
+      drNaglaBio: [
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/Screenshot_2026-10-04_175352.png", alt: "Dr Naglaa Academic Portal - Main Header & CV Overview" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/Screenshot_2026-10-04_175331.png", alt: "Dr Naglaa Academic Portal - Research & Publications Archive" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135547/Screenshot_2026-10-04_175253.png", alt: "Dr Naglaa Academic Portal - Student Channels & Courses" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135547/Screenshot_2026-10-04_175423.png", alt: "Dr Naglaa Academic Portal - Full Curriculum Vitae Section" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135545/Screenshot_2026-10-04_175406.png", alt: "Dr Naglaa Academic Portal - Faculty Contact Portal" }
+      ],
+      zaydentity: [
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135572/Screenshot_2026-10-04_174426.png", alt: "Zaydentity - Developer Digital Bio Card View" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135571/Screenshot_2026-10-04_174413.png", alt: "Zaydentity - Social & Professional Links Showcase" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135571/Screenshot_2026-10-04_174403.png", alt: "Zaydentity - Verified Credentials & Skill Highlights" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135570/Screenshot_2026-10-04_174321.png", alt: "Zaydentity - Project Showcase Grid View" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135570/Screenshot_2026-10-04_174349.png", alt: "Zaydentity - Responsive Mobile Layout Preview" }
+      ],
+      Car_Rental_Website: [
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135542/c1.png", alt: "Car Rental Website - Vehicle Fleet Catalog Overview" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135544/c2.png", alt: "Car Rental Website - Car Specifications & Features View" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135545/c3.png", alt: "Car Rental Website - Customer Booking & Checkout Form" }
+      ],
+      Gulf_Limousine_App: [
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135579/Screenshot_20261004_173939.png", alt: "Gulf Limousine App - Reservation Dashboard" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/Screenshot_20261004_173958.png", alt: "Gulf Limousine App - Vehicle Selection View" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/Screenshot_20261004_173450.png", alt: "Gulf Limousine App - Driver Allocation Screen" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135564/Screenshot_20261004_173925.png", alt: "Gulf Limousine App - Realtime Trip Fare Estimator" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135564/Screenshot_20261004_173759.png", alt: "Gulf Limousine App - Fleet Category Browser" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135564/Screenshot_20261004_173900.png", alt: "Gulf Limousine App - Pickup Location Selector" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135563/Screenshot_20261004_173426.png", alt: "Gulf Limousine App - Customer Booking Summary" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135563/Screenshot_20261004_173534.png", alt: "Gulf Limousine App - Firebase Realtime Sync Status" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135563/Screenshot_20261004_173343.png", alt: "Gulf Limousine App - Client Profile & History" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135563/Screenshot_20261004_173403.png", alt: "Gulf Limousine App - Mobile Settings View" }
+      ],
+      EssmatPlastic: [
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135549/WhatsApp_Image_2026-10-04_at_4.44.38_PM.jpg", alt: "Essmat Plastic - Main Factory Management Overview" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135549/WhatsApp_Image_2026-10-04_at_4.44.38_PM_5.jpg", alt: "Essmat Plastic - Raw Material Tracking Interface" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135549/WhatsApp_Image_2026-10-04_at_4.44.38_PM_4.jpg", alt: "Essmat Plastic - Production Line Operations View" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135549/WhatsApp_Image_2026-10-04_at_4.44.38_PM_3.jpg", alt: "Essmat Plastic - Inventory Stock & Warehouse Grid" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135549/WhatsApp_Image_2026-10-04_at_4.44.38_PM_2.jpg", alt: "Essmat Plastic - Customer Order Processing Form" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/WhatsApp_Image_2026-10-04_at_4.44.37_PM.jpg", alt: "Essmat Plastic - Factory Billing & Invoicing Module" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/WhatsApp_Image_2026-10-04_at_4.44.37_PM_1.jpg", alt: "Essmat Plastic - SQL Server Database Connection Status" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/WhatsApp_Image_2026-10-04_at_4.44.38_PM_1.jpg", alt: "Essmat Plastic - Enterprise C# .NET Management Console" }
+      ],
+      food_ordering_system: [
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135563/f9.png", alt: "Food Ordering System - Admin Analytics & Profit Dashboard" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135563/f6.png", alt: "Food Ordering System - Food Hub Menu Item Management" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135562/f7.png", alt: "Food Ordering System - Customer Cart & Order Checkout" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135561/f4.png", alt: "Food Ordering System - Menu Category Manager" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135561/f8.png", alt: "Food Ordering System - Order Tracking & Delivery Status" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135559/f5.png", alt: "Food Ordering System - Customer Review & Rating Portal" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135559/f16.png", alt: "Food Ordering System - User Authentication & Login Screen" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135558/f2.png", alt: "Food Ordering System - Full Restaurant Menu Showcase" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135558/f3.png", alt: "Food Ordering System - Customer Favorites & Dish Details" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135556/f13.png", alt: "Food Ordering System - Spring Boot Backend API Swagger" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135555/f15.png", alt: "Food Ordering System - Role-based Admin User Controls" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135554/f11.png", alt: "Food Ordering System - MongoDB Realtime Database Schema" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135554/f12.png", alt: "Food Ordering System - Restaurant Commission & Billing" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135554/f14.png", alt: "Food Ordering System - Top Selling Items Analytics" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135553/f1.png", alt: "Food Ordering System - Main Application Landing Banner" }
+      ],
+      InGazAPI: [
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135566/WhatsApp_Image_2026-05-05_at_10.01.56_PM_1.jpg", alt: "In Gaz API System - Flutter Mobile Customer Interface" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/WhatsApp_Image_2026-05-05_at_10.01.56_PM.jpg", alt: "In Gaz API System - .NET Core Web API Integration Screen" }
+      ],
+      Employee_Attendance: [
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791136236/EA1.png", alt: "Employee Attendance - Admin Dashboard Overview" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791136230/EA2.png", alt: "Employee Attendance - New Assessment & Post Announcement" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791136238/EA3.png", alt: "Employee Attendance - Login & Employee Landing Screen" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791136233/EA4.png", alt: "Employee Attendance - Leave History & Status Table" }
+      ],
+      Restaurant_Management_System: [
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135566/r5.png", alt: "Restaurant Management - Billing & Order Summary" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/r4.png", alt: "Restaurant Management - Table Reservation System" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/r3.png", alt: "Restaurant Management - Table Allocation Grid View" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/r2.png", alt: "Restaurant Management - Food Menu Order Interface" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/r1.png", alt: "Restaurant Management - JavaFX Login & Role Selection" }
+      ],
+      Sleep_Alert_System: [
+        { src: "https://res.cloudinary.com/delnnzcph/video/upload/v1791135570/py1.mp4", type: "video", alt: "Sleeping Alert System - Realtime Facial Bounding Box Video Demo" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135567/py2.jpg", alt: "Sleeping Alert System - OpenCV Drowsiness Detection Photo" }
+      ],
+      WE_Intern: [
+        { src: "https://res.cloudinary.com/delnnzcph/video/upload/v1791135632/emulator_screen_edited.mp4", type: "video", alt: "WE Telecom Training Suite - Android App Demo Video" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135572/IMG-20260821-WA0083.jpg", alt: "WE Telecom Suite - Network Topology & Protocol Testing" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135568/IMG-20260727-WA0038.jpg", alt: "WE Telecom Suite - System Administration & Server Artifacts" },
+        { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135568/IMG-20260809-WA0015.jpg", alt: "WE Telecom Suite - Smart Village Lab Infrastructure" }
+      ]
+    };
+
+    const getMatchedScreenshots = () => {
+      if (Array.isArray(item.screenshots) && item.screenshots.length > 0) {
+        return item.screenshots;
+      }
+      if (isDrNaglaBioProject) return projectScreenshotsMap.drNaglaBio;
+      if (isZaydentityProject) return projectScreenshotsMap.zaydentity;
+      if (isCarRentalProject) return projectScreenshotsMap.Car_Rental_Website;
+      if (isGulfLimousineProject) return projectScreenshotsMap.Gulf_Limousine_App;
+      if (isEssmatPlasticProject) return projectScreenshotsMap.EssmatPlastic;
+      if (isFoodOrderingProject) return projectScreenshotsMap.food_ordering_system;
+      if (isInGazProject) return projectScreenshotsMap.InGazAPI;
+      if (isEmployeeAttendanceProject) return projectScreenshotsMap.Employee_Attendance;
+      if (isRestaurantProject) return projectScreenshotsMap.Restaurant_Management_System;
+      if (isSleepingAlertProject) return projectScreenshotsMap.Sleep_Alert_System;
+      if (isWeTelecomProject) return projectScreenshotsMap.WE_Intern;
+      return [{ src: item.image || "https://res.cloudinary.com/delnnzcph/image/upload/v1791135540/Screenshot_2026-10-04_180005.png", alt: item.name }];
+    };
+
+    const rawMediaList = getMatchedScreenshots();
     const dedupeMedia = (list) => {
       if (!Array.isArray(list)) return [];
       const seen = new Set();
-      const validMedia = list.filter((m) => {
+      return list.filter((m) => {
         if (!m || !m.src) return false;
-        const isLogo =
-          (item.image && m.src === item.image) ||
-          (typeof m.src === "string" && m.src.includes("/Logo Icon/"));
-        if (isLogo && list.length > 1) return false;
-        return !seen.has(m.src) && seen.add(m.src);
+        if (seen.has(m.src)) return false;
+        seen.add(m.src);
+        return true;
       });
-      return validMedia.length > 0 ? validMedia : list.filter((m) => m && m.src);
     };
 
+    const finalMediaList = dedupeMedia(rawMediaList);
+
     return {
-      tag: item.showcaseStatus === "Completed" ? "Project Details · Showcase Captured" : "Project Details",
-      title: item.name || "Project",
+      tag: item.showcaseStatus === "Completed" ? "✨ Featured Project Showcase" : "⚡ Project Highlights",
+      title: item.name || "Project Details",
       subtitle: `${item.period || ""} · ${item.stack || ""}`,
-      description: `${item.description || ""}\n\n🔗 GitHub Repo: ${githubUrl}`,
+      description: item.description || "",
       points: [
-        `Live repository link: ${githubUrl}`,
-        `Automatically synced with GitHub project commits`,
-        item.showcaseStatus ? `Automated Showcase Status: ${item.showcaseStatus}` : null
+        `🔗 Live GitHub Repository: ${githubUrl}`,
+        `⚡ Architecture & Tech Stack: ${item.stack || "Full-Stack Software Architecture"}`,
+        `📅 Timeline & Deliverable: ${item.period || "Completed Project"}`,
+        item.showcaseStatus ? `🚀 Automated Showcase Verification: ${item.showcaseStatus}` : null
       ].filter(Boolean),
-      media: dedupeMedia(
-        autoScreenshots ||
-        (isDrNaglaBioProject
-          ? [
-              {
-                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135540/Screenshot_2026-10-04_180005.png",
-                alt: "Dr Naglaa Academic Portal Hero"
-              },
-              {
-                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135547/Screenshot_2026-10-04_175253.png",
-                alt: "Dr Naglaa Biography & Academic Credentials"
-              },
-              {
-                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/Screenshot_2026-10-04_175331.png",
-                alt: "Dr Naglaa Research Publications"
-              },
-              {
-                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135545/Screenshot_2026-10-04_175406.png",
-                alt: "Dr Naglaa Academic Contact Section"
-              }
-            ]
-          : isGulfLimousineProject
-            ? [
-                {
-                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135561/app_icon.png",
-                  alt: "Gulf Limousine App - Luxury Mobile Reservation Interface"
-                },
-                {
-                  src: "/assets/showcase/Gulf_Limousine_App/Gulf_Limousine_App-landing.jpg",
-                  alt: "Gulf Limousine App - Android Mobile Viewport Booking Screen"
-                },
-                {
-                  src: "/assets/showcase/Gulf_Limousine_App/Gulf_Limousine_App-feature-1.jpg",
-                  alt: "Gulf Limousine App - Vehicle Fleet Selection View"
-                },
-                {
-                  src: "/assets/showcase/Gulf_Limousine_App/Gulf_Limousine_App-details.jpg",
-                  alt: "Gulf Limousine App - Fare Estimation & Trip Details"
-                }
-              ]
-            : isEssmatPlasticProject
-              ? [
-                  {
-                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790864034/esmatPlastic.jpg",
-                    alt: "Essmat Plastic Factory Management System - Architecture & Data Schema"
-                  },
-                  {
-                    src: "/assets/Project%20Hub%20Images/Essmat%20Plastic%20Factory%20Management%20System/essmat-plastic-report.pdf",
-                    alt: "Essmat Plastic Factory Management System - Official PDF Report Document"
-                  },
-                  {
-                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791136236/EA1.png",
-                    alt: "Essmat Plastic Factory Management System - Inventory & Material Management View"
-                  },
-                  {
-                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791136230/EA2.png",
-                    alt: "Essmat Plastic Factory Management System - Factory Orders & Billing Interface"
-                  }
-                ]
-              : isFoodOrderingProject
-                ? [
-                    {
-                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135553/f1.png",
-                      alt: "Food Ordering Management System - Main Application Landing Screen"
-                    },
-                    {
-                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135558/f2.png",
-                      alt: "Food Ordering Management System - Food Hub Menu Browse"
-                    },
-                    {
-                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135558/f3.png",
-                      alt: "Food Ordering Management System - Customer Cart & Order Summary"
-                    },
-                    {
-                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135561/f4.png",
-                      alt: "Food Ordering Management System - Restaurant Management Portal"
-                    },
-                    {
-                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135559/f5.png",
-                      alt: "Food Ordering Management System - WhatsApp Support Integration"
-                    },
-                    {
-                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135559/f16.png",
-                      alt: "Food Ordering Management System - User Authentication & Login Portal"
-                    }
-                  ]
-                : isInGazProject
-                  ? [
-                      {
-                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/WhatsApp_Image_2026-05-05_at_10.01.56_PM.jpg",
-                        alt: "In Gaz API System - Flutter Mobile App Screen 1"
-                      },
-                      {
-                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135566/WhatsApp_Image_2026-05-05_at_10.01.56_PM_1.jpg",
-                        alt: "In Gaz API System - Flutter Mobile App Screen 2"
-                      },
-                      
-                      
-                    ]
-                  : isCarRentalProject
-                    ? [
-                        {
-                          src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135542/c1.png",
-                          alt: "Car Rental Website - Vehicle Fleet Catalog Overview"
-                        },
-                        {
-                          src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135544/c2.png",
-                          alt: "Car Rental Website - Car Specifications & Features View"
-                        },
-                        {
-                          src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135545/c3.png",
-                          alt: "Car Rental Website - Customer Booking & Checkout Form"
-                        },
-                        
-                      ]
-                    : isRestaurantProject
-                      ? [
-                          {
-                            src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/r1.png",
-                            alt: "Restaurant Management System - JavaFX Main Login & Role Selection"
-                          },
-                          {
-                            src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/r2.png",
-                            alt: "Restaurant Management System - Food & Menu Order Interface"
-                          },
-                          {
-                            src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/r3.png",
-                            alt: "Restaurant Management System - Table Allocation Grid View"
-                          },
-                          {
-                            src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/r4.png",
-                            alt: "Restaurant Management System - Reservation System View"
-                          },
-                          {
-                            src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135566/r5.png",
-                            alt: "Restaurant Management System - Billing & Order Summary"
-                          }
-                        ]
-                      : isSleepingAlertProject
-                        ? [
-                            {
-                              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135567/py2.jpg",
-                              alt: "Sleeping Alert System - OpenCV Drowsiness Detection Photo"
-                            },
-                            {
-                              src: "https://res.cloudinary.com/delnnzcph/video/upload/v1791135570/py1.mp4",
-                              type: "video",
-                              alt: "Sleeping Alert System - Realtime Facial Bounding Box Video Demo"
-                            },
-                            
-                            
-                          ]
-                        : isEmployeeAttendanceProject
-                          ? [
-                              {
-                                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791136236/EA1.png",
-                                alt: "Employee Attendance and Leave System - Admin Dashboard Overview"
-                              },
-                              {
-                                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791136230/EA2.png",
-                                alt: "Employee Attendance and Leave System - New Assessment / Post Announcement"
-                              },
-                              {
-                                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791136238/EA3.png",
-                                alt: "Employee Attendance and Leave System - Login & Landing Screen"
-                              },
-                              {
-                                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791136233/EA4.png",
-                                alt: "Employee Attendance and Leave System - Leave History & Status Table"
-                              }
-                            ]
-                          : [
-                              {
-                                src:
-                                  item.image ||
-                                  "https://res.cloudinary.com/delnnzcph/image/upload/v1791135534/main-photo.jpg",
-                                alt: item.name
-                              }
-                            ]))
+      media: finalMediaList,
+      stack: item.stack || "",
+      githubUrl: githubUrl,
+      pdfUrl: item.pdfReport || (item.image && item.image.endsWith(".pdf") ? item.image : null)
     };
   });
 };
