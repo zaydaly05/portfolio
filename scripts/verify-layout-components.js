@@ -24,7 +24,7 @@ CORE_JS_FILES.forEach((file) => {
     execSync(`node -c "${filePath}"`);
     console.log(`  ✓ ${file} compiled successfully with zero syntax errors.`);
   } catch (err) {
-    console.error(`  ❌ Syntax error detected in ${file}!`);
+    console.error(`  ❌ Syntax error detected in ${file}!`, err.message);
     errors++;
   }
 });

@@ -116,7 +116,7 @@
           osc.start(now);
           osc.stop(now + 0.08);
         }
-      } catch (err) {
+      } catch {
         // Audio synthesis fallback
       }
     }

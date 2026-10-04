@@ -1,5 +1,3 @@
-const fs = require('fs');
-const path = require('path');
 const { WhatsAppClient } = require('@kapso/whatsapp-cloud-api');
 
 const KAPSO_API_KEY = process.env.KAPSO_API_KEY || process.env.WHATSAPP_TOKEN || 'c676aaa27bb56c780e049a192598345c821f11647327cbecafc84686e91c9471';

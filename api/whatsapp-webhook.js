@@ -5,7 +5,6 @@ const {
   generateAISuggestion,
   executePhoneBroadcast,
   addMultiplePersonalContacts,
-  savePersonalContact,
   getStoredPersonalContacts
 } = require("./whatsapp-admin");
 
