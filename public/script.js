@@ -943,7 +943,18 @@ const openModal = ({ tag, title, subtitle, description, points = [], media = [] 
 
   const listContainer = document.getElementById("modal-list") || document.getElementById("modal-points");
   if (listContainer) {
-    listContainer.innerHTML = points.length ? `<ul>${points.map((point) => `<li>${point}</li>`).join("")}</ul>` : "";
+    listContainer.innerHTML = points.length
+      ? `<div class="modal-specs-grid">${points
+          .map(
+            (point) => `
+          <div class="modal-spec-card">
+            <span class="modal-spec-icon">⚡</span>
+            <span class="modal-spec-text">${point}</span>
+          </div>
+        `
+          )
+          .join("")}</div>`
+      : "";
   }
 
   const mediaContainer = document.getElementById("modal-media");
@@ -1181,6 +1192,27 @@ const renderProjects = (items) => {
     );
   };
 
+  const getLogoMeta = (name) => {
+    const nameLower = (name || "").toLowerCase();
+    if (
+      nameLower.includes("gulf limousine") ||
+      nameLower.includes("ingaz") ||
+      nameLower.includes("in gaz") ||
+      nameLower.includes("food ordering") ||
+      nameLower.includes("attendance") ||
+      nameLower.includes("car rental")
+    ) {
+      return { class: "logo-zoom-wide" };
+    }
+    if (nameLower.includes("zaydentity")) {
+      return { class: "logo-zoom-wide logo-dark-bg" };
+    }
+    if (nameLower.includes("we telecom") || nameLower.includes("we intern")) {
+      return { class: "logo-zoom-square logo-light-bg" };
+    }
+    return { class: "logo-zoom-square" };
+  };
+
   container.innerHTML = safeItems
     .map((item) => {
       const githubUrl = getGithubUrl(item.name, item.github);
@@ -1189,11 +1221,14 @@ const renderProjects = (items) => {
           ? item.image
           : "https://res.cloudinary.com/delnnzcph/image/upload/v1791135540/Screenshot_2026-10-04_180005.png";
       const pdfUrl = item.pdfReport || (item.image && item.image.endsWith(".pdf") ? item.image : null);
+      const logoMeta = getLogoMeta(item.name);
 
       return `
       <article class="card card-clickable reveal-card js-project-card" tabindex="0" role="button" aria-label="Open ${item.name || "project"} details">
         <div class="project-card-image-wrap">
-          <img src="${imgUrl}" alt="${item.name || "Project output screenshot"}" class="project-card-img" loading="lazy" />
+          <div class="project-logo-badge ${logoMeta.class}">
+            <img src="${imgUrl}" alt="${item.name || "Project logo"}" class="project-card-img" loading="lazy" />
+          </div>
         </div>
         <div class="project-card-body">
           <div class="project-card-header">
@@ -3107,3 +3142,121 @@ const setupFAQAccordion = () => {
     });
   });
 };
+
+/* ============================================
+   DYNAMIC PUZZLE MOTION PRELOADER
+   ============================================ */
+const initPuzzlePreloader = () => {
+  const screen = document.getElementById("puzzle-loader-screen");
+  const stage = document.getElementById("puzzle-stage");
+  const fill = document.getElementById("puzzle-progress-fill");
+  const percentText = document.getElementById("puzzle-percent-text");
+  const statusText = document.getElementById("puzzle-status-text");
+  const flash = document.getElementById("puzzle-flash");
+  const skipBtn = document.getElementById("puzzle-skip-btn");
+
+  if (!screen || !stage) return;
+  if (screen.dataset.initialized === "true") return;
+  screen.dataset.initialized = "true";
+
+  const alreadyShown = sessionStorage.getItem("zayd_puzzle_intro_shown");
+  const totalDuration = alreadyShown ? 1800 : 5500;
+
+  // Build 3x3 Puzzle Tiles
+  stage.innerHTML = "";
+  const tiles = [];
+  const rows = 3;
+  const cols = 3;
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const tile = document.createElement("div");
+      tile.className = "puzzle-tile";
+      tile.style.backgroundPosition = `-${c * 90}px -${r * 90}px`;
+
+      // 3D Scattered initial coordinates
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 180 + Math.random() * 220;
+      const scatterX = Math.cos(angle) * dist;
+      const scatterY = Math.sin(angle) * dist;
+      const scatterZ = 200 + Math.random() * 200;
+      const scatterRot = (Math.random() - 0.5) * 240;
+
+      tile.style.transform = `translate3d(${scatterX}px, ${scatterY}px, ${scatterZ}px) rotate(${scatterRot}deg)`;
+      tile.style.opacity = "0";
+
+      stage.appendChild(tile);
+      tiles.push({ el: tile, index: r * 3 + c });
+    }
+  }
+
+  let isDismissed = false;
+  let animStart = null;
+
+  const dismiss = () => {
+    if (isDismissed) return;
+    isDismissed = true;
+    sessionStorage.setItem("zayd_puzzle_intro_shown", "true");
+
+    if (fill) fill.style.width = "100%";
+    if (percentText) percentText.textContent = "100%";
+    if (statusText) statusText.textContent = "SYSTEM ARCHITECTURE READY";
+    if (flash) flash.classList.add("active");
+
+    tiles.forEach((t) => {
+      t.el.style.transform = "translate3d(0, 0, 0) rotate(0deg)";
+      t.el.style.opacity = "1";
+    });
+
+    setTimeout(() => {
+      screen.classList.add("fade-out");
+      setTimeout(() => {
+        screen.style.display = "none";
+      }, 800);
+    }, alreadyShown ? 300 : 700);
+  };
+
+  if (skipBtn) {
+    skipBtn.addEventListener("click", dismiss);
+  }
+
+  const step = (now) => {
+    if (isDismissed) return;
+    if (!animStart) animStart = now;
+    const progress = Math.min((now - animStart) / totalDuration, 1);
+    const pct = Math.floor(progress * 100);
+
+    if (fill) fill.style.width = `${pct}%`;
+    if (percentText) percentText.textContent = `${pct}%`;
+
+    if (statusText) {
+      if (pct < 25) statusText.textContent = "CONNECTING PUZZLE MODULES...";
+      else if (pct < 55) statusText.textContent = "ALIGNING EMBLEM CIRCUITS...";
+      else if (pct < 85) statusText.textContent = "COMPOSING USER INTERFACE...";
+      else statusText.textContent = "FINALIZING SYSTEM LAUNCH...";
+    }
+
+    // Sequentially assemble tiles into 3D grid
+    tiles.forEach((item) => {
+      const threshold = item.index / tiles.length;
+      if (progress >= threshold * 0.75) {
+        item.el.style.transform = "translate3d(0, 0, 0) rotate(0deg)";
+        item.el.style.opacity = "1";
+      }
+    });
+
+    if (progress >= 1) {
+      dismiss();
+    } else {
+      requestAnimationFrame(step);
+    }
+  };
+
+  requestAnimationFrame(step);
+};
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initPuzzlePreloader);
+} else {
+  initPuzzlePreloader();
+}

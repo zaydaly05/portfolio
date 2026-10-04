@@ -82,6 +82,38 @@
     <link rel="stylesheet" href="styles.css?v=3" />
   </head>
   <body>
+    <!-- High-Tech Interactive Puzzle Preloader Screen -->
+    <div id="puzzle-loader-screen" class="puzzle-loader-screen" aria-label="Loading Zayd Portfolio">
+      <div class="puzzle-loader-backdrop"></div>
+      
+      <div class="puzzle-loader-container">
+        <div class="puzzle-stage-wrap">
+          <div id="puzzle-stage" class="puzzle-stage"></div>
+          <div class="puzzle-circuit-ring"></div>
+          <div class="puzzle-energy-flash" id="puzzle-flash"></div>
+        </div>
+        
+        <div class="puzzle-brand-tag">
+          <div class="puzzle-brand-title">ZAYD ALI MOHAMED</div>
+          <div class="puzzle-brand-sub">SOFTWARE ENGINEER &amp; FULL-STACK DEVELOPER</div>
+        </div>
+        
+        <div class="puzzle-progress-wrap">
+          <div class="puzzle-progress-bar">
+            <div class="puzzle-progress-fill" id="puzzle-progress-fill"></div>
+          </div>
+          <div class="puzzle-progress-text">
+            <span id="puzzle-status-text">CONNECTING PUZZLE MODULES...</span>
+            <span id="puzzle-percent-text">0%</span>
+          </div>
+        </div>
+      </div>
+      
+      <button id="puzzle-skip-btn" class="puzzle-skip-btn" type="button" aria-label="Skip preloader intro">
+        Skip Intro ↗
+      </button>
+    </div>
+
     <!-- Custom cursor -->
     <div class="cursor-dot" id="cursor-dot"></div>
     <div class="cursor-ring" id="cursor-ring"></div>
