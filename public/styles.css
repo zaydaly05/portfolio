@@ -6391,3 +6391,54 @@ textarea.invalid {
 .skeleton-line.medium { width: 70%; }
 .skeleton-line.long { width: 95%; }
 
+/* ============================================
+   CENTRALIZED MOBILE COMPATIBILITY & RESPONSIVE RULES
+   ============================================ */
+body.no-scroll {
+  overflow: hidden !important;
+  touch-action: none;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: calc(var(--vh, 1vh) * 100);
+  }
+
+  .mobile-nav-overlay {
+    height: calc(var(--vh, 1vh) * 100);
+  }
+
+  .modal-card {
+    max-height: calc(var(--vh, 1vh) * 92);
+    width: 95vw;
+    margin: 0 auto;
+    padding: 20px 16px;
+  }
+
+  .btn,
+  .btn-outline,
+  .filter-chip-btn,
+  .footer-link-btn {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contact-quick-card {
+    padding: 16px;
+  }
+
+  .featured-tech-card {
+    padding: 18px 16px;
+  }
+
+  /* Smooth touch scrolling for horizontal rows */
+  .filter-chips-row,
+  .modal-tech-pills-row,
+  .modal-media-grid {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+

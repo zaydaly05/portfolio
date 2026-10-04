@@ -334,6 +334,93 @@
     }
   };
 
+  // --------------------------------------------
+  // 7. CENTRALIZED MOBILE COMPATIBILITY ENGINE
+  // --------------------------------------------
+  const MobileCompatibilityManager = {
+    init() {
+      this.updateViewportHeight();
+      this.setupTouchGestures();
+      this.setupMobileDrawerAutoClose();
+      this.setupScrollLockHandler();
+
+      window.addEventListener("resize", () => this.updateViewportHeight());
+      window.addEventListener("orientationchange", () => this.updateViewportHeight());
+    },
+
+    /**
+     * Fixes 100vh viewport height issue on mobile devices (iOS Safari & Android Chrome address bars)
+     */
+    updateViewportHeight() {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    },
+
+    /**
+     * Handles mobile touch swipe-left/right to dismiss overlays & drawers
+     */
+    setupTouchGestures() {
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+      document.addEventListener("touchstart", (e) => {
+        if (e.changedTouches && e.changedTouches[0]) {
+          touchStartX = e.changedTouches[0].screenX;
+          touchStartY = e.changedTouches[0].screenY;
+        }
+      }, { passive: true });
+
+      document.addEventListener("touchend", (e) => {
+        if (!e.changedTouches || !e.changedTouches[0]) return;
+        const touchEndX = e.changedTouches[0].screenX;
+        const touchEndY = e.changedTouches[0].screenY;
+        const deltaX = touchEndX - touchStartX;
+        const deltaY = touchEndY - touchStartY;
+
+        // Swipe right (horizontal swipe > 100px with small vertical drift)
+        if (deltaX > 100 && Math.abs(deltaY) < 60) {
+          const mobileOverlay = document.getElementById("mobile-nav-overlay");
+          if (mobileOverlay && mobileOverlay.classList.contains("active")) {
+            mobileOverlay.classList.remove("active");
+            document.body.classList.remove("no-scroll");
+          }
+        }
+      }, { passive: true });
+    },
+
+    /**
+     * Auto-closes mobile drawer overlay when any navigation link is clicked
+     */
+    setupMobileDrawerAutoClose() {
+      document.addEventListener("click", (e) => {
+        const navLink = e.target.closest("#mobile-nav-overlay a");
+        if (navLink) {
+          const mobileOverlay = document.getElementById("mobile-nav-overlay");
+          if (mobileOverlay) {
+            mobileOverlay.classList.remove("active");
+            document.body.classList.remove("no-scroll");
+          }
+        }
+      });
+    },
+
+    /**
+     * Locks background scroll when any modal or drawer is open
+     */
+    setupScrollLockHandler() {
+      const observer = new MutationObserver(() => {
+        const hasOpenModal = document.querySelector(".modal:not(.hidden), .terminal-drawer:not(.hidden), .mobile-nav-overlay.active");
+        if (hasOpenModal) {
+          document.body.classList.add("no-scroll");
+        } else {
+          document.body.classList.remove("no-scroll");
+        }
+      });
+
+      observer.observe(document.body, { attributes: true, subtree: true, childList: true });
+    }
+  };
+
   // Export Managers to global scope
   global.ToastManager = ToastManager;
   global.AudioManager = AudioManager;
@@ -341,12 +428,14 @@
   global.ProjectFilterManager = ProjectFilterManager;
   global.VoiceAssistantManager = VoiceAssistantManager;
   global.MatrixRainManager = MatrixRainManager;
+  global.MobileCompatibilityManager = MobileCompatibilityManager;
 
   // Auto-initialize on DOM ready
   const initAll = () => {
     ToastManager.init();
     UIFxManager.init3DTilt();
     ProjectFilterManager.init();
+    MobileCompatibilityManager.init();
 
     // Bind copy-chip toasts
     document.addEventListener("click", (e) => {
