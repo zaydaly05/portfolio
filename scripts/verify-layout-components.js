@@ -13,7 +13,7 @@ console.log("🔍 Running Automated Portfolio Component Verification Tests...\n"
 
 const PUBLIC_DIR = path.join(__dirname, "..", "public");
 const HTML_PAGES = ["index.html", "projects.html", "skills.html", "experience.html", "contact.html"];
-const CORE_JS_FILES = ["layout.js", "modals.js", "buttons.js", "script.js"];
+const CORE_JS_FILES = ["layout.js", "modals.js", "buttons.js", "ui-effects.js", "script.js"];
 
 let errors = 0;
 
@@ -43,7 +43,7 @@ HTML_PAGES.forEach((page) => {
   const content = fs.readFileSync(filePath, "utf8");
 
   // Check required script tags
-  const requiredScripts = ["layout.js", "modals.js", "buttons.js", "script.js"];
+  const requiredScripts = ["layout.js", "modals.js", "buttons.js", "ui-effects.js", "script.js"];
   requiredScripts.forEach((script) => {
     assert.strictEqual(
       content.includes(`src="${script}`),
