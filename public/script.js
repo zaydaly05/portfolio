@@ -9,12 +9,7 @@ const setText = (id, value) => {
 const THEME_STORAGE_KEY = "portfolio-theme";
 const WHATSAPP_NUMBER = "201017741741";
 const PROFILE_PHOTO_CANDIDATES = [
-  "https://res.cloudinary.com/delnnzcph/image/upload/v1791135534/main-photo.jpg",
-  "https://res.cloudinary.com/delnnzcph/image/upload/v1791135534/main-photo.jpg",
-  "https://res.cloudinary.com/delnnzcph/image/upload/v1791135534/main-photo.jpg",
-  "../Assets/main-photo.jpeg",
-  "Assets/main-photo.jpeg",
-  "/Assets/main-photo.jpeg"
+  "https://res.cloudinary.com/delnnzcph/image/upload/v1791135534/main-photo.jpg"
 ];
 
 /* ============================================
@@ -100,7 +95,7 @@ const fallbackPortfolio = {
       stack: "C#, .NET, SQL Server, Entity Framework",
       image: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/esmatPlastic.jpg",
       pdfReport:
-        "/assets/Project%20Hub%20Images/Essmat%20Plastic%20Factory%20Management%20System/essmat-plastic-report.pdf",
+        "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/esmatPlastic.jpg",
       github: "https://github.com/zaydaly05/EssmatPlastic",
       description:
         "Enterprise inventory and production management solution for plastic manufacturing, optimizing raw material tracking, order processing, and factory billing workflows."
@@ -365,7 +360,7 @@ const fallbackPortfolio = {
       category: "Full-Stack Development",
       image:
         "https://res.cloudinary.com/delnnzcph/image/upload/v1791135787/js1_certificate.png",
-      pdf: "/assets/Online%20Certificates/JavaScriptEssentials2Update20250713-27-31fbam.pdf",
+      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135787/js1_certificate.png",
       desc: "Advanced JavaScript ES6+, asynchronous programming, object-oriented concepts, and DOM manipulation."
     },
     {
@@ -375,7 +370,7 @@ const fallbackPortfolio = {
       category: "Systems & Core Programming",
       image:
         "https://res.cloudinary.com/delnnzcph/image/upload/v1791135536/c-essentials-1.png",
-      pdf: "/assets/Online%20Certificates/CEssentials1Update20250709-29-hnum8q.pdf",
+      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135536/c-essentials-1.png",
       desc: "Low-level system programming, memory management, pointers, and algorithmic structures in C."
     },
     {
@@ -385,7 +380,7 @@ const fallbackPortfolio = {
       category: "Cybersecurity & Networks",
       image:
         "https://res.cloudinary.com/delnnzcph/image/upload/v1791135537/Introduction_To_Cybersecurity_C.png",
-      pdf: "/assets/Online%20Certificates/I2CSUpdate20250709-27-93jy0g.pdf",
+      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135537/Introduction_To_Cybersecurity_C.png",
       desc: "Network security protocols, vulnerability analysis, encryption fundamentals, and threat mitigation."
     },
     {
