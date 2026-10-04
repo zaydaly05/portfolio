@@ -23,7 +23,7 @@ function getStoredPersonalContacts() {
     if (fs.existsSync(PERSONAL_CONTACTS_FILE)) {
       return JSON.parse(fs.readFileSync(PERSONAL_CONTACTS_FILE, 'utf8'));
     }
-  } catch {}
+  } catch (e) {}
   return [];
 }
 
@@ -37,7 +37,7 @@ function savePersonalContact(phone, name = 'Phone Contact') {
       const dir = path.dirname(PERSONAL_CONTACTS_FILE);
       if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
       fs.writeFileSync(PERSONAL_CONTACTS_FILE, JSON.stringify(contacts, null, 2), 'utf8');
-    } catch {}
+    } catch (e) {}
   }
 }
 
@@ -78,7 +78,7 @@ function generateAISuggestion(queryTopic) {
   return "💡 *AI Portfolio Master Suggestions*:\n\n" +
     "🎨 *Styling*: Reply `!suggest styling` for color palettes, typography & glassmorphism tips.\n" +
     "🚀 *Features*: Reply `!suggest features` for modern interactive widgets & tools.\n" +
-    "📢 *Broadcast*: Reply `!broadcast <numbers> | <message>` to send to specific phone numbers.\n" +
+    "📢 *Broadcast*: Reply `!broadcast <numbers> \| <message>` to send to specific phone numbers.\n" +
     "➕ *Add Contacts*: Reply `!addcontact 201017741741, 201234567890` to save phone contacts.";
 }
 

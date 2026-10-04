@@ -31,7 +31,7 @@ async function waitForServerReady(url, maxWaitMs = 35000, pollIntervalMs = 1000)
         console.log(`[Runner] Server ready at ${url} (Status HTTP ${res.status})!`);
         return true;
       }
-    } catch {
+    } catch (err) {
       // Server not accepting connections yet
     }
     await new Promise(r => setTimeout(r, pollIntervalMs));
@@ -48,7 +48,7 @@ function stopProcessTree(pid) {
     } else {
       process.kill(-pid, 'SIGKILL');
     }
-  } catch {
+  } catch (err) {
     // Ignore already terminated processes
   }
 }

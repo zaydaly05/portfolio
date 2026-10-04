@@ -114,7 +114,7 @@ async function processProjectShowcase(project, options = {}) {
 
   let runnerResult = null;
   try {
-    runnerResult = await startProject(analysis, { timeoutMs: options.timeoutMs || 40000, ...options });
+    runnerResult = await startProject(analysis, { timeoutMs: 40000 });
 
     manifest.projects[slug].diagnostics.port = runnerResult.port;
     manifest.projects[slug].diagnostics.targetUrl = runnerResult.targetUrl;

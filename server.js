@@ -1171,7 +1171,7 @@ app.get("/cv", async (req, res) => {
         targetUrl = config.url.includes("collection.cloudinary.com") ? DEFAULT_CV_URL : config.url;
       }
     }
-  } catch {}
+  } catch (err) {}
 
   res.redirect(302, targetUrl);
 });
