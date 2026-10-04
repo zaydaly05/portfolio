@@ -6,6 +6,9 @@
     }
   },
   "rewrites": [
+    { "source": "/api/whatsapp-webhook", "destination": "/api/whatsapp-webhook.js" },
+    { "source": "/api/whatsapp-admin", "destination": "/api/whatsapp-admin.js" },
+    { "source": "/api/whatsapp-approval", "destination": "/api/whatsapp-approval.js" },
     { "source": "/api/(.*)", "destination": "/api/index.js" },
     { "source": "/projects", "destination": "/api/index.js" },
     { "source": "/experience", "destination": "/api/index.js" },
