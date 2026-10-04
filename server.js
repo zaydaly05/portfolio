@@ -1085,7 +1085,7 @@ app.post("/api/star", postRateLimiter, async (req, res) => {
 });
 
 // Dynamic CV URL API & Redirects
-const DEFAULT_CV_URL = "https://res.cloudinary.com/delnnzcph/image/upload/v1790790818/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf";
+const DEFAULT_CV_URL = "/Zayd_Ali_Mohamed_CV.pdf";
 
 app.get("/api/cv-url", async (req, res) => {
   try {

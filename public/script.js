@@ -100,7 +100,7 @@ const fallbackPortfolio = {
       stack: "C#, .NET, SQL Server, Entity Framework",
       image: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/esmatPlastic.jpg",
       pdfReport:
-        "https://res.cloudinary.com/delnnzcph/image/upload/v1790790736/zayd-portfolio/essmat-plastic-report.pdf",
+        "/assets/Project%20Hub%20Images/Essmat%20Plastic%20Factory%20Management%20System/essmat-plastic-report.pdf",
       github: "https://github.com/zaydaly05/EssmatPlastic",
       description:
         "Enterprise inventory and production management solution for plastic manufacturing, optimizing raw material tracking, order processing, and factory billing workflows."
@@ -1254,7 +1254,7 @@ const renderProjects = (items) => {
           : isGulfLimousineProject
             ? [
                 {
-                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790766/zayd-portfolio/gulf-limousine.jpg",
+                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135561/app_icon.png",
                   alt: "Gulf Limousine App - Luxury Mobile Reservation Interface"
                 },
                 {
@@ -1277,7 +1277,7 @@ const renderProjects = (items) => {
                     alt: "Essmat Plastic Factory Management System - Architecture & Data Schema"
                   },
                   {
-                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1790790736/zayd-portfolio/essmat-plastic-report.pdf",
+                    src: "/assets/Project%20Hub%20Images/Essmat%20Plastic%20Factory%20Management%20System/essmat-plastic-report.pdf",
                     alt: "Essmat Plastic Factory Management System - Official PDF Report Document"
                   },
                   {
@@ -1312,7 +1312,7 @@ const renderProjects = (items) => {
                       alt: "Food Ordering Management System - WhatsApp Support Integration"
                     },
                     {
-                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791062965/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-6.jpg",
+                      src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135559/f16.png",
                       alt: "Food Ordering Management System - User Authentication & Login Portal"
                     }
                   ]
@@ -1327,11 +1327,11 @@ const renderProjects = (items) => {
                         alt: "In Gaz API System - Flutter Mobile App Screen 2"
                       },
                       {
-                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061861/zayd-portfolio/showcase/InGazAPI/InGazAPI-landing.jpg",
+                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/WhatsApp_Image_2026-05-05_at_10.01.56_PM.jpg",
                         alt: "In Gaz API System - .NET Core Web API Swagger Documentation"
                       },
                       {
-                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061862/zayd-portfolio/showcase/InGazAPI/InGazAPI-details.jpg",
+                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135566/WhatsApp_Image_2026-05-05_at_10.01.56_PM_1.jpg",
                         alt: "In Gaz API System - MVC Controller Data Endpoint Schema"
                       }
                     ]
@@ -1389,11 +1389,11 @@ const renderProjects = (items) => {
                               alt: "Sleeping Alert System - Realtime Facial Bounding Box Video Demo"
                             },
                             {
-                              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061885/zayd-portfolio/showcase/Sleep_Alert_System/Sleep_Alert_System-landing.jpg",
+                              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135567/py2.jpg",
                               alt: "Sleeping Alert System - Mobile Flutter Monitor Screen"
                             },
                             {
-                              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791061887/zayd-portfolio/showcase/Sleep_Alert_System/Sleep_Alert_System-details.jpg",
+                              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135567/py2.jpg",
                               alt: "Sleeping Alert System - Driver Eye Aspect Ratio Threshold Dashboard"
                             }
                           ]
@@ -2847,14 +2847,14 @@ const setupCVViewerModal = () => {
   if (!cvModal) return;
 
   let cachedCvUrl =
-    "https://res.cloudinary.com/delnnzcph/image/upload/v1790790818/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf";
+    "/Zayd_Ali_Mohamed_CV.pdf";
 
   fetch("/api/cv-url")
     .then((res) => res.json())
     .then((data) => {
       if (data && data.url) {
         cachedCvUrl = data.url.includes("collection.cloudinary.com")
-          ? "https://res.cloudinary.com/delnnzcph/image/upload/v1790790818/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf"
+          ? "/Zayd_Ali_Mohamed_CV.pdf"
           : data.url;
       }
     })
@@ -2867,7 +2867,7 @@ const setupCVViewerModal = () => {
       const data = await res.json();
       if (data && data.url) {
         cvUrl = data.url.includes("collection.cloudinary.com")
-          ? "https://res.cloudinary.com/delnnzcph/image/upload/v1790790818/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf"
+          ? "/Zayd_Ali_Mohamed_CV.pdf"
           : data.url;
         cachedCvUrl = cvUrl;
       }
