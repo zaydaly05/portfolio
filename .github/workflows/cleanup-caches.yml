@@ -1,0 +1,33 @@
+name: 🧹 GitHub Actions Cache Cleanup
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Daily at midnight UTC
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  cleanup:
+    name: 🗑️ Purge Obsolete Caches
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🧹 Delete Old GitHub Actions Caches via GitHub CLI
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Fetching list of repository caches..."
+          gh extension install actions/gh-actions-cache || true
+
+          # Delete older CodeQL trap caches beyond the 5 most recent
+          gh actions-cache list --limit 100 --key "codeql-trap" | tail -n +6 | awk '{print $1}' | xargs -I {} gh actions-cache delete {} --confirm || true
+          
+          # Delete older node-cache entries beyond the 3 most recent
+          gh actions-cache list --limit 100 --key "node-cache" | tail -n +4 | awk '{print $1}' | xargs -I {} gh actions-cache delete {} --confirm || true
+          
+          echo "Cache cleanup completed successfully!"

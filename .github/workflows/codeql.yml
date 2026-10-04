@@ -3,6 +3,11 @@ name: CodeQL Security & Vulnerability Analysis
 on:
   push:
     branches: [ main, master ]
+    paths:
+      - 'public/**'
+      - 'scripts/**'
+      - 'server.js'
+      - 'db.js'
   pull_request:
     branches: [ main, master ]
   schedule:
