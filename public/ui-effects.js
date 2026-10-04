@@ -225,11 +225,122 @@
     }
   };
 
+  // --------------------------------------------
+  // 5. WEB SPEECH API VOICE SYNTHESIS & STREAMING ENGINE
+  // --------------------------------------------
+  const VoiceAssistantManager = {
+    speaking: false,
+    synth: typeof window !== "undefined" && "speechSynthesis" in window ? window.speechSynthesis : null,
+
+    speak(text) {
+      if (!this.synth || AudioManager.muted) return;
+      this.stop();
+
+      const cleanText = text.replace(/<[^>]*>/g, "").replace(/[\u{1F600}-\u{1F64F}]/gu, "");
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      utterance.rate = 1.0;
+      utterance.pitch = 1.0;
+
+      utterance.onend = () => { this.speaking = false; };
+      utterance.onerror = () => { this.speaking = false; };
+
+      this.speaking = true;
+      this.synth.speak(utterance);
+    },
+
+    stop() {
+      if (this.synth) {
+        this.synth.cancel();
+        this.speaking = false;
+      }
+    },
+
+    typeStream(element, text, speed = 18, onComplete) {
+      if (!element) return;
+      element.innerHTML = "";
+      let i = 0;
+      const timer = setInterval(() => {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i);
+          i++;
+        } else {
+          clearInterval(timer);
+          if (onComplete) onComplete();
+        }
+      }, speed);
+    }
+  };
+
+  // --------------------------------------------
+  // 6. MATRIX CODE RAIN VISUAL FX CANVAS
+  // --------------------------------------------
+  const MatrixRainManager = {
+    canvas: null,
+    ctx: null,
+    interval: null,
+
+    toggle() {
+      if (this.canvas) {
+        this.stop();
+        if (ToastManager) ToastManager.show("Matrix Rain Effect Stopped", "info");
+        return false;
+      }
+      this.start();
+      if (ToastManager) ToastManager.show("Matrix Digital Code Rain Activated 🟢", "success");
+      return true;
+    },
+
+    start() {
+      if (this.canvas) return;
+      this.canvas = document.createElement("canvas");
+      this.canvas.id = "matrix-canvas";
+      this.canvas.style.cssText = "position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9998;pointer-events:none;opacity:0.85;";
+      document.body.appendChild(this.canvas);
+
+      this.ctx = this.canvas.getContext("2d");
+      this.canvas.width = window.innerWidth;
+      this.canvas.height = window.innerHeight;
+
+      const katakana = "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      const fontSize = 16;
+      const columns = Math.floor(this.canvas.width / fontSize);
+      const rainDrops = Array(columns).fill(1);
+
+      this.interval = setInterval(() => {
+        this.ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+        this.ctx.fillStyle = "#0F0";
+        this.ctx.font = fontSize + "px monospace";
+
+        for (let i = 0; i < rainDrops.length; i++) {
+          const text = katakana.charAt(Math.floor(Math.random() * katakana.length));
+          this.ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+          if (rainDrops[i] * fontSize > this.canvas.height && Math.random() > 0.975) {
+            rainDrops[i] = 0;
+          }
+          rainDrops[i]++;
+        }
+      }, 30);
+    },
+
+    stop() {
+      if (this.interval) clearInterval(this.interval);
+      if (this.canvas) this.canvas.remove();
+      this.canvas = null;
+      this.ctx = null;
+      this.interval = null;
+    }
+  };
+
   // Export Managers to global scope
   global.ToastManager = ToastManager;
   global.AudioManager = AudioManager;
   global.UIFxManager = UIFxManager;
   global.ProjectFilterManager = ProjectFilterManager;
+  global.VoiceAssistantManager = VoiceAssistantManager;
+  global.MatrixRainManager = MatrixRainManager;
 
   // Auto-initialize on DOM ready
   const initAll = () => {

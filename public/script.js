@@ -2747,6 +2747,19 @@ const setupTerminalCLI = () => {
         printLine(
           `Great choice! Zayd is actively open for software development roles. Email zaydaly0501@gmail.com or use the Contact form!`
         );
+      } else if (cmd === "matrix") {
+        printLine(`Toggling Matrix digital code rain... 🟢`);
+        if (window.MatrixRainManager) window.MatrixRainManager.toggle();
+      } else if (cmd === "audio" || cmd === "sound") {
+        if (window.AudioManager) {
+          const isMuted = window.AudioManager.toggleMute();
+          printLine(`Sound Effects are now: ${isMuted ? "MUTED 🔇" : "ENABLED 🔊"}`);
+        }
+      } else if (cmd === "speech" || cmd === "voice") {
+        if (window.VoiceAssistantManager) {
+          printLine(`Voice synthesis assistant activated! 🎙️`);
+          window.VoiceAssistantManager.speak("Welcome to Zayd Ali Mohamed's interactive developer terminal!");
+        }
       } else if (cmd === "clear") {
         output.innerHTML = "";
       } else if (cmd === "sudo") {
@@ -2800,6 +2813,10 @@ const setupAICopilot = () => {
 
     msgDiv.innerHTML = `<div class="msg-content">${formattedText}</div>`;
     body.appendChild(msgDiv);
+
+    if (sender === "bot" && window.VoiceAssistantManager) {
+      window.VoiceAssistantManager.speak(text);
+    }
 
     if (suggestions && suggestions.length > 0) {
       const suggDiv = document.createElement("div");
