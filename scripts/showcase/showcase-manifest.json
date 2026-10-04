@@ -9,23 +9,28 @@
       "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790725/zayd-portfolio/dr-nagla-hero.png",
-          "alt": "Dr. Naglaa Academic Biography Portal - Hero Landing Header",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/Screenshot_2026-10-04_175352.png",
+          "alt": "Dr. Naglaa Academic Biography Portal - Screenshot_2026-10-04_175352",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790722/zayd-portfolio/dr-nagla-biography.png",
-          "alt": "Dr Naglaa Biography & Academic Credentials",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/Screenshot_2026-10-04_175331.png",
+          "alt": "Dr. Naglaa Academic Biography Portal - Screenshot_2026-10-04_175331",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790727/zayd-portfolio/dr-nagla-publications.png",
-          "alt": "Dr Naglaa Research Publications Archive",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135547/Screenshot_2026-10-04_175253.png",
+          "alt": "Dr. Naglaa Academic Biography Portal - Screenshot_2026-10-04_175253",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790723/zayd-portfolio/dr-nagla-contact.png",
-          "alt": "Dr Naglaa Student Contact Portal",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135547/Screenshot_2026-10-04_175423.png",
+          "alt": "Dr. Naglaa Academic Biography Portal - Screenshot_2026-10-04_175423",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135545/Screenshot_2026-10-04_175406.png",
+          "alt": "Dr. Naglaa Academic Biography Portal - Screenshot_2026-10-04_175406",
           "type": "image"
         }
       ],
@@ -43,23 +48,28 @@
       "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061557/zayd-portfolio/showcase/zaydentity/zaydentity-landing.jpg",
-          "alt": "Zaydentity Digital Identity Platform - Main Bio-Link Landing Screen",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135572/Screenshot_2026-10-04_174426.png",
+          "alt": "Zaydentity Digital Identity Platform - Screenshot_2026-10-04_174426",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061552/zayd-portfolio/showcase/zaydentity/zaydentity-feature-2.jpg",
-          "alt": "Zaydentity Digital Identity Platform - Interactive Developer Skills Matrix",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135571/Screenshot_2026-10-04_174413.png",
+          "alt": "Zaydentity Digital Identity Platform - Screenshot_2026-10-04_174413",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061553/zayd-portfolio/showcase/zaydentity/zaydentity-feature-3.jpg",
-          "alt": "Zaydentity Digital Identity Platform - Project Showcase Gallery",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135571/Screenshot_2026-10-04_174403.png",
+          "alt": "Zaydentity Digital Identity Platform - Screenshot_2026-10-04_174403",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791064635/zayd-portfolio/showcase/zaydentity/zaydentity-details.jpg",
-          "alt": "Zaydentity Digital Identity Platform - Verified Credentials Card",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135570/Screenshot_2026-10-04_174321.png",
+          "alt": "Zaydentity Digital Identity Platform - Screenshot_2026-10-04_174321",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135570/Screenshot_2026-10-04_174349.png",
+          "alt": "Zaydentity Digital Identity Platform - Screenshot_2026-10-04_174349",
           "type": "image"
         }
       ],
@@ -77,23 +87,18 @@
       "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790715/zayd-portfolio/car-rental-c1.png",
-          "alt": "Car Rental Website - Vehicle Fleet Catalog Overview",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135545/c3.png",
+          "alt": "Car Rental Website - c3",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790716/zayd-portfolio/car-rental-c2.png",
-          "alt": "Car Rental Website - Car Specifications & Features View",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135544/c2.png",
+          "alt": "Car Rental Website - c2",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790718/zayd-portfolio/car-rental-c3.png",
-          "alt": "Car Rental Website - Customer Booking & Checkout Form",
-          "type": "image"
-        },
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790707/zayd-portfolio/c1.png",
-          "alt": "Car Rental Website - Platform Main Landing Page",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135542/c1.png",
+          "alt": "Car Rental Website - c1",
           "type": "image"
         }
       ],
@@ -111,23 +116,53 @@
       "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790766/zayd-portfolio/gulf-limousine.jpg",
-          "alt": "Gulf Limousine App - Luxury Mobile Reservation Interface",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135579/Screenshot_20261004_173939.png",
+          "alt": "Gulf Limousine Booking App - Screenshot_20261004_173939",
           "type": "image"
         },
         {
-          "src": "/assets/showcase/Gulf_Limousine_App/Gulf_Limousine_App-landing.jpg",
-          "alt": "Gulf Limousine App - Android Mobile Viewport Booking Screen",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/Screenshot_20261004_173958.png",
+          "alt": "Gulf Limousine Booking App - Screenshot_20261004_173958",
           "type": "image"
         },
         {
-          "src": "/assets/showcase/Gulf_Limousine_App/Gulf_Limousine_App-feature-1.jpg",
-          "alt": "Gulf Limousine App - Vehicle Fleet Selection View",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/Screenshot_20261004_173450.png",
+          "alt": "Gulf Limousine Booking App - Screenshot_20261004_173450",
           "type": "image"
         },
         {
-          "src": "/assets/showcase/Gulf_Limousine_App/Gulf_Limousine_App-details.jpg",
-          "alt": "Gulf Limousine App - Fare Estimation & Trip Details",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135564/Screenshot_20261004_173925.png",
+          "alt": "Gulf Limousine Booking App - Screenshot_20261004_173925",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135564/Screenshot_20261004_173759.png",
+          "alt": "Gulf Limousine Booking App - Screenshot_20261004_173759",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135564/Screenshot_20261004_173900.png",
+          "alt": "Gulf Limousine Booking App - Screenshot_20261004_173900",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135563/Screenshot_20261004_173426.png",
+          "alt": "Gulf Limousine Booking App - Screenshot_20261004_173426",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135563/Screenshot_20261004_173534.png",
+          "alt": "Gulf Limousine Booking App - Screenshot_20261004_173534",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135563/Screenshot_20261004_173343.png",
+          "alt": "Gulf Limousine Booking App - Screenshot_20261004_173343",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135563/Screenshot_20261004_173403.png",
+          "alt": "Gulf Limousine Booking App - Screenshot_20261004_173403",
           "type": "image"
         }
       ],
@@ -145,23 +180,43 @@
       "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790864034/esmatPlastic.jpg",
-          "alt": "Essmat Plastic Factory Management System - Architecture & Data Schema",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135549/WhatsApp_Image_2026-10-04_at_4.44.38_PM.jpg",
+          "alt": "Essmat Plastic Factory Management System - WhatsApp_Image_2026-10-04_at_4.44.38_PM",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790736/zayd-portfolio/essmat-plastic-report.pdf",
-          "alt": "Essmat Plastic Factory Management System - Official PDF Report Document",
-          "type": "pdf"
-        },
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
-          "alt": "Essmat Plastic Factory Management System - Inventory & Material Management View",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135549/WhatsApp_Image_2026-10-04_at_4.44.38_PM_5.jpg",
+          "alt": "Essmat Plastic Factory Management System - WhatsApp_Image_2026-10-04_at_4.44.38_PM_5",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790732/zayd-portfolio/employee-e2.png",
-          "alt": "Essmat Plastic Factory Management System - Factory Orders & Billing Interface",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135549/WhatsApp_Image_2026-10-04_at_4.44.38_PM_4.jpg",
+          "alt": "Essmat Plastic Factory Management System - WhatsApp_Image_2026-10-04_at_4.44.38_PM_4",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135549/WhatsApp_Image_2026-10-04_at_4.44.38_PM_3.jpg",
+          "alt": "Essmat Plastic Factory Management System - WhatsApp_Image_2026-10-04_at_4.44.38_PM_3",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135549/WhatsApp_Image_2026-10-04_at_4.44.38_PM_2.jpg",
+          "alt": "Essmat Plastic Factory Management System - WhatsApp_Image_2026-10-04_at_4.44.38_PM_2",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/WhatsApp_Image_2026-10-04_at_4.44.37_PM.jpg",
+          "alt": "Essmat Plastic Factory Management System - WhatsApp_Image_2026-10-04_at_4.44.37_PM",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/WhatsApp_Image_2026-10-04_at_4.44.37_PM_1.jpg",
+          "alt": "Essmat Plastic Factory Management System - WhatsApp_Image_2026-10-04_at_4.44.37_PM_1",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/WhatsApp_Image_2026-10-04_at_4.44.38_PM_1.jpg",
+          "alt": "Essmat Plastic Factory Management System - WhatsApp_Image_2026-10-04_at_4.44.38_PM_1",
           "type": "image"
         }
       ],
@@ -179,33 +234,78 @@
       "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061797/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-landing.jpg",
-          "alt": "Food Ordering Management System - Main Application Landing Screen",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135563/f9.png",
+          "alt": "Food Ordering Management System - f9",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061794/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-2.jpg",
-          "alt": "Food Ordering Management System - Food Hub Menu Browse",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135563/f6.png",
+          "alt": "Food Ordering Management System - f6",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061795/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-3.jpg",
-          "alt": "Food Ordering Management System - Customer Cart & Order Summary",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135562/f7.png",
+          "alt": "Food Ordering Management System - f7",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061796/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-4.jpg",
-          "alt": "Food Ordering Management System - Restaurant Management Portal",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135561/f4.png",
+          "alt": "Food Ordering Management System - f4",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061797/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-5.jpg",
-          "alt": "Food Ordering Management System - WhatsApp Support Integration",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135561/f8.png",
+          "alt": "Food Ordering Management System - f8",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791062965/zayd-portfolio/showcase/food_ordering_system/food_ordering_system-feature-6.jpg",
-          "alt": "Food Ordering Management System - User Authentication & Login Portal",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135559/f5.png",
+          "alt": "Food Ordering Management System - f5",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135559/f16.png",
+          "alt": "Food Ordering Management System - f16",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135558/f2.png",
+          "alt": "Food Ordering Management System - f2",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135558/f3.png",
+          "alt": "Food Ordering Management System - f3",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135556/f13.png",
+          "alt": "Food Ordering Management System - f13",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135555/f15.png",
+          "alt": "Food Ordering Management System - f15",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135554/f11.png",
+          "alt": "Food Ordering Management System - f11",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135554/f12.png",
+          "alt": "Food Ordering Management System - f12",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135554/f14.png",
+          "alt": "Food Ordering Management System - f14",
+          "type": "image"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135553/f1.png",
+          "alt": "Food Ordering Management System - f1",
           "type": "image"
         }
       ],
@@ -223,23 +323,13 @@
       "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790771/zayd-portfolio/ingaz-1.jpg",
-          "alt": "In Gaz API System - Flutter Mobile App Screen 1",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135566/WhatsApp_Image_2026-05-05_at_10.01.56_PM_1.jpg",
+          "alt": "In Gaz API System - WhatsApp_Image_2026-05-05_at_10.01.56_PM_1",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790772/zayd-portfolio/ingaz-2.jpg",
-          "alt": "In Gaz API System - Flutter Mobile App Screen 2",
-          "type": "image"
-        },
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061861/zayd-portfolio/showcase/InGazAPI/InGazAPI-landing.jpg",
-          "alt": "In Gaz API System - .NET Core Web API Swagger Documentation",
-          "type": "image"
-        },
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061862/zayd-portfolio/showcase/InGazAPI/InGazAPI-details.jpg",
-          "alt": "In Gaz API System - MVC Controller Data Endpoint Schema",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/WhatsApp_Image_2026-05-05_at_10.01.56_PM.jpg",
+          "alt": "In Gaz API System - WhatsApp_Image_2026-05-05_at_10.01.56_PM",
           "type": "image"
         }
       ],
@@ -257,22 +347,22 @@
       "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790731/zayd-portfolio/employee-e1.png",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791136236/EA1.png",
           "alt": "Employee Attendance & Leave System - Admin Dashboard Overview",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790732/zayd-portfolio/employee-e2.png",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791136230/EA2.png",
           "alt": "Employee Attendance & Leave System - New Assessment / Post Announcement",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790734/zayd-portfolio/employee-e3.png",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791136238/EA3.png",
           "alt": "Employee Attendance & Leave System - Login & Landing Screen",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790735/zayd-portfolio/employee-e4.png",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791136233/EA4.png",
           "alt": "Employee Attendance & Leave System - Leave History & Status Table",
           "type": "image"
         }
@@ -291,28 +381,28 @@
       "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790805/zayd-portfolio/restaurant-r1.png",
-          "alt": "Restaurant Management System - JavaFX Main Login & Role Selection",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135566/r5.png",
+          "alt": "Restaurant Management System - r5",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790805/zayd-portfolio/restaurant-r2.png",
-          "alt": "Restaurant Management System - Food & Menu Order Interface",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/r4.png",
+          "alt": "Restaurant Management System - r4",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790806/zayd-portfolio/restaurant-r3.png",
-          "alt": "Restaurant Management System - Table Allocation Grid View",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/r3.png",
+          "alt": "Restaurant Management System - r3",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790807/zayd-portfolio/restaurant-r4.png",
-          "alt": "Restaurant Management System - Reservation System View",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/r2.png",
+          "alt": "Restaurant Management System - r2",
           "type": "image"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790808/zayd-portfolio/restaurant-r5.png",
-          "alt": "Restaurant Management System - Billing & Order Summary",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/r1.png",
+          "alt": "Restaurant Management System - r1",
           "type": "image"
         }
       ],
@@ -330,23 +420,13 @@
       "updatedAt": "2026-10-04T01:05:00.000Z",
       "screenshots": [
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1790790811/zayd-portfolio/sleeping-alert-py2.jpg",
-          "alt": "Sleeping Alert System - OpenCV Drowsiness Detection Photo",
-          "type": "image"
-        },
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/video/upload/v1790790810/zayd-portfolio/sleeping-alert-py1.mp4",
-          "alt": "Sleeping Alert System - Realtime Facial Bounding Box Video Demo",
+          "src": "https://res.cloudinary.com/delnnzcph/video/upload/v1791135570/py1.mp4",
+          "alt": "Sleeping Alert System - py1",
           "type": "video"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061885/zayd-portfolio/showcase/Sleep_Alert_System/Sleep_Alert_System-landing.jpg",
-          "alt": "Sleeping Alert System - Mobile Flutter Monitor Screen",
-          "type": "image"
-        },
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791061887/zayd-portfolio/showcase/Sleep_Alert_System/Sleep_Alert_System-details.jpg",
-          "alt": "Sleeping Alert System - Driver Eye Aspect Ratio Threshold Dashboard",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135567/py2.jpg",
+          "alt": "Sleeping Alert System - py2",
           "type": "image"
         }
       ],
@@ -364,23 +444,23 @@
       "updatedAt": "2026-10-04T01:25:00.000Z",
       "screenshots": [
         {
-          "src": "/assets/showcase/zaydentity/zaydentity-feature-2.jpg",
-          "alt": "WE Telecom Training Suite - Kotlin Jetpack Compose UI & MVVM Dashboard",
+          "src": "https://res.cloudinary.com/delnnzcph/video/upload/v1791135632/emulator_screen_edited.mp4",
+          "alt": "WE Telecom Training Suite - emulator_screen_edited",
+          "type": "video"
+        },
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135572/IMG-20260821-WA0083.jpg",
+          "alt": "WE Telecom Training Suite - IMG-20260821-WA0083",
           "type": "image"
         },
         {
-          "src": "/assets/showcase/zaydentity/zaydentity-feature-3.jpg",
-          "alt": "WE Telecom Training Suite - Retrofit & Room DB Offline-First Repository View",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135568/IMG-20260727-WA0038.jpg",
+          "alt": "WE Telecom Training Suite - IMG-20260727-WA0038",
           "type": "image"
         },
         {
-          "src": "/assets/showcase/zaydentity/zaydentity-feature-4.jpg",
-          "alt": "WE Telecom Training Suite - Jetpack Compose Paging 3 Data Feed View",
-          "type": "image"
-        },
-        {
-          "src": "/assets/showcase/zaydentity/zaydentity-details.jpg",
-          "alt": "WE Telecom Training Suite - Hilt Dependency Injection & Process Death Management",
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135568/IMG-20260809-WA0015.jpg",
+          "alt": "WE Telecom Training Suite - IMG-20260809-WA0015",
           "type": "image"
         }
       ],
