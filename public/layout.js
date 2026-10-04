@@ -1,26 +1,41 @@
 /* ============================================
    CENTRALIZED LAYOUT & NAVIGATION MANAGER (SOLID DRY PATTERN)
    Single source of truth for site-wide Header Navigation, Mobile Menu, and Footer.
-   Automatically mounts layout components and highlights active page links.
+   Called by ID (#site-header, #site-footer) from all webpages.
    ============================================ */
 
 (function (global) {
   const LayoutManager = {
     /**
-     * Renders header navigation bar and mobile menu overlay into target or header placeholder.
+     * Renders header navigation bar and mobile menu overlay into #site-header.
      */
     renderHeader() {
-      const headerSlot = document.getElementById("site-header") || document.querySelector("header.site-header-container");
-      if (!headerSlot && document.querySelector("nav.nav")) return; // already present
+      let headerSlot = document.getElementById("site-header");
+
+      // Fallback: replace existing nav if present or create header slot
+      if (!headerSlot) {
+        const existingNav = document.getElementById("navbar") || document.querySelector("nav.nav");
+        if (existingNav) {
+          headerSlot = document.createElement("header");
+          headerSlot.id = "site-header";
+          existingNav.parentNode.replaceChild(headerSlot, existingNav);
+          const existingMobile = document.getElementById("mobile-nav-overlay");
+          if (existingMobile) existingMobile.remove();
+        } else {
+          headerSlot = document.createElement("header");
+          headerSlot.id = "site-header";
+          document.body.insertBefore(headerSlot, document.body.firstChild);
+        }
+      }
 
       const path = (window.location.pathname || "/").toLowerCase();
-      const isHome = path === "/" || path.endsWith("/index.html");
+      const isHome = path === "/" || path.endsWith("/index.html") || path.endsWith("/");
       const isProjects = path.includes("projects");
       const isExperience = path.includes("experience");
       const isSkills = path.includes("skills");
       const isContact = path.includes("contact");
 
-      const navHtml = `
+      headerSlot.innerHTML = `
         <nav class="nav" id="navbar">
           <a href="/" class="logo" aria-label="Zayd Ali Mohamed home">
             <img
@@ -75,40 +90,38 @@
           </div>
         </div>
       `;
-
-      if (headerSlot) {
-        headerSlot.innerHTML = navHtml;
-      }
     },
 
     /**
-     * Renders site footer into footer slot.
+     * Renders site footer into #site-footer slot.
      */
     renderFooter() {
-      const footerSlot = document.getElementById("site-footer") || document.querySelector("footer.footer-slot");
-      if (!footerSlot && document.querySelector("footer.footer")) return; // already present
+      let footerSlot = document.getElementById("site-footer");
 
-      const footerHtml = `
-        <footer class="footer reveal">
-          <div class="footer-content">
-            <p>Crafted with passion by <strong>Zayd Ali Mohamed</strong>.</p>
-            <div class="footer-links">
-              <button id="terminal-footer-btn" class="footer-link-btn">Terminal CLI</button>
-              <button id="ai-chat-footer-btn" class="footer-link-btn">Ask AI Copilot</button>
-              <a href="https://github.com/zaydaly05" target="_blank" rel="noopener">GitHub</a>
-              <a href="https://www.linkedin.com/in/zayd-ali-17a85a1a0" target="_blank" rel="noopener">LinkedIn</a>
-              <a href="mailto:zaydaly0501@gmail.com">Email</a>
-            </div>
-            <p style="font-size: 0.75rem; opacity: 0.45; margin-top: 4px">
-              © 2026 Zayd Ali Mohamed · Built with Node.js &amp; Express
-            </p>
-          </div>
-        </footer>
-      `;
-
-      if (footerSlot) {
-        footerSlot.innerHTML = footerHtml;
+      // Fallback: replace existing footer if present or append to body
+      if (!footerSlot) {
+        const existingFooter = document.querySelector("footer.footer");
+        if (existingFooter) {
+          footerSlot = document.createElement("footer");
+          footerSlot.id = "site-footer";
+          existingFooter.parentNode.replaceChild(footerSlot, existingFooter);
+        } else {
+          footerSlot = document.createElement("footer");
+          footerSlot.id = "site-footer";
+          document.body.appendChild(footerSlot);
+        }
       }
+
+      footerSlot.className = "footer";
+      footerSlot.innerHTML = `
+        <div class="footer-container">
+          <p>Crafted with passion by <strong>Zayd Ali Mohamed</strong>.</p>
+          <div class="footer-links">
+            <button id="terminal-footer-btn" class="footer-link-btn">Terminal CLI</button>
+            <button id="ai-chat-footer-btn" class="footer-link-btn">AI Assistant</button>
+          </div>
+        </div>
+      `;
     },
 
     /**
