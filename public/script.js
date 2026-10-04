@@ -190,6 +190,15 @@ const fallbackPortfolio = {
 
   featuredStack: [
     {
+      name: "Android & Kotlin",
+      category: "Native Mobile",
+      level: 88,
+      color: "#3ddc84",
+      icon: "🤖",
+      projectsCount: 2,
+      highlights: "Jetpack Compose, MVVM Architecture, Coroutines & StateFlow, Retrofit, Room, Hilt"
+    },
+    {
       name: "Java & Spring Boot",
       category: "Backend",
       level: 90,
@@ -265,16 +274,16 @@ const fallbackPortfolio = {
   technicalSkills: [
     {
       category: "Languages",
-      items: ["Java", "Python", "C#", "C++", "C", "PHP", "Dart", "JavaScript", "SQL", "HTML5", "CSS3"]
+      items: ["Java", "Kotlin", "Python", "C#", "C++", "C", "PHP", "Dart", "JavaScript", "SQL", "HTML5", "CSS3"]
     },
     {
       category: "Frameworks",
-      items: ["Spring Boot", "React", "Flutter", "Express.js", "Node.js", ".NET Core Web API", "JavaFX", "Tailwind CSS"]
+      items: ["Spring Boot", "React", "Flutter", "Jetpack Compose", "Express.js", "Node.js", ".NET Core Web API", "JavaFX", "Tailwind CSS"]
     },
-    { category: "Databases", items: ["PostgreSQL", "MongoDB", "Firebase", "MySQL", "SQL Server"] },
+    { category: "Databases", items: ["PostgreSQL", "MongoDB", "Firebase", "MySQL", "SQL Server", "Room Database"] },
     {
       category: "Developer Tools",
-      items: ["VS Code", "Git", "GitHub", "Android Studio", "Apache NetBeans", "XAMPP", "Docker", "Postman", "Swagger"]
+      items: ["Android Studio", "VS Code", "Git", "GitHub", "Apache NetBeans", "XAMPP", "Docker", "Postman", "Swagger"]
     },
     { category: "Microsoft Office 365", items: ["Word", "Excel", "PowerPoint", "Access"] },
     { category: "Design Tools", items: ["Adobe Photoshop", "Adobe InDesign", "Adobe Premiere", "Filmora"] },
@@ -282,6 +291,10 @@ const fallbackPortfolio = {
     {
       category: "Other Skills",
       items: [
+        "Android MVVM Architecture",
+        "Kotlin Coroutines & StateFlow",
+        "Retrofit Network Operations",
+        "Hilt Dependency Injection",
         "Data Structures & Algorithms",
         "Object-Oriented Programming (OOP)",
         "RESTful API Architecture",

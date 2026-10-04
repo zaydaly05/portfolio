@@ -26,6 +26,19 @@ $data = [
     ],
     "experience" => [
         [
+            "company" => "WE (Telecom Egypt)",
+            "role" => "Android Development Intern",
+            "period" => "June 26, 2026 - July 26, 2026",
+            "location" => "Smart Village, Cairo",
+            "points" => [
+                "Engineered native Android applications utilizing Kotlin and declarative Jetpack Compose UI.",
+                "Architected mobile applications using MVVM pattern, managing unidirectional data flow via Kotlin Coroutines & StateFlow.",
+                "Integrated network operations and local persistence using Retrofit and Room Database for offline-first architecture.",
+                "Implemented dependency injection using Hilt to ensure decoupled, scalable enterprise mobile software design.",
+                "Managed application lifecycles and mitigated native process death constraints effectively under direct supervision of Khaled Mamdouh (Android Developer Supervisor, WE)."
+            ]
+        ],
+        [
             "company" => "Cairo Higher Institute",
             "role" => "IT Department Intern",
             "period" => "August 2025 - September 2025",

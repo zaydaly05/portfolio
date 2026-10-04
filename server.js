@@ -219,6 +219,19 @@ const portfolioData = {
   ],
   experience: [
     {
+      company: "WE (Telecom Egypt)",
+      role: "Android Development Intern",
+      period: "June 26, 2026 - July 26, 2026",
+      location: "Smart Village, Cairo",
+      points: [
+        "Engineered native Android applications utilizing Kotlin and declarative Jetpack Compose UI.",
+        "Architected mobile applications using MVVM pattern, managing unidirectional data flow via Kotlin Coroutines & StateFlow.",
+        "Integrated network operations and local persistence using Retrofit and Room Database for offline-first architecture.",
+        "Implemented dependency injection using Hilt to ensure decoupled, scalable enterprise mobile software design.",
+        "Managed application lifecycles and mitigated native process death constraints effectively under direct supervision of Khaled Mamdouh (Android Developer Supervisor, WE)."
+      ]
+    },
+    {
       company: "Cairo Higher Institute",
       role: "IT Department Intern",
       period: "August 2025 - September 2025",
@@ -349,6 +362,15 @@ const portfolioData = {
   ],
   featuredStack: [
     {
+      name: "Android & Kotlin",
+      category: "Native Mobile",
+      level: 88,
+      color: "#3ddc84",
+      icon: "🤖",
+      projectsCount: 2,
+      highlights: "Jetpack Compose, MVVM Architecture, Coroutines & StateFlow, Retrofit, Room, Hilt"
+    },
+    {
       name: "Java & Spring Boot",
       category: "Backend",
       level: 90,
@@ -424,19 +446,19 @@ const portfolioData = {
   technicalSkills: [
     {
       category: "Languages",
-      items: ["Java", "Python", "C#", "C++", "C", "PHP", "Dart", "JavaScript", "SQL", "HTML5", "CSS3"]
+      items: ["Java", "Kotlin", "Python", "C#", "C++", "C", "PHP", "Dart", "JavaScript", "SQL", "HTML5", "CSS3"]
     },
     {
       category: "Frameworks",
-      items: ["Spring Boot", "React", "Flutter", "Express.js", "Node.js", ".NET Core Web API", "JavaFX", "Tailwind CSS"]
+      items: ["Spring Boot", "React", "Flutter", "Jetpack Compose", "Express.js", "Node.js", ".NET Core Web API", "JavaFX", "Tailwind CSS"]
     },
     {
       category: "Databases",
-      items: ["PostgreSQL", "MongoDB", "Firebase", "MySQL", "SQL Server"]
+      items: ["PostgreSQL", "MongoDB", "Firebase", "MySQL", "SQL Server", "Room Database"]
     },
     {
       category: "Developer Tools",
-      items: ["VS Code", "Git", "GitHub", "Android Studio", "Apache NetBeans", "XAMPP", "Docker", "Postman", "Swagger"]
+      items: ["Android Studio", "VS Code", "Git", "GitHub", "Apache NetBeans", "XAMPP", "Docker", "Postman", "Swagger"]
     },
     {
       category: "Microsoft Office 365",
@@ -453,6 +475,10 @@ const portfolioData = {
     {
       category: "Other Skills",
       items: [
+        "Android MVVM Architecture",
+        "Kotlin Coroutines & StateFlow",
+        "Retrofit Network Operations",
+        "Hilt Dependency Injection",
         "Data Structures & Algorithms",
         "Object-Oriented Programming (OOP)",
         "RESTful API Architecture",
