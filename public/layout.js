@@ -199,9 +199,44 @@
     },
 
     /**
+     * Mounts site-wide background visual effects (cursor dot, ring, scroll progress, particle canvas, gradient background).
+     */
+    renderBackgroundFx() {
+      if (!document.getElementById("cursor-dot")) {
+        const dot = document.createElement("div");
+        dot.className = "cursor-dot";
+        dot.id = "cursor-dot";
+        document.body.prepend(dot);
+      }
+      if (!document.getElementById("cursor-ring")) {
+        const ring = document.createElement("div");
+        ring.className = "cursor-ring";
+        ring.id = "cursor-ring";
+        document.body.prepend(ring);
+      }
+      if (!document.getElementById("scroll-progress")) {
+        const progress = document.createElement("div");
+        progress.className = "scroll-progress";
+        progress.id = "scroll-progress";
+        document.body.prepend(progress);
+      }
+      if (!document.getElementById("particles-canvas")) {
+        const canvas = document.createElement("canvas");
+        canvas.id = "particles-canvas";
+        document.body.prepend(canvas);
+      }
+      if (!document.querySelector(".gradient-bg")) {
+        const bg = document.createElement("div");
+        bg.className = "gradient-bg";
+        document.body.prepend(bg);
+      }
+    },
+
+    /**
      * Initializes layout components across the page.
      */
     init() {
+      this.renderBackgroundFx();
       this.renderHeader();
       this.renderFooter();
       this.renderContactCards();
