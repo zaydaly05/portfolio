@@ -107,6 +107,95 @@
           <span id="lightbox-counter" class="lightbox-counter"></span>
         </div>
       </div>
+    `,
+    "terminal-drawer": () => `
+      <div id="terminal-drawer" class="terminal-drawer hidden">
+        <div class="terminal-header">
+          <div class="terminal-window-dots">
+            <span class="dot dot-red" id="terminal-close-dot"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <div class="terminal-title">zayd@portfolio-cli:~</div>
+          <button id="terminal-close-btn" class="terminal-close-x">✕</button>
+        </div>
+        <div class="terminal-body" id="terminal-body">
+          <div class="terminal-welcome">
+            <p class="term-glow">Welcome to Zayd Ali Mohamed's Interactive Terminal CLI v2.0!</p>
+            <p>
+              Type <span class="term-cmd">help</span> to see available commands (e.g.,
+              <span class="term-cmd">skills</span>, <span class="term-cmd">projects</span>,
+              <span class="term-cmd">exp</span>, <span class="term-cmd">contact</span>, <span class="term-cmd">cv</span>,
+              <span class="term-cmd">clear</span>).
+            </p>
+          </div>
+          <div id="terminal-output"></div>
+          <form id="terminal-input-form" class="terminal-input-row">
+            <span class="term-prompt">zayd@portfolio:~$</span>
+            <input
+              type="text"
+              id="terminal-input"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="type a command..."
+            />
+          </form>
+        </div>
+      </div>
+    `,
+    "ai-chat-widget": () => `
+      <div id="ai-chat-widget" class="ai-chat-widget">
+        <button id="ai-chat-toggle-btn" class="ai-chat-toggle-btn" aria-label="Toggle Ask Zayd AI Copilot">
+          <div class="ai-avatar-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12A10 10 0 0 1 12 2z" />
+              <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+              <line x1="9" y1="9" x2="9.01" y2="9" />
+              <line x1="15" y1="9" x2="15.01" y2="9" />
+            </svg>
+          </div>
+          <span class="ai-btn-text">Ask Zayd AI</span>
+          <span class="ai-online-pulse"></span>
+        </button>
+
+        <div id="ai-chat-drawer" class="ai-chat-drawer hidden">
+          <div class="ai-chat-header">
+            <div class="ai-header-info">
+              <div class="ai-avatar-small">🤖</div>
+              <div>
+                <h5>Zayd Copilot AI</h5>
+                <p class="ai-subtitle">Instant answer assistant</p>
+              </div>
+            </div>
+            <button id="ai-chat-close-btn" class="ai-close-btn" aria-label="Close AI Chat">✕</button>
+          </div>
+
+          <div class="ai-chat-body" id="ai-chat-body">
+            <div class="ai-chat-msg ai-msg-bot">
+              <div class="msg-content">
+                👋 Hi! I'm Zayd's AI assistant. Ask me anything about Zayd's technical background, projects, Spring Boot,
+                React, C#, Flutter skills, or experience at TAQA Arabia!
+              </div>
+            </div>
+            <div class="ai-suggestions-row" id="ai-initial-suggestions">
+              <button class="ai-chip-btn">What is Zayd's tech stack?</button>
+              <button class="ai-chip-btn">Tell me about TAQA Arabia</button>
+              <button class="ai-chip-btn">Show top projects</button>
+              <button class="ai-chip-btn">How to contact Zayd?</button>
+            </div>
+          </div>
+
+          <form id="ai-chat-form" class="ai-chat-input-row">
+            <input type="text" id="ai-chat-input" placeholder="Ask Zayd AI anything..." autocomplete="off" />
+            <button type="submit" class="ai-send-btn" aria-label="Send message">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="22" y1="2" x2="11" y2="13" />
+                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
     `
   };
 
