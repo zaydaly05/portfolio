@@ -1219,6 +1219,11 @@ const renderProjects = (items) => {
     const isDrNaglaBioProject = nameLower.includes("dr. naglaa");
 
     const autoScreenshots = Array.isArray(item.screenshots) && item.screenshots.length > 0 ? item.screenshots : null;
+    const dedupeMedia = (list) => {
+      if (!Array.isArray(list)) return [];
+      const seen = new Set();
+      return list.filter(m => m && m.src && !seen.has(m.src) && seen.add(m.src));
+    };
 
     return {
       tag: item.showcaseStatus === "Completed" ? "Project Details · Showcase Captured" : "Project Details",
@@ -1230,7 +1235,7 @@ const renderProjects = (items) => {
         `Automatically synced with GitHub project commits`,
         item.showcaseStatus ? `Automated Showcase Status: ${item.showcaseStatus}` : null
       ].filter(Boolean),
-      media:
+      media: dedupeMedia(
         autoScreenshots ||
         (isDrNaglaBioProject
           ? [
@@ -1326,14 +1331,8 @@ const renderProjects = (items) => {
                         src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135566/WhatsApp_Image_2026-05-05_at_10.01.56_PM_1.jpg",
                         alt: "In Gaz API System - Flutter Mobile App Screen 2"
                       },
-                      {
-                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/WhatsApp_Image_2026-05-05_at_10.01.56_PM.jpg",
-                        alt: "In Gaz API System - .NET Core Web API Swagger Documentation"
-                      },
-                      {
-                        src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135566/WhatsApp_Image_2026-05-05_at_10.01.56_PM_1.jpg",
-                        alt: "In Gaz API System - MVC Controller Data Endpoint Schema"
-                      }
+                      
+                      
                     ]
                   : isCarRentalProject
                     ? [
@@ -1349,10 +1348,7 @@ const renderProjects = (items) => {
                           src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135545/c3.png",
                           alt: "Car Rental Website - Customer Booking & Checkout Form"
                         },
-                        {
-                          src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135542/c1.png",
-                          alt: "Car Rental Website - Platform Main Landing Page"
-                        }
+                        
                       ]
                     : isRestaurantProject
                       ? [
@@ -1388,14 +1384,8 @@ const renderProjects = (items) => {
                               type: "video",
                               alt: "Sleeping Alert System - Realtime Facial Bounding Box Video Demo"
                             },
-                            {
-                              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135567/py2.jpg",
-                              alt: "Sleeping Alert System - Mobile Flutter Monitor Screen"
-                            },
-                            {
-                              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135567/py2.jpg",
-                              alt: "Sleeping Alert System - Driver Eye Aspect Ratio Threshold Dashboard"
-                            }
+                            
+                            
                           ]
                         : isEmployeeAttendanceProject
                           ? [
@@ -1423,7 +1413,7 @@ const renderProjects = (items) => {
                                   "https://res.cloudinary.com/delnnzcph/image/upload/v1791135534/main-photo.jpg",
                                 alt: item.name
                               }
-                            ])
+                            ]))
     };
   });
 };
