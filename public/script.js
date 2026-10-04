@@ -1235,7 +1235,15 @@ const renderProjects = (items) => {
     const dedupeMedia = (list) => {
       if (!Array.isArray(list)) return [];
       const seen = new Set();
-      return list.filter(m => m && m.src && !seen.has(m.src) && seen.add(m.src));
+      const validMedia = list.filter((m) => {
+        if (!m || !m.src) return false;
+        const isLogo =
+          (item.image && m.src === item.image) ||
+          (typeof m.src === "string" && m.src.includes("/Logo Icon/"));
+        if (isLogo && list.length > 1) return false;
+        return !seen.has(m.src) && seen.add(m.src);
+      });
+      return validMedia.length > 0 ? validMedia : list.filter((m) => m && m.src);
     };
 
     return {
