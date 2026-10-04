@@ -6282,3 +6282,192 @@ textarea.invalid {
   color: #65f0ff;
   transform: translateY(-2deg);
 }
+
+/* ============================================
+   TEMPORARY LIVE IMAGE ADJUSTER FLOATING PANEL
+   ============================================ */
+.temp-img-adjuster-floating-bar {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999999;
+  width: 360px;
+  max-width: 90vw;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(101, 240, 255, 0.4);
+  border-radius: 20px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 30px rgba(101, 240, 255, 0.2);
+  backdrop-filter: blur(20px);
+  color: #f8fafc;
+  font-family: system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+  animation: slideUpAdjuster 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideUpAdjuster {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.temp-img-adjuster-header {
+  padding: 14px 18px;
+  background: linear-gradient(90deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.temp-img-adjuster-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.temp-img-adjuster-title strong {
+  display: block;
+  font-size: 0.92rem;
+  color: #ffffff;
+}
+
+.temp-img-adjuster-title small {
+  display: block;
+  font-size: 0.75rem;
+  color: #65f0ff;
+  font-weight: 700;
+}
+
+.adjuster-header-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.adjuster-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.adjuster-btn:hover {
+  background: rgba(101, 240, 255, 0.2);
+  border-color: #65f0ff;
+}
+
+.adjuster-btn.close:hover {
+  background: #ef4444;
+  border-color: #ef4444;
+}
+
+.temp-img-adjuster-body {
+  padding: 16px 18px;
+  max-height: 440px;
+  overflow-y: auto;
+}
+
+.adjuster-control-group {
+  margin-bottom: 14px;
+}
+
+.adjuster-control-group label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.adjuster-control-group select {
+  width: 100%;
+  background: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.adjuster-btn-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.adj-btn {
+  flex: 1 1 calc(50% - 6px);
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.adj-btn:hover {
+  border-color: #65f0ff;
+  color: #ffffff;
+}
+
+.adj-btn.active {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  border-color: #65f0ff;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(101, 240, 255, 0.3);
+}
+
+.adjuster-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.adjuster-slider-row input[type="range"] {
+  flex: 1;
+  accent-color: #65f0ff;
+}
+
+.adjuster-slider-row span {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #65f0ff;
+  min-width: 50px;
+}
+
+.adjuster-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.adj-action-btn.copy {
+  flex: 1;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border: none;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.adj-action-btn.copy:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4);
+}
