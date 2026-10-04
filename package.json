@@ -13,7 +13,8 @@
     "lint": "npx eslint server.js public/script.js scripts/",
     "lint:fix": "npx eslint --fix server.js public/script.js scripts/",
     "test": "npx playwright test",
-    "test:ui": "npx playwright test --ui"
+    "test:ui": "npx playwright test --ui",
+    "verify:components": "node scripts/verify-layout-components.js"
   },
   "keywords": [],
   "author": "",
