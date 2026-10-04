@@ -1,9 +1,9 @@
 /* ============================================
-   SERVICE WORKER (PWA & OFFLINE ASSET CACHING)
-   Caches core static assets, Cloudinary images, fonts, and layout JS.
+   SERVICE WORKER (PWA & FAST NETWORK-FIRST CACHING)
+   Caches core static assets with Network-First strategy for code/HTML to prevent stale caching.
    ============================================ */
 
-const CACHE_NAME = "zayd-portfolio-v1";
+const CACHE_NAME = "zayd-portfolio-v3";
 const ASSETS_TO_CACHE = [
   "/",
   "/index.html",
@@ -11,11 +11,12 @@ const ASSETS_TO_CACHE = [
   "/skills",
   "/experience",
   "/contact",
-  "/styles.css?v=3",
+  "/styles.css?v=20261005",
   "/layout.js",
   "/modals.js",
   "/buttons.js",
-  "/script.js?v=11",
+  "/ui-effects.js",
+  "/script.js?v=20261005",
   "https://res.cloudinary.com/delnnzcph/image/upload/v1791135580/logo.jpg",
   "https://res.cloudinary.com/delnnzcph/image/upload/v1791135534/main-photo.jpg"
 ];
@@ -38,7 +39,7 @@ self.addEventListener("activate", (event) => {
       return Promise.all(
         cacheNames.map((cache) => {
           if (cache !== CACHE_NAME) {
-            console.log("[ServiceWorker] Removing old cache:", cache);
+            console.log("[ServiceWorker] Purging old cache:", cache);
             return caches.delete(cache);
           }
         })
@@ -51,26 +52,33 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
 
+  const url = new URL(event.request.url);
+
+  // Network-first for HTML, JS, CSS so code updates apply immediately without stale cache
+  if (url.origin === location.origin) {
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const clone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return networkResponse;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  // Cache-first for Cloudinary images & external fonts
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        // Return cached asset and update cache in background
-        fetch(event.request)
-          .then((networkResponse) => {
-            if (networkResponse && networkResponse.status === 200) {
-              caches.open(CACHE_NAME).then((cache) => cache.put(event.request, networkResponse));
-            }
-          })
-          .catch(() => {});
-        return cachedResponse;
-      }
+      if (cachedResponse) return cachedResponse;
 
       return fetch(event.request).then((networkResponse) => {
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== "basic") {
-          return networkResponse;
-        }
-        const responseToCache = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseToCache));
+        if (!networkResponse || networkResponse.status !== 200) return networkResponse;
+        const clone = networkResponse.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
         return networkResponse;
       });
     })

@@ -503,9 +503,11 @@ class ParticleSystem {
     this.ctx = canvas.getContext("2d");
     this.particles = [];
     this.mouse = { x: null, y: null };
-    this.particleCount = 60;
-    this.connectionDistance = 120;
-    this.mouseRadius = 150;
+    const isMobile = window.innerWidth <= 768;
+    this.particleCount = isMobile ? 18 : 35;
+    this.connectionDistance = isMobile ? 80 : 100;
+    this.mouseRadius = isMobile ? 100 : 130;
+    this.animating = true;
 
     this.resize();
     this.createParticles();
@@ -524,32 +526,49 @@ class ParticleSystem {
       this.particles.push({
         x: Math.random() * this.canvas.width,
         y: Math.random() * this.canvas.height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        radius: Math.random() * 1.8 + 0.6,
-        opacity: Math.random() * 0.5 + 0.2
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        radius: Math.random() * 1.5 + 0.5,
+        opacity: Math.random() * 0.4 + 0.15
       });
     }
   }
 
   bindEvents() {
+    let resizeTimeout;
     window.addEventListener("resize", () => {
-      this.resize();
-      this.createParticles();
-    });
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        this.resize();
+        this.createParticles();
+      }, 200);
+    }, { passive: true });
 
     window.addEventListener("mousemove", (e) => {
       this.mouse.x = e.clientX;
       this.mouse.y = e.clientY;
-    });
+    }, { passive: true });
 
     window.addEventListener("mouseout", () => {
       this.mouse.x = null;
       this.mouse.y = null;
+    }, { passive: true });
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        this.animating = false;
+      } else {
+        if (!this.animating) {
+          this.animating = true;
+          this.animate();
+        }
+      }
     });
   }
 
   animate() {
+    if (!this.animating || document.hidden) return;
+
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     const isLight = document.documentElement.getAttribute("data-theme") === "light";
@@ -571,17 +590,19 @@ class ParticleSystem {
       if (this.mouse.x !== null) {
         const dx = p.x - this.mouse.x;
         const dy = p.y - this.mouse.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < this.mouseRadius) {
+        const distSq = dx * dx + dy * dy;
+        const radiusSq = this.mouseRadius * this.mouseRadius;
+        if (distSq < radiusSq) {
+          const dist = Math.sqrt(distSq);
           const force = (this.mouseRadius - dist) / this.mouseRadius;
-          p.vx += (dx / dist) * force * 0.02;
-          p.vy += (dy / dist) * force * 0.02;
+          p.vx += (dx / (dist || 1)) * force * 0.015;
+          p.vy += (dy / (dist || 1)) * force * 0.015;
         }
       }
 
       // Speed damping
-      p.vx *= 0.999;
-      p.vy *= 0.999;
+      p.vx *= 0.99;
+      p.vy *= 0.99;
 
       // Draw particle
       this.ctx.beginPath();
@@ -594,14 +615,17 @@ class ParticleSystem {
         const p2 = this.particles[j];
         const dx = p.x - p2.x;
         const dy = p.y - p2.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < this.connectionDistance) {
-          const lineOpacity = (1 - dist / this.connectionDistance) * 0.15;
+        const distSq = dx * dx + dy * dy;
+        const connDistSq = this.connectionDistance * this.connectionDistance;
+
+        if (distSq < connDistSq) {
+          const dist = Math.sqrt(distSq);
+          const lineOpacity = (1 - dist / this.connectionDistance) * 0.12;
           this.ctx.beginPath();
           this.ctx.moveTo(p.x, p.y);
           this.ctx.lineTo(p2.x, p2.y);
           this.ctx.strokeStyle = `rgba(${lineColor}, ${lineOpacity})`;
-          this.ctx.lineWidth = 0.6;
+          this.ctx.lineWidth = 0.5;
           this.ctx.stroke();
         }
       }
