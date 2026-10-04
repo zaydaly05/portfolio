@@ -145,7 +145,7 @@ const fallbackPortfolio = {
       name: "Car Rental Website",
       period: "May 2025",
       stack: "HTML, CSS, MongoDB, Node.js, JavaScript",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135561/app_icon.png",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135540/logo00.png",
       github: "https://github.com/zaydaly05/Car_Rental_Website",
       description:
         "Developed a comprehensive e-commerce style platform for users to browse and rent cars with authentication, catalog management, and order processing."
@@ -172,7 +172,7 @@ const fallbackPortfolio = {
       name: "Zaydentity Digital Identity Platform",
       period: "September 2026",
       stack: "HTML5, CSS3, JavaScript",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135534/main-photo.jpg",
+      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1791141032/zayd-portfolio/showcase/Zaydentity%20Digital%20Identity%20Platform/Logo%20Icon/Screenshot_2026-10-04_175842.png",
       github: "https://github.com/zaydaly05/zaydentity",
       description:
         "Digital personal branding & bio-link platform consolidating developer links, project highlights, and verified professional credentials in a unified interactive card UI."
