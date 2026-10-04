@@ -2885,32 +2885,26 @@ const setupCVViewerModal = () => {
 
   if (!cvModal) return;
 
-  let cachedCvUrl =
-    "/Zayd_Ali_Mohamed_CV.pdf";
+  const DEFAULT_CV_URL = "https://res.cloudinary.com/delnnzcph/image/upload/v1791142658/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf";
+  let cachedCvUrl = DEFAULT_CV_URL;
 
   fetch("/api/cv-url")
-    .then((res) => res.json())
+    .then((res) => {
+      const contentType = res.headers.get("content-type");
+      if (res.ok && contentType && contentType.includes("application/json")) {
+        return res.json();
+      }
+      return null;
+    })
     .then((data) => {
-      if (data && data.url) {
-        cachedCvUrl = data.url.includes("collection.cloudinary.com")
-          ? "/Zayd_Ali_Mohamed_CV.pdf"
-          : data.url;
+      if (data && data.url && typeof data.url === "string" && data.url.toLowerCase().endsWith(".pdf")) {
+        cachedCvUrl = data.url;
       }
     })
     .catch(() => {});
 
   const openCVModal = async () => {
     let cvUrl = cachedCvUrl;
-    try {
-      const res = await fetch("/api/cv-url");
-      const data = await res.json();
-      if (data && data.url) {
-        cvUrl = data.url.includes("collection.cloudinary.com")
-          ? "/Zayd_Ali_Mohamed_CV.pdf"
-          : data.url;
-        cachedCvUrl = cvUrl;
-      }
-    } catch (_) {}
 
     const iframe = document.getElementById("cv-iframe");
     if (iframe) {
