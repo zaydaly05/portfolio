@@ -626,7 +626,7 @@ app.get("/api/logs", async (req, res) => {
         const query = level ? { level } : {};
         dbLogs = await LogRecord.find(query).sort({ timestamp: -1 }).limit(limit).lean();
       }
-    } catch (e) {}
+    } catch (_e) {}
 
     let combinedLogs = [...systemLogBuffer];
     if (dbLogs.length > 0) {
@@ -702,7 +702,7 @@ app.post("/api/logs", async (req, res) => {
           userAgent: entry.userAgent
         }).catch((err) => console.error("Failed to save LogRecord to DB:", err.message));
       }
-    } catch (e) {}
+    } catch (_e) {}
 
     res.json({ success: true, recorded: entry.id });
   } catch (err) {
@@ -1289,7 +1289,7 @@ app.get("/cv", async (req, res) => {
         targetUrl = config.url.includes("collection.cloudinary.com") ? DEFAULT_CV_URL : config.url;
       }
     }
-  } catch (err) {}
+  } catch (_err) {}
 
   res.redirect(302, targetUrl);
 });

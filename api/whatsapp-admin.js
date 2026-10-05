@@ -24,7 +24,7 @@ function getStoredPersonalContacts() {
     if (fs.existsSync(PERSONAL_CONTACTS_FILE)) {
       return JSON.parse(fs.readFileSync(PERSONAL_CONTACTS_FILE, 'utf8'));
     }
-  } catch (e) {}
+  } catch (_e) {}
   return [];
 }
 
@@ -38,7 +38,7 @@ function savePersonalContact(phone, name = 'Phone Contact') {
       const dir = path.dirname(PERSONAL_CONTACTS_FILE);
       if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
       fs.writeFileSync(PERSONAL_CONTACTS_FILE, JSON.stringify(contacts, null, 2), 'utf8');
-    } catch (e) {}
+    } catch (_e) {}
   }
 }
 

@@ -36,7 +36,7 @@ function extractRepoSlug(githubUrl, name) {
   return name.toLowerCase().replace(/[^a-z0-9_-]/g, '-');
 }
 
-async function processProjectShowcase(project, options = {}) {
+async function processProjectShowcase(project, _options = {}) {
   const manifest = loadManifest();
   const githubUrl = project.github;
   const slug = extractRepoSlug(githubUrl, project.name);

@@ -1,5 +1,4 @@
-const fs = require('fs');
-const path = require('path');
+
 const { WhatsAppClient } = require('@kapso/whatsapp-cloud-api');
 const { getKey } = require('../keys');
 

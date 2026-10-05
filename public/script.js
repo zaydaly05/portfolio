@@ -767,7 +767,7 @@ const modalState = { open: false };
 const lightboxState = { open: false, images: [], index: 0 };
 let modalMediaObserver = null;
 
-const buildMediaHtml = (media) => {
+const _buildMediaHtml = (media) => {
   let imageIndex = 0;
   return media
     .map((item, idx) => {

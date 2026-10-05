@@ -23,7 +23,7 @@ CORE_JS_FILES.forEach((file) => {
   try {
     execSync(`node -c "${filePath}"`);
     console.log(`  ✓ ${file} compiled successfully with zero syntax errors.`);
-  } catch (err) {
+  } catch (_err) {
     console.error(`  ❌ Syntax error detected in ${file}!`);
     errors++;
   }
