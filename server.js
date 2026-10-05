@@ -3,6 +3,7 @@ const path = require("path");
 const fs = require("fs");
 const os = require("os");
 const { connectDB, Review, Star, Contact, CvConfig, LogRecord } = require("./db");
+const { getKey } = require("./keys");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -782,22 +783,27 @@ app.get("/api/github", async (req, res) => {
     return res.json(githubCache.data);
   }
 
+  const ghToken = getKey("github") || process.env.GITHUB_TOKEN;
+  const headers = { "User-Agent": "Zayd-Portfolio-App" };
+  if (ghToken) {
+    headers["Authorization"] = `token ${ghToken}`;
+  }
+
   try {
-    const userRes = await fetch("https://api.github.com/users/zaydaly05", {
-      headers: { "User-Agent": "Zayd-Portfolio-App" }
-    });
+    const userRes = await fetch("https://api.github.com/users/zaydaly05", { headers });
 
     if (!userRes.ok) {
+      if (githubCache.data) {
+        return res.json(githubCache.data);
+      }
       throw new Error(`GitHub API error: ${userRes.status}`);
     }
 
     const userData = await userRes.json();
-    const reposRes = await fetch("https://api.github.com/users/zaydaly05/repos?sort=updated&per_page=6", {
-      headers: { "User-Agent": "Zayd-Portfolio-App" }
-    });
+    const reposRes = await fetch("https://api.github.com/users/zaydaly05/repos?sort=updated&per_page=6", { headers });
     const reposData = reposRes.ok ? await reposRes.json() : [];
 
-    const formattedRepos = reposData.map((r) => ({
+    const formattedRepos = Array.isArray(reposData) ? reposData.map((r) => ({
       name: r.name,
       description: r.description || "Project repository by Zayd",
       url: r.html_url,
@@ -805,7 +811,7 @@ app.get("/api/github", async (req, res) => {
       forks: r.forks_count,
       language: r.language || "JavaScript",
       updatedAt: r.updated_at
-    }));
+    })) : [];
 
     const result = {
       username: userData.login,
@@ -820,7 +826,10 @@ app.get("/api/github", async (req, res) => {
     githubCache = { data: result, timestamp: Date.now() };
     res.json(result);
   } catch (err) {
-    console.error("GitHub fetch error:", err.message);
+    console.warn("GitHub fetch notice (using cache/fallback):", err.message);
+    if (githubCache.data) {
+      return res.json(githubCache.data);
+    }
     // Fallback response if offline or rate limited
     res.json({
       username: "zaydaly05",
