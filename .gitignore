@@ -38,3 +38,8 @@ test-results/
 
 # Temporary sandbox build workspaces
 temp_projects/
+
+# Workflows & GitHub Actions (excluded from remote repo)
+.github/
+local-workflows/
+
