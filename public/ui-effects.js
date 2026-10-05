@@ -167,112 +167,7 @@
   };
 
   // --------------------------------------------
-  // 4. INTERACTIVE PROJECT FILTER & SEARCH ENGINE
-  // --------------------------------------------
-  const ProjectFilterManager = {
-    currentCategory: "all",
-    searchQuery: "",
-
-    init() {
-      const filterContainer = document.getElementById("project-filter-chips");
-      const searchInput = document.getElementById("project-search-input");
-
-      if (filterContainer && !filterContainer.dataset.initialized) {
-        filterContainer.dataset.initialized = "true";
-        filterContainer.addEventListener("click", (e) => {
-          const btn = e.target.closest(".filter-chip-btn");
-          if (!btn) return;
-
-          filterContainer.querySelectorAll(".filter-chip-btn").forEach((chip) => chip.classList.remove("active"));
-          btn.classList.add("active");
-          this.currentCategory = btn.dataset.category || "all";
-          this.applyFilter();
-        });
-      }
-
-      if (searchInput && !searchInput.dataset.initialized) {
-        searchInput.dataset.initialized = "true";
-        searchInput.addEventListener("input", (e) => {
-          this.searchQuery = e.target.value.toLowerCase().trim();
-          this.applyFilter();
-        });
-      }
-    },
-
-    applyFilter() {
-      const cards = document.querySelectorAll("#projects-grid .project-card, #featured-projects-grid .project-card");
-      cards.forEach((card) => {
-        const title = (card.querySelector(".project-title")?.textContent || "").toLowerCase();
-        const desc = (card.querySelector(".project-desc")?.textContent || "").toLowerCase();
-        const stack = (card.dataset.stack || card.textContent || "").toLowerCase();
-
-        const matchesCategory =
-          this.currentCategory === "all" ||
-          stack.includes(this.currentCategory) ||
-          (this.currentCategory === "mobile" && (stack.includes("flutter") || stack.includes("android"))) ||
-          (this.currentCategory === "backend" && (stack.includes("spring") || stack.includes("c#") || stack.includes("express")));
-
-        const matchesSearch = !this.searchQuery || title.includes(this.searchQuery) || desc.includes(this.searchQuery) || stack.includes(this.searchQuery);
-
-        if (matchesCategory && matchesSearch) {
-          card.style.display = "";
-          card.classList.remove("hidden-filter");
-        } else {
-          card.style.display = "none";
-          card.classList.add("hidden-filter");
-        }
-      });
-    }
-  };
-
-  // --------------------------------------------
-  // 5. WEB SPEECH API VOICE SYNTHESIS & STREAMING ENGINE
-  // --------------------------------------------
-  const VoiceAssistantManager = {
-    speaking: false,
-    synth: typeof window !== "undefined" && "speechSynthesis" in window ? window.speechSynthesis : null,
-
-    speak(text) {
-      if (!this.synth || AudioManager.muted) return;
-      this.stop();
-
-      const cleanText = text.replace(/<[^>]*>/g, "").replace(/[\u{1F600}-\u{1F64F}]/gu, "");
-      const utterance = new SpeechSynthesisUtterance(cleanText);
-      utterance.rate = 1.0;
-      utterance.pitch = 1.0;
-
-      utterance.onend = () => { this.speaking = false; };
-      utterance.onerror = () => { this.speaking = false; };
-
-      this.speaking = true;
-      this.synth.speak(utterance);
-    },
-
-    stop() {
-      if (this.synth) {
-        this.synth.cancel();
-        this.speaking = false;
-      }
-    },
-
-    typeStream(element, text, speed = 18, onComplete) {
-      if (!element) return;
-      element.innerHTML = "";
-      let i = 0;
-      const timer = setInterval(() => {
-        if (i < text.length) {
-          element.innerHTML += text.charAt(i);
-          i++;
-        } else {
-          clearInterval(timer);
-          if (onComplete) onComplete();
-        }
-      }, speed);
-    }
-  };
-
-  // --------------------------------------------
-  // 6. MATRIX CODE RAIN VISUAL FX CANVAS
+  // 4. MATRIX CODE RAIN VISUAL FX CANVAS
   // --------------------------------------------
   const MatrixRainManager = {
     canvas: null,
@@ -425,8 +320,6 @@
   global.ToastManager = ToastManager;
   global.AudioManager = AudioManager;
   global.UIFxManager = UIFxManager;
-  global.ProjectFilterManager = ProjectFilterManager;
-  global.VoiceAssistantManager = VoiceAssistantManager;
   global.MatrixRainManager = MatrixRainManager;
   global.MobileCompatibilityManager = MobileCompatibilityManager;
 
@@ -434,7 +327,6 @@
   const initAll = () => {
     ToastManager.init();
     UIFxManager.init3DTilt();
-    ProjectFilterManager.init();
     MobileCompatibilityManager.init();
 
     // Bind copy-chip toasts

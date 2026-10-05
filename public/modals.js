@@ -335,21 +335,8 @@
         if (galleryCountBadge) {
           galleryCountBadge.textContent = `${mediaList.length} Media File${mediaList.length === 1 ? "" : "s"}`;
         }
-        mediaContainer.innerHTML = mediaList
-          .map((media, idx) => {
-            const isVideo = media.type === "video" || (media.src && media.src.toLowerCase().endsWith(".mp4"));
-            const mediaTag = isVideo
-              ? `<video src="${media.src}" controls playsinline style="width:100%; border-radius:12px;"></video>`
-              : `<img src="${media.src}" alt="${media.alt || payload.title}" class="modal-media-clickable" data-media-index="${idx}" style="width:100%; border-radius:12px; cursor:pointer;" />`;
-
-            return `
-              <div class="modal-media-item">
-                <span class="modal-media-badge-index">#${idx + 1}</span>
-                ${mediaTag}
-              </div>
-            `;
-          })
-          .join("");
+        // Clear and let the specialized initModalMedia in script.js handle the high-performance rendering
+        mediaContainer.innerHTML = "";
       }
 
       // Action Buttons

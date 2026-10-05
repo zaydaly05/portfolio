@@ -958,6 +958,12 @@ const shiftLightbox = (delta) => {
 
 const openModal = (payload) => {
   ModalManager.open("details-modal", payload);
+
+  // Initialize high-performance media gallery (Lazy Loading + Lightbox)
+  const mediaContainer = document.getElementById("modal-media");
+  if (mediaContainer && payload.media) {
+    initModalMedia(mediaContainer, payload.media);
+  }
 };
 
 const closeModal = () => {
