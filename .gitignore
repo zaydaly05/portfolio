@@ -43,3 +43,6 @@ temp_projects/
 .github/
 local-workflows/
 
+.cleanai/
+
+
