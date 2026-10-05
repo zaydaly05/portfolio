@@ -15,6 +15,10 @@ app.use((req, res, next) => {
   res.setHeader("X-XSS-Protection", "1; mode=block");
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
   res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  res.setHeader(
+    "Content-Security-Policy",
+    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://res.cloudinary.com https://cdn.jsdelivr.net https://_vercel/ https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; img-src 'self' data: blob: https: https://res.cloudinary.com https://github.com https://avatars.githubusercontent.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; connect-src 'self' https:; frame-ancestors 'self';"
+  );
   next();
 });
 
@@ -1362,7 +1366,13 @@ app.use((req, res) => {
     return res.status(404).json({ error: "Not found" });
   }
 
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  const isHomeRoute = cleanPath === "" || cleanPath === "/" || cleanPath === "/index" || cleanPath === "/index.html";
+  if (isHomeRoute) {
+    return res.sendFile(path.join(__dirname, "public", "index.html"));
+  }
+
+  // Return true HTTP 404 status for non-existent routes to prevent Soft 404 issues
+  res.status(404).sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 if (require.main === module) {

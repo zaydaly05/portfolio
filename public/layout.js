@@ -117,11 +117,35 @@
         <div class="footer-container">
           <p>Crafted with passion by <strong>Zayd Ali Mohamed</strong>.</p>
           <div class="footer-links">
-            <button id="terminal-footer-btn" class="footer-link-btn">Terminal CLI</button>
-            <button id="ai-chat-footer-btn" class="footer-link-btn">AI Assistant</button>
+            <button id="privacy-policy-footer-btn" class="footer-link-btn" type="button">Privacy Policy</button>
+            <button id="terminal-footer-btn" class="footer-link-btn" type="button">Terminal CLI</button>
+            <button id="ai-chat-footer-btn" class="footer-link-btn" type="button">AI Assistant</button>
           </div>
         </div>
       `;
+    },
+
+    /**
+     * Renders cookie consent banner if not previously accepted.
+     */
+    renderCookieConsent() {
+      if (localStorage.getItem("cookie_consent_accepted")) return;
+      const banner = document.createElement("div");
+      banner.id = "cookie-consent-banner";
+      banner.className = "cookie-consent-banner";
+      banner.innerHTML = `
+        <div class="cookie-consent-content">
+          <span>🍪 We use essential cookies and anonymous telemetry to optimize your experience.</span>
+          <div class="cookie-consent-buttons">
+            <button id="cookie-accept-btn" class="btn btn-sm" type="button">Accept</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(banner);
+      document.getElementById("cookie-accept-btn")?.addEventListener("click", () => {
+        localStorage.setItem("cookie_consent_accepted", "true");
+        banner.remove();
+      });
     },
 
     /**
@@ -171,7 +195,7 @@
           <a
             href="https://www.linkedin.com/in/zayd-ali-17a85a1a0"
             target="_blank"
-            rel="noopener"
+            rel="noopener noreferrer"
             class="btn-copy-chip"
             style="background: #0a66c2; color: #fff; text-decoration: none"
             >Connect ↗</a
@@ -240,6 +264,7 @@
       this.renderHeader();
       this.renderFooter();
       this.renderContactCards();
+      this.renderCookieConsent();
     }
   };
 
