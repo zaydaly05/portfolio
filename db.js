@@ -94,15 +94,29 @@ const cvConfigSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
+const logRecordSchema = new mongoose.Schema({
+  logId: String,
+  timestamp: { type: Date, default: Date.now },
+  level: { type: String, default: "info" },
+  message: { type: String, required: true },
+  details: mongoose.Schema.Types.Mixed,
+  url: String,
+  path: String,
+  ip: String,
+  userAgent: String
+});
+
 const Review = mongoose.models.Review || mongoose.model("Review", reviewSchema);
 const Star = mongoose.models.Star || mongoose.model("Star", starSchema);
 const Contact = mongoose.models.Contact || mongoose.model("Contact", contactSchema);
 const CvConfig = mongoose.models.CvConfig || mongoose.model("CvConfig", cvConfigSchema);
+const LogRecord = mongoose.models.LogRecord || mongoose.model("LogRecord", logRecordSchema);
 
 module.exports = {
   connectDB,
   Review,
   Star,
   Contact,
-  CvConfig
+  CvConfig,
+  LogRecord
 };

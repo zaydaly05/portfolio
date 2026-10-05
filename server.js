@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const os = require("os");
-const { connectDB, Review, Star, Contact, CvConfig } = require("./db");
+const { connectDB, Review, Star, Contact, CvConfig, LogRecord } = require("./db");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -604,6 +604,111 @@ const getShowcaseManifest = () => {
   }
   return { projects: {} };
 };
+
+// In-Memory Ring Buffer for Telemetry Logs & Crash Records
+const systemLogBuffer = [];
+const MAX_LOG_BUFFER = 200;
+
+app.get("/api/logs", async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit, 10) || 100;
+    const level = req.query.level;
+
+    let dbLogs = [];
+    try {
+      const db = await connectDB();
+      if (db) {
+        const query = level ? { level } : {};
+        dbLogs = await LogRecord.find(query).sort({ timestamp: -1 }).limit(limit).lean();
+      }
+    } catch (e) {}
+
+    let combinedLogs = [...systemLogBuffer];
+    if (dbLogs.length > 0) {
+      const existingIds = new Set(combinedLogs.map((l) => l.id || l.logId));
+      for (const d of dbLogs) {
+        const recordId = d.logId || (d._id ? d._id.toString() : Math.random().toString(36).substr(2, 9));
+        if (!existingIds.has(recordId)) {
+          combinedLogs.push({
+            id: recordId,
+            timestamp: d.timestamp,
+            level: d.level,
+            message: d.message,
+            details: d.details,
+            url: d.url,
+            path: d.path,
+            ip: d.ip,
+            userAgent: d.userAgent
+          });
+        }
+      }
+    }
+
+    combinedLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    if (level) {
+      combinedLogs = combinedLogs.filter((l) => l.level === level);
+    }
+
+    res.json({
+      success: true,
+      count: combinedLogs.length,
+      logs: combinedLogs.slice(0, limit)
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message, logs: systemLogBuffer });
+  }
+});
+
+app.post("/api/logs", async (req, res) => {
+  try {
+    const logData = req.body || {};
+    const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress || "127.0.0.1";
+
+    const entry = {
+      id: logData.id || Math.random().toString(36).substring(2, 11),
+      timestamp: logData.timestamp || new Date().toISOString(),
+      level: logData.level || "info",
+      message: logData.message || "Unspecified client log event",
+      details: logData.details || {},
+      url: logData.url || "",
+      path: logData.path || "",
+      ip: ip,
+      userAgent: logData.userAgent || req.headers["user-agent"] || ""
+    };
+
+    systemLogBuffer.unshift(entry);
+    if (systemLogBuffer.length > MAX_LOG_BUFFER) systemLogBuffer.pop();
+
+    const prefix = entry.level === "crash" ? "🚨 [CRASH]" : entry.level === "error" ? "❌ [ERROR]" : "ℹ️ [LOG]";
+    console.log(`${prefix} ${entry.message} (Path: ${entry.path}, IP: ${ip})`);
+
+    try {
+      const db = await connectDB();
+      if (db) {
+        LogRecord.create({
+          logId: entry.id,
+          timestamp: new Date(entry.timestamp),
+          level: entry.level,
+          message: entry.message,
+          details: entry.details,
+          url: entry.url,
+          path: entry.path,
+          ip: entry.ip,
+          userAgent: entry.userAgent
+        }).catch((err) => console.error("Failed to save LogRecord to DB:", err.message));
+      }
+    } catch (e) {}
+
+    res.json({ success: true, recorded: entry.id });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.delete("/api/logs", (req, res) => {
+  systemLogBuffer.length = 0;
+  res.json({ success: true, message: "Logs cleared successfully" });
+});
 
 app.get("/api/portfolio", (req, res) => {
   const showcase = getShowcaseManifest();
