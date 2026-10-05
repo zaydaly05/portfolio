@@ -2836,7 +2836,7 @@ const setupCVViewerModal = () => {
 
     const iframe = document.getElementById("cv-iframe");
     if (iframe) {
-      iframe.src = "https://docs.google.com/gview?url=" + encodeURIComponent(cvUrl) + "&embedded=true";
+      iframe.src = cvUrl;
     }
 
     document

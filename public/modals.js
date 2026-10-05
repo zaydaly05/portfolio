@@ -84,12 +84,13 @@
             </div>
           </div>
           <div class="cv-iframe-container">
-            <iframe
-              src="https://docs.google.com/gview?url=https%3A%2F%2Fres.cloudinary.com%2Fdelnnzcph%2Fimage%2Fupload%2Fv1791142658%2Fzayd-portfolio%2FZayd_Ali_Mohamed_CV.pdf&embedded=true"
+            <embed
+              src="https://res.cloudinary.com/delnnzcph/image/upload/v1791142658/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf"
               id="cv-iframe"
+              type="application/pdf"
               title="CV"
               style="width: 100%; height: 100%; border: none"
-            ></iframe>
+            ></embed>
           </div>
         </div>
       </div>
@@ -232,7 +233,7 @@
         if (params.cvUrl) {
           const iframe = document.getElementById("cv-iframe");
           if (iframe) {
-            iframe.src = "https://docs.google.com/gview?url=" + encodeURIComponent(params.cvUrl) + "&embedded=true";
+            iframe.src = params.cvUrl;
           }
           const downloadLink = document.getElementById("cv-modal-download-link");
           if (downloadLink) {
