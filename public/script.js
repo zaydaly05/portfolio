@@ -967,108 +967,22 @@ const openModal = ({
   githubUrl = "",
   pdfUrl = null
 }) => {
-  const modal = document.getElementById("details-modal");
-  if (!modal) return;
-
-  setText("modal-tag", tag || "Details");
-  setText("modal-title", title);
-  setText("modal-subtitle", subtitle);
-  setText("modal-description", description);
-
-  // Render Tech Stack Pills
-  const techContainer = document.getElementById("modal-tech-pills");
-  if (techContainer) {
-    const techItems = stack ? stack.split(",").map((s) => s.trim()) : [];
-    techContainer.innerHTML = techItems.length
-      ? techItems.map((tech) => `<span class="modal-tech-pill">⚡ ${tech}</span>`).join("")
-      : "";
-  }
-
-  // Render Architecture / Points List
-  const listContainer = document.getElementById("modal-list") || document.getElementById("modal-points");
-  if (listContainer) {
-    listContainer.innerHTML = points.length
-      ? `<div class="modal-specs-grid">${points
-          .map((point) => {
-            let icon = "⚡";
-            if (point.includes("GitHub") || point.includes("Repository")) icon = "🔗";
-            else if (point.includes("Timeline") || point.includes("Deliverable")) icon = "📅";
-            else if (point.includes("Verification") || point.includes("Showcase")) icon = "🚀";
-            else if (point.includes("Supervisor") || point.includes("Signed")) icon = "📜";
-            return `
-          <div class="modal-spec-card">
-            <span class="modal-spec-icon">${icon}</span>
-            <span class="modal-spec-text">${point}</span>
-          </div>
-        `;
-          })
-          .join("")}</div>`
-      : "";
-  }
-
-  // Render Gallery Counter Badge
-  const countBadge = document.getElementById("modal-gallery-count");
-  if (countBadge) {
-    countBadge.textContent = media.length
-      ? `${media.length} High-Res ${media.length === 1 ? "Item" : "Screenshots & Media"}`
-      : "0 Media Files";
-  }
-
-  // Render Media Grid
-  const mediaContainer = document.getElementById("modal-media");
-  if (mediaContainer) {
-    mediaContainer.className = media.length
-      ? `modal-media-grid${media.length === 1 ? " modal-media-single" : ""}`
-      : "modal-media-placeholder";
-    mediaContainer.innerHTML = media.length
-      ? buildMediaHtml(media)
-      : "<p style='color:var(--muted);text-align:center;padding:20px;'>No screenshots uploaded for this entry.</p>";
-    initModalMedia(mediaContainer, media);
-  }
-
-  // Footer Buttons
-  const githubBtn = document.getElementById("modal-github-btn");
-  if (githubBtn) {
-    if (githubUrl) {
-      githubBtn.href = githubUrl;
-      githubBtn.style.display = "inline-flex";
-    } else {
-      githubBtn.style.display = "none";
-    }
-  }
-
-  const pdfBtn = document.getElementById("modal-pdf-btn");
-  if (pdfBtn) {
-    if (pdfUrl) {
-      pdfBtn.href = pdfUrl;
-      pdfBtn.style.display = "inline-flex";
-    } else {
-      pdfBtn.style.display = "none";
-    }
-  }
-
-  document.body.appendChild(modal);
-  modal.classList.remove("hidden");
-  modal.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
-  modalState.open = true;
+  ModalManager.open("details-modal", {
+    tag,
+    title,
+    subtitle,
+    description,
+    points,
+    media,
+    stack,
+    githubUrl,
+    pdfUrl,
+  });
 };
 
 const closeModal = () => {
   if (lightboxState.open) closeLightbox();
-
-  const modal = document.getElementById("details-modal");
-  if (!modal) return;
-
-  if (modalMediaObserver) {
-    modalMediaObserver.disconnect();
-    modalMediaObserver = null;
-  }
-
-  modal.classList.add("hidden");
-  modal.setAttribute("aria-hidden", "true");
-  document.body.style.overflow = "";
-  modalState.open = false;
+  ModalManager.close("details-modal");
 };
 
 const attachCardModalHandlers = (selector, getPayload) => {
