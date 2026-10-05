@@ -1,38 +1,17 @@
 const fs = require('fs');
 const path = require('path');
 const cloudinary = require('cloudinary').v2;
-
-// Load .env.local or .env if present
-const envLocalPath = path.join(__dirname, '..', '.env.local');
-const envPath = path.join(__dirname, '..', '.env');
-
-function loadEnvFile(filePath) {
-  if (fs.existsSync(filePath)) {
-    const content = fs.readFileSync(filePath, 'utf8');
-    content.split('\n').forEach((line) => {
-      const trimmed = line.trim();
-      if (trimmed && !trimmed.startsWith('#')) {
-        const [key, ...valueParts] = trimmed.split('=');
-        if (key && valueParts.length > 0 && !process.env[key.trim()]) {
-          process.env[key.trim()] = valueParts.join('=').trim().replace(/^["']|["']$/g, '');
-        }
-      }
-    });
-  }
-}
-
-loadEnvFile(envPath);
-loadEnvFile(envLocalPath);
+const { getKey, getCredentials } = require('../keys');
 
 // Configure Cloudinary
-let cloudUrl = (process.env.CLOUDINARY_URL || '').trim();
-// Automatically strip formatting brackets < > if user included them
+const cloudCreds = getCredentials('cloudinary');
+let cloudUrl = cloudCreds.url || '';
 if (cloudUrl) {
   cloudUrl = cloudUrl.replace(/<([^>]+)>/g, '$1');
 }
-let cloudName = (process.env.CLOUDINARY_CLOUD_NAME || '').replace(/[<>]/g, '').trim();
-let apiKey = (process.env.CLOUDINARY_API_KEY || '').replace(/[<>]/g, '').trim();
-let apiSecret = (process.env.CLOUDINARY_API_SECRET || '').replace(/[<>]/g, '').trim();
+let cloudName = cloudCreds.cloudName || getKey('CLOUDINARY_CLOUD_NAME');
+let apiKey = cloudCreds.apiKey || getKey('CLOUDINARY_API_KEY');
+let apiSecret = cloudCreds.apiSecret || getKey('CLOUDINARY_API_SECRET');
 
 if (cloudUrl) {
   const match = cloudUrl.match(/^cloudinary:\/\/([^:]+):([^@]+)@(.+)$/i);

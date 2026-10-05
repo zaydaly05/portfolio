@@ -5,24 +5,13 @@
 
 const fs = require('fs');
 const path = require('path');
+const { getKey } = require('../keys');
 
-// Read .env.local if present
-const envPath = path.join(__dirname, '..', '.env.local');
-if (fs.existsSync(envPath)) {
-  const envConfig = fs.readFileSync(envPath, 'utf8');
-  envConfig.split('\n').forEach(line => {
-    const match = line.match(/^\s*([\w.-]+)\s*=\s*"?([^"]+)"?\s*$/);
-    if (match) {
-      process.env[match[1]] = match[2];
-    }
-  });
-}
-
-const WHATSAPP_PHONE = (process.env.WHATSAPP_PHONE || '201017741741').replace(/[^0-9]/g, '');
-const KAPSO_API_KEY = process.env.KAPSO_API_KEY || process.env.WHATSAPP_TOKEN || '';
-const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID || '597907523413541';
-const PUSHBULLET_TOKEN = process.env.PUSHBULLET_TOKEN || '';
-const BASE_URL = process.env.KAPSO_BASE_URL || 'https://api.kapso.ai/meta/whatsapp';
+const WHATSAPP_PHONE = getKey('whatsapp_phone').replace(/[^0-9]/g, '');
+const KAPSO_API_KEY = getKey('kapso');
+const PHONE_NUMBER_ID = getKey('whatsapp_phone_id');
+const PUSHBULLET_TOKEN = getKey('pushbullet');
+const BASE_URL = getKey('kapso_base_url');
 
 /**
  * Format notification message based on type

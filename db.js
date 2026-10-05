@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { getKey } = require("./keys");
 
 /**
  * Global variable for caching the database connection across serverless invocations.
@@ -7,39 +8,58 @@ const mongoose = require("mongoose");
 let cached = global.mongoose;
 
 if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
+  cached = global.mongoose = { conn: null, promise: null, lastErrorTime: 0 };
 }
 
+const FAILED_COOLDOWN_MS = 60000; // 60 seconds cooldown on failed connection attempt
+
 async function connectDB() {
-  const uri = process.env.MONGODB_URI || process.env.MONGODB_URL;
+  const uri = getKey("mongodb");
   if (!uri) {
     // Return null if no URI configured - application will seamlessly fallback to local store
     return null;
   }
 
-  if (cached.conn) {
+  // Check if connection is already established and active
+  if (cached.conn && mongoose.connection.readyState === 1) {
     return cached.conn;
+  }
+
+  // Circuit Breaker: If connection failed recently, avoid hanging requests for 60s
+  if (cached.lastErrorTime && Date.now() - cached.lastErrorTime < FAILED_COOLDOWN_MS) {
+    return null;
   }
 
   if (!cached.promise) {
     const opts = {
-      bufferCommands: false
+      bufferCommands: false,
+      serverSelectionTimeoutMS: 2500, // Fast fail in 2.5s instead of hanging for 30s
+      connectTimeoutMS: 2500,
+      socketTimeoutMS: 5000
     };
 
     cached.promise = mongoose
       .connect(uri, opts)
       .then((mongooseInstance) => {
-        console.log("Successfully connected to MongoDB");
+        console.log("🟢 Successfully connected to MongoDB");
+        cached.lastErrorTime = 0;
         return mongooseInstance;
       })
       .catch((err) => {
-        console.error("MongoDB Connection Error:", err.message);
+        console.error("⚠️ MongoDB Connection Error (using fast local fallback):", err.message);
         cached.promise = null;
+        cached.conn = null;
+        cached.lastErrorTime = Date.now(); // Record failure timestamp for cooldown
         return null;
       });
   }
 
-  cached.conn = await cached.promise;
+  try {
+    cached.conn = await cached.promise;
+  } catch {
+    cached.conn = null;
+  }
+
   return cached.conn;
 }
 

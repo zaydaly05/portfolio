@@ -1,19 +1,20 @@
 import { WhatsAppClient } from "@kapso/whatsapp-cloud-api";
+import { getKey } from "./keys";
 
 /**
  * Kapso WhatsApp Client - Message Sender Script (send.ts)
  *
- * Required Environment Variables:
- * - KAPSO_API_KEY (or WHATSAPP_TOKEN): c676aaa27bb56c780e049a192598345c821f11647327cbecafc84686e91c9471
- * - WHATSAPP_PHONE_NUMBER_ID: Your WhatsApp Business Phone Number ID
- * - WHATSAPP_PHONE (or RECIPIENT_PHONE): Target phone number with country code (e.g. 201017741741)
- * - KAPSO_BASE_URL: (Optional) Base URL for Kapso proxy (default: https://api.kapso.ai/meta/whatsapp)
+ * All API Keys and credentials loaded centrally via keys.js:
+ * - KAPSO_API_KEY
+ * - WHATSAPP_PHONE_NUMBER_ID
+ * - WHATSAPP_PHONE
+ * - KAPSO_BASE_URL
  */
 
-const KAPSO_API_KEY = process.env.KAPSO_API_KEY || process.env.WHATSAPP_TOKEN || "e476793bcb69e8271bdf7948b28c3ef99bdcf3e26fbfe728b4cc30a779ed35f5";
-const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID || "1409896862201042";
-const RECIPIENT_PHONE = process.env.WHATSAPP_PHONE || process.env.RECIPIENT_PHONE || "201017741741";
-const BASE_URL = process.env.KAPSO_BASE_URL || "https://api.kapso.ai/meta/whatsapp";
+const KAPSO_API_KEY = getKey("kapso");
+const PHONE_NUMBER_ID = getKey("whatsapp_phone_id");
+const RECIPIENT_PHONE = getKey("whatsapp_phone");
+const BASE_URL = getKey("kapso_base_url");
 
 // Initialize the Kapso WhatsApp Client
 export const kapsoClient = new WhatsAppClient({

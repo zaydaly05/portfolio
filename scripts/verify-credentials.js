@@ -3,22 +3,9 @@
  * Tests all environment tokens, API keys, and connection strings in .env.local
  */
 
-const fs = require('fs');
-const path = require('path');
 const mongoose = require('mongoose');
 const cloudinary = require('cloudinary').v2;
-
-// Load .env.local variables
-const envPath = path.join(__dirname, '..', '.env.local');
-if (fs.existsSync(envPath)) {
-  const envConfig = fs.readFileSync(envPath, 'utf8');
-  envConfig.split('\n').forEach(line => {
-    const match = line.match(/^\s*([\w.-]+)\s*=\s*"?([^"\r\n]+)"?\s*$/);
-    if (match) {
-      process.env[match[1]] = match[2];
-    }
-  });
-}
+const { getKey } = require('../keys');
 
 console.log("\n==================================================================");
 console.log("🔍 RUNNING AUTOMATED TOKENS & SECRETS VERIFICATION DIAGNOSTIC");
@@ -28,8 +15,8 @@ async function verifyAllCredentials() {
   const results = [];
 
   // 1. Verify Kapso AI WhatsApp Cloud API Credentials
-  const kapsoApiKey = process.env.KAPSO_API_KEY;
-  const phoneId = process.env.WHATSAPP_PHONE_NUMBER_ID;
+  const kapsoApiKey = getKey('kapso');
+  const phoneId = getKey('whatsapp_phone_id');
   if (!kapsoApiKey || !phoneId) {
     results.push({ name: 'KAPSO_API_KEY & PHONE_ID', status: '❌ MISSING', details: 'Missing KAPSO_API_KEY or WHATSAPP_PHONE_NUMBER_ID in .env.local' });
   } else {
@@ -51,7 +38,7 @@ async function verifyAllCredentials() {
   }
 
   // 2. Verify MongoDB Connection URI
-  const mongoUri = process.env.MONGODB_URI;
+  const mongoUri = getKey('mongodb');
   if (!mongoUri) {
     results.push({ name: 'MONGODB_URI', status: '❌ MISSING', details: 'No MONGODB_URI found' });
   } else {
@@ -65,7 +52,7 @@ async function verifyAllCredentials() {
   }
 
   // 3. Verify Cloudinary CDN URL
-  const rawCloudUrl = (process.env.CLOUDINARY_URL || '').trim().replace(/<([^>]+)>/g, '$1');
+  const rawCloudUrl = getKey('cloudinary').trim().replace(/<([^>]+)>/g, '$1');
   if (!rawCloudUrl) {
     results.push({ name: 'CLOUDINARY_URL', status: '❌ MISSING', details: 'No CLOUDINARY_URL found' });
   } else {
@@ -97,7 +84,7 @@ async function verifyAllCredentials() {
 
 
   // 4. Verify GitHub Token
-  const githubToken = process.env.GITHUB_TOKEN;
+  const githubToken = getKey('github');
   if (!githubToken) {
     results.push({ name: 'GITHUB_TOKEN', status: '❌ MISSING', details: 'No GITHUB_TOKEN found' });
   } else {
@@ -120,9 +107,9 @@ async function verifyAllCredentials() {
   }
 
   // 5. Verify Webhook Tokens & Mobile Destination
-  const verifyToken = process.env.WHATSAPP_VERIFY_TOKEN;
-  const webhookSecret = process.env.KAPSO_WEBHOOK_SECRET;
-  const whatsappPhone = process.env.WHATSAPP_PHONE;
+  const verifyToken = getKey('whatsapp_verify');
+  const webhookSecret = getKey('webhook_secret');
+  const whatsappPhone = getKey('whatsapp_phone');
 
   if (verifyToken && webhookSecret && verifyToken === webhookSecret) {
     results.push({ name: 'WEBHOOK_TOKENS_MATCH', status: '✅ MATCHED & VERIFIED', details: 'WHATSAPP_VERIFY_TOKEN matches KAPSO_WEBHOOK_SECRET!' });

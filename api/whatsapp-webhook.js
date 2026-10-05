@@ -1,4 +1,5 @@
 const { WhatsAppClient } = require("@kapso/whatsapp-cloud-api");
+const { getKey } = require("../keys");
 const { handleApprovalReply } = require("./whatsapp-approval");
 const {
   isAdminNumber,
@@ -13,10 +14,10 @@ const {
  * Kapso WhatsApp Cloud API Webhook & AI Assistant Endpoint
  */
 
-const KAPSO_API_KEY = process.env.KAPSO_API_KEY || process.env.WHATSAPP_TOKEN || "c676aaa27bb56c780e049a192598345c821f11647327cbecafc84686e91c9471";
-let PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID || "597907523413541";
-const VERIFY_TOKEN = process.env.WHATSAPP_VERIFY_TOKEN || "zayd_portfolio_verify_token";
-const BASE_URL = process.env.KAPSO_BASE_URL || "https://api.kapso.ai/meta/whatsapp";
+const KAPSO_API_KEY = getKey("kapso");
+let PHONE_NUMBER_ID = getKey("whatsapp_phone_id");
+const VERIFY_TOKEN = getKey("whatsapp_verify");
+const BASE_URL = getKey("kapso_base_url");
 
 let kapsoClient = null;
 if (KAPSO_API_KEY) {
