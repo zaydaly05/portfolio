@@ -33,9 +33,9 @@ async function connectDB() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
-      serverSelectionTimeoutMS: 2500, // Fast fail in 2.5s instead of hanging for 30s
-      connectTimeoutMS: 2500,
-      socketTimeoutMS: 5000
+      serverSelectionTimeoutMS: 10000, // Increased to 10s for stability during setup
+      connectTimeoutMS: 10000,
+      socketTimeoutMS: 10000
     };
 
     cached.promise = mongoose
