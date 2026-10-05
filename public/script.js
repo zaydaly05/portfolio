@@ -956,28 +956,8 @@ const shiftLightbox = (delta) => {
   updateLightbox();
 };
 
-const openModal = ({
-  tag,
-  title,
-  subtitle,
-  description,
-  points = [],
-  media = [],
-  stack = "",
-  githubUrl = "",
-  pdfUrl = null
-}) => {
-  ModalManager.open("details-modal", {
-    tag,
-    title,
-    subtitle,
-    description,
-    points,
-    media,
-    stack,
-    githubUrl,
-    pdfUrl,
-  });
+const openModal = (payload) => {
+  ModalManager.open("details-modal", payload);
 };
 
 const closeModal = () => {
