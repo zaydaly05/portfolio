@@ -11,9 +11,8 @@ function getPortfolioProjects() {
   const match = content.match(/projects:\s*(\[\s*\{[\s\S]*?\}\s*\])/);
   if (match) {
     try {
-      // Evaluate safe projects array
-      const projectsFn = new Function(`return ${match[1]};`);
-      return projectsFn();
+      // Safely parse projects array without using new Function or eval
+      return JSON.parse(match[1].replace(/'/g, '"').replace(/(\w+):/g, '"$1":'));
     } catch (err) {
       console.error("Failed to parse projects from server.js:", err.message);
     }

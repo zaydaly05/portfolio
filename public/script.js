@@ -957,13 +957,16 @@ const shiftLightbox = (delta) => {
 };
 
 const openModal = (payload) => {
-  ModalManager.open("details-modal", payload);
+  // Wrap in setTimeout to break any potential recursive call stacks that cause freezes
+  setTimeout(() => {
+    ModalManager.open("details-modal", payload);
 
-  // Initialize high-performance media gallery (Lazy Loading + Lightbox)
-  const mediaContainer = document.getElementById("modal-media");
-  if (mediaContainer && payload.media) {
-    initModalMedia(mediaContainer, payload.media);
-  }
+    // Initialize high-performance media gallery (Lazy Loading + Lightbox)
+    const mediaContainer = document.getElementById("modal-media");
+    if (mediaContainer && payload.media) {
+      initModalMedia(mediaContainer, payload.media);
+    }
+  }, 0);
 };
 
 const closeModal = () => {
@@ -973,6 +976,9 @@ const closeModal = () => {
 
 const attachCardModalHandlers = (selector, getPayload) => {
   document.querySelectorAll(selector).forEach((card, index) => {
+    if (card.dataset.modalBound) return; // CRITICAL: Prevent duplicate event listeners causing freezes
+    card.dataset.modalBound = "true";
+
     card.addEventListener("click", () => openModal(getPayload(index)));
     card.addEventListener("keypress", (event) => {
       if (event.key === "Enter" || event.key === " ") {
