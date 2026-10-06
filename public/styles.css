@@ -6865,3 +6865,47 @@ body:has(.mobile-nav-overlay.open) .star-toast-popup {
     grid-column: 1 / -1;
   }
 }
+
+/* ============================================
+   PROJECT LOGOS — fill the frame, never crop
+   ============================================ */
+.project-card .project-card-image-wrap {
+  height: 190px;
+  padding: 14px;
+}
+
+.project-card .project-logo-badge {
+  padding: 10px 14px;
+}
+
+.project-logo-badge .project-card-img,
+.logo-zoom-wide .project-card-img,
+.logo-zoom-square .project-card-img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center;
+  transform: none !important;
+}
+
+.card:hover .project-logo-badge .project-card-img {
+  transform: none !important;
+}
+
+.home-project-img-wrap {
+  padding: 12px;
+}
+
+.home-project-img-wrap img {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.home-project-card:hover .home-project-img-wrap img {
+  transform: none;
+}
