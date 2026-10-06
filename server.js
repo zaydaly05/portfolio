@@ -581,7 +581,7 @@ const getWritablePath = (filename) => {
   if (process.env.VERCEL) {
     return path.join(os.tmpdir(), filename);
   }
-  const localLogsDir = path.join(__dirname, "logs");
+  const localLogsDir = process.env.PORTFOLIO_DATA_DIR || path.join(__dirname, "logs");
   const localFilePath = path.join(localLogsDir, filename);
   try {
     if (!fs.existsSync(localLogsDir)) {
@@ -1099,15 +1099,16 @@ app.get("/cv", async (req, res) => {
 });
 
 // Kapso WhatsApp Cloud API Webhook Routes
-const { handleWebhookVerification, handleWebhookEvent, setPortfolioProvider, setOwnerReplyHandler } = require("./api/whatsapp-webhook");
-const { setContactVault } = require("./api/whatsapp-admin");
+const { handleWebhookVerification, handleWebhookEvent, setPortfolioProvider, setOwnerReplyHandler } = require("./lib/whatsapp-webhook");
+const { setContactVault } = require("./lib/whatsapp-admin");
 setPortfolioProvider(() => portfolioData);
 setOwnerReplyHandler((text) => changeService.handleOwnerReply(text));
 setContactVault(contactVault);
-const { requestWhatsAppApproval, pendingApprovals } = require("./api/whatsapp-approval");
+const { requestWhatsAppApproval, pendingApprovals } = require("./lib/whatsapp-approval");
 
-app.get("/api/whatsapp/webhook", handleWebhookVerification);
-app.post("/api/whatsapp/webhook", handleWebhookEvent);
+// The hyphenated path is the address older Kapso setups used: keep both working
+app.get(["/api/whatsapp/webhook", "/api/whatsapp-webhook"], handleWebhookVerification);
+app.post(["/api/whatsapp/webhook", "/api/whatsapp-webhook"], handleWebhookEvent);
 
 // WhatsApp Human-in-the-Loop Approval Endpoints
 app.post("/api/whatsapp/request-approval", requireAdmin, async (req, res) => {
