@@ -19,7 +19,7 @@ MockClient fakeServer() => MockClient((req) async {
         case '/api/admin/ping':
           return reply({'ok': true});
         case '/api/admin/cv':
-          return reply({'ok': true, 'status': 'done', 'version': 4, 'runnerConfigured': true, 'url': '/api/document/resume?v=4'});
+          return reply({'ok': true, 'status': 'done', 'version': 4, 'pages': 2, 'runnerConfigured': true, 'url': '/api/document/resume?v=4'});
         case '/api/admin/summary':
           return reply({'ok': true, 'dbConnected': true, 'overridden': <String>[], 'reviews': 2, 'messages': 5, 'stars': 61, 'pendingChanges': 1});
         case '/api/admin/portfolio':
@@ -77,7 +77,8 @@ void main() {
     expect(find.text('Connected to your database'), findsOneWidget);
     expect(find.text('61'), findsOneWidget);
     expect(find.text('CV (PDF)'), findsOneWidget);
-    expect(find.text('Up to date (version 4).'), findsOneWidget);
+    expect(find.textContaining('Up to date (version 4).'), findsOneWidget);
+    expect(find.textContaining('now 2 pages'), findsOneWidget);
     expect(find.text('Rebuild now'), findsOneWidget);
     expect(find.text('5'), findsOneWidget);
 

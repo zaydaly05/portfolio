@@ -233,7 +233,8 @@ class _CvCardState extends State<_CvCard> {
               subtitle = 'The last build failed: ${status.error ?? 'unknown error'}';
               icon = Icons.error_outline;
             case 'done':
-              subtitle = 'Up to date (version ${status.version}).';
+              subtitle = 'Up to date (version ${status.version}).'
+                  '${(status.pages ?? 1) > 1 ? '\n⚠️ The CV is now ${status.pages} pages — it is designed to fit on one. Shorten some entries.' : ''}';
               icon = Icons.check_circle_outline;
             default:
               subtitle = status.version > 0 ? 'Version ${status.version}.' : 'Not generated from the app yet.';

@@ -184,6 +184,7 @@ class CvStatus {
     required this.status,
     required this.version,
     required this.runnerConfigured,
+    this.pages,
     this.requestedAt,
     this.builtAt,
     this.reason,
@@ -195,6 +196,9 @@ class CvStatus {
   final String status;
   final int version;
   final bool runnerConfigured;
+
+  /// Page count of the last build (the CV is designed to fit on one page).
+  final int? pages;
   final String? requestedAt;
   final String? builtAt;
   final String? reason;
@@ -205,6 +209,7 @@ class CvStatus {
         status: '${json['status'] ?? 'idle'}',
         version: (json['version'] as num?)?.toInt() ?? 0,
         runnerConfigured: json['runnerConfigured'] == true,
+        pages: (json['pages'] as num?)?.toInt(),
         requestedAt: json['requestedAt'] as String?,
         builtAt: json['builtAt'] as String?,
         reason: json['reason'] as String?,
