@@ -413,7 +413,8 @@ function projectRepos(allRepos) {
 
 function githubPayload(cached) {
   const { allRepos, ...rest } = cached;
-  return { ...rest, topRepos: projectRepos(allRepos) };
+  // Four keeps the section tidy; visitors who want more use the profile button
+  return { ...rest, topRepos: projectRepos(allRepos).slice(0, 4) };
 }
 
 app.get("/api/github", async (req, res) => {

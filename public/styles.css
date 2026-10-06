@@ -7537,3 +7537,117 @@ body.intro-reveal main {
     animation: none;
   }
 }
+
+/* ============================================
+   GITHUB REPO CARDS: whole card is a link, with clear hover/press feedback
+   ============================================ */
+a.gh-repo-card {
+  position: relative;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+a.gh-repo-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--brand), var(--brand-2, #8a7bff));
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.35s ease;
+}
+
+a.gh-repo-card:hover,
+a.gh-repo-card:focus-visible {
+  transform: translateY(-5px);
+  border-color: var(--brand);
+  box-shadow:
+    0 14px 30px rgba(0, 0, 0, 0.18),
+    0 0 0 1px color-mix(in srgb, var(--brand) 45%, transparent);
+}
+
+a.gh-repo-card:hover::before,
+a.gh-repo-card:focus-visible::before {
+  transform: scaleY(1);
+}
+
+a.gh-repo-card:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}
+
+a.gh-repo-card:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+a.gh-repo-card .gh-repo-title {
+  display: inline-block;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 2px;
+  transition: background-size 0.3s ease;
+}
+
+a.gh-repo-card:hover .gh-repo-title,
+a.gh-repo-card:focus-visible .gh-repo-title {
+  background-size: 100% 2px;
+}
+
+a.gh-repo-card .gh-repo-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+a.gh-repo-card .gh-repo-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gh-repo-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--brand) 60%, var(--text));
+  background: color-mix(in srgb, var(--brand) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--brand) 32%, transparent);
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.gh-repo-arrow {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+
+a.gh-repo-card:hover .gh-repo-open,
+a.gh-repo-card:focus-visible .gh-repo-open {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #060918;
+}
+
+a.gh-repo-card:hover .gh-repo-arrow,
+a.gh-repo-card:focus-visible .gh-repo-arrow {
+  transform: translate(2px, -2px);
+}
+
+[data-theme="light"] a.gh-repo-card:hover .gh-repo-open,
+[data-theme="light"] a.gh-repo-card:focus-visible .gh-repo-open {
+  color: #fff;
+}

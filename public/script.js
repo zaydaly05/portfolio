@@ -1937,21 +1937,22 @@ const setupGitHubSync = async () => {
 
     if (data.topRepos && data.topRepos.length > 0) {
       reposContainer.innerHTML = data.topRepos
+        .slice(0, 4)
         .map(
           (repo) => `
-        <div class="gh-repo-card">
+        <a class="gh-repo-card" href="${escapeAttr(repo.url)}" target="_blank" rel="noopener" aria-label="Open ${escapeAttr(repo.name)} on GitHub">
           <div>
-            <div class="gh-repo-title">${repo.name}</div>
-            <p class="gh-repo-desc">${repo.description || ""}</p>
+            <div class="gh-repo-title">${escapeAttr(repo.name)}</div>
+            <p class="gh-repo-desc">${escapeAttr(repo.description || "")}</p>
           </div>
           <div class="gh-repo-meta">
-            <span class="gh-lang-tag"><span class="gh-lang-dot"></span> ${repo.language}</span>
+            <span class="gh-lang-tag"><span class="gh-lang-dot"></span> ${escapeAttr(repo.language || "—")}</span>
             <div class="gh-repo-links">
-              <span>⭐ ${repo.stars}</span>
-              <a href="${repo.url}" target="_blank" rel="noopener" style="margin-left: 8px; color: var(--brand);">View ↗</a>
+              <span>⭐ ${Number(repo.stars) || 0}</span>
+              <span class="gh-repo-open">Open on GitHub <span class="gh-repo-arrow" aria-hidden="true">↗</span></span>
             </div>
           </div>
-        </div>
+        </a>
       `
         )
         .join("");

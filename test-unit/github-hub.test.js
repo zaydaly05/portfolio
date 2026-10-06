@@ -19,7 +19,7 @@ const realFetch = global.fetch;
 global.fetch = async (url, opts) => {
   const u = String(url);
   if (u.startsWith("https://api.github.com/users/") && u.includes("/repos")) {
-    return { ok: true, json: async () => [repo("portfolio"), repo("cv-portfolio"), repo("Car_Rental_Website"), repo("zaydentity"), repo("random-experiment")] };
+    return { ok: true, json: async () => [repo("portfolio"), repo("cv-portfolio"), repo("Car_Rental_Website"), repo("zaydentity"), repo("random-experiment"), repo("Gulf_Limousine_App"), repo("EssmatPlastic"), repo("drNaglaBio")] };
   }
   if (u.startsWith("https://api.github.com/users/")) {
     return { ok: true, json: async () => ({ login: "zaydaly05", avatar_url: "a", bio: "b", public_repos: 15, followers: 6, html_url: "https://github.com/zaydaly05" }) };
@@ -44,7 +44,8 @@ test("only repositories of Project Hub projects are listed, in the hub's order",
     const body = await res.json();
     assert.equal(res.status, 200);
     const names = body.topRepos.map((r) => r.name);
-    assert.deepEqual(names, ["Car_Rental_Website", "zaydentity"]); // hub order; portfolio, cv-portfolio and random-experiment excluded
+    // hub order, only the first four; portfolio, cv-portfolio and random-experiment never appear
+    assert.deepEqual(names, ["Gulf_Limousine_App", "EssmatPlastic", "drNaglaBio", "Car_Rental_Website"]);
     assert.equal(body.publicRepos, 15); // account stats are unchanged
     assert.equal(body.allRepos, undefined); // internal list is not exposed
   } finally {
