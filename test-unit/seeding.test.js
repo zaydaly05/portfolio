@@ -113,3 +113,22 @@ test("public /api/portfolio serves the stored content with the extra sections", 
   for (const key of ["site", "heroSlides", "stats", "gateways", "faq", "heroPills", "heroBadges"]) assert.ok(pub[key], key);
   assert.ok(path.isAbsolute(__filename));
 });
+
+test("an untouched old FAQ is upgraded to the new default; an edited FAQ is left alone", async () => {
+  const legacy = require("../data/legacy-defaults");
+  state.bulkOps.length = 0;
+  state.docs = [{ section: "faq", data: legacy.faq[0] }];
+  const upgraded = await adminGet("/api/admin/portfolio");
+  assert.equal(upgraded.sections.faq.length, defaults.faq.length);
+  const op = state.bulkOps.find((o) => o.updateOne.filter.section === "faq");
+  assert.ok(op, "the stored document is replaced");
+  assert.deepEqual(op.updateOne.filter.data, legacy.faq[0]); // only while it still holds the old text
+  assert.deepEqual(op.updateOne.update.$set.data, defaults.faq);
+
+  state.bulkOps.length = 0;
+  const edited = [{ question: "My own question?", answer: "My own answer." }];
+  state.docs = [{ section: "faq", data: edited }];
+  const kept = await adminGet("/api/admin/portfolio");
+  assert.deepEqual(kept.sections.faq, edited);
+  assert.ok(!state.bulkOps.some((o) => o.updateOne.filter.section === "faq"));
+});

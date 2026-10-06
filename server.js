@@ -211,6 +211,7 @@ app.use(
 // Built-in content lives in data/defaults.js. It seeds the database on first run and is the
 // fallback if the database is unreachable; the database is the source of truth afterwards.
 const portfolioDefaults = require("./data/defaults");
+const legacyDefaults = require("./data/legacy-defaults");
 const portfolioData = JSON.parse(JSON.stringify(portfolioDefaults));
 
 const getShowcaseManifest = () => {
@@ -732,14 +733,34 @@ async function refreshPortfolioOverrides(force = false) {
   }
 
   const missing = [];
+  const upgraded = [];
   Object.keys(SECTION_RULES).forEach((section) => {
     if (Object.prototype.hasOwnProperty.call(stored, section)) {
+      // Untouched copy of an older built-in version: move it to the current default
+      const legacy = (legacyDefaults[section] || []).find((old) => JSON.stringify(old) === JSON.stringify(stored[section]));
+      if (legacy && JSON.stringify(stored[section]) !== JSON.stringify(portfolioDefaults[section])) {
+        portfolioData[section] = JSON.parse(JSON.stringify(portfolioDefaults[section]));
+        upgraded.push({ section, legacy });
+        return;
+      }
       portfolioData[section] = stored[section];
     } else {
       portfolioData[section] = JSON.parse(JSON.stringify(portfolioDefaults[section]));
       missing.push(section);
     }
   });
+
+  if (seedDb && upgraded.length) {
+    // Only replaces the stored document while it still equals the old built-in text
+    PortfolioSection.bulkWrite(
+      upgraded.map(({ section, legacy }) => ({
+        updateOne: {
+          filter: { section, data: legacy },
+          update: { $set: { data: portfolioDefaults[section], updatedAt: new Date() } }
+        }
+      }))
+    ).catch((err) => console.error("Could not upgrade portfolio content:", err.message));
+  }
 
   // First run (or a section added in a later release): copy the built-in content into the database
   // so everything is stored there and editable. Never overwrites existing documents.

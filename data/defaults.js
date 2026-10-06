@@ -1003,22 +1003,42 @@ module.exports = {
     }
   ],
   "faq": [
-    {
-      "question": "🟢 Is {firstName} available for immediate hire or internship?",
-      "answer": "Yes! {firstName} is actively open for Software Engineering internships, full-stack roles (Spring Boot, React, C#, Flutter), and collaborative projects."
-    },
-    {
-      "question": "⚡ What is {firstName}'s typical response time?",
-      "answer": "{firstName} typically responds within 2 to 6 hours for email inquiries and direct WhatsApp messages."
-    },
-    {
-      "question": "🌍 Where is {firstName} located & is remote work supported?",
-      "answer": "Based in Maadi, Cairo, Egypt (Cairo Local Time UTC+3). {firstName} is fully equipped for remote, hybrid, or on-site positions."
-    },
-    {
-      "question": "📄 How can recruiters review official credentials?",
-      "answer": "Click View CV in the header navigation or open the Experience & CV page to preview the LaTeX PDF resume."
-    }
+      {
+          "question": "🟢 Is {firstName} available for hire or an internship?",
+          "answer": "Yes! {firstName} is open to software engineering internships, junior full-stack and mobile roles (Spring Boot, React, C#, Flutter, Kotlin), and collaborative projects."
+      },
+      {
+          "question": "⚡ How quickly does {firstName} reply?",
+          "answer": "Usually within 2 to 6 hours for emails and direct WhatsApp messages."
+      },
+      {
+          "question": "🌍 Where is {firstName} based, and is remote work possible?",
+          "answer": "Based in Maadi, Cairo, Egypt (Cairo time, UTC+3). {firstName} is set up for remote, hybrid or on-site work."
+      },
+      {
+          "question": "🛠️ What does {firstName} specialise in?",
+          "answer": "Full-stack web (Spring Boot, React, Node.js), mobile apps (Flutter and native Android with Kotlin), C# and .NET APIs, and SQL and NoSQL databases, across {skillCategoriesCount} skill categories."
+      },
+      {
+          "question": "🚀 What has {firstName} built?",
+          "answer": "{projectsCount}+ projects, from mobile booking apps and enterprise management systems to web platforms. Open the Projects Hub to browse them with screenshots and live GitHub links."
+      },
+      {
+          "question": "💼 What professional experience does {firstName} have?",
+          "answer": "{internshipsCount} internships, including WE (Telecom Egypt) in Android development, TAQA Arabia in software development and IT, and Cairo Higher Institute in IT. Details and experience letters are on the Experience page."
+      },
+      {
+          "question": "🎓 What are {firstName}'s education and certifications?",
+          "answer": "Studying Computer Science at Misr International University (graduating June 2027), with {certificatesCount} verified certifications from Cisco Networking Academy and OpenEDG."
+      },
+      {
+          "question": "📄 Where can recruiters get the latest CV?",
+          "answer": "Click View CV in the header. It always opens the most recent PDF, which is rebuilt from this portfolio whenever it changes, and it can be downloaded from the viewer."
+      },
+      {
+          "question": "🗣️ Which languages does {firstName} speak?",
+          "answer": "Arabic (native), English (fluent) and basic French."
+      }
   ],
   "cvSummary": {
     "summary": "Ambitious Junior Computer Science student with a strong foundation in problem-solving and a passion for technology, consistently advancing technical expertise through hands-on projects and workshops while striving to deliver impactful, scalable software solutions."
