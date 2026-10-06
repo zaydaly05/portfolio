@@ -1,6 +1,5 @@
 const { WhatsAppClient } = require("@kapso/whatsapp-cloud-api");
 const { getKey } = require("../keys");
-const { sameNumber } = require("../lib/phone");
 const { verifySignature } = require("../lib/webhook-signature");
 const { buildReply } = require("../lib/assistant");
 const { handleApprovalReply } = require("./whatsapp-approval");
@@ -197,6 +196,12 @@ async function handleWebhookEvent(req, res) {
 
         console.log(`📢 Admin requested phone broadcast: "${payload}"`);
         const report = await executePhoneBroadcast(payload, false);
+        if (report.disabled) {
+          if (kapsoClient && activePhoneId) {
+            await kapsoClient.messages.sendText({ phoneNumberId: activePhoneId, to: fromNumber, body: "Bulk sending from the server is off. Send the monthly broadcast from Kapso." });
+          }
+          return;
+        }
 
         if (kapsoClient && activePhoneId) {
           await kapsoClient.messages.sendText({
@@ -216,6 +221,12 @@ async function handleWebhookEvent(req, res) {
       if (lower.startsWith("!sendtemplate")) {
         const payload = userText.replace(/^!sendtemplate/i, "").trim();
         const report = await executePhoneBroadcast(payload, true);
+        if (report.disabled) {
+          if (kapsoClient && activePhoneId) {
+            await kapsoClient.messages.sendText({ phoneNumberId: activePhoneId, to: fromNumber, body: "Bulk sending from the server is off. Send the monthly broadcast from Kapso." });
+          }
+          return;
+        }
 
         if (kapsoClient && activePhoneId) {
           await kapsoClient.messages.sendText({

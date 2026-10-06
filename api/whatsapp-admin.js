@@ -69,7 +69,7 @@ function generateAISuggestion(queryTopic) {
   return "💡 *AI Portfolio Master Suggestions*:\n\n" +
     "🎨 *Styling*: Reply `!suggest styling` for color palettes, typography & glassmorphism tips.\n" +
     "🚀 *Features*: Reply `!suggest features` for modern interactive widgets & tools.\n" +
-    "📢 *Broadcast*: Reply `!broadcast <numbers> \| <message>` to send to specific phone numbers.\n" +
+    "📢 *Broadcast*: Reply `!broadcast <numbers> | <message>` to send to specific phone numbers.\n" +
     "➕ *Add Contacts*: Reply `!addcontact 201017741741, 201234567890` to save phone contacts.";
 }
 
@@ -77,6 +77,11 @@ function generateAISuggestion(queryTopic) {
  * Send Broadcast Text / Template Message to specified numbers or saved personal contacts
  */
 async function executePhoneBroadcast(inputPayload, isTemplate = false) {
+  // Monthly broadcasts are sent manually from Kapso. Bulk sending from here is
+  // off unless explicitly enabled, so it can never load or alter Kapso's contacts.
+  if (process.env.ALLOW_SERVER_BROADCAST !== 'true') {
+    return { total: 0, successCount: 0, failCount: 0, targetPhones: [], disabled: true };
+  }
   let targetPhones = [];
   let messageOrTemplateName = '';
 
