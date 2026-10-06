@@ -7308,3 +7308,42 @@ body:has(.mobile-nav-overlay.open) .star-toast-popup {
   border-color: var(--brand);
   color: #060918;
 }
+
+/* ============================================
+   HOME SPACING: stats row sits closer to the slider and to the next section
+   ============================================ */
+.counter-section {
+  padding-top: 44px;
+  padding-bottom: 0;
+}
+
+.counter-section .stats-counter-grid {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.counter-section + .section {
+  padding-top: 64px;
+}
+
+@media (max-width: 768px) {
+  .counter-section {
+    padding-top: 28px;
+  }
+  .counter-section + .section {
+    padding-top: 44px;
+  }
+}
+
+/* ============================================
+   GATEWAY CARD TAGS: always one line
+   ============================================ */
+.gateway-card .eyebrow {
+  display: block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: var(--tag-fit-ls, 0.14em);
+  font-size: var(--tag-fit-size, 0.78rem);
+}

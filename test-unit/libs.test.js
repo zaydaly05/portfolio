@@ -55,6 +55,25 @@ test("assistant answers come from the data, not from hard-coded text", () => {
   assert.ok(buildReply("something unrelated", data).suggestions.length > 0);
 });
 
+test("assistant covers languages, strengths, counts, soft skills and the CV link", () => {
+  const data = JSON.parse(JSON.stringify(defaults));
+  data.profile.name = "Sara Hassan";
+  data.profile.cvUrl = "/api/document/resume?v=7";
+  data.languages = [{ name: "Arabic", level: "Native", flag: "🇪🇬" }, { name: "German", level: "B1" }];
+  data.featuredStack = [{ name: "Rust", level: 95 }, { name: "Go", level: 60 }];
+  data.softSkills = [{ title: "Mentoring", desc: "Helps juniors grow" }];
+  data.projects = Array.from({ length: 9 }, (_, i) => ({ name: `Project ${i + 1}` }));
+
+  assert.match(buildReply("which languages do you speak?", data).reply, /German/);
+  assert.match(buildReply("what are you strongest at", data).reply, /Rust.*95%/s);
+  assert.match(buildReply("how many projects", data).reply, /\*\*9\*\* projects/);
+  assert.match(buildReply("soft skills", data).reply, /Mentoring/);
+  assert.match(buildReply("download cv", data).reply, /resume\?v=7/);
+  const all = buildReply("show projects", data).reply;
+  assert.match(all, /Project 9/);
+  assert.match(all, /\*\*9\*\*/);
+});
+
 test("assistant copes with an empty portfolio", () => {
   const empty = {};
   for (const q of ["hi", "skills", "projects", "experience", "education", "certificates", "contact", "cv", "???"]) {

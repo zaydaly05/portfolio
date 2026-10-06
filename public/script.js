@@ -2108,6 +2108,11 @@ const setupTerminalCLI = () => {
   • <span class="term-cmd">skills</span>   - List ${ownerFirstName()}'s technical skills
   • <span class="term-cmd">projects</span> - Display ${ownerFirstName()}'s projects & tech stacks
   • <span class="term-cmd">exp</span>      - Display internship & work experience
+  • <span class="term-cmd">education</span> - Show degree, university & clubs
+  • <span class="term-cmd">certs</span>    - List verified certifications
+  • <span class="term-cmd">languages</span> - Show spoken languages
+  • <span class="term-cmd">stack</span>    - Strongest technologies with proficiency
+  • <span class="term-cmd">about</span>    - Short summary & availability
   • <span class="term-cmd">contact</span>  - View ${ownerFirstName()}'s email, phone, and links
   • <span class="term-cmd">cv</span>       - Open the PDF CV viewer
   • <span class="term-cmd">whoami</span>   - Show current viewer identity
@@ -2143,10 +2148,11 @@ const setupTerminalCLI = () => {
             : "No skills listed yet."
         );
       } else if (cmd === "projects") {
-        const projects = (portfolioNow().projects || []).slice(0, 8);
+        const projects = portfolioNow().projects || [];
         printLine(
           projects.length
-            ? "Featured Projects:\n" + projects.map((p, i) => `  ${i + 1}. ${p.name}${p.stack ? ` (${p.stack})` : ""}`).join("\n")
+            ? `Projects (${projects.length}):\n` +
+                projects.map((p, i) => `  ${i + 1}. ${p.name}${p.stack ? ` (${p.stack})` : ""}${p.period ? ` - ${p.period}` : ""}`).join("\n")
             : "No projects listed yet."
         );
       } else if (cmd === "exp") {
@@ -2156,6 +2162,35 @@ const setupTerminalCLI = () => {
             ? "Work Experience:\n" + jobs.map((j) => `  • ${j.company} - ${j.role}${j.period ? ` (${j.period})` : ""}`).join("\n")
             : "No experience listed yet."
         );
+      } else if (cmd === "education" || cmd === "edu") {
+        const data = portfolioNow();
+        const edu = (data.education || []).map((e) => `  • ${e.degree} - ${e.institution}${e.period ? ` (${e.period})` : ""}`);
+        const clubs = (data.activities || []).map((a) => `  • ${a.name}${a.role ? ` - ${a.role}` : ""}${a.period ? ` (${a.period})` : ""}`);
+        printLine(
+          edu.length || clubs.length
+            ? ["Education:", ...edu, ...(clubs.length ? ["", "Clubs & Activities:", ...clubs] : [])].join("\n")
+            : "No education listed yet."
+        );
+      } else if (cmd === "certs" || cmd === "certificates") {
+        const certs = portfolioNow().certificates || [];
+        printLine(
+          certs.length
+            ? `Certifications (${certs.length}):\n` + certs.map((c) => `  • ${c.title}${c.issuer ? ` - ${c.issuer}` : ""}${c.date ? ` (${c.date})` : ""}`).join("\n")
+            : "No certifications listed yet."
+        );
+      } else if (cmd === "languages" || cmd === "lang") {
+        const langs = portfolioNow().languages || [];
+        printLine(langs.length ? "Spoken Languages:\n" + langs.map((l) => `  • ${l.name} - ${l.level || ""}`).join("\n") : "No languages listed yet.");
+      } else if (cmd === "stack") {
+        const stack = [...(portfolioNow().featuredStack || [])].sort((a, b) => (b.level || 0) - (a.level || 0));
+        printLine(
+          stack.length
+            ? "Core Tech Stack:\n" + stack.map((s) => `  • ${s.name}${s.level ? ` - ${s.level}%` : ""}${s.category ? ` [${s.category}]` : ""}`).join("\n")
+            : "No stack listed yet."
+        );
+      } else if (cmd === "about") {
+        const p = portfolioNow().profile || {};
+        printLine(`${p.name || ""}${p.title ? ` - ${p.title}` : ""}\n${p.summary || ""}${p.availability ? `\nStatus: ${p.availability}` : ""}${p.locationLong ? `\nLocation: ${p.locationLong}` : ""}`.trim());
       } else if (cmd === "contact") {
         const p = portfolioNow().profile || {};
         const lines = [
@@ -2174,7 +2209,7 @@ const setupTerminalCLI = () => {
           printLine("No LinkedIn link is set.");
         }
       } else if (cmd === "cv") {
-        printLine(`Opening CV Viewer modal...`);
+        printLine(`Opening CV Viewer modal...${(portfolioNow().profile || {}).cvUrl ? `\n  Direct link: ${(portfolioNow().profile || {}).cvUrl}` : ""}`);
         const cvModal = document.getElementById("cv-viewer-modal");
         if (cvModal) {
           document.body.appendChild(cvModal);

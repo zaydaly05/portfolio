@@ -151,6 +151,32 @@
       .join("");
   }
 
+  /** Shrinks each gateway tag just enough to fit on a single line (never below 0.6rem). */
+  function fitGatewayTags() {
+    document.querySelectorAll(".gateway-card .eyebrow").forEach((tag) => {
+      tag.style.removeProperty("--tag-fit-size");
+      tag.style.removeProperty("--tag-fit-ls");
+      let size = parseFloat(getComputedStyle(tag).fontSize);
+      const min = 10.5;
+      while (tag.scrollWidth > tag.clientWidth && size > min) {
+        size -= 0.5;
+        tag.style.setProperty("--tag-fit-size", `${size}px`);
+      }
+      // Still too wide: tighten the letter spacing before giving up (ellipsis is the last resort).
+      let spacing = 0.14;
+      while (tag.scrollWidth > tag.clientWidth && spacing > 0.01) {
+        spacing -= 0.02;
+        tag.style.setProperty("--tag-fit-ls", `${spacing.toFixed(2)}em`);
+      }
+    });
+  }
+
+  let fitTimer = null;
+  global.addEventListener("resize", () => {
+    clearTimeout(fitTimer);
+    fitTimer = setTimeout(fitGatewayTags, 120);
+  });
+
   function renderGateways(data, tokens) {
     const grid = document.querySelector(".gateway-grid");
     const items = data.gateways;
@@ -253,6 +279,7 @@
     renderHeroSlides(data, tokens);
     renderStats(data, tokens);
     renderGateways(data, tokens);
+    fitGatewayTags();
     renderFaq(data, tokens);
     renderFeaturedProjects(data);
   }
