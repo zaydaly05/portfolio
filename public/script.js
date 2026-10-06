@@ -1384,7 +1384,7 @@ const createProjectModalPayload = (item) => {
   return {
     tag: item.showcaseStatus === "Completed" ? "✨ Featured Project Showcase" : "⚡ Project Highlights",
     title: item.name || "Project Details",
-    subtitle: `${item.period || ""} · ${item.stack || ""}`,
+    subtitle: item.period || "",
     description: item.description || "",
     media: finalMediaList,
     stack: item.stack || "",
