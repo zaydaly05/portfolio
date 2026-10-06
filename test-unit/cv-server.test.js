@@ -10,7 +10,9 @@ delete process.env.VERCEL;
 delete process.env.GITHUB_TOKEN;
 const fs = require("node:fs");
 const path = require("node:path");
-const overrides = path.join(__dirname, "..", "logs", "portfolio-overrides.json");
+const dataDir = fs.mkdtempSync(path.join(require("node:os").tmpdir(), "portfolio-test-"));
+process.env.PORTFOLIO_DATA_DIR = dataDir; // each test file gets its own scratch folder (files run in parallel)
+const overrides = path.join(dataDir, "portfolio-overrides.json");
 try {
   fs.rmSync(overrides);
 } catch {}

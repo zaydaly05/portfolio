@@ -6,7 +6,7 @@ const github = require("../lib/github");
 const { buildReply } = require("../lib/assistant");
 const { sameNumber } = require("../lib/phone");
 const { verifySignature } = require("../lib/webhook-signature");
-const { toWhatsAppText, getAIResponse, setPortfolioProvider } = require("../api/whatsapp-webhook");
+const { toWhatsAppText, getAIResponse, setPortfolioProvider } = require("../lib/whatsapp-webhook");
 const defaults = require("../data/defaults");
 
 test("github: username, names, periods, slugs", () => {

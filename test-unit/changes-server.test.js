@@ -16,7 +16,9 @@ process.env.WHATSAPP_PHONE = OWNER;
 delete process.env.KAPSO_API_KEY; // no real sending: replies are computed but not delivered
 delete process.env.MONGODB_URI;
 delete process.env.VERCEL;
-const overrides = path.join(__dirname, "..", "logs", "portfolio-overrides.json");
+const dataDir = fs.mkdtempSync(path.join(require("node:os").tmpdir(), "portfolio-test-"));
+process.env.PORTFOLIO_DATA_DIR = dataDir; // each test file gets its own scratch folder (files run in parallel)
+const overrides = path.join(dataDir, "portfolio-overrides.json");
 const cleanup = () => {
   try {
     fs.rmSync(overrides);
