@@ -69,7 +69,7 @@ function generateAISuggestion(queryTopic) {
   return "💡 *AI Portfolio Master Suggestions*:\n\n" +
     "🎨 *Styling*: Reply `!suggest styling` for color palettes, typography & glassmorphism tips.\n" +
     "🚀 *Features*: Reply `!suggest features` for modern interactive widgets & tools.\n" +
-    "📢 *Broadcast*: Reply `!broadcast <numbers> \| <message>` to send to specific phone numbers.\n" +
+    "📢 *Broadcast*: Reply `!broadcast <numbers> | <message>` to send to specific phone numbers.\n" +
     "➕ *Add Contacts*: Reply `!addcontact 201017741741, 201234567890` to save phone contacts.";
 }
 

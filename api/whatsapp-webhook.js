@@ -1,6 +1,5 @@
 const { WhatsAppClient } = require("@kapso/whatsapp-cloud-api");
 const { getKey } = require("../keys");
-const { sameNumber } = require("../lib/phone");
 const { verifySignature } = require("../lib/webhook-signature");
 const { buildReply } = require("../lib/assistant");
 const { handleApprovalReply } = require("./whatsapp-approval");
