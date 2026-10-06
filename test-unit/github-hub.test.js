@@ -14,12 +14,16 @@ try {
   fs.rmSync(overrides);
 } catch {}
 
-const repo = (name, extra = {}) => ({ name, description: `${name} description`, html_url: `https://github.com/zaydaly05/${name}`, stargazers_count: 1, forks_count: 0, language: "JS", updated_at: "2026-01-01T00:00:00Z", ...extra });
+const repo = (name, extra = {}) => ({ name, languages_url: `https://api.github.com/repos/zaydaly05/${name}/languages`, description: `${name} description`, html_url: `https://github.com/zaydaly05/${name}`, stargazers_count: 1, forks_count: 0, language: "JS", updated_at: "2026-01-01T00:00:00Z", ...extra });
 const realFetch = global.fetch;
 global.fetch = async (url, opts) => {
   const u = String(url);
+  if (u.includes("/languages")) {
+    // 3800 bytes per repo => 100 lines each
+    return { ok: true, json: async () => ({ JavaScript: 3000, CSS: 800 }) };
+  }
   if (u.startsWith("https://api.github.com/users/") && u.includes("/repos")) {
-    return { ok: true, json: async () => [repo("portfolio"), repo("cv-portfolio"), repo("Car_Rental_Website"), repo("zaydentity"), repo("random-experiment"), repo("Gulf_Limousine_App"), repo("EssmatPlastic"), repo("drNaglaBio")] };
+    return { ok: true, json: async () => [repo("portfolio"), repo("cv-portfolio"), repo("Car_Rental_Website"), repo("zaydentity"), repo("random-experiment"), repo("Gulf_Limousine_App"), repo("EssmatPlastic"), repo("drNaglaBio"), repo("forked-lib", { fork: true })] };
   }
   if (u.startsWith("https://api.github.com/users/")) {
     return { ok: true, json: async () => ({ login: "zaydaly05", avatar_url: "a", bio: "b", public_repos: 15, followers: 6, html_url: "https://github.com/zaydaly05" }) };
@@ -48,6 +52,8 @@ test("only repositories of Project Hub projects are listed, in the hub's order",
     assert.deepEqual(names, ["Gulf_Limousine_App", "EssmatPlastic", "drNaglaBio", "Car_Rental_Website"]);
     assert.equal(body.publicRepos, 15); // account stats are unchanged
     assert.equal(body.allRepos, undefined); // internal list is not exposed
+    // 8 own repositories x 3800 bytes / 38 bytes per line; the fork is not counted
+    assert.equal(body.linesOfCode, 800);
   } finally {
     server.close();
   }

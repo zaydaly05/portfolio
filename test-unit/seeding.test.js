@@ -219,3 +219,20 @@ test("a stored certificate and its letter get the same title so they merge into 
   assert.deepEqual(titles, ["TAQA Arabia — Software Development Internship", "TAQA Arabia — Software Development Internship", "Cisco C Essentials 1 Certification"]);
   assert.equal(data.sections.certificates[0].desc, "my own text"); // everything else untouched
 });
+
+test("the stats block 'Public GitHub Repositories' becomes the lines-of-code counter", async () => {
+  state.bulkOps.length = 0;
+  state.docs = [
+    {
+      section: "stats",
+      data: [
+        { icon: "💻", label: "Public GitHub Repositories", source: "github_repos", value: 0, suffix: "+" },
+        { icon: "🚀", label: "My own label", source: "projects", value: 0, suffix: "+" }
+      ]
+    }
+  ];
+  const data = await adminGet("/api/admin/portfolio");
+  assert.equal(data.sections.stats[0].source, "lines_of_code");
+  assert.equal(data.sections.stats[0].label, "Lines of Code Written");
+  assert.equal(data.sections.stats[1].label, "My own label"); // other blocks untouched
+});

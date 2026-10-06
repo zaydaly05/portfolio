@@ -968,9 +968,9 @@ module.exports = {
   ],
   "stats": [
     {
-      "icon": "💻",
-      "label": "Public GitHub Repositories",
-      "source": "github_repos",
+      "icon": "⌨️",
+      "label": "Lines of Code Written",
+      "source": "lines_of_code",
       "value": 0,
       "suffix": "+"
     },

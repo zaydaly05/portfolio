@@ -1552,6 +1552,16 @@ const init = async () => {
 /* ============================================
    ANIMATED NUMBER STAT COUNTER BOXES
    ============================================ */
+/** 999 -> "999", 1000 -> "1K", 12450 -> "12.5K", 1200000 -> "1.2M" */
+const formatCompact = (n) => {
+  const value = Math.max(0, Math.round(Number(n) || 0));
+  const trim = (x) => String(Math.round(x * 10) / 10).replace(/\.0$/, "");
+  if (value < 1000) return String(value);
+  if (value < 999500) return `${trim(value / 1000)}K`;
+  if (value < 999500000) return `${trim(value / 1e6)}M`;
+  return `${trim(value / 1e9)}B`;
+};
+
 const setupStatCounters = async () => {
   const counterEls = document.querySelectorAll(".stat-number-val");
   if (!counterEls.length) return;
@@ -1564,6 +1574,10 @@ const setupStatCounters = async () => {
         const repoStat = document.getElementById("github-repos-stat");
         if (repoStat) repoStat.dataset.target = data.publicRepos;
       }
+      if (data && data.linesOfCode) {
+        const codeStat = document.getElementById("lines-of-code-stat");
+        if (codeStat) codeStat.dataset.target = data.linesOfCode;
+      }
     }
   } catch (err) {
     console.error("Failed to fetch github stats for counters", err);
@@ -1575,15 +1589,22 @@ const setupStatCounters = async () => {
         if (!entry.isIntersecting) return;
         const el = entry.target;
         const target = parseInt(el.dataset.target) || 0;
+        const show = el.dataset.format === "compact" ? formatCompact : (n) => n;
+        if (el.dataset.format === "compact" && !target) {
+          el.textContent = "—"; // no live figure yet
+          if (el.nextElementSibling && el.nextElementSibling.classList.contains("stat-plus")) el.nextElementSibling.textContent = "";
+          observer.unobserve(el);
+          return;
+        }
         let current = 0;
         const increment = Math.max(1, Math.ceil(target / 30));
         const timer = setInterval(() => {
           current += increment;
           if (current >= target) {
-            el.textContent = target;
+            el.textContent = show(target);
             clearInterval(timer);
           } else {
-            el.textContent = current;
+            el.textContent = show(current);
           }
         }, 35);
         observer.unobserve(el);

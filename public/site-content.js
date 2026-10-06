@@ -128,6 +128,8 @@
         return tokens.internshipsCount;
       case "github_repos":
         return Math.max(Number(stat.value) || 0, tokens.projectsCount);
+      case "lines_of_code":
+        return Number(stat.value) || 0; // replaced by the live estimate when GitHub answers
       default:
         return Number(stat.value) || 0;
     }
@@ -139,7 +141,12 @@
     if (!row || !Array.isArray(stats) || !stats.length) return;
     row.innerHTML = stats
       .map((s) => {
-        const idAttr = s.source === "github_repos" ? ' id="github-repos-stat"' : "";
+        const idAttr =
+          s.source === "github_repos"
+            ? ' id="github-repos-stat"'
+            : s.source === "lines_of_code"
+              ? ' id="lines-of-code-stat" data-format="compact"'
+              : "";
         const suffix = s.suffix === undefined ? "+" : s.suffix;
         return `
         <div class="stat-counter-box">

@@ -397,6 +397,27 @@ app.get("/api/status", (req, res) => {
 
 // GitHub Live Sync Cache
 let githubCache = { data: null, timestamp: 0 };
+/** Average bytes per line of source code, used to turn GitHub's per-language byte counts into lines. */
+const BYTES_PER_LINE = 38;
+
+/** Estimated lines of code across the owner's own (non-fork) repositories, from GitHub's language stats. */
+async function estimateLinesOfCode(repos, headers) {
+  const own = (repos || []).filter((r) => r && !r.fork && r.languages_url);
+  if (!own.length) return null;
+  const results = await Promise.allSettled(
+    own.map(async (r) => {
+      const res = await fetch(r.languages_url, { headers, signal: AbortSignal.timeout(6000) });
+      if (!res.ok) throw new Error(`languages ${res.status}`);
+      const langs = await res.json();
+      return Object.values(langs || {}).reduce((sum, bytes) => sum + (Number(bytes) || 0), 0);
+    })
+  );
+  const ok = results.filter((r) => r.status === "fulfilled");
+  if (!ok.length) return null;
+  const bytes = ok.reduce((sum, r) => sum + r.value, 0);
+  return bytes > 0 ? Math.round(bytes / BYTES_PER_LINE) : null;
+}
+
 /** Only repositories that back a project in the Project Hub are shown, in the hub's order. */
 function projectRepos(allRepos) {
   const byName = new Map((allRepos || []).map((r) => [String(r.name).toLowerCase(), r]));
@@ -438,6 +459,8 @@ app.get("/api/github", async (req, res) => {
     const reposRes = await fetch(`https://api.github.com/users/${encodeURIComponent(username)}/repos?sort=updated&per_page=100`, { headers });
     const reposData = reposRes.ok ? await reposRes.json() : [];
 
+    const linesOfCode = Array.isArray(reposData) ? await estimateLinesOfCode(reposData, headers) : null;
+
     const formattedRepos = Array.isArray(reposData)
       ? reposData.map((r) => ({
           name: r.name,
@@ -457,6 +480,7 @@ app.get("/api/github", async (req, res) => {
       publicRepos: userData.public_repos,
       followers: userData.followers,
       profileUrl: userData.html_url,
+      linesOfCode,
       allRepos: formattedRepos
     };
 
