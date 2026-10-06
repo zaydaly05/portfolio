@@ -414,7 +414,9 @@ const applyTheme = (theme) => {
   document.body.setAttribute("data-theme", theme);
   const toggle = document.getElementById("theme-toggle");
   if (toggle) {
-    toggle.textContent = theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode";
+    const isLight = theme === "light";
+    toggle.innerHTML = `<span class="theme-icon" aria-hidden="true">${isLight ? "🌙" : "☀️"}</span><span class="theme-label"> ${isLight ? "Dark Mode" : "Light Mode"}</span>`;
+    toggle.setAttribute("aria-label", isLight ? "Switch to dark mode" : "Switch to light mode");
   }
 };
 
@@ -2946,6 +2948,9 @@ const setupHamburgerMenu = () => {
   overlay.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", close);
   });
+
+  const mobileCvBtn = document.getElementById("mobile-cv-btn");
+  if (mobileCvBtn) mobileCvBtn.addEventListener("click", close);
 
   // Mobile terminal button inside overlay
   if (mobileTerminalBtn) {

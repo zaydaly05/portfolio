@@ -60,7 +60,7 @@
               </svg>
               CLI
             </button>
-            <button id="theme-toggle" class="btn-outline theme-toggle" type="button">Light Mode</button>
+            <button id="theme-toggle" class="btn-outline theme-toggle" type="button" aria-label="Switch to light mode">☀️ Light Mode</button>
             <button id="preview-cv-nav-btn" class="btn-outline btn-cv-nav" type="button">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
@@ -68,7 +68,7 @@
               </svg>
               View CV
             </button>
-            <a class="btn" href="/contact">Hire Me</a>
+            <a class="btn btn-hire-nav" href="/contact">Hire Me</a>
             <button class="hamburger-btn" id="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false">
               <span></span><span></span><span></span>
             </button>
@@ -86,6 +86,7 @@
           </ul>
           <div class="mobile-nav-actions">
             <a class="btn" href="/contact">Hire Me</a>
+            <button id="mobile-cv-btn" class="btn-outline" type="button" data-open-cv>View CV</button>
             <button id="mobile-terminal-btn" class="btn-outline" type="button">Terminal CLI</button>
           </div>
         </div>
