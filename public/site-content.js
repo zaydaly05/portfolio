@@ -25,7 +25,7 @@
       location: profile.location || "",
       email: profile.email || "",
       projectsCount: projects.length,
-      certificatesCount: (data.certificates || []).length,
+      certificatesCount: (data.certificates || []).filter((c) => c && c.kind !== "letter").length,
       internshipsCount: countInternships(data),
       skillCategoriesCount: (data.technicalSkills || []).length
     };

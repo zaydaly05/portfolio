@@ -57,18 +57,7 @@ module.exports = {
         "Integrated network operations and local persistence using Retrofit and Room Database for offline-first architecture.",
         "Implemented dependency injection using Hilt to ensure decoupled, scalable enterprise mobile software design.",
         "Managed application lifecycles and mitigated native process death constraints effectively under direct supervision of Khaled Mamdouh (Android Developer Supervisor, WE)."
-      ],
-      "media": [
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Experience_Letter_CHI.jpg",
-          "alt": "WE (Telecom Egypt) Official Android Development Internship Experience Letter - Signed by Khaled Mamdouh (Android Developer Supervisor)"
-        },
-        {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Experience_Letter_CHI.jpg",
-          "alt": "WE (Telecom Egypt) Android Development Training Lab Photo"
-        }
-      ],
-      "mediaBadge": "📜 Official Experience Letter"
+      ]
     },
     {
       "company": "Cairo Higher Institute",
@@ -84,10 +73,10 @@ module.exports = {
       "media": [
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Experience_Letter_CHI.jpg",
-          "alt": "Cairo Higher Institute experience photo"
+          "alt": "Cairo Higher Institute — Experience Letter (IT Department, 2025)"
         }
       ],
-      "mediaBadge": "📸 Photo Available"
+      "mediaBadge": "📜 Experience Letter"
     },
     {
       "company": "TAQA Arabia",
@@ -100,14 +89,14 @@ module.exports = {
       "media": [
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137221/Exp_Letter_Y25_Taqa.jpg",
-          "alt": "TAQA Software Development Internship experience photo"
+          "alt": "TAQA Arabia — Experience Letter (Software Development, 2025)"
         },
         {
           "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137222/Certificate_Year_25_Taqa.jpg",
-          "alt": "TAQA Software Development Internship official certificate"
+          "alt": "TAQA Arabia — Internship Certificate (Software Development, 2025)"
         }
       ],
-      "mediaBadge": "📸 2 Photos & Certificate"
+      "mediaBadge": "📜 Letter & Certificate"
     },
     {
       "company": "TAQA Arabia",
@@ -120,15 +109,15 @@ module.exports = {
       ],
       "media": [
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Taqa_Cert_Y24.jpg",
-          "alt": "TAQA IT Department internship photo 1"
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137221/Taqa_Letter_24Y.jpg",
+          "alt": "TAQA Arabia — Experience Letter (IT Department, 2024)"
         },
         {
-          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137221/Taqa_Letter_24Y.jpg",
-          "alt": "TAQA IT Department internship photo 2"
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Taqa_Cert_Y24.jpg",
+          "alt": "TAQA Arabia — Internship Certificate (IT Department, 2024)"
         }
       ],
-      "mediaBadge": "📸 2 Photos"
+      "mediaBadge": "📜 Letter & Certificate"
     }
   ],
   "projects": [
@@ -744,9 +733,50 @@ module.exports = {
       "issuer": "TAQA Arabia — Software Engineering Dept",
       "date": "August 2025",
       "category": "Industry Experience",
-      "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137221/Exp_Letter_Y25_Taqa.jpg",
+      "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137222/Certificate_Year_25_Taqa.jpg",
       "pdf": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137222/Certificate_Year_25_Taqa.jpg",
-      "desc": "Official engineering internship certificate recognizing contribution to the In Gaz API mobile platform."
+      "desc": "Official engineering internship certificate recognizing contribution to the In Gaz API mobile platform.",
+      "kind": "certificate"
+    },
+    {
+      "title": "TAQA Arabia Experience Letter (Software Development)",
+      "issuer": "TAQA Arabia — Software Engineering Dept",
+      "date": "August 2025",
+      "category": "Experience Letter",
+      "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137221/Exp_Letter_Y25_Taqa.jpg",
+      "pdf": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137221/Exp_Letter_Y25_Taqa.jpg",
+      "desc": "Official experience letter confirming the software development internship and the In Gaz API mobile application work.",
+      "kind": "letter"
+    },
+    {
+      "title": "TAQA Arabia IT Internship Certificate",
+      "issuer": "TAQA Arabia — IT Department",
+      "date": "September 2024",
+      "category": "Industry Experience",
+      "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Taqa_Cert_Y24.jpg",
+      "pdf": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Taqa_Cert_Y24.jpg",
+      "desc": "Official internship certificate for the IT Department internship: device software management and user account support.",
+      "kind": "certificate"
+    },
+    {
+      "title": "TAQA Arabia Experience Letter (IT Department)",
+      "issuer": "TAQA Arabia — IT Department",
+      "date": "September 2024",
+      "category": "Experience Letter",
+      "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137221/Taqa_Letter_24Y.jpg",
+      "pdf": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137221/Taqa_Letter_24Y.jpg",
+      "desc": "Official experience letter confirming the IT Department internship.",
+      "kind": "letter"
+    },
+    {
+      "title": "Cairo Higher Institute Experience Letter",
+      "issuer": "Cairo Higher Institute — IT Dept",
+      "date": "September 2025",
+      "category": "Experience Letter",
+      "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Experience_Letter_CHI.jpg",
+      "pdf": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Experience_Letter_CHI.jpg",
+      "desc": "Institutional user account management, website front-end maintenance, and digital content production.",
+      "kind": "letter"
     },
     {
       "title": "Cisco JavaScript Essentials 1 & 2",
@@ -755,7 +785,8 @@ module.exports = {
       "category": "Full-Stack Development",
       "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135787/js1_certificate.png",
       "pdf": "/assets/Online%20Certificates/JavaScriptEssentials2Update20250713-27-31fbam.pdf",
-      "desc": "Advanced JavaScript ES6+, asynchronous programming, object-oriented concepts, and DOM manipulation."
+      "desc": "Advanced JavaScript ES6+, asynchronous programming, object-oriented concepts, and DOM manipulation.",
+      "kind": "certificate"
     },
     {
       "title": "Cisco C Essentials 1 Certification",
@@ -764,7 +795,9 @@ module.exports = {
       "category": "Systems & Core Programming",
       "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135536/c-essentials-1.png",
       "pdf": "/assets/Online%20Certificates/CEssentials1Update20250709-29-hnum8q.pdf",
-      "desc": "Low-level system programming, memory management, pointers, and algorithmic structures in C."
+      "desc": "Low-level system programming, memory management, pointers, and algorithmic structures in C.",
+      "kind": "certificate",
+      "imageLabel": "Cisco digital badge"
     },
     {
       "title": "Introduction to Cybersecurity Certification",
@@ -773,7 +806,8 @@ module.exports = {
       "category": "Cybersecurity & Networks",
       "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135537/Introduction_To_Cybersecurity_C.png",
       "pdf": "/assets/Online%20Certificates/I2CSUpdate20250709-27-93jy0g.pdf",
-      "desc": "Network security protocols, vulnerability analysis, encryption fundamentals, and threat mitigation."
+      "desc": "Network security protocols, vulnerability analysis, encryption fundamentals, and threat mitigation.",
+      "kind": "certificate"
     },
     {
       "title": "CSS & Modern Web Development",
@@ -782,16 +816,9 @@ module.exports = {
       "category": "Frontend Architecture",
       "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135536/css-essentials.png",
       "pdf": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135538/CSS.png",
-      "desc": "Responsive layout design, Flexbox, CSS Grid, animation frameworks, and modern CSS3 aesthetics."
-    },
-    {
-      "title": "Cairo Higher Institute Experience Letter",
-      "issuer": "Cairo Higher Institute — IT Dept",
-      "date": "September 2025",
-      "category": "Industry Experience",
-      "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Experience_Letter_CHI.jpg",
-      "pdf": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Experience_Letter_CHI.jpg",
-      "desc": "Institutional user account management, website front-end maintenance, and digital content production."
+      "desc": "Responsive layout design, Flexbox, CSS Grid, animation frameworks, and modern CSS3 aesthetics.",
+      "kind": "certificate",
+      "imageLabel": "Cisco digital badge"
     }
   ],
   "site": {
@@ -1003,42 +1030,42 @@ module.exports = {
     }
   ],
   "faq": [
-      {
-          "question": "🟢 Is {firstName} available for hire or an internship?",
-          "answer": "Yes! {firstName} is open to software engineering internships, junior full-stack and mobile roles (Spring Boot, React, C#, Flutter, Kotlin), and collaborative projects."
-      },
-      {
-          "question": "⚡ How quickly does {firstName} reply?",
-          "answer": "Usually within 2 to 6 hours for emails and direct WhatsApp messages."
-      },
-      {
-          "question": "🌍 Where is {firstName} based, and is remote work possible?",
-          "answer": "Based in Maadi, Cairo, Egypt (Cairo time, UTC+3). {firstName} is set up for remote, hybrid or on-site work."
-      },
-      {
-          "question": "🛠️ What does {firstName} specialise in?",
-          "answer": "Full-stack web (Spring Boot, React, Node.js), mobile apps (Flutter and native Android with Kotlin), C# and .NET APIs, and SQL and NoSQL databases, across {skillCategoriesCount} skill categories."
-      },
-      {
-          "question": "🚀 What has {firstName} built?",
-          "answer": "{projectsCount}+ projects, from mobile booking apps and enterprise management systems to web platforms. Open the Projects Hub to browse them with screenshots and live GitHub links."
-      },
-      {
-          "question": "💼 What professional experience does {firstName} have?",
-          "answer": "{internshipsCount} internships, including WE (Telecom Egypt) in Android development, TAQA Arabia in software development and IT, and Cairo Higher Institute in IT. Details and experience letters are on the Experience page."
-      },
-      {
-          "question": "🎓 What are {firstName}'s education and certifications?",
-          "answer": "Studying Computer Science at Misr International University (graduating June 2027), with {certificatesCount} verified certifications from Cisco Networking Academy and OpenEDG."
-      },
-      {
-          "question": "📄 Where can recruiters get the latest CV?",
-          "answer": "Click View CV in the header. It always opens the most recent PDF, which is rebuilt from this portfolio whenever it changes, and it can be downloaded from the viewer."
-      },
-      {
-          "question": "🗣️ Which languages does {firstName} speak?",
-          "answer": "Arabic (native), English (fluent) and basic French."
-      }
+    {
+      "question": "🟢 Is {firstName} available for hire or an internship?",
+      "answer": "Yes! {firstName} is open to software engineering internships, junior full-stack and mobile roles (Spring Boot, React, C#, Flutter, Kotlin), and collaborative projects."
+    },
+    {
+      "question": "⚡ How quickly does {firstName} reply?",
+      "answer": "Usually within 2 to 6 hours for emails and direct WhatsApp messages."
+    },
+    {
+      "question": "🌍 Where is {firstName} based, and is remote work possible?",
+      "answer": "Based in Maadi, Cairo, Egypt (Cairo time, UTC+3). {firstName} is set up for remote, hybrid or on-site work."
+    },
+    {
+      "question": "🛠️ What does {firstName} specialise in?",
+      "answer": "Full-stack web (Spring Boot, React, Node.js), mobile apps (Flutter and native Android with Kotlin), C# and .NET APIs, and SQL and NoSQL databases, across {skillCategoriesCount} skill categories."
+    },
+    {
+      "question": "🚀 What has {firstName} built?",
+      "answer": "{projectsCount}+ projects, from mobile booking apps and enterprise management systems to web platforms. Open the Projects Hub to browse them with screenshots and live GitHub links."
+    },
+    {
+      "question": "💼 What professional experience does {firstName} have?",
+      "answer": "{internshipsCount} internships, including WE (Telecom Egypt) in Android development, TAQA Arabia in software development and IT, and Cairo Higher Institute in IT. Details and experience letters are on the Experience page."
+    },
+    {
+      "question": "🎓 What are {firstName}'s education and certifications?",
+      "answer": "Studying Computer Science at Misr International University (graduating June 2027), with {certificatesCount} verified certifications from Cisco Networking Academy and OpenEDG."
+    },
+    {
+      "question": "📄 Where can recruiters get the latest CV?",
+      "answer": "Click View CV in the header. It always opens the most recent PDF, which is rebuilt from this portfolio whenever it changes, and it can be downloaded from the viewer."
+    },
+    {
+      "question": "🗣️ Which languages does {firstName} speak?",
+      "answer": "Arabic (native), English (fluent) and basic French."
+    }
   ],
   "cvSummary": {
     "summary": "Ambitious Junior Computer Science student with a strong foundation in problem-solving and a passion for technology, consistently advancing technical expertise through hands-on projects and workshops while striving to deliver impactful, scalable software solutions."

@@ -6211,6 +6211,31 @@ textarea.invalid {
   will-change: transform, opacity;
 }
 
+/* Completed puzzle: gaps close and the square becomes the logo's circle */
+.puzzle-stage {
+  transition:
+    gap 0.8s ease,
+    border-radius 0.8s ease,
+    box-shadow 0.8s ease;
+}
+
+.puzzle-stage.is-complete {
+  gap: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  transform-style: flat;
+  box-shadow:
+    0 0 0 2px rgba(101, 240, 255, 0.75),
+    0 0 36px rgba(101, 240, 255, 0.55),
+    0 0 70px rgba(168, 85, 247, 0.35);
+}
+
+.puzzle-stage.is-complete .puzzle-tile {
+  border-radius: 0;
+  border-color: transparent;
+  box-shadow: none;
+}
+
 .puzzle-circuit-ring {
   position: absolute;
   inset: -12px;
@@ -6228,7 +6253,7 @@ textarea.invalid {
 .puzzle-energy-flash {
   position: absolute;
   inset: 0;
-  border-radius: 20px;
+  border-radius: 50%;
   background: radial-gradient(circle, rgba(101, 240, 255, 0.8) 0%, rgba(168, 85, 247, 0.5) 40%, transparent 70%);
   opacity: 0;
   transform: scale(0.5);
@@ -7436,4 +7461,18 @@ body:has(.mobile-nav-overlay.open) .star-toast-popup {
   .slide-tech-chips .chip-sm {
     white-space: nowrap;
   }
+}
+
+.pm-caption {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0 12px;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0.9;
 }
