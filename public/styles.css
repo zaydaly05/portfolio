@@ -270,13 +270,15 @@ body {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(6, 9, 24, 0.97);
-  backdrop-filter: blur(20px);
+  background: #060918;
   z-index: 150;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 24px;
+  padding: 72px 20px 32px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -850,7 +852,7 @@ h3 {
    ============================================ */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: 20px;
 }
 
@@ -2079,7 +2081,7 @@ body:has(.modal:not(.hidden)) .ai-chat-widget {
   }
 
   .grid {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
     gap: 20px;
   }
 
@@ -2168,7 +2170,7 @@ body:has(.modal:not(.hidden)) .ai-chat-widget {
   }
 
   .grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 16px;
   }
 
@@ -2412,7 +2414,7 @@ body:has(.modal:not(.hidden)) .ai-chat-widget {
 
 @media (max-width: 900px) {
   .github-sync-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -2520,7 +2522,7 @@ body:has(.modal:not(.hidden)) .ai-chat-widget {
 
 .github-repos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
   gap: 16px;
 }
 
@@ -2587,7 +2589,7 @@ body:has(.modal:not(.hidden)) .ai-chat-widget {
 
 @media (max-width: 850px) {
   .contact-grid-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -3607,7 +3609,7 @@ body:has(.modal:not(.hidden)) .ai-chat-widget {
 
 .reviews-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: 20px;
 }
 
@@ -3782,7 +3784,7 @@ body:has(.modal:not(.hidden)) .ai-chat-widget {
    ============================================ */
 .languages-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
   gap: 14px;
 }
 
@@ -3864,8 +3866,8 @@ body:has(.modal:not(.hidden)) .ai-chat-widget {
   position: fixed;
   bottom: 90px;
   left: 24px;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: 1px solid var(--card-border);
   background: rgba(6, 9, 24, 0.85);
@@ -4066,7 +4068,7 @@ textarea.invalid {
   }
 
   .languages-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .cv-showcase-box {
@@ -4087,8 +4089,8 @@ textarea.invalid {
   #back-to-top-btn {
     bottom: 80px;
     left: 14px;
-    width: 38px;
-    height: 38px;
+    width: 44px;
+    height: 44px;
   }
 
   .experience-timeline {
@@ -4385,7 +4387,7 @@ textarea.invalid {
 /* Featured Core Tech Grid */
 .featured-tech-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
   gap: 20px;
   margin-bottom: 40px;
 }
@@ -4553,7 +4555,7 @@ textarea.invalid {
 /* Categorized Technical Skills Group Cards */
 .skills-groups {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
   gap: 20px;
 }
 
@@ -4619,7 +4621,7 @@ textarea.invalid {
 /* Soft Skills Bento Grid */
 .soft-skills-bento-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
   gap: 20px;
 }
 
@@ -4677,7 +4679,7 @@ textarea.invalid {
 /* Spoken Languages Proficiency Grid */
 .languages-prof-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
   gap: 20px;
 }
 
@@ -4969,7 +4971,7 @@ textarea.invalid {
 /* Home Flagship Projects Grid */
 .home-projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
   gap: 24px;
 }
 
@@ -5081,7 +5083,7 @@ textarea.invalid {
 /* Gateway Cards Grid */
 .gateway-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
   gap: 20px;
 }
 
@@ -5232,7 +5234,7 @@ textarea.invalid {
 
 @media (max-width: 640px) {
   .form-row-2col {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 16px;
   }
 
@@ -5334,7 +5336,7 @@ textarea.invalid {
    ============================================ */
 .certificates-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
   gap: 24px;
 }
 
@@ -5810,7 +5812,7 @@ textarea.invalid {
 /* Certificates Styling */
 .certificates-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
   gap: 24px;
 }
 
@@ -6462,4 +6464,108 @@ body.no-scroll main *,
 body.no-scroll header *,
 body.no-scroll footer * {
   animation-play-state: paused !important;
+}
+
+/* ============================================
+   MOBILE NAV & TOUCH TARGETS
+   ============================================ */
+@media (max-width: 768px) {
+  .nav-actions .btn-terminal-nav,
+  .nav-actions #preview-cv-nav-btn,
+  .nav-actions .btn-hire-nav {
+    display: none;
+  }
+
+  .nav-actions {
+    gap: 6px;
+  }
+
+  .theme-toggle {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+  }
+
+  .theme-toggle .theme-label {
+    display: none;
+  }
+
+  .hamburger-btn {
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (pointer: coarse) {
+  .filter-pill,
+  .skill-tab,
+  .btn-copy-chip,
+  .btn-github-link,
+  .home-project-more {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #back-to-top-btn,
+  .back-to-top-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* Never let a flex/grid child force horizontal scroll on narrow phones */
+@media (max-width: 480px) {
+  .project-search-box,
+  .project-search-box input {
+    min-width: 0;
+  }
+}
+
+/* Floating widgets must not sit on top of the open mobile menu */
+body:has(.mobile-nav-overlay.open) .ai-chat-widget,
+body:has(.mobile-nav-overlay.open) #back-to-top-btn,
+body:has(.mobile-nav-overlay.open) .star-toast-popup {
+  visibility: hidden;
+}
+
+@media (max-width: 480px) and (max-height: 700px) {
+  .mobile-nav-links li a {
+    font-size: 1.35rem;
+    padding: 8px 16px;
+  }
+}
+
+/* Mobile menu — light theme */
+[data-theme="light"] .mobile-nav-overlay {
+  background: #f0f4ff;
+}
+
+[data-theme="light"] .mobile-nav-links li a {
+  color: #0f172a;
+}
+
+[data-theme="light"] .mobile-nav-links li a.active-nav,
+[data-theme="light"] .mobile-nav-links li a:hover {
+  color: var(--brand);
+  background: var(--brand-glow);
+}
+
+[data-theme="light"] .mobile-nav-close {
+  color: #0f172a;
+  background: rgba(15, 23, 42, 0.06);
+  border-color: rgba(15, 23, 42, 0.15);
+}
+
+[data-theme="light"] .mobile-nav-actions .btn-outline {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: rgba(15, 23, 42, 0.2);
 }
