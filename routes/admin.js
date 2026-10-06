@@ -10,6 +10,7 @@ const mongoose = require("mongoose");
 const { getKey } = require("../keys");
 const githubLib = require("../lib/github");
 const { CV_SECTIONS } = require("../lib/cv-tex");
+const { buildCvSections } = require("../lib/cv-sync");
 
 const MIN_KEY_LENGTH = 20;
 const MAX_FAILED_ATTEMPTS = 10;
@@ -368,6 +369,34 @@ function createAdminRouter(deps) {
       if (!cv) return res.status(503).json({ ok: false, error: "CV builder is not configured." });
       const build = await cv.requestBuild("manual rebuild");
       res.json({ ok: true, ...build });
+    })
+  );
+
+  // Copies the portfolio's experience, projects and skills into the CV sections, then rebuilds
+  router.post(
+    "/cv/refresh",
+    handle(async (req, res) => {
+      if (!cv) return res.status(503).json({ ok: false, error: "CV builder is not configured." });
+      const sections = buildCvSections(portfolioData);
+      for (const [name, data] of Object.entries(sections)) {
+        try {
+          validateSection(name, data);
+        } catch (err) {
+          return res.status(400).json({ ok: false, error: err.message });
+        }
+      }
+      for (const [name, data] of Object.entries(sections)) {
+        await saveOverride(name, data);
+        portfolioData[name] = data;
+      }
+      const build = await cv.requestBuild("CV refreshed from portfolio");
+      res.json({
+        ok: true,
+        experience: sections.cvExperience.length,
+        projects: sections.cvProjects.length,
+        skills: sections.cvSkills.length,
+        ...build
+      });
     })
   );
 

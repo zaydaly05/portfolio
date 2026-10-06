@@ -159,3 +159,8 @@ phone-contacts mishap never loses them:
 - **Kapso sender (+968 7785 0544, "Techno Express")** — the business number that sends the monthly broadcast to your Kapso contacts. You send it manually in Kapso. This app never reads, edits or imports your Kapso contact list.
 - **Your private number (+201017741741)** — set as `WHATSAPP_PHONE`. The business number messages it for approvals and sends the new CV; only replies from this number are accepted.
 - The contacts vault is only an independent backup copy. `ALLOW_SERVER_BROADCAST` stays `false`.
+
+### Update the CV from the portfolio
+Home → CV card → **Update from portfolio** copies the portfolio's experience, projects and technical skills into
+the CV (summary, education, languages and soft skills are left alone) and rebuilds the PDF. The CV may be up to
+2 pages; the app warns above that.

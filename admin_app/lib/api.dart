@@ -476,6 +476,9 @@ class AdminApi {
 
   Future<void> rebuildCv() => _send('POST', '/api/admin/cv/rebuild');
 
+  /// Copies the portfolio's experience, projects and skills into the CV and rebuilds it.
+  Future<void> refreshCvFromPortfolio() => _send('POST', '/api/admin/cv/refresh');
+
   /// Public repositories on GitHub that are not in the portfolio's projects yet.
   Future<GithubNew> githubNew() async {
     final json = await _send('GET', '/api/admin/github/new');

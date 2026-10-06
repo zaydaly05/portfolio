@@ -213,6 +213,35 @@ class _CvCardState extends State<_CvCard> {
     }
   }
 
+  Future<void> _refreshFromPortfolio() async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Update CV from portfolio?'),
+        content: const Text(
+          'This replaces the CV\'s Experience, Projects and Technical Skills with what is currently on your '
+          'portfolio, then rebuilds the PDF. Summary, education, languages and soft skills stay as they are.',
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Update')),
+        ],
+      ),
+    );
+    if (ok != true || !mounted) return;
+    setState(() => _busy = true);
+    try {
+      await apiOf(context).refreshCvFromPortfolio();
+      if (!mounted) return;
+      showSnack(context, 'CV updated from portfolio — rebuilding');
+      setState(() => _future = _load());
+    } catch (e) {
+      if (mounted) showSnack(context, errorText(e), error: true);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
   Future<void> _copyLink(CvStatus status) async {
     final base = AppScope.of(context).settings.baseUrl;
     await Clipboard.setData(ClipboardData(text: '$base${status.url}'));
@@ -244,7 +273,7 @@ class _CvCardState extends State<_CvCard> {
               icon = Icons.error_outline;
             case 'done':
               subtitle = 'Up to date (version ${status.version}).'
-                  '${(status.pages ?? 1) > 1 ? '\n⚠️ The CV is now ${status.pages} pages — it is designed to fit on one. Shorten some entries.' : ''}';
+                  '${(status.pages ?? 1) > 2 ? '\n⚠️ The CV is now ${status.pages} pages — keep it to 2 at most. Shorten some entries.' : ''}';
               icon = Icons.check_circle_outline;
             default:
               subtitle = status.version > 0 ? 'Version ${status.version}.' : 'Not generated from the app yet.';
@@ -273,6 +302,11 @@ class _CvCardState extends State<_CvCard> {
                       onPressed: _busy ? null : _rebuild,
                       icon: const Icon(Icons.refresh),
                       label: const Text('Rebuild now'),
+                    ),
+                    OutlinedButton.icon(
+                      onPressed: _busy ? null : _refreshFromPortfolio,
+                      icon: const Icon(Icons.sync_alt),
+                      label: const Text('Update from portfolio'),
                     ),
                     if (status?.url != null)
                       OutlinedButton.icon(
