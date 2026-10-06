@@ -30,10 +30,14 @@ void main() {
       {
         'profile', 'education', 'activities', 'experience', 'projects', 'featuredStack', 'technicalSkills',
         'softSkills', 'languages', 'certificates', 'site', 'heroPills', 'heroBadges', 'heroSlides', 'stats',
-        'gateways', 'faq',
+        'gateways', 'faq', 'cvSummary', 'cvExperience', 'cvProjects', 'cvSkills', 'cvSoftSkills', 'cvEducation',
+        'cvLanguages',
       },
     );
     expect(sectionByKey('site').isObject, isTrue);
+    expect(sections.where((s) => s.group == 'CV (PDF)').length, 7);
+    expect(sectionByKey('cvProjects').group, 'CV (PDF)');
+    expect(sectionByKey('projects').group, 'Website');
     expect(sectionByKey('profile').isObject, isTrue);
   });
 

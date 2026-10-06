@@ -37,7 +37,25 @@ cd admin_app
 dart run tool/check_server.dart https://YOUR-SITE.vercel.app YOUR_ADMIN_KEY
 ```
 
-## 2. Build and install the app
+## 2. Set up the CV (PDF)
+
+Your CV keeps its exact LaTeX layout (the one in `latex-cv/main.tex`). Its **content** lives in the database
+(admin app → Content → **CV (PDF)**), and a GitHub Action compiles it into the PDF whenever the content changes.
+The site then points its CV viewer / download buttons at the new PDF automatically.
+
+One-time setup:
+
+1. Create a secret: `openssl rand -hex 32`.
+2. Add it on the server as `CV_BUILD_KEY` (Vercel → Environment Variables) and redeploy.
+3. In the GitHub repository → Settings → Secrets and variables → Actions, add two secrets:
+   `CV_BUILD_KEY` (same value) and `PORTFOLIO_URL` (e.g. `https://your-portfolio.vercel.app`).
+4. Optional, for instant builds: add `GITHUB_TOKEN` on the server (fine-grained token, repository
+   permission **Actions: Read and write**). Without it the workflow still runs every 30 minutes.
+5. Open the app → Home → **Rebuild now** to generate the first PDF.
+
+If a build fails, the Home card shows the LaTeX error. Your previous PDF stays online.
+
+## 3. Build and install the app
 
 You need the [Flutter SDK](https://docs.flutter.dev/get-started/install) with the Android toolchain.
 
@@ -51,7 +69,7 @@ The installer is created at `build/app/outputs/flutter-apk/app-release.apk`. Cop
 (USB, Drive, Telegram…), open it and allow "install unknown apps" when asked. With the phone connected
 over USB and USB debugging on, you can also run `flutter install`.
 
-## 3. First launch
+## 4. First launch
 
 Open the app → it opens **Settings** → enter
 

@@ -84,13 +84,13 @@ class _SectionScreenState extends State<SectionScreen> {
     if (_saving) return;
     setState(() => _saving = true);
     try {
-      await apiOf(context).saveSection(info.key, _payload);
+      final cvRebuild = await apiOf(context).saveSection(info.key, _payload);
       if (!mounted) return;
       setState(() {
         _dirty = false;
         _saving = false;
       });
-      showSnack(context, '${info.label} saved — live on your website');
+      showSnack(context, cvRebuild ? '${info.label} saved — your CV is being rebuilt' : '${info.label} saved — live on your website');
     } catch (e) {
       if (!mounted) return;
       setState(() => _saving = false);

@@ -9,6 +9,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const { getKey } = require("../keys");
 const githubLib = require("../lib/github");
+const { CV_SECTIONS } = require("../lib/cv-tex");
 
 const MIN_KEY_LENGTH = 20;
 const MAX_FAILED_ATTEMPTS = 10;
@@ -33,7 +34,14 @@ const SECTION_RULES = {
   heroSlides: { type: "array", required: "title" },
   stats: { type: "array", required: "label" },
   gateways: { type: "array", required: "title" },
-  faq: { type: "array", required: "question" }
+  faq: { type: "array", required: "question" },
+  cvSummary: { type: "object", required: "summary" },
+  cvExperience: { type: "array", required: "company" },
+  cvProjects: { type: "array", required: "name" },
+  cvSkills: { type: "array", required: "label" },
+  cvSoftSkills: { type: "array", required: "text" },
+  cvEducation: { type: "array", required: "institution" },
+  cvLanguages: { type: "array", required: "text" }
 };
 
 const STAT_SOURCES = ["github_repos", "projects", "skill_categories", "certificates", "internships", "fixed"];
@@ -107,33 +115,42 @@ function validateSection(section, data) {
   assertCleanJson(data);
 }
 
-function requireAdmin(req, res, next) {
-  const expected = getKey("ADMIN_API_KEY");
-  if (!expected || String(expected).length < MIN_KEY_LENGTH) {
-    return res.status(503).json({
-      ok: false,
-      error: `Admin API is disabled. Set ADMIN_API_KEY (at least ${MIN_KEY_LENGTH} characters) on the server.`
-    });
-  }
+/**
+ * Builds an Express guard that checks a secret header against an environment secret.
+ * Disabled (503) while the secret is unset or short; repeated failures lock the caller out.
+ */
+function makeKeyGuard({ secretName, header, label }) {
+  const attempts = new Map();
+  return function guard(req, res, next) {
+    const expected = getKey(secretName);
+    if (!expected || String(expected).length < MIN_KEY_LENGTH) {
+      return res.status(503).json({
+        ok: false,
+        error: `${label} is disabled. Set ${secretName} (at least ${MIN_KEY_LENGTH} characters) on the server.`
+      });
+    }
 
-  const ip = clientIp(req);
-  const record = failedAttempts.get(ip);
-  if (record && record.count >= MAX_FAILED_ATTEMPTS && Date.now() - record.first < LOCKOUT_WINDOW_MS) {
-    return res.status(429).json({ ok: false, error: "Too many failed attempts. Try again later." });
-  }
+    const ip = clientIp(req);
+    const record = attempts.get(ip);
+    if (record && record.count >= MAX_FAILED_ATTEMPTS && Date.now() - record.first < LOCKOUT_WINDOW_MS) {
+      return res.status(429).json({ ok: false, error: "Too many failed attempts. Try again later." });
+    }
 
-  const provided = req.headers["x-admin-key"];
-  const valid = typeof provided === "string" && crypto.timingSafeEqual(sha256(provided), sha256(expected));
-  if (!valid) {
-    const now = Date.now();
-    if (!record || now - record.first >= LOCKOUT_WINDOW_MS) failedAttempts.set(ip, { count: 1, first: now });
-    else record.count += 1;
-    return res.status(401).json({ ok: false, error: "Invalid admin key." });
-  }
+    const provided = header === "authorization" ? String(req.headers.authorization || "").replace(/^Bearer\s+/i, "") : req.headers[header];
+    const valid = typeof provided === "string" && provided.length > 0 && crypto.timingSafeEqual(sha256(provided), sha256(expected));
+    if (!valid) {
+      const now = Date.now();
+      if (!record || now - record.first >= LOCKOUT_WINDOW_MS) attempts.set(ip, { count: 1, first: now });
+      else record.count += 1;
+      return res.status(401).json({ ok: false, error: `Invalid ${label.toLowerCase()} key.` });
+    }
 
-  failedAttempts.delete(ip);
-  next();
+    attempts.delete(ip);
+    next();
+  };
 }
+
+const requireAdmin = makeKeyGuard({ secretName: "ADMIN_API_KEY", header: "x-admin-key", label: "Admin API" });
 
 /**
  * @param {object} deps
@@ -145,9 +162,10 @@ function requireAdmin(req, res, next) {
  * @param {Function} deps.refreshOverrides (force) => Promise reload overrides into portfolioData
  * @param {Function} deps.overriddenSections () => string[] sections that differ from the built-in content
  * @param {Function} deps.fetchRepos (username) => Promise<GitHub repo[]>
+ * @param {object} [deps.cv] CV builder (lib/cv-build.js); when present, saving CV-related content requests a rebuild
  */
 function createAdminRouter(deps) {
-  const { portfolioData, defaults, connectDB, models, saveOverride, refreshOverrides, overriddenSections, fetchRepos } = deps;
+  const { portfolioData, defaults, connectDB, models, saveOverride, refreshOverrides, overriddenSections, fetchRepos, cv } = deps;
   const router = express.Router();
   router.use(requireAdmin);
 
@@ -166,6 +184,16 @@ function createAdminRouter(deps) {
       await fn(req, res);
     } catch (err) {
       res.status(500).json({ ok: false, error: err.message });
+    }
+  };
+
+  /** Asks for a CV rebuild after content that appears on the CV changed (never fails the save). */
+  const cvAfterSave = async (section) => {
+    if (!cv || !CV_SECTIONS.includes(section)) return null;
+    try {
+      return await cv.requestBuild(`edited ${section}`);
+    } catch {
+      return null;
     }
   };
 
@@ -213,7 +241,8 @@ function createAdminRouter(deps) {
       }
       await saveOverride(section, data);
       portfolioData[section] = data;
-      res.json({ ok: true, section, data });
+      const build = await cvAfterSave(section);
+      res.json({ ok: true, section, data, cvBuildRequested: Boolean(build) });
     })
   );
 
@@ -226,7 +255,8 @@ function createAdminRouter(deps) {
       const restored = JSON.parse(JSON.stringify(defaults[section]));
       await saveOverride(section, restored);
       portfolioData[section] = restored;
-      res.json({ ok: true, section, data: restored });
+      const build = await cvAfterSave(section);
+      res.json({ ok: true, section, data: restored, cvBuildRequested: Boolean(build) });
     })
   );
 
@@ -291,6 +321,44 @@ function createAdminRouter(deps) {
       await saveOverride("projects", next);
       portfolioData.projects = next;
       res.json({ ok: true, added: toAdd.map((r) => r.name), total: next.length });
+    })
+  );
+
+  // ---- CV ----------------------------------------------------------------
+  router.get(
+    "/cv",
+    handle(async (req, res) => {
+      if (!cv) return res.status(503).json({ ok: false, error: "CV builder is not configured." });
+      const state = await cv.getState();
+      const runnerConfigured = String(getKey("CV_BUILD_KEY") || "").length >= MIN_KEY_LENGTH;
+      res.json({
+        ok: true,
+        status: state.status || "idle",
+        requestedAt: state.requestedAt || null,
+        builtAt: state.builtAt || null,
+        version: state.version || 0,
+        reason: state.reason || null,
+        error: state.error || null,
+        url: state.version ? `/api/document/resume?v=${state.version}` : null,
+        runnerConfigured
+      });
+    })
+  );
+
+  router.post(
+    "/cv/rebuild",
+    handle(async (req, res) => {
+      if (!cv) return res.status(503).json({ ok: false, error: "CV builder is not configured." });
+      const build = await cv.requestBuild("manual rebuild");
+      res.json({ ok: true, ...build });
+    })
+  );
+
+  router.get(
+    "/cv/source",
+    handle(async (req, res) => {
+      if (!cv) return res.status(503).json({ ok: false, error: "CV builder is not configured." });
+      res.type("text/plain").send((await cv.source()).tex);
     })
   );
 
@@ -406,4 +474,4 @@ function createAdminRouter(deps) {
   return router;
 }
 
-module.exports = { createAdminRouter, requireAdmin, validateSection, SECTION_RULES };
+module.exports = { createAdminRouter, requireAdmin, makeKeyGuard, validateSection, SECTION_RULES };

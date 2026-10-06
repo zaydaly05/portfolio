@@ -1019,5 +1019,127 @@ module.exports = {
       "question": "📄 How can recruiters review official credentials?",
       "answer": "Click View CV in the header navigation or open the Experience & CV page to preview the LaTeX PDF resume."
     }
+  ],
+  "cvSummary": {
+    "summary": "Ambitious Junior Computer Science student with a strong foundation in problem-solving and a passion for technology, consistently advancing technical expertise through hands-on projects and workshops while striving to deliver impactful, scalable software solutions."
+  },
+  "cvExperience": [
+    {
+      "company": "Cairo Higher Institute",
+      "role": "Full-Time Internship in IT Department",
+      "period": "August 2025 – September 2025",
+      "location": "1st Settlement, Cairo",
+      "bullets": [
+        "Managed institutional email accounts and maintained the website using WordPress.",
+        "Oversaw social media accounts and created multimedia content to enhance digital presence."
+      ]
+    },
+    {
+      "company": "TAQA Arabia",
+      "role": "Full-Time Internship in Software Development Department",
+      "period": "July 2025 – August 2025",
+      "location": "Maadi, Cairo",
+      "bullets": [
+        "Developed an InGaz API Mobile Application"
+      ]
+    }
+  ],
+  "cvProjects": [
+    {
+      "name": "Restaurant Management System",
+      "stack": "Java, JavaFX",
+      "date": "Dec 2024",
+      "bullets": [
+        "GUI system for managing job postings, applications, and interviews using Java and JavaFX."
+      ]
+    },
+    {
+      "name": "InGaz API System",
+      "stack": "C#, Flutter",
+      "date": "Jul 2025",
+      "bullets": [
+        "Flutter mobile app integrated with .NET Core Web API with secure role-based access, CRUD operations, and Swagger testing."
+      ]
+    },
+    {
+      "name": "Employee Attendance System",
+      "stack": "HTML, CSS, PHP, MySQL",
+      "date": "Dec 2025",
+      "bullets": [
+        "Web-based system for attendance and leave management with automated tracking and secure database design."
+      ]
+    },
+    {
+      "name": "Food Ordering System",
+      "stack": "Spring Boot, React, MongoDB",
+      "date": "May 2026",
+      "bullets": [
+        "Full-stack system with authentication, CRUD operations, and analytics for orders and user activity."
+      ]
+    }
+  ],
+  "cvSkills": [
+    {
+      "label": "Languages",
+      "items": "PHP, C, Python, Java, HTML, CSS, JavaScript, SQL, C++, C#, Flutter, Dart, Tailwind"
+    },
+    {
+      "label": "Databases",
+      "items": "SQL, MongoDB, Firebase"
+    },
+    {
+      "label": "Developer Tools",
+      "items": "VS Code, Apache NetBeans, XAMPP, Git, GitHub, Android Studio"
+    },
+    {
+      "label": "Frameworks",
+      "items": "NodeJs, ExpressJs, SpringBoot, React"
+    },
+    {
+      "label": "Microsoft Office 365",
+      "items": "Word, Excel, Powerpoint, Access"
+    },
+    {
+      "label": "Design Tools",
+      "items": "Adobe Photoshop, Adobe InDesign, Adobe Premiere, Filmora"
+    },
+    {
+      "label": "Data Analysis",
+      "items": "Orange Data Mining, Power BI"
+    },
+    {
+      "label": "Other Skills",
+      "items": "Data Structures, OOP"
+    }
+  ],
+  "cvSoftSkills": [
+    {
+      "text": "Strong Teamwork Abilities"
+    },
+    {
+      "text": "Problem-Solving"
+    },
+    {
+      "text": "Time Management and Organizational Skills"
+    }
+  ],
+  "cvEducation": [
+    {
+      "institution": "Misr International University",
+      "degree": "Bachelor of Science in Computer Science",
+      "period": "September 2023 – June 2027",
+      "location": ""
+    }
+  ],
+  "cvLanguages": [
+    {
+      "text": "Arabic: Native"
+    },
+    {
+      "text": "English: Fluent"
+    },
+    {
+      "text": "French: Beginner"
+    }
   ]
 };

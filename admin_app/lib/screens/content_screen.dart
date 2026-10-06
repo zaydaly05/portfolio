@@ -21,7 +21,12 @@ class ContentScreen extends StatelessWidget {
           const SizedBox(height: 4),
           Text('Tap a section to edit what visitors see on your website.', style: Theme.of(context).textTheme.bodySmall),
           const SizedBox(height: 12),
-          for (final info in sections)
+          for (final info in sections) ...[
+            if (info == sections.first || sections[sections.indexOf(info) - 1].group != info.group)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(4, 16, 4, 6),
+                child: Text(info.group, style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.primary)),
+              ),
             Card(
               child: ListTile(
                 leading: Text(info.icon, style: const TextStyle(fontSize: 26)),
@@ -38,6 +43,7 @@ class ContentScreen extends StatelessWidget {
                 },
               ),
             ),
+          ],
         ],
       ),
     );
@@ -47,6 +53,6 @@ class ContentScreen extends StatelessWidget {
     final data = content.sections[info.key];
     final count = info.isObject ? null : (data is List ? data.length : 0);
     final edited = content.overridden.contains(info.key) ? ' · edited' : '';
-    return info.isObject ? 'Name, bio and contact links$edited' : '$count items$edited';
+    return info.isObject ? 'Single entry$edited' : '$count items$edited';
   }
 }
