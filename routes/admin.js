@@ -45,7 +45,7 @@ const SECTION_RULES = {
   cvLanguages: { type: "array", required: "text" }
 };
 
-const STAT_SOURCES = ["github_repos", "projects", "skill_categories", "certificates", "internships", "fixed"];
+const STAT_SOURCES = ["github_repos", "lines_of_code", "projects", "skill_categories", "certificates", "internships", "fixed"];
 
 const MAX_STRING_LENGTH = 5000;
 const MAX_DEPTH = 4;
