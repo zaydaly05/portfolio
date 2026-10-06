@@ -39,8 +39,10 @@ test-results/
 # Temporary sandbox build workspaces
 temp_projects/
 
-# Workflows & GitHub Actions (excluded from remote repo)
-.github/
+# GitHub Actions workflows are tracked (CV build + admin app build)
+!.github/
+.github/*
+!.github/workflows/
 local-workflows/
 
 .cleanai/

@@ -1,0 +1,75 @@
+name: Build CV
+
+# Compiles the CV (LaTeX, fixed layout) from the content stored in your portfolio database.
+# The site marks a build as "requested" whenever CV content changes; this workflow is started
+# immediately by the site (workflow_dispatch) and also polls every 30 minutes as a safety net.
+#
+# Required repository secrets (Settings -> Secrets and variables -> Actions):
+#   PORTFOLIO_URL  e.g. https://your-portfolio.vercel.app
+#   CV_BUILD_KEY   the same value as CV_BUILD_KEY on the server
+
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Build even if no rebuild was requested"
+        type: boolean
+        default: false
+  schedule:
+    - cron: "*/30 * * * *"
+
+concurrency:
+  group: build-cv
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      PORTFOLIO_URL: ${{ secrets.PORTFOLIO_URL }}
+      CV_BUILD_KEY: ${{ secrets.CV_BUILD_KEY }}
+    steps:
+      - name: Ask the site whether a build is wanted
+        id: ask
+        run: |
+          set -euo pipefail
+          echo "build=false" >> "$GITHUB_OUTPUT"
+          if [ -z "${PORTFOLIO_URL:-}" ] || [ -z "${CV_BUILD_KEY:-}" ]; then
+            echo "PORTFOLIO_URL / CV_BUILD_KEY secrets are not set; nothing to do."
+            exit 0
+          fi
+          curl -fsS -H "x-cv-build-key: $CV_BUILD_KEY" "${PORTFOLIO_URL%/}/api/build/resume/source" -o source.json
+          status=$(jq -r '.status' source.json)
+          echo "Site reports status: $status"
+          if [ "$status" = "requested" ] || [ "${{ inputs.force }}" = "true" ]; then
+            jq -r '.tex' source.json > main.tex
+            echo "id=$(jq -r '.id // ""' source.json)" >> "$GITHUB_OUTPUT"
+            echo "build=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Compile the CV
+        if: steps.ask.outputs.build == 'true'
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+
+      - name: Upload the PDF to the site
+        if: steps.ask.outputs.build == 'true' && success()
+        run: |
+          pages=$(pdfinfo main.pdf 2>/dev/null | awk '/^Pages:/{print $2}' || true)
+          echo "Compiled CV: ${pages:-?} page(s)"
+          curl -fsS -X POST \
+            -H "x-cv-build-key: $CV_BUILD_KEY" \
+            -H "content-type: application/pdf" \
+            --data-binary @main.pdf \
+            "${PORTFOLIO_URL%/}/api/build/resume/result?id=${{ steps.ask.outputs.id }}&pages=${pages:-}"
+
+      - name: Tell the site the build failed
+        if: steps.ask.outputs.build == 'true' && failure()
+        run: |
+          message=$(tail -c 1500 main.log 2>/dev/null || echo "LaTeX compilation failed")
+          jq -n --arg error "$message" '{error: $error}' | curl -fsS -X POST \
+            -H "x-cv-build-key: $CV_BUILD_KEY" \
+            -H "content-type: application/json" \
+            --data @- \
+            "${PORTFOLIO_URL%/}/api/build/resume/result?status=failed"
