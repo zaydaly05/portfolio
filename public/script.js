@@ -675,14 +675,6 @@ const renderExperience = (items) => {
 
   container.className = "experience-timeline";
 
-  const ACCENTS = [
-    { color: "#d8b4fe", bg: "rgba(142, 59, 121, 0.25)", border: "rgba(192, 132, 252, 0.4)" },
-    { color: "var(--brand)", bg: "var(--brand-glow)", border: "rgba(101, 240, 255, 0.25)" },
-    { color: "#c084fc", bg: "rgba(192, 132, 252, 0.15)", border: "rgba(192, 132, 252, 0.3)" },
-    { color: "#34d399", bg: "rgba(52, 211, 153, 0.15)", border: "rgba(52, 211, 153, 0.3)" }
-  ];
-  const companyStyle = (index) => ACCENTS[index % ACCENTS.length];
-
   const roleIcon = (role = "") => {
     const r = role.toLowerCase();
     if (r.includes("android") || r.includes("kotlin")) return "🤖";
@@ -698,63 +690,61 @@ const renderExperience = (items) => {
     return count ? `📸 ${count} ${count > 1 ? "Photos" : "Photo"}` : null;
   };
 
+  const ACCENT_COUNT = 4;
+  const PREVIEW_POINTS = 2;
+
   container.innerHTML = safeItems
     .map((item, index) => {
-      const cStyle = companyStyle(index);
+      const points = Array.isArray(item.points) ? item.points : [];
+      const extra = points.length - PREVIEW_POINTS;
       const mediaText = getMediaBadgeText(item);
 
       return `
       <article
-        class="card card-clickable reveal-card js-exp-card exp-timeline-card"
+        class="card card-clickable reveal-card js-exp-card exp-timeline-card exp-accent-${index % ACCENT_COUNT}"
         tabindex="0"
         role="button"
         aria-label="Open ${item.role || "experience"} details"
       >
-        <div class="exp-card-inner">
-          <div class="exp-card-icon">${roleIcon(item.role)}</div>
-
-          <div style="flex:1; min-width:0;">
-            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-              <span class="exp-company-chip" style="color:${cStyle.color}; background:${cStyle.bg}; border-color:${cStyle.border};">
-                ${item.company || "–"}
-              </span>
-              ${mediaText ? `<span class="exp-media-badge">${mediaText}</span>` : ""}
-            </div>
-
+        <header class="exp-head">
+          <div class="exp-card-icon" aria-hidden="true">${roleIcon(item.role)}</div>
+          <div class="exp-head-text">
+            <span class="exp-company-name">${item.company || "–"}</span>
             <h4 class="exp-role-title">${item.role || "–"}</h4>
-
-            <div class="exp-meta-row">
-              <span class="exp-meta-item">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                ${item.period || "–"}
-              </span>
-              <span class="exp-meta-item">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                ${item.location || "–"}
-              </span>
-            </div>
-
-            ${
-              (item.points || []).length > 0
-                ? `
-            <ul class="exp-points-preview">
-              ${(item.points || [])
-                .slice(0, 2)
-                .map((p) => `<li>${p}</li>`)
-                .join("")}
-              ${(item.points || []).length > 2 ? `<li class="exp-more-points">+${(item.points || []).length - 2} more responsibilities →</li>` : ""}
-            </ul>`
-                : ""
-            }
-
-            <div style="margin-top:12px;">
-              <span class="exp-action-btn">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 16 12 12 16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-                View Full Details &amp; Experience Letter ↗
-              </span>
-            </div>
           </div>
+          <div class="exp-head-badges">
+            ${index === 0 ? `<span class="exp-latest-badge">Latest</span>` : ""}
+            ${mediaText ? `<span class="exp-media-badge">${mediaText}</span>` : ""}
+          </div>
+        </header>
+
+        <div class="exp-meta-row">
+          <span class="exp-meta-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            ${item.period || "–"}
+          </span>
+          <span class="exp-meta-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            ${item.location || "–"}
+          </span>
         </div>
+
+        ${
+          points.length
+            ? `<ul class="exp-points-preview">${points
+                .slice(0, PREVIEW_POINTS)
+                .map((p) => `<li>${p}</li>`)
+                .join("")}</ul>`
+            : ""
+        }
+
+        <footer class="exp-foot">
+          ${extra > 0 ? `<span class="exp-more-points">+${extra} more ${extra === 1 ? "responsibility" : "responsibilities"}</span>` : "<span></span>"}
+          <span class="exp-action-btn">
+            View details
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </footer>
       </article>
     `;
     })
