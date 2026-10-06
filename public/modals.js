@@ -41,7 +41,7 @@
               <p id="modal-description" class="pm-text"></p>
 
               <div id="modal-list-wrapper">
-                <h4 class="pm-heading">Architecture &amp; capabilities</h4>
+                <h4 class="pm-heading">Key responsibilities</h4>
                 <ul id="modal-list" class="pm-specs"></ul>
               </div>
             </div>

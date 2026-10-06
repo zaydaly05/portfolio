@@ -1386,12 +1386,6 @@ const createProjectModalPayload = (item) => {
     title: item.name || "Project Details",
     subtitle: `${item.period || ""} · ${item.stack || ""}`,
     description: item.description || "",
-    points: [
-      `🔗 Live GitHub Repository: ${githubUrl}`,
-      `⚡ Architecture & Tech Stack: ${item.stack || "Full-Stack Software Architecture"}`,
-      `📅 Timeline & Deliverable: ${item.period || "Completed Project"}`,
-      item.showcaseStatus ? `🚀 Automated Showcase Verification: ${item.showcaseStatus}` : null
-    ].filter(Boolean),
     media: finalMediaList,
     stack: item.stack || "",
     githubUrl: githubUrl,
@@ -1472,13 +1466,8 @@ const renderCertificates = (items) => {
     return {
       tag: "Verified Online Certification",
       title: item.title,
-      subtitle: `${item.issuer} · ${item.date || ""}`,
+      subtitle: [item.issuer, item.category, item.date].filter(Boolean).join(" · "),
       description: item.desc,
-      points: [
-        `Issued by: ${item.issuer}`,
-        `Credential Category: ${item.category || "Technical Certification"}`,
-        `Date: ${item.date || ""}`
-      ],
       media: item.image ? [{ src: item.image, alt: item.title }] : []
     };
   });
