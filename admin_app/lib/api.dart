@@ -382,7 +382,9 @@ class AdminApi {
     if (response.statusCode >= 200 && response.statusCode < 300) {
       throw ApiException('Unexpected reply. Is this the portfolio server address?', statusCode: response.statusCode);
     }
-    throw ApiException('Server error (${response.statusCode}).', statusCode: response.statusCode);
+    final raw = utf8.decode(response.bodyBytes, allowMalformed: true).replaceAll(RegExp(r'<[^>]*>|\s+'), ' ').trim();
+    final detail = raw.isEmpty ? '' : ' ${raw.length > 140 ? '${raw.substring(0, 140)}…' : raw}';
+    throw ApiException('Server error (${response.statusCode}) on $path.$detail', statusCode: response.statusCode);
   }
 
   Future<void> ping() => _send('GET', '/api/admin/ping');
