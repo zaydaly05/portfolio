@@ -236,3 +236,21 @@ test("the stats block 'Public GitHub Repositories' becomes the lines-of-code cou
   assert.equal(data.sections.stats[0].label, "Lines of Code Written");
   assert.equal(data.sections.stats[1].label, "My own label"); // other blocks untouched
 });
+
+test("stats: skill categories become Technologies Used and certifications become Commits Made", async () => {
+  state.bulkOps.length = 0;
+  state.docs = [
+    {
+      section: "stats",
+      data: [
+        { icon: "⌨️", label: "Lines of Code Written", source: "lines_of_code", value: 0, suffix: "+" },
+        { icon: "⚡", label: "Technical Skill Categories", source: "skill_categories", value: 0, suffix: "+" },
+        { icon: "📜", label: "Verified Certifications", source: "certificates", value: 0, suffix: "+" },
+        { icon: "🏢", label: "Industry IT Internships", source: "internships", value: 0, suffix: "" }
+      ]
+    }
+  ];
+  const data = await adminGet("/api/admin/portfolio");
+  assert.deepEqual(data.sections.stats.map((s) => s.source), ["lines_of_code", "technologies", "commits", "internships"]);
+  assert.equal(data.sections.stats[3].suffix, ""); // untouched
+});

@@ -982,16 +982,16 @@ module.exports = {
       "suffix": "+"
     },
     {
-      "icon": "⚡",
-      "label": "Technical Skill Categories",
-      "source": "skill_categories",
+      "icon": "🛠️",
+      "label": "Technologies Used",
+      "source": "technologies",
       "value": 0,
       "suffix": "+"
     },
     {
-      "icon": "📜",
-      "label": "Verified Certifications",
-      "source": "certificates",
+      "icon": "🔀",
+      "label": "Commits Made",
+      "source": "commits",
       "value": 0,
       "suffix": "+"
     },

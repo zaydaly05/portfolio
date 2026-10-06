@@ -7672,3 +7672,64 @@ a.gh-repo-card:focus-visible .gh-repo-arrow {
 .cert-card .btn-cert-open {
   cursor: pointer;
 }
+
+/* ============================================
+   STATS: the biggest number sits in the middle and is a little larger
+   ============================================ */
+.stat-counter-box.is-featured {
+  z-index: 2;
+  transform: scale(1.07);
+  padding-top: 30px;
+  padding-bottom: 26px;
+  border-color: color-mix(in srgb, var(--brand) 55%, transparent);
+  box-shadow:
+    0 16px 40px var(--brand-glow),
+    0 0 0 1px color-mix(in srgb, var(--brand) 35%, transparent);
+}
+
+.stat-counter-box.is-featured::before {
+  transform: scaleX(1);
+}
+
+.stat-counter-box.is-featured .stat-number-val {
+  font-size: 3.1rem;
+}
+
+.stat-counter-box.is-featured .stat-plus {
+  font-size: 2.2rem;
+}
+
+.stat-counter-box.is-featured:hover {
+  transform: scale(1.07) translateY(-4px);
+}
+
+@media (min-width: 900px) {
+  .stats-counter-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: center;
+  }
+}
+
+@media (max-width: 899px) {
+  .stats-counter-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .stat-counter-box.is-featured {
+    grid-column: 1 / -1;
+    transform: none;
+    padding-top: 26px;
+    padding-bottom: 22px;
+  }
+  .stat-counter-box.is-featured:hover {
+    transform: translateY(-4px);
+  }
+  .stats-counter-grid:has(.is-featured) .stat-counter-box:last-child:nth-child(odd):not(.is-featured) {
+    grid-column: auto;
+  }
+}
+
+@media (min-width: 900px) {
+  .stats-counter-grid {
+    padding: 10px 0;
+  }
+}

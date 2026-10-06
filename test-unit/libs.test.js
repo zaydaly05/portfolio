@@ -132,7 +132,7 @@ test("built-in defaults contain every dynamic section the site needs", () => {
   assert.ok(defaults.profile.cvUrl.startsWith("https://"));
   assert.ok(defaults.projects.every((p) => p.name && p.github));
   assert.ok(defaults.projects.some((p) => p.featured));
-  const sources = new Set(["github_repos", "lines_of_code", "projects", "skill_categories", "certificates", "internships", "fixed"]);
+  const sources = new Set(["github_repos", "lines_of_code", "commits", "technologies", "projects", "skill_categories", "certificates", "internships", "fixed"]);
   assert.ok(defaults.stats.every((s) => sources.has(s.source)));
   // no secrets in the seed data
   assert.doesNotMatch(JSON.stringify(defaults), /api[_-]?key|secret|password|mongodb(\+srv)?:\/\//i);

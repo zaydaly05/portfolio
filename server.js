@@ -418,6 +418,29 @@ async function estimateLinesOfCode(repos, headers) {
   return bytes > 0 ? Math.round(bytes / BYTES_PER_LINE) : null;
 }
 
+/** Commits on the default branch of one repository (GitHub's `Link: rel="last"` page number with per_page=1). */
+async function countRepoCommits(repo, headers) {
+  const res = await fetch(`https://api.github.com/repos/${repo.full_name}/commits?per_page=1`, { headers, signal: AbortSignal.timeout(6000) });
+  if (res.status === 409) return 0; // empty repository
+  if (!res.ok) throw new Error(`commits ${res.status}`);
+  const link = (res.headers && res.headers.get && res.headers.get("link")) || "";
+  const last = link.match(/[?&]page=(\d+)>;\s*rel="last"/);
+  if (last) return Number(last[1]);
+  const body = await res.json();
+  return Array.isArray(body) ? body.length : 0;
+}
+
+/** Total commits across the owner's own (non-fork) repositories, or null if GitHub could not be asked. */
+async function countCommits(repos, headers) {
+  const own = (repos || []).filter((r) => r && !r.fork && r.full_name);
+  if (!own.length) return null;
+  const results = await Promise.allSettled(own.map((r) => countRepoCommits(r, headers)));
+  const ok = results.filter((r) => r.status === "fulfilled");
+  if (!ok.length) return null;
+  const total = ok.reduce((sum, r) => sum + r.value, 0);
+  return total > 0 ? total : null;
+}
+
 /** Only repositories that back a project in the Project Hub are shown, in the hub's order. */
 function projectRepos(allRepos) {
   const byName = new Map((allRepos || []).map((r) => [String(r.name).toLowerCase(), r]));
@@ -459,7 +482,9 @@ app.get("/api/github", async (req, res) => {
     const reposRes = await fetch(`https://api.github.com/users/${encodeURIComponent(username)}/repos?sort=updated&per_page=100`, { headers });
     const reposData = reposRes.ok ? await reposRes.json() : [];
 
-    const linesOfCode = Array.isArray(reposData) ? await estimateLinesOfCode(reposData, headers) : null;
+    const [linesOfCode, commits] = Array.isArray(reposData)
+      ? await Promise.all([estimateLinesOfCode(reposData, headers), countCommits(reposData, headers)])
+      : [null, null];
 
     const formattedRepos = Array.isArray(reposData)
       ? reposData.map((r) => ({
@@ -481,6 +506,7 @@ app.get("/api/github", async (req, res) => {
       followers: userData.followers,
       profileUrl: userData.html_url,
       linesOfCode,
+      commits,
       allRepos: formattedRepos
     };
 

@@ -27,9 +27,19 @@
       projectsCount: projects.length,
       certificatesCount: (data.certificates || []).filter((c) => c && c.kind !== "letter").length,
       internshipsCount: countInternships(data),
-      skillCategoriesCount: (data.technicalSkills || []).length
+      skillCategoriesCount: (data.technicalSkills || []).length,
+      technologiesCount: countTechnologies(data)
     };
   }
+
+  /** Distinct languages, frameworks and tools across every skill group. */
+  const countTechnologies = (data) =>
+    new Set(
+      (data.technicalSkills || [])
+        .flatMap((g) => (g && Array.isArray(g.items) ? g.items : []))
+        .map((item) => String(item).trim().toLowerCase())
+        .filter(Boolean)
+    ).size;
 
   const countInternships = (data) => (data.experience || []).filter((e) => /intern/i.test(`${e.role || ""} ${e.company || ""}`)).length;
 
@@ -128,8 +138,11 @@
         return tokens.internshipsCount;
       case "github_repos":
         return Math.max(Number(stat.value) || 0, tokens.projectsCount);
+      case "technologies":
+        return tokens.technologiesCount;
       case "lines_of_code":
-        return Number(stat.value) || 0; // replaced by the live estimate when GitHub answers
+      case "commits":
+        return Number(stat.value) || 0; // replaced by the live figure when GitHub answers
       default:
         return Number(stat.value) || 0;
     }
@@ -141,12 +154,8 @@
     if (!row || !Array.isArray(stats) || !stats.length) return;
     row.innerHTML = stats
       .map((s) => {
-        const idAttr =
-          s.source === "github_repos"
-            ? ' id="github-repos-stat"'
-            : s.source === "lines_of_code"
-              ? ' id="lines-of-code-stat" data-format="compact"'
-              : "";
+        const live = s.source === "lines_of_code" || s.source === "commits";
+        const idAttr = (s.source === "github_repos" ? ' id="github-repos-stat"' : "") + (live ? ` data-live="${s.source}"` : "");
         const suffix = s.suffix === undefined ? "+" : s.suffix;
         return `
         <div class="stat-counter-box">
