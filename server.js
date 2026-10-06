@@ -2,11 +2,12 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const os = require("os");
-const { connectDB, Review, Star, Contact, CvConfig, LogRecord, PortfolioSection, CvBuild, CvFile, PendingChange } = require("./db");
+const { connectDB, Review, Star, Contact, CvConfig, LogRecord, PortfolioSection, CvBuild, CvFile, PendingChange, PhoneContact } = require("./db");
 const { getKey } = require("./keys");
 const { createAdminRouter, requireAdmin, makeKeyGuard, validateSection, SECTION_RULES } = require("./routes/admin");
 const { createDefaultWhatsApp, siteUrl } = require("./lib/whatsapp");
 const { createChangeStore, createChangeService } = require("./lib/changes");
+const { createContactStore, createContactVault } = require("./lib/contacts");
 const { createCvBuilder, dispatchWorkflow, CvBuildError } = require("./lib/cv-build");
 const githubLib = require("./lib/github");
 const { buildReply } = require("./lib/assistant");
@@ -776,6 +777,12 @@ async function savePortfolioOverride(section, data) {
 // ---------------------------------------------------------------------------
 const whatsapp = createDefaultWhatsApp();
 
+// Protected copy of the owner's phone contacts (see lib/contacts.js)
+const contactVault = createContactVault({
+  store: createContactStore({ connectDB, models: { PhoneContact } }),
+  defaultCountryCode: process.env.DEFAULT_COUNTRY_CODE || "20"
+});
+
 const cvBuilder = createCvBuilder({
   connectDB,
   models: { CvBuild, CvFile },
@@ -908,7 +915,8 @@ app.use(
     fetchRepos: (username) => githubLib.fetchRepos(username, getKey("github") || process.env.GITHUB_TOKEN),
     cv: cvBuilder,
     changes: changeService,
-    runSync: runGithubSync
+    runSync: runGithubSync,
+    contacts: contactVault
   })
 );
 
@@ -980,8 +988,10 @@ app.get("/cv", async (req, res) => {
 
 // Kapso WhatsApp Cloud API Webhook Routes
 const { handleWebhookVerification, handleWebhookEvent, setPortfolioProvider, setOwnerReplyHandler } = require("./api/whatsapp-webhook");
+const { setContactVault } = require("./api/whatsapp-admin");
 setPortfolioProvider(() => portfolioData);
 setOwnerReplyHandler((text) => changeService.handleOwnerReply(text));
+setContactVault(contactVault);
 const { requestWhatsAppApproval, pendingApprovals } = require("./api/whatsapp-approval");
 
 app.get("/api/whatsapp/webhook", handleWebhookVerification);

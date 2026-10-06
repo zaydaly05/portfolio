@@ -1,5 +1,3 @@
-const fs = require('fs');
-const path = require('path');
 const { WhatsAppClient } = require('@kapso/whatsapp-cloud-api');
 const { getKey } = require('../keys');
 const { sameNumber } = require('../lib/phone');
@@ -17,36 +15,28 @@ if (KAPSO_API_KEY) {
   });
 }
 
-// Local stores for personal phone contacts & interactive history
-const PERSONAL_CONTACTS_FILE = path.join(__dirname, '..', 'scratch', 'personal-phone-contacts.json');
-
-function getStoredPersonalContacts() {
-  try {
-    if (fs.existsSync(PERSONAL_CONTACTS_FILE)) {
-      return JSON.parse(fs.readFileSync(PERSONAL_CONTACTS_FILE, 'utf8'));
-    }
-  } catch (_e) {}
-  return [];
+// The owner's phone contacts live in the contacts vault (database), set by server.js.
+let vault = null;
+function setContactVault(instance) {
+  vault = instance;
 }
 
-function savePersonalContact(phone, name = 'Phone Contact') {
-  if (!phone) return;
-  const contacts = getStoredPersonalContacts();
-  const clean = phone.replace(/[^0-9]/g, '');
-  if (clean && !contacts.some(c => c.phone === clean)) {
-    contacts.push({ phone: clean, name, addedAt: new Date().toISOString() });
-    try {
-      const dir = path.dirname(PERSONAL_CONTACTS_FILE);
-      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-      fs.writeFileSync(PERSONAL_CONTACTS_FILE, JSON.stringify(contacts, null, 2), 'utf8');
-    } catch (_e) {}
-  }
+/** Active contacts as [{ phone, name }]. */
+async function getStoredPersonalContacts() {
+  return vault ? vault.activeContacts() : [];
 }
 
-function addMultiplePersonalContacts(phoneListStr) {
-  const numbers = (phoneListStr || '').split(/[,; \n]+/).map(n => n.replace(/[^0-9]/g, '')).filter(Boolean);
-  numbers.forEach(n => savePersonalContact(n));
-  return numbers;
+/** Adds one number (restores it from the trash if needed). Returns false when it is not a valid number. */
+async function savePersonalContact(phone, name = '') {
+  if (!vault || !phone) return false;
+  return (await vault.add({ phone, name }, 'whatsapp')).ok;
+}
+
+/** Adds every number found in the text; returns the numbers that were saved. */
+async function addMultiplePersonalContacts(phoneListStr) {
+  if (!vault) return [];
+  const result = await vault.importText(phoneListStr || '', 'whatsapp');
+  return result.numbers;
 }
 
 /**
@@ -99,7 +89,7 @@ async function executePhoneBroadcast(inputPayload, isTemplate = false) {
     targetPhones = numbersRaw.split(/[,; \n]+/).map(n => n.replace(/[^0-9]/g, '')).filter(Boolean);
   } else {
     // Default to stored personal phone contacts + admin phone
-    const saved = getStoredPersonalContacts();
+    const saved = await getStoredPersonalContacts();
     targetPhones = saved.map(c => c.phone);
     if (!targetPhones.includes(ADMIN_PHONE)) targetPhones.push(ADMIN_PHONE);
     messageOrTemplateName = inputPayload.trim();
@@ -149,5 +139,6 @@ module.exports = {
   addMultiplePersonalContacts,
   savePersonalContact,
   getStoredPersonalContacts,
+  setContactVault,
   ADMIN_PHONE
 };
