@@ -6442,3 +6442,69 @@ body.no-scroll {
 }
 
 
+
+/* ============================================
+   POPUP PERFORMANCE OVERRIDES
+   Large backdrop-filter blurs over an animated, blurred page background
+   force the browser to re-blur the whole viewport every frame while a popup
+   is open. Keep a single, light blur on the backdrop, drop blurs that sit on
+   opaque surfaces, and pause off-screen background animations.
+   ============================================ */
+.modal-backdrop,
+[data-theme="light"] .modal-backdrop {
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+}
+
+.modal-backdrop {
+  background: rgba(6, 9, 24, 0.88) !important;
+}
+
+[data-theme="light"] .modal-backdrop {
+  background: rgba(241, 245, 249, 0.92) !important;
+}
+
+/* The card background is opaque, so a blur behind it is invisible but costly */
+.modal-card {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  contain: layout paint;
+  overscroll-behavior: contain;
+}
+
+.modal-card::before {
+  animation: none;
+}
+
+.lightbox-backdrop {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: rgba(2, 5, 18, 0.95);
+}
+
+/* One blur layer per thumbnail adds up quickly in the media grid */
+.modal-media-badge-index,
+.modal-media-zoom-overlay {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.modal-media-item {
+  contain: paint;
+}
+
+/* Nothing behind an open popup needs to keep animating */
+body.no-scroll .gradient-bg,
+body.no-scroll .gradient-bg *,
+body.no-scroll main *,
+body.no-scroll header *,
+body.no-scroll footer * {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-backdrop,
+  .modal-card {
+    animation: none !important;
+  }
+}

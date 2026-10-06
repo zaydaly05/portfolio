@@ -767,7 +767,7 @@ const modalState = { open: false };
 const lightboxState = { open: false, images: [], index: 0 };
 let modalMediaObserver = null;
 
-const _buildMediaHtml = (media) => {
+const buildMediaHtml = (media) => {
   let imageIndex = 0;
   return media
     .map((item, idx) => {
@@ -963,7 +963,8 @@ const openModal = (payload) => {
 
     // Initialize high-performance media gallery (Lazy Loading + Lightbox)
     const mediaContainer = document.getElementById("modal-media");
-    if (mediaContainer && payload.media) {
+    if (mediaContainer && Array.isArray(payload.media) && payload.media.length) {
+      mediaContainer.innerHTML = buildMediaHtml(payload.media);
       initModalMedia(mediaContainer, payload.media);
     }
   }, 0);
@@ -2841,8 +2842,8 @@ const setupCVViewerModal = () => {
     let cvUrl = cachedCvUrl;
 
     const iframe = document.getElementById("cv-iframe");
-    if (iframe) {
-      iframe.src = cvUrl;
+    if (iframe && iframe.getAttribute("src") !== cvUrl) {
+      iframe.setAttribute("src", cvUrl);
     }
 
     document

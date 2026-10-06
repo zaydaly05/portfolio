@@ -85,7 +85,6 @@
           </div>
           <div class="cv-iframe-container">
             <embed
-              src="https://res.cloudinary.com/delnnzcph/image/upload/v1791142658/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf"
               id="cv-iframe"
               type="application/pdf"
               title="CV"
@@ -232,8 +231,8 @@
       } else if (modalId === "cv-viewer-modal" && params) {
         if (params.cvUrl) {
           const iframe = document.getElementById("cv-iframe");
-          if (iframe) {
-            iframe.src = params.cvUrl;
+          if (iframe && iframe.getAttribute("src") !== params.cvUrl) {
+            iframe.setAttribute("src", params.cvUrl);
           }
           const downloadLink = document.getElementById("cv-modal-download-link");
           if (downloadLink) {

@@ -303,16 +303,24 @@
      * Locks background scroll when any modal or drawer is open
      */
     setupScrollLockHandler() {
-      const observer = new MutationObserver(() => {
-        const hasOpenModal = document.querySelector(".modal:not(.hidden), .terminal-drawer:not(.hidden), .mobile-nav-overlay.active");
-        if (hasOpenModal) {
-          document.body.classList.add("no-scroll");
-        } else {
-          document.body.classList.remove("no-scroll");
+      // Only class changes can open/close an overlay, so ignore style mutations
+      // (e.g. 3D tilt on mousemove) and batch checks to once per frame.
+      let scheduled = false;
+      const sync = () => {
+        scheduled = false;
+        const hasOpenModal = document.querySelector(".modal:not(.hidden), .lightbox:not(.hidden), .terminal-drawer:not(.hidden), .mobile-nav-overlay.active");
+        const isLocked = document.body.classList.contains("no-scroll");
+        if (Boolean(hasOpenModal) !== isLocked) {
+          document.body.classList.toggle("no-scroll", Boolean(hasOpenModal));
         }
+      };
+      const observer = new MutationObserver(() => {
+        if (scheduled) return;
+        scheduled = true;
+        requestAnimationFrame(sync);
       });
 
-      observer.observe(document.body, { attributes: true, subtree: true, childList: true });
+      observer.observe(document.body, { attributes: true, attributeFilter: ["class"], subtree: true, childList: true });
     }
   };
 
