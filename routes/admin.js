@@ -163,10 +163,11 @@ const requireAdmin = makeKeyGuard({ secretName: "ADMIN_API_KEY", header: "x-admi
  * @param {Function} deps.overriddenSections () => string[] sections that differ from the built-in content
  * @param {Function} deps.fetchRepos (username) => Promise<GitHub repo[]>
  * @param {object} [deps.changes] change service (lib/changes.js) and deps.runSync() => proposes new GitHub projects
+ * @param {object} [deps.contacts] contacts vault (lib/contacts.js)
  * @param {object} [deps.cv] CV builder (lib/cv-build.js); when present, saving CV-related content requests a rebuild
  */
 function createAdminRouter(deps) {
-  const { portfolioData, defaults, connectDB, models, saveOverride, refreshOverrides, overriddenSections, fetchRepos, cv, changes, runSync } = deps;
+  const { portfolioData, defaults, connectDB, models, saveOverride, refreshOverrides, overriddenSections, fetchRepos, cv, changes, runSync, contacts } = deps;
   const router = express.Router();
   router.use(requireAdmin);
 
@@ -205,6 +206,13 @@ function createAdminRouter(deps) {
     handle(async (req, res) => {
       const db = await connectDB();
       const summary = { ok: true, dbConnected: Boolean(db), overridden: overriddenSections() };
+      if (contacts) {
+        try {
+          summary.contacts = (await contacts.list({ status: "all" })).counts.active;
+        } catch {
+          summary.contacts = null;
+        }
+      }
       if (changes) {
         try {
           summary.pendingChanges = (await changes.store.list("pending")).length;
@@ -425,6 +433,78 @@ function createAdminRouter(deps) {
       const { index, fields } = req.body || {};
       const result = await changes.modify(req.params.code, { index: Number(index) || 0, fields: fields && typeof fields === "object" ? fields : {} });
       res.status(result.ok ? 200 : 400).json(result);
+    })
+  );
+
+  // ---- Contacts vault (no hard delete; edits keep history; CSV export) -------------
+  const needContacts = (res) => {
+    if (contacts) return true;
+    res.status(503).json({ ok: false, error: "Contacts vault is not configured." });
+    return false;
+  };
+  const contactResult = (res, result) => res.status(result.ok ? 200 : result.duplicate ? 409 : 400).json(result);
+
+  router.get(
+    "/contacts",
+    handle(async (req, res) => {
+      if (!needContacts(res)) return;
+      const status = ["active", "trashed", "all"].includes(req.query.status) ? req.query.status : "active";
+      res.json({ ok: true, ...(await contacts.list({ status, q: String(req.query.q || "").slice(0, 80) })) });
+    })
+  );
+
+  router.get(
+    "/contacts/export",
+    handle(async (req, res) => {
+      if (!needContacts(res)) return;
+      const status = ["active", "trashed", "all"].includes(req.query.status) ? req.query.status : "active";
+      const { csv, count } = await contacts.exportCsv(status);
+      res.json({ ok: true, filename: `contacts-${new Date().toISOString().slice(0, 10)}.csv`, count, csv });
+    })
+  );
+
+  router.post(
+    "/contacts/import",
+    handle(async (req, res) => {
+      if (!needContacts(res)) return;
+      const text = req.body && req.body.text;
+      if (typeof text !== "string" || !text.trim()) return res.status(400).json({ ok: false, error: "Paste some numbers or a vCard first." });
+      if (text.length > 400000) return res.status(400).json({ ok: false, error: "That is too much text at once; import in smaller parts." });
+      res.json({ ok: true, ...(await contacts.importText(text, "import")) });
+    })
+  );
+
+  router.post(
+    "/contacts",
+    handle(async (req, res) => {
+      if (!needContacts(res)) return;
+      contactResult(res, await contacts.add(req.body || {}, "app"));
+    })
+  );
+
+  router.put(
+    "/contacts/:id",
+    handle(async (req, res) => {
+      if (!needContacts(res)) return;
+      contactResult(res, await contacts.edit(req.params.id, req.body || {}, "app"));
+    })
+  );
+
+  router.delete(
+    "/contacts/:id",
+    handle(async (req, res) => {
+      if (!needContacts(res)) return;
+      const result = await contacts.trash(req.params.id, "app");
+      res.status(result.ok ? 200 : 404).json(result);
+    })
+  );
+
+  router.post(
+    "/contacts/:id/restore",
+    handle(async (req, res) => {
+      if (!needContacts(res)) return;
+      const result = await contacts.restore(req.params.id, "app");
+      res.status(result.ok ? 200 : 404).json(result);
     })
   );
 

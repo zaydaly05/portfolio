@@ -5,6 +5,7 @@ import '../api.dart' show CvStatus, Summary;
 import '../main.dart';
 import '../widgets/common.dart';
 import 'changes_screen.dart';
+import 'contacts_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key, required this.onOpenTab});
@@ -50,6 +51,15 @@ class DashboardScreen extends StatelessWidget {
           _ActionTile(icon: Icons.edit_note, title: 'Edit portfolio content', subtitle: 'Projects, experience, skills, certificates…', onTap: () => onOpenTab(1)),
           _ActionTile(icon: Icons.mark_email_unread, title: 'Read contact messages', subtitle: 'Messages sent from your website', onTap: () => onOpenTab(3)),
           _ActionTile(icon: Icons.star_half, title: 'Moderate reviews', subtitle: 'Add, edit or remove reviews', onTap: () => onOpenTab(2)),
+          _ActionTile(
+            icon: Icons.shield_outlined,
+            title: 'Contacts vault',
+            subtitle: '${summary.contacts ?? 0} protected contacts · backup & import',
+            onTap: () async {
+              await Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const ContactsScreen()));
+              await reload();
+            },
+          ),
           const SizedBox(height: 20),
           Text('Sections you have changed', style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),

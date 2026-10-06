@@ -147,7 +147,7 @@ async function handleWebhookEvent(req, res) {
       // 1. Add Personal Phone Contacts (!addcontact <numbers>)
       if (lower.startsWith("!addcontact")) {
         const rawNumbers = userText.replace(/^!addcontact/i, "").trim();
-        const added = addMultiplePersonalContacts(rawNumbers);
+        const added = await addMultiplePersonalContacts(rawNumbers);
 
         if (kapsoClient && activePhoneId) {
           await kapsoClient.messages.sendText({
@@ -161,7 +161,7 @@ async function handleWebhookEvent(req, res) {
 
       // 2. List Personal Contacts (!listcontacts)
       if (lower === "!listcontacts") {
-        const contacts = getStoredPersonalContacts();
+        const contacts = await getStoredPersonalContacts();
         let msg = `📱 *SAVED PHONE CONTACTS (${contacts.length})*:\n\n`;
         if (contacts.length === 0) {
           msg += "No contacts added yet. Use `!addcontact 201017741741, 201234567890` to add numbers.";

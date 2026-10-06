@@ -149,6 +149,26 @@ const pendingChangeSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
+// Protected copy of the owner's phone contacts: never hard-deleted, every change is kept in `history`
+const phoneContactSchema = new mongoose.Schema({
+  phone: { type: String, required: true, unique: true },
+  name: { type: String, default: "" },
+  notes: { type: String, default: "" },
+  source: { type: String, default: "app" },
+  status: { type: String, default: "active" }, // active | trashed
+  trashedAt: Date,
+  history: [
+    {
+      at: { type: Date, default: Date.now },
+      action: String,
+      by: String,
+      before: mongoose.Schema.Types.Mixed
+    }
+  ],
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+});
+
 const Review = mongoose.models.Review || mongoose.model("Review", reviewSchema);
 const Star = mongoose.models.Star || mongoose.model("Star", starSchema);
 const Contact = mongoose.models.Contact || mongoose.model("Contact", contactSchema);
@@ -157,6 +177,7 @@ const LogRecord = mongoose.models.LogRecord || mongoose.model("LogRecord", logRe
 const CvBuild = mongoose.models.CvBuild || mongoose.model("CvBuild", cvBuildSchema);
 const CvFile = mongoose.models.CvFile || mongoose.model("CvFile", cvFileSchema);
 const PendingChange = mongoose.models.PendingChange || mongoose.model("PendingChange", pendingChangeSchema);
+const PhoneContact = mongoose.models.PhoneContact || mongoose.model("PhoneContact", phoneContactSchema);
 const PortfolioSection =
   mongoose.models.PortfolioSection || mongoose.model("PortfolioSection", portfolioSectionSchema);
 
@@ -170,5 +191,6 @@ module.exports = {
   PortfolioSection,
   CvBuild,
   CvFile,
-  PendingChange
+  PendingChange,
+  PhoneContact
 };

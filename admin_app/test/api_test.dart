@@ -230,4 +230,45 @@ void main() {
     expect(seen.last.method, 'PATCH');
     expect(jsonDecode(seen.last.body), {'index': 0, 'fields': {'name': 'Better Name'}});
   });
+
+  test('contacts vault: list, import, edit, trash, restore, export', () async {
+    final seen = <http.Request>[];
+    final api = apiWith((req) async {
+      seen.add(req);
+      final path = req.url.path;
+      if (path == '/api/admin/contacts' && req.method == 'GET') {
+        return jsonReply({
+          'ok': true,
+          'counts': {'active': 2, 'trashed': 1},
+          'contacts': [
+            {'id': 'a1', 'phone': '201017741741', 'name': 'Zayd', 'notes': 'me', 'status': 'active', 'history': [{}, {}]},
+          ],
+        });
+      }
+      if (path.endsWith('/import')) return jsonReply({'ok': true, 'added': 2, 'restored': 1, 'duplicates': 3, 'invalid': ['12']});
+      if (path.endsWith('/export')) return jsonReply({'ok': true, 'filename': 'contacts-2026-10-06.csv', 'count': 2, 'csv': 'name,phone_e164\nZayd,+201017741741\n'});
+      return jsonReply({'ok': true});
+    });
+
+    final page = await api.contacts(status: 'trashed', query: 'za yd');
+    expect(seen.last.url.queryParameters, {'status': 'trashed', 'q': 'za yd'});
+    expect([page.active, page.trashed], [2, 1]);
+    expect(page.contacts.single.display, '+201017741741');
+    expect(page.contacts.single.historyCount, 2);
+
+    final result = await api.importContacts('0100…');
+    expect([result.added, result.restored, result.duplicates, result.invalid], [2, 1, 3, ['12']]);
+    await api.addContact('0101', 'A', 'n');
+    expect(jsonDecode(seen.last.body), {'phone': '0101', 'name': 'A', 'notes': 'n'});
+    await api.editContact('a1', name: 'B', phone: '0102', notes: '');
+    expect(seen.last.method, 'PUT');
+    await api.trashContact('a1');
+    expect(seen.last.method, 'DELETE');
+    await api.restoreContact('a1');
+    expect(seen.last.url.path, '/api/admin/contacts/a1/restore');
+
+    final export = await api.exportContacts();
+    expect(export.count, 2);
+    expect(export.csv, startsWith('name,phone_e164'));
+  });
 }

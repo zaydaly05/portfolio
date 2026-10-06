@@ -21,7 +21,7 @@ MockClient fakeServer() => MockClient((req) async {
         case '/api/admin/cv':
           return reply({'ok': true, 'status': 'done', 'version': 4, 'pages': 2, 'runnerConfigured': true, 'url': '/api/document/resume?v=4'});
         case '/api/admin/summary':
-          return reply({'ok': true, 'dbConnected': true, 'overridden': <String>[], 'reviews': 2, 'messages': 5, 'stars': 61, 'pendingChanges': 1});
+          return reply({'ok': true, 'dbConnected': true, 'overridden': <String>[], 'reviews': 2, 'messages': 5, 'stars': 61, 'pendingChanges': 1, 'contacts': 42});
         case '/api/admin/portfolio':
           return reply({
             'ok': true,
@@ -50,6 +50,16 @@ MockClient fakeServer() => MockClient((req) async {
               }
             ],
           });
+        case '/api/admin/contacts':
+          return reply({
+            'ok': true,
+            'counts': {'active': 1, 'trashed': 0},
+            'contacts': [
+              {'id': 'a1', 'phone': '201017741741', 'name': 'Zayd', 'notes': '', 'status': 'active', 'history': []}
+            ],
+          });
+        case '/api/admin/contacts/a1':
+          return reply({'ok': true});
         case '/api/admin/changes/K7Q2/approve':
           return reply({'ok': true});
         default:
@@ -122,6 +132,27 @@ void main() {
     await tester.tap(find.widgetWithText(FilledButton, 'Approve').last);
     await tester.pumpAndSettle();
     expect(requests, contains('POST /api/admin/changes/K7Q2/approve'));
+  });
+
+  testWidgets('contacts vault opens from the dashboard and moves a contact to the trash (never deletes)', (tester) async {
+    SharedPreferences.setMockInitialValues({'server_url': 'https://site.example', 'admin_key': 'k' * 24});
+    requests.clear();
+    final state = AppState(clientFactory: fakeServer)..load();
+    await tester.pumpWidget(AdminApp(state: state));
+    await tester.pumpAndSettle();
+
+    await tester.scrollUntilVisible(find.text('Contacts vault'), 200, scrollable: find.byType(Scrollable).first);
+    expect(find.text('42 protected contacts · backup & import'), findsOneWidget);
+    await tester.tap(find.text('Contacts vault'));
+    await tester.pumpAndSettle();
+    expect(find.text('Protected copy'), findsOneWidget);
+    expect(find.text('Zayd'), findsOneWidget);
+    expect(find.text('+201017741741'), findsOneWidget);
+
+    await tester.tap(find.byTooltip('Move to trash'));
+    await tester.pumpAndSettle();
+    expect(requests, contains('DELETE /api/admin/contacts/a1'));
+    expect(find.textContaining('restore it any time'), findsOneWidget);
   });
 
   test('settings round-trip through storage', () async {

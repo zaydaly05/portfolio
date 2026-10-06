@@ -22,6 +22,7 @@ class Summary {
     this.messages,
     this.stars,
     this.pendingChanges,
+    this.contacts,
   });
 
   final bool dbConnected;
@@ -30,6 +31,7 @@ class Summary {
   final int? messages;
   final int? stars;
   final int? pendingChanges;
+  final int? contacts;
 
   factory Summary.fromJson(Map<String, dynamic> json) => Summary(
         dbConnected: json['dbConnected'] == true,
@@ -38,6 +40,7 @@ class Summary {
         messages: (json['messages'] as num?)?.toInt(),
         stars: (json['stars'] as num?)?.toInt(),
         pendingChanges: (json['pendingChanges'] as num?)?.toInt(),
+        contacts: (json['contacts'] as num?)?.toInt(),
       );
 }
 
@@ -112,6 +115,66 @@ class LogEntry {
         message: '${json['message'] ?? ''}',
         timestamp: DateTime.tryParse('${json['timestamp'] ?? ''}'),
       );
+}
+
+/// A phone contact in the protected vault.
+class VaultContact {
+  const VaultContact({
+    required this.id,
+    required this.phone,
+    required this.name,
+    required this.notes,
+    required this.status,
+    required this.historyCount,
+  });
+
+  final String id;
+
+  /// Digits only, with country code (e.g. 201017741741).
+  final String phone;
+  final String name;
+  final String notes;
+
+  /// active or trashed
+  final String status;
+  final int historyCount;
+
+  bool get trashed => status == 'trashed';
+  String get display => '+$phone';
+
+  factory VaultContact.fromJson(Map<String, dynamic> json) => VaultContact(
+        id: '${json['id']}',
+        phone: '${json['phone'] ?? ''}',
+        name: '${json['name'] ?? ''}',
+        notes: '${json['notes'] ?? ''}',
+        status: '${json['status'] ?? 'active'}',
+        historyCount: (json['history'] as List?)?.length ?? 0,
+      );
+}
+
+class ContactsPage {
+  const ContactsPage({required this.contacts, required this.active, required this.trashed});
+
+  final List<VaultContact> contacts;
+  final int active;
+  final int trashed;
+}
+
+class ImportResult {
+  const ImportResult({required this.added, required this.restored, required this.duplicates, required this.invalid});
+
+  final int added;
+  final int restored;
+  final int duplicates;
+  final List<String> invalid;
+}
+
+class ContactsExport {
+  const ContactsExport({required this.filename, required this.count, required this.csv});
+
+  final String filename;
+  final int count;
+  final String csv;
 }
 
 /// One project inside a proposed change.
@@ -366,6 +429,48 @@ class AdminApi {
 
   Future<void> editChange(String code, int index, Map<String, String> fields) =>
       _send('PATCH', '/api/admin/changes/$code', body: {'index': index, 'fields': fields});
+
+  Future<ContactsPage> contacts({String status = 'active', String query = ''}) async {
+    final json = await _send('GET', '/api/admin/contacts?status=$status&q=${Uri.encodeQueryComponent(query)}');
+    final counts = Map<String, dynamic>.from(json['counts'] ?? const {});
+    return ContactsPage(
+      contacts: (json['contacts'] as List? ?? const [])
+          .map((e) => VaultContact.fromJson(Map<String, dynamic>.from(e as Map)))
+          .toList(),
+      active: (counts['active'] as num?)?.toInt() ?? 0,
+      trashed: (counts['trashed'] as num?)?.toInt() ?? 0,
+    );
+  }
+
+  Future<void> addContact(String phone, String name, String notes) =>
+      _send('POST', '/api/admin/contacts', body: {'phone': phone, 'name': name, 'notes': notes});
+
+  Future<ImportResult> importContacts(String text) async {
+    final json = await _send('POST', '/api/admin/contacts/import', body: {'text': text});
+    return ImportResult(
+      added: (json['added'] as num?)?.toInt() ?? 0,
+      restored: (json['restored'] as num?)?.toInt() ?? 0,
+      duplicates: (json['duplicates'] as num?)?.toInt() ?? 0,
+      invalid: List<String>.from(json['invalid'] ?? const []),
+    );
+  }
+
+  Future<void> editContact(String id, {required String name, required String phone, required String notes}) =>
+      _send('PUT', '/api/admin/contacts/$id', body: {'name': name, 'phone': phone, 'notes': notes});
+
+  /// Moves a contact to the trash (it can always be restored; nothing is deleted for good).
+  Future<void> trashContact(String id) => _send('DELETE', '/api/admin/contacts/$id');
+
+  Future<void> restoreContact(String id) => _send('POST', '/api/admin/contacts/$id/restore');
+
+  Future<ContactsExport> exportContacts() async {
+    final json = await _send('GET', '/api/admin/contacts/export');
+    return ContactsExport(
+      filename: '${json['filename'] ?? 'contacts.csv'}',
+      count: (json['count'] as num?)?.toInt() ?? 0,
+      csv: '${json['csv'] ?? ''}',
+    );
+  }
 
   Future<CvStatus> cvStatus() async => CvStatus.fromJson(await _send('GET', '/api/admin/cv'));
 

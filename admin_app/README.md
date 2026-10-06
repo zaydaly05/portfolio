@@ -136,3 +136,17 @@ and tap **Save & test connection**. Done.
 flutter analyze
 flutter test
 ```
+
+## Contacts vault & monthly broadcast
+
+The broadcast itself stays manual in Kapso (once a month, approved template
+`portfolio_published_alert`). The app keeps a safe copy of your numbers so a
+phone-contacts mishap never loses them:
+
+- **Contacts vault** (dashboard) — add, edit, import (paste numbers, lines or a
+  vCard) and export. Local numbers like `01017741741` become `201017741741`
+  (change the default with `DEFAULT_COUNTRY_CODE`).
+- **Never deleted** — "delete" only moves a contact to the trash and it can be
+  restored. Every edit keeps the previous values (last 20).
+- **Backup** — use *Export* to copy a CSV (`name,phone_e164,…`) and import that
+  file into Kapso before each monthly send.
