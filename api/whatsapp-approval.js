@@ -1,6 +1,7 @@
 
 const { WhatsAppClient } = require('@kapso/whatsapp-cloud-api');
 const { getKey } = require('../keys');
+const { sameNumber } = require('../lib/phone');
 
 const KAPSO_API_KEY = getKey('kapso');
 const PHONE_NUMBER_ID = getKey('whatsapp_phone_id');
@@ -96,11 +97,10 @@ async function requestWhatsAppApproval(actionName, description, timeoutMs = 3000
  * Handle incoming response from Admin on WhatsApp
  */
 function handleApprovalReply(fromPhone, text) {
-  const cleanPhone = (fromPhone || '').replace(/[^0-9]/g, '');
   const lowerText = (text || '').trim().toLowerCase();
 
-  // Verify response is from Admin phone number
-  if (ADMIN_PHONE && cleanPhone !== ADMIN_PHONE && !ADMIN_PHONE.endsWith(cleanPhone)) {
+  // Only the configured admin number may answer (an unset number matches nobody)
+  if (!sameNumber(fromPhone, ADMIN_PHONE)) {
     return null; // Not from admin
   }
 

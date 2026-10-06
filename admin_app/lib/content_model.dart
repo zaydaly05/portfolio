@@ -1,7 +1,7 @@
 /// Describes the editable sections of the portfolio and how to turn their JSON into forms.
 library;
 
-enum FieldKind { text, longText, number, stringList, json }
+enum FieldKind { text, longText, number, boolean, stringList, json }
 
 class SectionInfo {
   const SectionInfo({
@@ -32,7 +32,18 @@ const List<SectionInfo> sections = [
     icon: '🚀',
     titleKey: 'name',
     subtitleKey: 'period',
-    template: {'name': '', 'period': '', 'stack': '', 'image': '', 'github': '', 'description': ''},
+    template: {
+      'name': '',
+      'period': '',
+      'stack': '',
+      'image': '',
+      'github': '',
+      'description': '',
+      'pdfReport': '',
+      'tag': '',
+      'featured': false,
+      'logoStyle': '',
+    },
   ),
   SectionInfo(
     key: 'experience',
@@ -40,7 +51,7 @@ const List<SectionInfo> sections = [
     icon: '💼',
     titleKey: 'company',
     subtitleKey: 'role',
-    template: {'company': '', 'role': '', 'period': '', 'location': '', 'points': <String>[]},
+    template: {'company': '', 'role': '', 'period': '', 'location': '', 'points': <String>[], 'mediaBadge': ''},
   ),
   SectionInfo(
     key: 'certificates',
@@ -119,19 +130,141 @@ const List<SectionInfo> sections = [
       'linkedin': '',
       'github': '',
       'summary': '',
+      'availability': '',
+      'photo': '',
+      'logo': '',
+      'cvUrl': '',
+      'whatsapp': '',
+      'phoneIntl': '',
+      'phoneDisplay': '',
+      'locationLong': '',
+      'timezone': '',
+      'clockLabel': '',
+    },
+  ),
+  SectionInfo(
+    key: 'faq',
+    label: 'FAQ',
+    icon: '❓',
+    titleKey: 'question',
+    template: {'question': '', 'answer': ''},
+  ),
+  SectionInfo(
+    key: 'stats',
+    label: 'Home stats',
+    icon: '📊',
+    titleKey: 'label',
+    subtitleKey: 'source',
+    template: {'icon': '', 'label': '', 'source': 'projects', 'value': 0, 'suffix': '+'},
+  ),
+  SectionInfo(
+    key: 'heroSlides',
+    label: 'Home slides',
+    icon: '🖼️',
+    titleKey: 'title',
+    subtitleKey: 'tag',
+    template: {
+      'image': '',
+      'imageAlt': '',
+      'tag': '',
+      'tagStyle': 'tag-backend',
+      'stackLine': '',
+      'title': '',
+      'description': '',
+      'ctaLabel': '',
+      'ctaHref': '/projects',
+      'btnStyle': '',
+      'chips': <String>[],
+    },
+  ),
+  SectionInfo(
+    key: 'gateways',
+    label: 'Home section cards',
+    icon: '🧭',
+    titleKey: 'title',
+    subtitleKey: 'tag',
+    template: {
+      'id': '',
+      'icon': '',
+      'tag': '',
+      'tagStyle': 'eyebrow-brand',
+      'title': '',
+      'description': '',
+      'href': '/',
+      'ctaLabel': '',
+      'btnStyle': 'btn gateway-btn',
+    },
+  ),
+  SectionInfo(
+    key: 'heroPills',
+    label: 'Hero tech pills',
+    icon: '💊',
+    titleKey: 'label',
+    template: {'label': '', 'icon': '', 'color': '#6366f1'},
+  ),
+  SectionInfo(
+    key: 'heroBadges',
+    label: 'Photo badges',
+    icon: '🏷️',
+    titleKey: 'text',
+    template: {'icon': '', 'text': ''},
+  ),
+  SectionInfo(
+    key: 'site',
+    label: 'Page texts',
+    icon: '📝',
+    titleKey: 'home_eyebrow',
+    isObject: true,
+    template: {
+      'home_eyebrow': '',
+      'featured_intro': '',
+      'featured_title': '',
+      'gateways_title': '',
+      'preloader_subtitle': '',
+      'projects_eyebrow': '',
+      'projects_title': '',
+      'projects_intro': '',
+      'experience_eyebrow': '',
+      'experience_title': '',
+      'experience_intro': '',
+      'experience_section_title': '',
+      'certificates_title': '',
+      'certificates_intro': '',
+      'cv_box_title': '',
+      'cv_box_text': '',
+      'reviews_cta_title': '',
+      'reviews_cta_text': '',
+      'reviews_list_title': '',
+      'skills_eyebrow': '',
+      'skills_title': '',
+      'skills_intro': '',
+      'core_stack_title': '',
+      'core_stack_intro': '',
+      'all_skills_title': '',
+      'soft_skills_title': '',
+      'languages_title': '',
+      'contact_eyebrow': '',
+      'contact_title': '',
+      'contact_intro': '',
+      'contact_form_title': '',
+      'contact_form_intro': '',
+      'faq_title': '',
     },
   ),
 ];
 
 SectionInfo sectionByKey(String key) => sections.firstWhere((s) => s.key == key);
 
-const Set<String> _longTextKeys = {'description', 'desc', 'summary', 'highlights', 'comment', 'message'};
+const Set<String> _longTextKeys = {'description', 'desc', 'summary', 'highlights', 'comment', 'message', 'answer'};
 
 FieldKind fieldKindFor(String key, Object? value) {
+  if (value is bool) return FieldKind.boolean;
   if (value is num) return FieldKind.number;
   if (value is List && value.every((e) => e is String)) return FieldKind.stringList;
-  if (value is List || value is Map || value is bool) return FieldKind.json;
-  if (_longTextKeys.contains(key) || (value is String && value.length > 80)) return FieldKind.longText;
+  if (value is List || value is Map) return FieldKind.json;
+  if (_longTextKeys.contains(key) || key.endsWith('_intro') || key.endsWith('_text') || (value is String && value.length > 80)) {
+    return FieldKind.longText;
+  }
   return FieldKind.text;
 }
 

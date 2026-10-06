@@ -64,7 +64,7 @@
       href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Poppins:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20261013" />
+    <link rel="stylesheet" href="styles.css?v=20261014" />
   </head>
   <body>
 
@@ -75,9 +75,9 @@
     <!-- Page Header -->
     <header class="page-header reveal">
       <div class="page-header-container">
-        <span class="eyebrow">Technical Expertise &amp; Competencies</span>
-        <h1>Skills, Tech Stack &amp; Languages</h1>
-        <p class="page-header-desc">
+        <span class="eyebrow" data-bind="site.skills_eyebrow">Technical Expertise &amp; Competencies</span>
+        <h1 data-bind="site.skills_title">Skills, Tech Stack &amp; Languages</h1>
+        <p class="page-header-desc" data-bind="site.skills_intro">
           A comprehensive overview of Zayd's core software engineering stack, languages, databases, developer tools,
           soft skills, and spoken languages.
         </p>
@@ -89,10 +89,10 @@
       <section class="section reveal" id="featured-stack-section">
         <div class="section-header">
           <span class="section-number">01</span>
-          <h3>Core Engineering Tech Stack</h3>
+          <h3 data-bind="site.core_stack_title">Core Engineering Tech Stack</h3>
           <div class="section-line"></div>
         </div>
-        <p class="section-subdesc">
+        <p class="section-subdesc" data-bind="site.core_stack_intro">
           Key technologies powering Zayd's production applications, APIs, and cross-platform projects with visual
           proficiency &amp; project counts.
         </p>
@@ -103,7 +103,7 @@
       <section class="section reveal" id="technical-skills">
         <div class="section-header">
           <span class="section-number">02</span>
-          <h3>All Technical Competencies</h3>
+          <h3 data-bind="site.all_skills_title">All Technical Competencies</h3>
           <div class="section-line"></div>
         </div>
 
@@ -123,7 +123,7 @@
       <section class="section reveal" id="soft-skills">
         <div class="section-header">
           <span class="section-number">03</span>
-          <h3>Soft Skills &amp; Working Style</h3>
+          <h3 data-bind="site.soft_skills_title">Soft Skills &amp; Working Style</h3>
           <div class="section-line"></div>
         </div>
         <div id="soft-skills-list" class="soft-skills-bento-grid reveal-stagger"></div>
@@ -133,7 +133,7 @@
       <section class="section reveal" id="languages">
         <div class="section-header">
           <span class="section-number">04</span>
-          <h3>Spoken &amp; Communication Languages</h3>
+          <h3 data-bind="site.languages_title">Spoken &amp; Communication Languages</h3>
           <div class="section-line"></div>
         </div>
         <div id="languages-list" class="languages-prof-grid reveal-stagger"></div>
@@ -144,9 +144,10 @@
     <footer id="site-footer"></footer>
 
     <script src="layout.js"></script>
-    <script src="modals.js?v=20261013"></script>
+    <script src="modals.js?v=20261014"></script>
     <script src="buttons.js"></script>
-    <script src="ui-effects.js?v=20261013"></script>
-    <script src="script.js?v=20261013"></script>
+    <script src="ui-effects.js?v=20261014"></script>
+    <script src="site-content.js?v=20261014"></script>
+    <script src="script.js?v=20261014"></script>
   </body>
 </html>

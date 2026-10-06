@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../content_model.dart';
 import '../widgets/common.dart';
+import 'github_import_screen.dart';
 import 'item_editor_screen.dart';
 
 /// Edits one section: a reorderable list of items, or the single profile object.
@@ -115,6 +116,22 @@ class _SectionScreenState extends State<SectionScreen> {
     }
   }
 
+  Future<void> _importFromGithub() async {
+    if (_dirty) {
+      showSnack(context, 'Save your changes first, then import from GitHub.', error: true);
+      return;
+    }
+    final imported = await Navigator.of(context).push<bool>(MaterialPageRoute(builder: (_) => const GithubImportScreen()));
+    if (imported != true || !mounted) return;
+    try {
+      final content = await apiOf(context).portfolio();
+      if (!mounted) return;
+      setState(() => _items = _decode(content.sections[info.key]));
+    } catch (e) {
+      if (mounted) showSnack(context, errorText(e), error: true);
+    }
+  }
+
   Future<void> _editJson() async {
     final controller = TextEditingController(text: const JsonEncoder.withIndent('  ').convert(_payload));
     final parsed = await showDialog<Object>(
@@ -177,12 +194,14 @@ class _SectionScreenState extends State<SectionScreen> {
           actions: [
             PopupMenuButton<String>(
               onSelected: (value) {
+                if (value == 'github') _importFromGithub();
                 if (value == 'json') _editJson();
                 if (value == 'reset') _reset();
               },
-              itemBuilder: (_) => const [
-                PopupMenuItem(value: 'json', child: Text('Edit as JSON')),
-                PopupMenuItem(value: 'reset', child: Text('Reset to built-in')),
+              itemBuilder: (_) => [
+                if (info.key == 'projects') const PopupMenuItem(value: 'github', child: Text('Import from GitHub')),
+                const PopupMenuItem(value: 'json', child: Text('Edit as JSON')),
+                const PopupMenuItem(value: 'reset', child: Text('Reset to built-in')),
               ],
             ),
           ],

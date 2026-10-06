@@ -1,7 +1,7 @@
 /**
  * Auto-Sync Portfolio Engine
  * Automatically detects new & updated GitHub repositories for zaydaly05,
- * validates project content, updates server.js portfolio data & skills,
+ * validates project content, adds approved projects to the portfolio database (via the admin API),
  * and sends WhatsApp notifications via CallMeBot API.
  */
 
@@ -9,7 +9,6 @@ const fs = require('fs');
 const path = require('path');
 
 const GITHUB_USERNAME = 'zaydaly05';
-const SERVER_JS_PATH = path.join(__dirname, '..', 'server.js');
 
 async function fetchGitHubRepos() {
   console.log(`🔍 Fetching public repositories for ${GITHUB_USERNAME}...`);
@@ -41,6 +40,19 @@ async function fetchGitHubRepos() {
 
 
 
+/** Projects currently published: the live site if PORTFOLIO_URL is set, else the built-in seed data. */
+async function loadCurrentProjects(siteUrl) {
+  if (siteUrl) {
+    try {
+      const response = await fetch(`${siteUrl}/api/portfolio`);
+      if (response.ok) return (await response.json()).projects || [];
+    } catch (err) {
+      console.warn(`⚠️ Could not read ${siteUrl}/api/portfolio (${err.message}); using built-in data.`);
+    }
+  }
+  return require('../data/defaults').projects;
+}
+
 async function syncPortfolio() {
   try {
     // ☁️ 1. Run Cloudinary Media Sync & Link Replacement
@@ -61,27 +73,27 @@ async function syncPortfolio() {
     // Filter valid non-fork, non-empty repos
     const validRepos = repos.filter(r => !r.fork && r.size > 0);
 
-    let serverContent = fs.readFileSync(SERVER_JS_PATH, 'utf8');
+    // Projects now live in the database. Compare GitHub against what the live site currently shows.
+    const siteUrl = (process.env.PORTFOLIO_URL || '').replace(/\/+$/, '');
+    const adminKey = process.env.ADMIN_API_KEY || '';
+    const currentProjects = await loadCurrentProjects(siteUrl);
+    const knownText = JSON.stringify(currentProjects).toLowerCase();
 
     const addedProjects = [];
 
     validRepos.forEach(repo => {
       const repoNameClean = repo.name.replace(/[-_]/g, ' ');
-      // Check if project name already exists in server.js
-      const exists = serverContent.toLowerCase().includes(repo.name.toLowerCase()) || 
-                     serverContent.toLowerCase().includes(repoNameClean.toLowerCase());
+      const exists = knownText.includes(repo.name.toLowerCase()) || knownText.includes(repoNameClean.toLowerCase());
 
       if (!exists && repo.description) {
         console.log(`✨ New valid project detected: ${repo.name} (${repo.language || 'Code'})`);
         addedProjects.push({
+          repo: repo.name,
           name: repoNameClean.replace(/\b\w/g, l => l.toUpperCase()),
-          period: new Date(repo.pushed_at || repo.updated_at).toLocaleString('en-US', { month: 'long', year: 'numeric' }),
-          stack: `${repo.language || 'Software'}, GitHub, Open-Source`,
-          description: `${repo.description} (Automatically synced from GitHub repository: github.com/${GITHUB_USERNAME}/${repo.name})`
+          stack: `${repo.language || 'Software'}`
         });
       }
     });
-
 
     if (addedProjects.length > 0) {
       const projectDetails = addedProjects.map(p => `• *${p.name}* (${p.stack})`).join('\n');
@@ -90,67 +102,41 @@ async function syncPortfolio() {
       if (process.env.ENABLE_WHATSAPP_APPROVAL === 'true' || process.env.REQUIRE_APPROVAL === 'true') {
         const { requestWhatsAppApproval } = require('../api/whatsapp-approval');
         console.log(`📱 Sending WhatsApp approval request for ${addedProjects.length} new project(s)...`);
-        
+
         const approvalResult = await requestWhatsAppApproval(
-          "Portfolio Auto-Sync: Update server.js",
+          "Portfolio Auto-Sync: add new GitHub projects",
           `Detected ${addedProjects.length} new GitHub project(s):\n${projectDetails}`,
           300000 // 5 min timeout
         );
 
         if (!approvalResult || !approvalResult.approved) {
-          console.log(`🛑 WhatsApp Approval Status: ${approvalResult ? approvalResult.action : 'REJECTED'}. Modifications to server.js were cancelled.`);
+          console.log(`🛑 WhatsApp Approval Status: ${approvalResult ? approvalResult.action : 'REJECTED'}. The portfolio was not changed.`);
           return;
         }
-        console.log("✅ WhatsApp Approval Received! Proceeding to update server.js...");
+        console.log("✅ WhatsApp Approval Received! Applying to the portfolio...");
       }
 
-      console.log(`📝 Updating server.js with ${addedProjects.length} new projects...`);
-
-      // Locate `projects: [` array inside server.js
-      const projectInsertIndex = serverContent.indexOf('projects: [');
-      if (projectInsertIndex !== -1) {
-        const insertPos = projectInsertIndex + 'projects: ['.length;
-        const newProjectBlocks = addedProjects.map(p => `
-    {
-      name: "${p.name}",
-      period: "${p.period}",
-      stack: "${p.stack}",
-      description: "${p.description.replace(/"/g, '\\"')}"
-    },`).join('\n');
-
-        serverContent = serverContent.slice(0, insertPos) + '\n' + newProjectBlocks + serverContent.slice(insertPos);
-        fs.writeFileSync(SERVER_JS_PATH, serverContent, 'utf8');
-        console.log("✅ server.js successfully updated!");
-
-        // Update latex-cv/Zayd_Ali_Mohamed_CV.tex if exists
-        const latexCvPath = path.join(__dirname, '..', 'latex-cv', 'Zayd_Ali_Mohamed_CV.tex');
-        if (fs.existsSync(latexCvPath)) {
-          let latexContent = fs.readFileSync(latexCvPath, 'utf8');
-          const latexInsertIndex = latexContent.indexOf('\\section{Key Projects}');
-          if (latexInsertIndex !== -1) {
-            const listStartIndex = latexContent.indexOf('\\resumeSubHeadingListStart', latexInsertIndex);
-            if (listStartIndex !== -1) {
-              const insertPosTex = listStartIndex + '\\resumeSubHeadingListStart'.length;
-              const newTexProjects = addedProjects.map(p => `
-      \\resumeProjectHeading
-          {\\textbf{${p.name}} $|$ \\emph{${p.stack}}}{${p.period}}
-          \\resumeItemListStart
-            \\resumeItem{${p.description}}
-          \\resumeItemListEnd`).join('\n');
-              latexContent = latexContent.slice(0, insertPosTex) + '\n' + newTexProjects + latexContent.slice(insertPosTex);
-              fs.writeFileSync(latexCvPath, latexContent, 'utf8');
-              console.log("✅ latex-cv/Zayd_Ali_Mohamed_CV.tex successfully updated!");
-            }
-          }
-        }
-
-        const { sendWhatsAppAlert } = require('./whatsapp-notifier');
-        await sendWhatsAppAlert(
-          'SUCCESS',
-          'Portfolio Auto-Sync Completed',
-          `Detected & integrated ${addedProjects.length} new GitHub project(s):\n` + addedProjects.map(p => `• *${p.name}* (${p.stack})`).join('\n')
-        );
+      if (!siteUrl || !adminKey) {
+        console.log('ℹ️ Set PORTFOLIO_URL and ADMIN_API_KEY to apply these projects automatically (or use "Import from GitHub" in the admin app):\n' + projectDetails);
+        return;
       }
+
+      console.log(`📝 Adding ${addedProjects.length} new project(s) to the portfolio database...`);
+      const response = await fetch(`${siteUrl}/api/admin/github/import`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'x-admin-key': adminKey },
+        body: JSON.stringify({ repos: addedProjects.map(p => p.repo) })
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || `Import failed (${response.status})`);
+      console.log(`✅ Added: ${(result.added || []).join(', ')}`);
+
+      const { sendWhatsAppAlert } = require('./whatsapp-notifier');
+      await sendWhatsAppAlert(
+        'SUCCESS',
+        'Portfolio Auto-Sync Completed',
+        `Detected & integrated ${addedProjects.length} new GitHub project(s):\n` + projectDetails
+      );
     } else {
       console.log("🎉 Portfolio is already up to date with all GitHub repositories!");
     }

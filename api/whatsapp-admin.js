@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { WhatsAppClient } = require('@kapso/whatsapp-cloud-api');
 const { getKey } = require('../keys');
+const { sameNumber } = require('../lib/phone');
 
 const KAPSO_API_KEY = getKey('kapso');
 const PHONE_NUMBER_ID = getKey('whatsapp_phone_id');
@@ -49,11 +50,10 @@ function addMultiplePersonalContacts(phoneListStr) {
 }
 
 /**
- * Verify if the request comes from Zayd's admin phone number
+ * Verify if the request comes from the owner's private (admin) phone number
  */
 function isAdminNumber(fromNumber) {
-  const clean = (fromNumber || '').replace(/[^0-9]/g, '');
-  return clean === ADMIN_PHONE || ADMIN_PHONE.endsWith(clean) || clean.endsWith(ADMIN_PHONE);
+  return sameNumber(fromNumber, ADMIN_PHONE);
 }
 
 /**

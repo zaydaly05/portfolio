@@ -38,10 +38,10 @@ class DashboardScreen extends StatelessWidget {
           _ActionTile(icon: Icons.mark_email_unread, title: 'Read contact messages', subtitle: 'Messages sent from your website', onTap: () => onOpenTab(3)),
           _ActionTile(icon: Icons.star_half, title: 'Moderate reviews', subtitle: 'Add, edit or remove reviews', onTap: () => onOpenTab(2)),
           const SizedBox(height: 20),
-          Text('Customised sections', style: Theme.of(context).textTheme.titleMedium),
+          Text('Sections you have changed', style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
           if (summary.overridden.isEmpty)
-            const Text('Everything still uses the built-in content.')
+            const Text('Everything still matches the built-in content.')
           else
             Wrap(
               spacing: 8,

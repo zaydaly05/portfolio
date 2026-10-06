@@ -86,7 +86,7 @@
       href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Poppins:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20261013" />
+    <link rel="stylesheet" href="styles.css?v=20261014" />
   </head>
   <body>
     <!-- High-Tech Interactive Puzzle Preloader Screen -->
@@ -101,8 +101,8 @@
         </div>
 
         <div class="puzzle-brand-tag">
-          <div class="puzzle-brand-title">ZAYD ALI MOHAMED</div>
-          <div class="puzzle-brand-sub">SOFTWARE ENGINEER &amp; FULL-STACK DEVELOPER</div>
+          <div class="puzzle-brand-title" data-site-name>ZAYD ALI MOHAMED</div>
+          <div class="puzzle-brand-sub" data-bind="site.preloader_subtitle">SOFTWARE ENGINEER &amp; FULL-STACK DEVELOPER</div>
         </div>
 
         <div class="puzzle-progress-wrap">
@@ -143,7 +143,7 @@
 
       <div class="hero-content">
         <div class="hero-text">
-          <p class="eyebrow">Full-Stack &amp; Mobile Software Developer</p>
+          <p class="eyebrow" data-bind="site.home_eyebrow">Full-Stack &amp; Mobile Software Developer</p>
           <h1 id="name">Zayd Ali Mohamed</h1>
           <h2 id="title">Junior Computer Science Student | Software Developer</h2>
           <p id="summary">
@@ -438,10 +438,10 @@
       <section class="section reveal" id="home-featured-projects">
         <div class="section-header">
           <span class="section-number">01</span>
-          <h3>Featured Flagship Projects</h3>
+          <h3 data-bind="site.featured_title">Featured Flagship Projects</h3>
           <div class="section-line"></div>
         </div>
-        <p class="section-subdesc">Top highlighted software systems engineered by Zayd Ali Mohamed.</p>
+        <p class="section-subdesc" data-bind="site.featured_intro">Top highlighted software systems engineered by Zayd Ali Mohamed.</p>
 
         <div class="home-projects-grid">
           <!-- Flagship 1 -->
@@ -546,7 +546,7 @@
       <section class="section reveal" id="page-gateways" style="padding-top: 20px; padding-bottom: 20px">
         <div class="section-header">
           <span class="section-number">02</span>
-          <h3>Explore Portfolio Sections</h3>
+          <h3 data-bind="site.gateways_title">Explore Portfolio Sections</h3>
           <div class="section-line"></div>
         </div>
 
@@ -630,9 +630,10 @@
     <footer id="site-footer"></footer>
 
     <script src="layout.js"></script>
-    <script src="modals.js?v=20261013"></script>
+    <script src="modals.js?v=20261014"></script>
     <script src="buttons.js"></script>
-    <script src="ui-effects.js?v=20261013"></script>
-    <script src="script.js?v=20261013"></script>
+    <script src="ui-effects.js?v=20261014"></script>
+    <script src="site-content.js?v=20261014"></script>
+    <script src="script.js?v=20261014"></script>
   </body>
 </html>

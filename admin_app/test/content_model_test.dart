@@ -13,6 +13,9 @@ void main() {
 
   test('field kinds follow the value type', () {
     expect(fieldKindFor('level', 88), FieldKind.number);
+    expect(fieldKindFor('featured', true), FieldKind.boolean);
+    expect(fieldKindFor('home_intro_text', 'x'), FieldKind.longText);
+    expect(fieldKindFor('projects_intro', 'x'), FieldKind.longText);
     expect(fieldKindFor('points', ['a', 'b']), FieldKind.stringList);
     expect(fieldKindFor('points', <String>[]), FieldKind.stringList);
     expect(fieldKindFor('meta', {'a': 1}), FieldKind.json);
@@ -21,9 +24,23 @@ void main() {
     expect(fieldKindFor('name', 'y' * 120), FieldKind.longText);
   });
 
+  test('every section the server knows about is editable in the app', () {
+    expect(
+      sections.map((s) => s.key).toSet(),
+      {
+        'profile', 'education', 'activities', 'experience', 'projects', 'featuredStack', 'technicalSkills',
+        'softSkills', 'languages', 'certificates', 'site', 'heroPills', 'heroBadges', 'heroSlides', 'stats',
+        'gateways', 'faq',
+      },
+    );
+    expect(sectionByKey('site').isObject, isTrue);
+    expect(sectionByKey('profile').isObject, isTrue);
+  });
+
   test('humanizeKey makes readable labels', () {
     expect(humanizeKey('projectsCount'), 'Projects count');
     expect(humanizeKey('name'), 'Name');
+    expect(humanizeKey('home_eyebrow'), 'Home_eyebrow');
   });
 
   test('mergeWithTemplate adds missing fields and keeps extras', () {

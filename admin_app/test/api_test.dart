@@ -113,4 +113,40 @@ void main() {
       throwsA(isA<ApiException>().having((e) => e.message, 'message', contains('Could not reach'))),
     );
   });
+
+  test('lists new GitHub repositories and imports the chosen ones', () async {
+    late http.Request seen;
+    final api = apiWith((req) async {
+      seen = req;
+      if (req.url.path.endsWith('/github/new')) {
+        return jsonReply({
+          'ok': true,
+          'username': 'me',
+          'total': 5,
+          'repos': [
+            {
+              'name': 'cool-app',
+              'description': 'A cool app',
+              'language': 'Dart',
+              'stars': 4,
+              'project': {'period': 'September 2026', 'stack': 'Dart, Flutter'},
+            }
+          ],
+        });
+      }
+      return jsonReply({'ok': true, 'added': ['cool-app'], 'total': 12});
+    });
+
+    final found = await api.githubNew();
+    expect(found.username, 'me');
+    expect(found.total, 5);
+    expect(found.repos.single.name, 'cool-app');
+    expect(found.repos.single.stack, 'Dart, Flutter');
+    expect(found.repos.single.period, 'September 2026');
+
+    final added = await api.githubImport(['cool-app']);
+    expect(added, ['cool-app']);
+    expect(seen.method, 'POST');
+    expect(jsonDecode(seen.body), {'repos': ['cool-app']});
+  });
 }

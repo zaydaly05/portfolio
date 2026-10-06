@@ -1,410 +1,23 @@
 /* ============================================
    UTILITY HELPERS
    ============================================ */
+/** Digits-only WhatsApp number from the profile (whatsapp field, else phone). */
+const getWhatsappNumber = () => {
+  const profile = (window.PORTFOLIO_DATA && window.PORTFOLIO_DATA.profile) || {};
+  return String(profile.whatsapp || profile.phone || "").replace(/\D/g, "");
+};
+
+/** Live portfolio content (set when /api/portfolio loads). */
+const portfolioNow = () => window.PORTFOLIO_DATA || {};
+const ownerFirstName = () => ((portfolioNow().profile || {}).name || "").split(" ")[0] || "the owner";
+const stripProtocol = (url) => String(url || "").replace(/^https?:\/\//, "").replace(/\/$/, "");
+
 const setText = (id, value) => {
   const el = document.getElementById(id);
   if (el) el.textContent = value || "";
 };
 
 const THEME_STORAGE_KEY = "portfolio-theme";
-const WHATSAPP_NUMBER = "201017741741";
-const PROFILE_PHOTO_CANDIDATES = [
-  "https://res.cloudinary.com/delnnzcph/image/upload/v1791135534/main-photo.jpg"
-];
-
-/* ============================================
-   PORTFOLIO DATA (fallback)
-   ============================================ */
-const fallbackPortfolio = {
-  profile: {
-    name: "Zayd Ali Mohamed",
-    title: "Junior Computer Science Student | Full-Stack Developer",
-    location: "Maadi, Cairo",
-    phone: "01017741741",
-    email: "zaydaly0501@gmail.com",
-    linkedin: "https://www.linkedin.com/in/zayd-ali-17a85a1a0",
-    github: "https://github.com/zaydaly05",
-    summary:
-      "Motivated junior computer science student who loves technology and problem solving. I enjoy learning new skills, working on projects, and being part of workshops to grow in software development."
-  },
-  education: [
-    {
-      institution: "Misr International University",
-      degree: "Bachelor of Science in Computer Science",
-      period: "Sep 2023 - Jun 2027"
-    }
-  ],
-  activities: [
-    { name: "ACPC Club", role: "Member", period: "2023 - Present" },
-    { name: "IEEE Club", role: "Member", period: "2023 - Present" }
-  ],
-  experience: [
-    {
-      company: "WE (Telecom Egypt)",
-      role: "Android Development Intern",
-      period: "June 26, 2026 - July 26, 2026",
-      location: "Smart Village, Cairo",
-      points: [
-        "Engineered native Android applications utilizing Kotlin and declarative Jetpack Compose UI.",
-        "Architected mobile applications using MVVM pattern, managing unidirectional data flow via Kotlin Coroutines & StateFlow.",
-        "Integrated network operations and local persistence using Retrofit and Room Database for offline-first architecture.",
-        "Implemented dependency injection using Hilt to ensure decoupled, scalable enterprise mobile software design.",
-        "Managed application lifecycles and mitigated native process death constraints effectively under direct supervision of Khaled Mamdouh (Android Developer Supervisor, WE)."
-      ]
-    },
-    {
-      company: "Cairo Higher Institute",
-      role: "IT Department Intern",
-      period: "August 2025 - September 2025",
-      location: "1st Settlement, Cairo",
-      points: [
-        "Created and managed institutional user email accounts using the official domain.",
-        "Edited and updated the front-end of the institute website using WordPress.",
-        "Managed and maintained the institute's official social media accounts.",
-        "Clipped, edited, and produced videos and photos for digital content."
-      ]
-    },
-    {
-      company: "TAQA Arabia",
-      role: "Software Development Intern",
-      period: "July 2025 - August 2025",
-      location: "Maadi, Cairo",
-      points: ["Contributed to developing the In Gaz API mobile application."]
-    },
-    {
-      company: "TAQA Arabia",
-      role: "IT Department Intern",
-      period: "August 2024 - September 2024",
-      location: "Maadi, Cairo",
-      points: ["Handled devices software management.", "Managed user accounts and access support."]
-    }
-  ],
-  projects: [
-    {
-      name: "Gulf Limousine Booking App",
-      period: "July 2026",
-      stack: "Flutter, Dart, Firebase, REST API",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135561/app_icon.png",
-      github: "https://github.com/zaydaly05/Gulf_Limousine_App",
-      description:
-        "Cross-platform luxury limousine reservation & fleet tracking mobile app featuring real-time driver allocation, vehicle selection, fare estimation, and client booking management."
-    },
-    {
-      name: "Essmat Plastic Factory Management System",
-      period: "September 2026",
-      stack: "C#, .NET, SQL Server, Entity Framework",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/esmatPlastic.jpg",
-      pdfReport:
-        "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/esmatPlastic.jpg",
-      github: "https://github.com/zaydaly05/EssmatPlastic",
-      description:
-        "Enterprise inventory and production management solution for plastic manufacturing, optimizing raw material tracking, order processing, and factory billing workflows."
-    },
-    {
-      name: "Dr. Naglaa Academic Biography Portal",
-      period: "September 2026",
-      stack: "HTML5, CSS3, JavaScript, Responsive UI",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135540/Screenshot_2026-10-04_180005.png",
-      github: "https://github.com/zaydaly05/drNaglaBio",
-      description:
-        "Modern academic portfolio & publication showcase website designed for university faculty, featuring curriculum vitae integration, research paper archives, and student contact channels."
-    },
-    {
-      name: "Food Ordering Management System",
-      period: "May 2026",
-      stack: "Spring Boot, Tailwind, React, MongoDB",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135562/foodApplogo.png",
-      github: "https://github.com/zaydaly05/food_ordering_system",
-      description:
-        "Developed a full-stack food ordering system with Spring Boot and a React + Tailwind frontend. Built RESTful APIs for authentication, menu management, cart operations, and order processing with MongoDB. Implemented role-based Admin and Customer flows with CRUD, order tracking, and analytics such as top-selling items and profit insights."
-    },
-    {
-      name: "In Gaz API System",
-      period: "July 2025",
-      stack: "C#, Flutter, .NET Core Web API",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135564/Screenshot_2026-10-04_180451.png",
-      github: "https://github.com/zaydaly05/InGazAPI",
-      description:
-        "Built a Flutter frontend integrated with a C# .NET Core Web API backend using MVC, secure role-based access, CRUD operations, and Swagger testing."
-    },
-    {
-      name: "Employee Attendance & Leave System",
-      period: "December 2025",
-      stack: "HTML, CSS, PHP, MySQL",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135381/EALMS_Logo.png",
-      github: "https://github.com/zaydaly05/Employee_Attendance-Leave_Management_System",
-      description:
-        "Developed a web-based attendance and leave platform with automated tracking and approval, event/announcement features, and secure relational role-based access."
-    },
-    {
-      name: "Car Rental Website",
-      period: "May 2025",
-      stack: "HTML, CSS, MongoDB, Node.js, JavaScript",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135540/logo00.png",
-      github: "https://github.com/zaydaly05/Car_Rental_Website",
-      description:
-        "Developed a comprehensive e-commerce style platform for users to browse and rent cars with authentication, catalog management, and order processing."
-    },
-    {
-      name: "Restaurant Management System",
-      period: "December 2024",
-      stack: "Java, JavaFX",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/restaurant_management_system_icon_v3.png",
-      github: "https://github.com/zaydaly05/Restaurant_Management_System",
-      description:
-        "Created a recruitment system with a graphical user interface for managing job postings, applications, and interviews using Java and JavaFX."
-    },
-    {
-      name: "Sleeping Alert System",
-      period: "December 2025",
-      stack: "Python, Flutter",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135566/sleeping_alert_eye_icon.png",
-      github: "https://github.com/zaydaly05/Sleep_Alert_System",
-      description:
-        "Developed a sleeping alert system for an HCI course, applying usability and interaction design principles with a responsive mobile interface."
-    },
-    {
-      name: "Zaydentity Digital Identity Platform",
-      period: "September 2026",
-      stack: "HTML5, CSS3, JavaScript",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1791141032/zayd-portfolio/showcase/Zaydentity%20Digital%20Identity%20Platform/Logo%20Icon/Screenshot_2026-10-04_175842.png",
-      github: "https://github.com/zaydaly05/zaydentity",
-      description:
-        "Digital personal branding & bio-link platform consolidating developer links, project highlights, and verified professional credentials in a unified interactive card UI."
-    },
-    {
-      name: "WE Telecom Training Suite",
-      period: "August 2026",
-      stack: "Networking, C++, Telecommunications",
-      image: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135568/1200x630wa.png",
-      github: "https://github.com/zaydaly05/WE_Intern",
-      description:
-        "Technical codebase & project artifacts developed during Telecom Egypt (WE) training, focusing on network protocol fundamentals, system administration, and enterprise infrastructure."
-    }
-  ],
-
-  featuredStack: [
-    {
-      name: "Android & Kotlin",
-      category: "Native Mobile",
-      level: 88,
-      color: "#3ddc84",
-      icon: "🤖",
-      projectsCount: 2,
-      highlights: "Jetpack Compose, MVVM Architecture, Coroutines & StateFlow, Retrofit, Room, Hilt"
-    },
-    {
-      name: "Java & Spring Boot",
-      category: "Backend",
-      level: 90,
-      color: "#6db33f",
-      icon: "☕",
-      projectsCount: 3,
-      highlights: "Enterprise REST APIs, Spring Security, Microservices, JavaFX"
-    },
-    {
-      name: "React.js & Modern Web",
-      category: "Frontend",
-      level: 88,
-      color: "#61dafb",
-      icon: "⚛️",
-      projectsCount: 4,
-      highlights: "Dynamic UIs, SPA routing, Tailwind, State Management"
-    },
-    {
-      name: "Flutter & Dart",
-      category: "Mobile",
-      level: 85,
-      color: "#02569b",
-      icon: "📱",
-      projectsCount: 3,
-      highlights: "Cross-platform iOS/Android, Firebase, State Management, REST integration"
-    },
-    {
-      name: "C# & .NET Core",
-      category: "Enterprise & API",
-      level: 85,
-      color: "#9b4f96",
-      icon: "🔷",
-      projectsCount: 3,
-      highlights: "ASP.NET Core Web API, Entity Framework, C# Desktop Apps"
-    },
-    {
-      name: "SQL & NoSQL Databases",
-      category: "Data Architecture",
-      level: 88,
-      color: "#47a248",
-      icon: "🗄️",
-      projectsCount: 5,
-      highlights: "PostgreSQL, MySQL, MongoDB, Firebase Firestore, Schema Design"
-    },
-    {
-      name: "Node.js & Express",
-      category: "Backend",
-      level: 82,
-      color: "#5fa04e",
-      icon: "🟢",
-      projectsCount: 2,
-      highlights: "Node RESTful backends, JWT Authentication, Async I/O"
-    },
-    {
-      name: "Python",
-      category: "Scripting & AI",
-      level: 80,
-      color: "#3776ab",
-      icon: "🐍",
-      projectsCount: 2,
-      highlights: "Data structures, Automation scripts, Computer Vision / OpenCV"
-    },
-    {
-      name: "Git & Version Control",
-      category: "DevOps & Tools",
-      level: 92,
-      color: "#f05032",
-      icon: "🔀",
-      projectsCount: 10,
-      highlights: "Branching workflows, GitHub Sync, Collaborative Repos"
-    }
-  ],
-  technicalSkills: [
-    {
-      category: "Languages",
-      items: ["Java", "Kotlin", "Python", "C#", "C++", "C", "PHP", "Dart", "JavaScript", "SQL", "HTML5", "CSS3"]
-    },
-    {
-      category: "Frameworks",
-      items: ["Spring Boot", "React", "Flutter", "Jetpack Compose", "Express.js", "Node.js", ".NET Core Web API", "JavaFX", "Tailwind CSS"]
-    },
-    { category: "Databases", items: ["PostgreSQL", "MongoDB", "Firebase", "MySQL", "SQL Server", "Room Database"] },
-    {
-      category: "Developer Tools",
-      items: ["Android Studio", "VS Code", "Git", "GitHub", "Apache NetBeans", "XAMPP", "Docker", "Postman", "Swagger"]
-    },
-    { category: "Microsoft Office 365", items: ["Word", "Excel", "PowerPoint", "Access"] },
-    { category: "Design Tools", items: ["Adobe Photoshop", "Adobe InDesign", "Adobe Premiere", "Filmora"] },
-    { category: "Data Analysis", items: ["Orange Data Mining"] },
-    {
-      category: "Other Skills",
-      items: [
-        "Android MVVM Architecture",
-        "Kotlin Coroutines & StateFlow",
-        "Retrofit Network Operations",
-        "Hilt Dependency Injection",
-        "Data Structures & Algorithms",
-        "Object-Oriented Programming (OOP)",
-        "RESTful API Architecture",
-        "Database Schema Design"
-      ]
-    }
-  ],
-  softSkills: [
-    {
-      title: "Problem Solving & Analytical Thinking",
-      icon: "🧩",
-      desc: "Deconstructing complex enterprise requirements into modular, scalable object-oriented software architectures."
-    },
-    {
-      title: "Teamwork & Cross-functional Collaboration",
-      icon: "🤝",
-      desc: "Proven track record during TAQA Arabia & WE internships working alongside senior developers, IT teams, and stakeholders."
-    },
-    {
-      title: "Time Management & Agile Execution",
-      icon: "⏱️",
-      desc: "Balancing rigorous university software engineering coursework with commercial software client deliverables and internships."
-    },
-    {
-      title: "Adaptability & Continuous Upskilling",
-      icon: "🚀",
-      desc: "Rapidly mastering emerging frameworks (Spring Boot, Flutter, React) and integrating new tools into production."
-    }
-  ],
-  languages: [
-    {
-      name: "Arabic",
-      level: "Native Speaker",
-      percent: 100,
-      flag: "🇪🇬",
-      desc: "Mother tongue — fluent in technical, written & verbal communication"
-    },
-    {
-      name: "English",
-      level: "Fluent / Professional",
-      percent: 90,
-      flag: "🇬🇧",
-      desc: "Full professional proficiency in engineering documentation & teamwork"
-    },
-    {
-      name: "French",
-      level: "Elementary",
-      percent: 35,
-      flag: "🇫🇷",
-      desc: "Basic conversational skills & foundational vocabulary"
-    }
-  ],
-  certificates: [
-    {
-      title: "TAQA Arabia Software Internship Certificate",
-      issuer: "TAQA Arabia — Software Engineering Dept",
-      date: "August 2025",
-      category: "Industry Experience",
-      image:
-        "https://res.cloudinary.com/delnnzcph/image/upload/v1791137221/Exp_Letter_Y25_Taqa.jpg",
-      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1791137222/Certificate_Year_25_Taqa.jpg",
-      desc: "Official engineering internship certificate recognizing contribution to the In Gaz API mobile platform."
-    },
-    {
-      title: "Cisco JavaScript Essentials 1 & 2",
-      issuer: "Cisco Networking Academy & OpenEDG JS Institute",
-      date: "July 2025",
-      category: "Full-Stack Development",
-      image:
-        "https://res.cloudinary.com/delnnzcph/image/upload/v1791135787/js1_certificate.png",
-      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135787/js1_certificate.png",
-      desc: "Advanced JavaScript ES6+, asynchronous programming, object-oriented concepts, and DOM manipulation."
-    },
-    {
-      title: "Cisco C Essentials 1 Certification",
-      issuer: "Cisco Networking Academy & OpenEDG C Institute",
-      date: "July 2025",
-      category: "Systems & Core Programming",
-      image:
-        "https://res.cloudinary.com/delnnzcph/image/upload/v1791135536/c-essentials-1.png",
-      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135536/c-essentials-1.png",
-      desc: "Low-level system programming, memory management, pointers, and algorithmic structures in C."
-    },
-    {
-      title: "Introduction to Cybersecurity Certification",
-      issuer: "Cisco Networking Academy",
-      date: "July 2025",
-      category: "Cybersecurity & Networks",
-      image:
-        "https://res.cloudinary.com/delnnzcph/image/upload/v1791135537/Introduction_To_Cybersecurity_C.png",
-      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135537/Introduction_To_Cybersecurity_C.png",
-      desc: "Network security protocols, vulnerability analysis, encryption fundamentals, and threat mitigation."
-    },
-    {
-      title: "CSS & Modern Web Development",
-      issuer: "Cisco OpenEDG Academy",
-      date: "July 2025",
-      category: "Frontend Architecture",
-      image:
-        "https://res.cloudinary.com/delnnzcph/image/upload/v1791135536/css-essentials.png",
-      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135538/CSS.png",
-      desc: "Responsive layout design, Flexbox, CSS Grid, animation frameworks, and modern CSS3 aesthetics."
-    },
-    {
-      title: "Cairo Higher Institute Experience Letter",
-      issuer: "Cairo Higher Institute — IT Dept",
-      date: "September 2025",
-      category: "Industry Experience",
-      image:
-        "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Experience_Letter_CHI.jpg",
-      pdf: "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Experience_Letter_CHI.jpg",
-      desc: "Institutional user account management, website front-end maintenance, and digital content production."
-    }
-  ]
-};
 
 /* ============================================
    THEME MANAGEMENT
@@ -1062,16 +675,13 @@ const renderExperience = (items) => {
 
   container.className = "experience-timeline";
 
-  const companyStyle = (company = "") => {
-    const c = company.toLowerCase();
-    if (c.includes("we") || c.includes("telecom egypt"))
-      return { color: "#d8b4fe", bg: "rgba(142, 59, 121, 0.25)", border: "rgba(192, 132, 252, 0.4)" };
-    if (c.includes("taqa"))
-      return { color: "var(--brand)", bg: "var(--brand-glow)", border: "rgba(101, 240, 255, 0.25)" };
-    if (c.includes("cairo higher") || c.includes("chi"))
-      return { color: "#c084fc", bg: "rgba(192, 132, 252, 0.15)", border: "rgba(192, 132, 252, 0.3)" };
-    return { color: "#34d399", bg: "rgba(52, 211, 153, 0.15)", border: "rgba(52, 211, 153, 0.3)" };
-  };
+  const ACCENTS = [
+    { color: "#d8b4fe", bg: "rgba(142, 59, 121, 0.25)", border: "rgba(192, 132, 252, 0.4)" },
+    { color: "var(--brand)", bg: "var(--brand-glow)", border: "rgba(101, 240, 255, 0.25)" },
+    { color: "#c084fc", bg: "rgba(192, 132, 252, 0.15)", border: "rgba(192, 132, 252, 0.3)" },
+    { color: "#34d399", bg: "rgba(52, 211, 153, 0.15)", border: "rgba(52, 211, 153, 0.3)" }
+  ];
+  const companyStyle = (index) => ACCENTS[index % ACCENTS.length];
 
   const roleIcon = (role = "") => {
     const r = role.toLowerCase();
@@ -1082,20 +692,16 @@ const renderExperience = (items) => {
     return "🏢";
   };
 
-  const getMediaBadgeText = (company = "", role = "") => {
-    const c = company.toLowerCase();
-    const r = role.toLowerCase();
-    if (c.includes("we") || c.includes("telecom egypt")) return "📜 Official Experience Letter";
-    if (c.includes("taqa") && r.includes("software")) return "📸 2 Photos & Certificate";
-    if (c.includes("taqa") && r.includes("it department")) return "📸 2 Photos";
-    if (c.includes("cairo higher") || c.includes("chi")) return "📸 Photo Available";
-    return null;
+  const getMediaBadgeText = (item) => {
+    if (item.mediaBadge) return item.mediaBadge;
+    const count = Array.isArray(item.media) ? item.media.length : 0;
+    return count ? `📸 ${count} ${count > 1 ? "Photos" : "Photo"}` : null;
   };
 
   container.innerHTML = safeItems
-    .map((item) => {
-      const cStyle = companyStyle(item.company);
-      const mediaText = getMediaBadgeText(item.company, item.role);
+    .map((item, index) => {
+      const cStyle = companyStyle(index);
+      const mediaText = getMediaBadgeText(item);
 
       return `
       <article
@@ -1156,62 +762,35 @@ const renderExperience = (items) => {
 
   attachCardModalHandlers(".js-exp-card", (index) => {
     const item = safeItems[index] || {};
-    const compLower = (item.company || "").toLowerCase();
-    const isWeTelecom = compLower.includes("we") || compLower.includes("telecom egypt");
-    const isCairoHigherInstitute = compLower.includes("cairo higher institute");
-    const isTaqaSoftwareDevelopment =
-      compLower.includes("taqa arabia") && (item.role || "").toLowerCase().includes("software development intern");
-    const isTaqaItDepartment =
-      compLower.includes("taqa arabia") && (item.role || "").toLowerCase().includes("it department intern");
     return {
       tag: "Experience Details",
       title: item.role || "Experience",
       subtitle: `${item.company || ""} · ${item.location || ""} · ${item.period || ""}`,
       description: "Key Responsibilities, Achievements & Contributions:",
       points: item.points || [],
-      media: isWeTelecom
-        ? [
-            {
-              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Experience_Letter_CHI.jpg",
-              alt: "WE (Telecom Egypt) Official Android Development Internship Experience Letter - Signed by Khaled Mamdouh (Android Developer Supervisor)"
-            },
-            {
-              src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Experience_Letter_CHI.jpg",
-              alt: "WE (Telecom Egypt) Android Development Training Lab Photo"
-            }
-          ]
-        : isCairoHigherInstitute
-          ? [
-              {
-                src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Experience_Letter_CHI.jpg",
-                alt: "Cairo Higher Institute experience photo"
-              }
-            ]
-          : isTaqaSoftwareDevelopment
-            ? [
-                {
-                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791137221/Exp_Letter_Y25_Taqa.jpg",
-                  alt: "TAQA Software Development Internship experience photo"
-                },
-                {
-                  src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791137222/Certificate_Year_25_Taqa.jpg",
-                  alt: "TAQA Software Development Internship official certificate"
-                }
-              ]
-            : isTaqaItDepartment
-              ? [
-                  {
-                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Taqa_Cert_Y24.jpg",
-                    alt: "TAQA IT Department internship photo 1"
-                  },
-                  {
-                    src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791137221/Taqa_Letter_24Y.jpg",
-                    alt: "TAQA IT Department internship photo 2"
-                  }
-                ]
-              : []
+      media: Array.isArray(item.media) ? item.media : []
     };
   });
+};
+
+/** Repo link of a project; falls back to the GitHub profile when the project has none. */
+const getGithubUrl = (name, customGithub) =>
+  customGithub || (window.PORTFOLIO_DATA && window.PORTFOLIO_DATA.profile && window.PORTFOLIO_DATA.profile.github) || "";
+
+/** CSS classes for a project's logo badge, from its `logoStyle` field ("wide", "square", "dark", "light"). */
+const getLogoMeta = (item) => {
+  const flags = String((item && item.logoStyle) || "square").split(/\s+/);
+  const classes = [flags.includes("wide") ? "logo-zoom-wide" : "logo-zoom-square"];
+  if (flags.includes("dark")) classes.push("logo-dark-bg");
+  if (flags.includes("light")) classes.push("logo-light-bg");
+  return { class: classes.join(" ") };
+};
+
+/** Neutral placeholder (first letter on a gradient) for projects without an image. */
+const placeholderImage = (name) => {
+  const letter = escapeAttr(((name || "?").trim()[0] || "?").toUpperCase());
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="140"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366f1"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs><rect width="240" height="140" rx="16" fill="url(#g)"/><text x="120" y="88" font-family="Poppins,Arial,sans-serif" font-size="64" font-weight="700" fill="#fff" text-anchor="middle">${letter}</text></svg>`;
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 };
 
 const renderProjects = (items) => {
@@ -1219,57 +798,15 @@ const renderProjects = (items) => {
   if (!container) return;
   const safeItems = Array.isArray(items) ? items : [];
 
-  const getGithubUrl = (name, customGithub) => {
-    if (customGithub) return customGithub;
-    const repoNameMap = {
-      "gulf limousine booking app": "https://github.com/zaydaly05/Gulf_Limousine_App",
-      "essmat plastic factory management system": "https://github.com/zaydaly05/EssmatPlastic",
-      "dr. naglaa academic biography portal": "https://github.com/zaydaly05/drNaglaBio",
-      "food ordering management system": "https://github.com/zaydaly05/food_ordering_system",
-      "in gaz api system": "https://github.com/zaydaly05/InGazAPI",
-      "employee attendance & leave system": "https://github.com/zaydaly05/Employee_Attendance-Leave_Management_System",
-      "car rental website": "https://github.com/zaydaly05/Car_Rental_Website",
-      "restaurant management system": "https://github.com/zaydaly05/Restaurant_Management_System",
-      "sleeping alert system": "https://github.com/zaydaly05/Sleep_Alert_System",
-      "zaydentity digital identity platform": "https://github.com/zaydaly05/zaydentity",
-      "we telecom training suite": "https://github.com/zaydaly05/WE_Intern"
-    };
-    return (
-      repoNameMap[(name || "").toLowerCase()] ||
-      `https://github.com/zaydaly05/${(name || "").replace(/[^a-zA-Z0-9_-]/g, "_")}`
-    );
-  };
-
-  const getLogoMeta = (name) => {
-    const nameLower = (name || "").toLowerCase();
-    if (
-      nameLower.includes("gulf limousine") ||
-      nameLower.includes("ingaz") ||
-      nameLower.includes("in gaz") ||
-      nameLower.includes("food ordering") ||
-      nameLower.includes("attendance") ||
-      nameLower.includes("car rental")
-    ) {
-      return { class: "logo-zoom-wide" };
-    }
-    if (nameLower.includes("zaydentity")) {
-      return { class: "logo-zoom-wide logo-dark-bg" };
-    }
-    if (nameLower.includes("we telecom") || nameLower.includes("we intern")) {
-      return { class: "logo-zoom-square logo-light-bg" };
-    }
-    return { class: "logo-zoom-square" };
-  };
-
   container.innerHTML = safeItems
     .map((item) => {
       const githubUrl = getGithubUrl(item.name, item.github);
       const imgUrl =
         item.image && !item.image.endsWith(".pdf")
           ? item.image
-          : "https://res.cloudinary.com/delnnzcph/image/upload/v1791135540/Screenshot_2026-10-04_180005.png";
+          : placeholderImage(item.name);
       const pdfUrl = item.pdfReport || (item.image && item.image.endsWith(".pdf") ? item.image : null);
-      const logoMeta = getLogoMeta(item.name);
+      const logoMeta = getLogoMeta(item);
 
       const stackItems = (item.stack || "").split(",").map((t) => t.trim()).filter(Boolean);
       const stackChips = stackItems
@@ -1305,96 +842,8 @@ const renderProjects = (items) => {
     .join("");
 
 /* ============================================
-   PROJECT GALLERY REPOSITORY & MODAL BUILDERS (SOLID SRP/OCP)
+   PROJECT MODAL BUILDERS
    ============================================ */
-const PROJECT_GALLERY_REPOSITORY = {
-  drNaglaBio: [
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/Screenshot_2026-10-04_175352.png", alt: "Dr Naglaa Academic Portal - Main Header & CV Overview" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/Screenshot_2026-10-04_175331.png", alt: "Dr Naglaa Academic Portal - Research & Publications Archive" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135547/Screenshot_2026-10-04_175253.png", alt: "Dr Naglaa Academic Portal - Student Channels & Courses" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135547/Screenshot_2026-10-04_175423.png", alt: "Dr Naglaa Academic Portal - Full Curriculum Vitae Section" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135545/Screenshot_2026-10-04_175406.png", alt: "Dr Naglaa Academic Portal - Faculty Contact Portal" }
-  ],
-  zaydentity: [
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135572/Screenshot_2026-10-04_174426.png", alt: "Zaydentity - Developer Digital Bio Card View" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135571/Screenshot_2026-10-04_174413.png", alt: "Zaydentity - Social & Professional Links Showcase" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135571/Screenshot_2026-10-04_174403.png", alt: "Zaydentity - Verified Credentials & Skill Highlights" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135570/Screenshot_2026-10-04_174321.png", alt: "Zaydentity - Project Showcase Grid View" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135570/Screenshot_2026-10-04_174349.png", alt: "Zaydentity - Responsive Mobile Layout Preview" }
-  ],
-  Car_Rental_Website: [
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135542/c1.png", alt: "Car Rental Website - Vehicle Fleet Catalog Overview" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135544/c2.png", alt: "Car Rental Website - Car Specifications & Features View" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135545/c3.png", alt: "Car Rental Website - Customer Booking & Checkout Form" }
-  ],
-  Gulf_Limousine_App: [
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135579/Screenshot_20261004_173939.png", alt: "Gulf Limousine App - Reservation Dashboard" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/Screenshot_20261004_173958.png", alt: "Gulf Limousine App - Vehicle Selection View" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/Screenshot_20261004_173450.png", alt: "Gulf Limousine App - Driver Allocation Screen" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135564/Screenshot_20261004_173925.png", alt: "Gulf Limousine App - Realtime Trip Fare Estimator" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135564/Screenshot_20261004_173759.png", alt: "Gulf Limousine App - Fleet Category Browser" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135564/Screenshot_20261004_173900.png", alt: "Gulf Limousine App - Pickup Location Selector" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135563/Screenshot_20261004_173426.png", alt: "Gulf Limousine App - Customer Booking Summary" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135563/Screenshot_20261004_173534.png", alt: "Gulf Limousine App - Firebase Realtime Sync Status" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135563/Screenshot_20261004_173343.png", alt: "Gulf Limousine App - Client Profile & History" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135563/Screenshot_20261004_173403.png", alt: "Gulf Limousine App - Mobile Settings View" }
-  ],
-  EssmatPlastic: [
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135549/WhatsApp_Image_2026-10-04_at_4.44.38_PM.jpg", alt: "Essmat Plastic - Main Factory Management Overview" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135549/WhatsApp_Image_2026-10-04_at_4.44.38_PM_5.jpg", alt: "Essmat Plastic - Raw Material Tracking Interface" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135549/WhatsApp_Image_2026-10-04_at_4.44.38_PM_4.jpg", alt: "Essmat Plastic - Production Line Operations View" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135549/WhatsApp_Image_2026-10-04_at_4.44.38_PM_3.jpg", alt: "Essmat Plastic - Inventory Stock & Warehouse Grid" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135549/WhatsApp_Image_2026-10-04_at_4.44.38_PM_2.jpg", alt: "Essmat Plastic - Customer Order Processing Form" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/WhatsApp_Image_2026-10-04_at_4.44.37_PM.jpg", alt: "Essmat Plastic - Factory Billing & Invoicing Module" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/WhatsApp_Image_2026-10-04_at_4.44.37_PM_1.jpg", alt: "Essmat Plastic - SQL Server Database Connection Status" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135548/WhatsApp_Image_2026-10-04_at_4.44.38_PM_1.jpg", alt: "Essmat Plastic - Enterprise C# .NET Management Console" }
-  ],
-  food_ordering_system: [
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135563/f9.png", alt: "Food Ordering System - Admin Analytics & Profit Dashboard" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135563/f6.png", alt: "Food Ordering System - Food Hub Menu Item Management" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135562/f7.png", alt: "Food Ordering System - Customer Cart & Order Checkout" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135561/f4.png", alt: "Food Ordering System - Menu Category Manager" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135561/f8.png", alt: "Food Ordering System - Order Tracking & Delivery Status" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135559/f5.png", alt: "Food Ordering System - Customer Review & Rating Portal" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135559/f16.png", alt: "Food Ordering System - User Authentication & Login Screen" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135558/f2.png", alt: "Food Ordering System - Full Restaurant Menu Showcase" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135558/f3.png", alt: "Food Ordering System - Customer Favorites & Dish Details" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135556/f13.png", alt: "Food Ordering System - Spring Boot Backend API Swagger" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135555/f15.png", alt: "Food Ordering System - Role-based Admin User Controls" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135554/f11.png", alt: "Food Ordering System - MongoDB Realtime Database Schema" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135554/f12.png", alt: "Food Ordering System - Restaurant Commission & Billing" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135554/f14.png", alt: "Food Ordering System - Top Selling Items Analytics" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135553/f1.png", alt: "Food Ordering System - Main Application Landing Banner" }
-  ],
-  InGazAPI: [
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135566/WhatsApp_Image_2026-05-05_at_10.01.56_PM_1.jpg", alt: "In Gaz API System - Flutter Mobile Customer Interface" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/WhatsApp_Image_2026-05-05_at_10.01.56_PM.jpg", alt: "In Gaz API System - .NET Core Web API Integration Screen" }
-  ],
-  Employee_Attendance: [
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791136236/EA1.png", alt: "Employee Attendance - Admin Dashboard Overview" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791136230/EA2.png", alt: "Employee Attendance - New Assessment & Post Announcement" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791136238/EA3.png", alt: "Employee Attendance - Login & Employee Landing Screen" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791136233/EA4.png", alt: "Employee Attendance - Leave History & Status Table" }
-  ],
-  Restaurant_Management_System: [
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135566/r5.png", alt: "Restaurant Management - Billing & Order Summary" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/r4.png", alt: "Restaurant Management - Table Reservation System" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/r3.png", alt: "Restaurant Management - Table Allocation Grid View" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/r2.png", alt: "Restaurant Management - Food Menu Order Interface" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135565/r1.png", alt: "Restaurant Management - JavaFX Login & Role Selection" }
-  ],
-  Sleep_Alert_System: [
-    { src: "https://res.cloudinary.com/delnnzcph/video/upload/v1791135570/py1.mp4", type: "video", alt: "Sleeping Alert System - Realtime Facial Bounding Box Video Demo" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135567/py2.jpg", alt: "Sleeping Alert System - OpenCV Drowsiness Detection Photo" }
-  ],
-  WE_Intern: [
-    { src: "https://res.cloudinary.com/delnnzcph/video/upload/v1791135632/emulator_screen_edited.mp4", type: "video", alt: "WE Telecom Training Suite - Android App Demo Video" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135572/IMG-20260821-WA0083.jpg", alt: "WE Telecom Suite - Network Topology & Protocol Testing" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135568/IMG-20260727-WA0038.jpg", alt: "WE Telecom Suite - System Administration & Server Artifacts" },
-    { src: "https://res.cloudinary.com/delnnzcph/image/upload/v1791135568/IMG-20260809-WA0015.jpg", alt: "WE Telecom Suite - Smart Village Lab Infrastructure" }
-  ]
-};
-
 const dedupeMedia = (list) => {
   if (!Array.isArray(list)) return [];
   const seen = new Set();
@@ -1410,20 +859,7 @@ const resolveProjectScreenshots = (item) => {
   if (Array.isArray(item.screenshots) && item.screenshots.length > 0) {
     return item.screenshots;
   }
-  const nameLower = (item.name || "").toLowerCase();
-  if (nameLower.includes("dr. naglaa") || nameLower.includes("drnagla")) return PROJECT_GALLERY_REPOSITORY.drNaglaBio;
-  if (nameLower.includes("zaydentity")) return PROJECT_GALLERY_REPOSITORY.zaydentity;
-  if (nameLower.includes("car rental")) return PROJECT_GALLERY_REPOSITORY.Car_Rental_Website;
-  if (nameLower.includes("gulf limousine")) return PROJECT_GALLERY_REPOSITORY.Gulf_Limousine_App;
-  if (nameLower.includes("essmat")) return PROJECT_GALLERY_REPOSITORY.EssmatPlastic;
-  if (nameLower.includes("food ordering")) return PROJECT_GALLERY_REPOSITORY.food_ordering_system;
-  if (nameLower.includes("in gaz")) return PROJECT_GALLERY_REPOSITORY.InGazAPI;
-  if (nameLower.includes("employee attendance")) return PROJECT_GALLERY_REPOSITORY.Employee_Attendance;
-  if (nameLower.includes("restaurant")) return PROJECT_GALLERY_REPOSITORY.Restaurant_Management_System;
-  if (nameLower.includes("sleeping alert") || nameLower.includes("sleep alert")) return PROJECT_GALLERY_REPOSITORY.Sleep_Alert_System;
-  if (nameLower.includes("we telecom") || nameLower.includes("we intern")) return PROJECT_GALLERY_REPOSITORY.WE_Intern;
-  
-  return [{ src: item.image || "https://res.cloudinary.com/delnnzcph/image/upload/v1791135540/Screenshot_2026-10-04_180005.png", alt: item.name }];
+  return item.image && !String(item.image).endsWith(".pdf") ? [{ src: item.image, alt: item.name }] : [];
 };
 
 const createProjectModalPayload = (item) => {
@@ -1809,7 +1245,7 @@ const setupContactForm = () => {
       message
     ].join("\n");
 
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappText)}`;
+    const whatsappUrl = `https://wa.me/${getWhatsappNumber()}?text=${encodeURIComponent(whatsappText)}`;
 
     try {
       const response = await fetch("/api/contact", {
@@ -1945,7 +1381,8 @@ const setupProfilePhotoFallback = () => {
     });
 
   const findFirstWorkingPhoto = async () => {
-    for (const candidate of PROFILE_PHOTO_CANDIDATES) {
+    const photo = window.PORTFOLIO_DATA && window.PORTFOLIO_DATA.profile && window.PORTFOLIO_DATA.profile.photo;
+    for (const candidate of [photo].filter(Boolean)) {
       const workingSrc = await tryLoad(candidate);
       if (workingSrc) {
         img.src = workingSrc;
@@ -1961,11 +1398,14 @@ const setupProfilePhotoFallback = () => {
    INITIALIZE
    ============================================ */
 const init = async () => {
-  let data = fallbackPortfolio;
+  // All content comes from the server (database). If it is unreachable the static copy already
+  // in the HTML stays visible and the data-driven sections simply stay empty.
+  let data = {};
   try {
     data = await fetchPortfolio();
+    SiteContent.apply(data);
   } catch (error) {
-    console.warn("Backend unavailable. Using fallback data.");
+    console.warn("Portfolio data unavailable; showing the static page copy.");
     console.error(error);
   }
 
@@ -2207,7 +1647,7 @@ const setupStarPrompt = () => {
       <div class="toast-content">
         <span class="toast-star-icon">⭐</span>
         <div>
-          <h6>Enjoying Zayd's Portfolio?</h6>
+          <h6>Enjoying ${ownerFirstName()}'s Portfolio?</h6>
           <p>Star the repo & leave a review on the Experience page!</p>
         </div>
       </div>
@@ -2432,7 +1872,7 @@ const setupCairoClock = () => {
   const updateTime = () => {
     const now = new Date();
     clockEl.textContent = now.toLocaleTimeString("en-US", {
-      timeZone: "Africa/Cairo",
+      timeZone: (portfolioNow().profile || {}).timezone || undefined,
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
@@ -2489,7 +1929,10 @@ const setupGitHubSync = async () => {
     }
   } catch (err) {
     console.error("GitHub Sync error:", err);
-    reposContainer.innerHTML = `<div class="github-loading">Visit Zayd's GitHub directly at <a href="https://github.com/zaydaly05" target="_blank" style="color:var(--brand)">github.com/zaydaly05</a></div>`;
+    const ghLink = (portfolioNow().profile || {}).github;
+    reposContainer.innerHTML = ghLink
+      ? `<div class="github-loading">Visit ${escapeAttr(ownerFirstName())}'s GitHub directly at <a href="${escapeAttr(ghLink)}" target="_blank" rel="noopener" style="color:var(--brand)">${escapeAttr(stripProtocol(ghLink))}</a></div>`
+      : `<div class="github-loading">GitHub activity is unavailable right now.</div>`;
   }
 };
 
@@ -2655,20 +2098,20 @@ const setupTerminalCLI = () => {
       if (commandHistory.length > 50) commandHistory.pop();
       historyIndex = -1;
 
-      printLine(`<span class="term-prompt">zayd@portfolio:~$</span> ${val}`);
+      printLine(`<span class="term-prompt">${ownerFirstName().toLowerCase()}@portfolio:~$</span> ${escapeAttr(val)}`);
       input.value = "";
 
       const cmd = val.toLowerCase();
       if (cmd === "help") {
         printLine(`Available Commands:
   • <span class="term-cmd">showcase</span> - View live automated screenshot showcase status
-  • <span class="term-cmd">skills</span>   - List Zayd's technical skill set
-  • <span class="term-cmd">projects</span> - Display Zayd's top projects & tech stacks
+  • <span class="term-cmd">skills</span>   - List ${ownerFirstName()}'s technical skills
+  • <span class="term-cmd">projects</span> - Display ${ownerFirstName()}'s projects & tech stacks
   • <span class="term-cmd">exp</span>      - Display internship & work experience
-  • <span class="term-cmd">contact</span>  - View Zayd's email, phone, and LinkedIn
+  • <span class="term-cmd">contact</span>  - View ${ownerFirstName()}'s email, phone, and links
   • <span class="term-cmd">cv</span>       - Open the PDF CV viewer
   • <span class="term-cmd">whoami</span>   - Show current viewer identity
-  • <span class="term-cmd">date</span>     - Show current Cairo date & time
+  • <span class="term-cmd">date</span>     - Show the current local date & time
   • <span class="term-cmd">hire</span>     - Quick message for recruiters
   • <span class="term-cmd">clear</span>    - Clear terminal output screen`);
       } else if (cmd === "showcase" || cmd === "screenshots") {
@@ -2693,32 +2136,43 @@ const setupTerminalCLI = () => {
           })
           .catch(() => printLine(`Failed to fetch showcase status.`));
       } else if (cmd === "skills") {
-        printLine(`Zayd's Technical Skills:
-  [Languages] Java, C#, C++, Python, JavaScript, PHP, Dart, SQL
-  [Frameworks] Spring Boot, React, Node.js, Express, Flutter, .NET Core Web API
-  [Databases] MongoDB, MySQL, Firebase
-  [Tools] Git, GitHub, VS Code, NetBeans, Android Studio`);
+        const groups = (portfolioNow().technicalSkills || []).filter((g) => g && (g.items || []).length);
+        printLine(
+          groups.length
+            ? `${ownerFirstName()}'s Technical Skills:\n` + groups.map((g) => `  [${g.category}] ${g.items.join(", ")}`).join("\n")
+            : "No skills listed yet."
+        );
       } else if (cmd === "projects") {
-        printLine(`Featured Projects:
-  1. Food Ordering Management System (Spring Boot + React + MongoDB)
-  2. In Gaz API System (Flutter + C# .NET Core)
-  3. Car Rental Website (Node.js + MongoDB)
-  4. Employee Attendance System (PHP + MySQL)
-  5. Sleeping Alert System (Python + Flutter)`);
+        const projects = (portfolioNow().projects || []).slice(0, 8);
+        printLine(
+          projects.length
+            ? "Featured Projects:\n" + projects.map((p, i) => `  ${i + 1}. ${p.name}${p.stack ? ` (${p.stack})` : ""}`).join("\n")
+            : "No projects listed yet."
+        );
       } else if (cmd === "exp") {
-        printLine(`Work Experience:
-  • Cairo Higher Institute - IT Dept Intern (Aug-Sep 2025)
-  • TAQA Arabia - Software Dev Intern [In Gaz API] (Jul-Aug 2025)
-  • TAQA Arabia - IT Dept Intern (Aug-Sep 2024)`);
+        const jobs = portfolioNow().experience || [];
+        printLine(
+          jobs.length
+            ? "Work Experience:\n" + jobs.map((j) => `  • ${j.company} - ${j.role}${j.period ? ` (${j.period})` : ""}`).join("\n")
+            : "No experience listed yet."
+        );
       } else if (cmd === "contact") {
-        printLine(`Contact Info:
-  • Email: zaydaly0501@gmail.com
-  • Phone: +20 101 774 1741
-  • LinkedIn: linkedin.com/in/zayd-ali-17a85a1a0
-  • GitHub: github.com/zaydaly05`);
+        const p = portfolioNow().profile || {};
+        const lines = [
+          p.email && `  • Email: ${p.email}`,
+          p.phone && `  • Phone: ${p.phone}`,
+          p.linkedin && `  • LinkedIn: ${stripProtocol(p.linkedin)}`,
+          p.github && `  • GitHub: ${stripProtocol(p.github)}`
+        ].filter(Boolean);
+        printLine("Contact Info:\n" + (lines.join("\n") || "  (not set)"));
       } else if (cmd === "linkedin") {
-        printLine(`Opening Zayd's LinkedIn profile in a new tab... 💼`);
-        window.open("https://www.linkedin.com/in/zayd-ali-17a85a1a0", "_blank", "noopener,noreferrer");
+        const link = (portfolioNow().profile || {}).linkedin;
+        if (link) {
+          printLine(`Opening ${ownerFirstName()}'s LinkedIn profile in a new tab... 💼`);
+          window.open(link, "_blank", "noopener,noreferrer");
+        } else {
+          printLine("No LinkedIn link is set.");
+        }
       } else if (cmd === "cv") {
         printLine(`Opening CV Viewer modal...`);
         const cvModal = document.getElementById("cv-viewer-modal");
@@ -2727,13 +2181,14 @@ const setupTerminalCLI = () => {
           cvModal.classList.remove("hidden");
         }
       } else if (cmd === "whoami") {
-        printLine(`guest@recruiter-workstation ~ Welcome to Zayd Ali Mohamed's Portfolio!`);
+        printLine(`guest@recruiter-workstation ~ Welcome to ${(portfolioNow().profile || {}).name || "the"}'s Portfolio!`);
       } else if (cmd === "date") {
-        const cairoStr = new Date().toLocaleString("en-US", { timeZone: "Africa/Cairo" });
-        printLine(`Cairo Local Time: ${cairoStr}`);
+        const profile = portfolioNow().profile || {};
+        const zone = profile.timezone || undefined;
+        printLine(`${profile.clockLabel || "Local Time"}: ${new Date().toLocaleString("en-US", { timeZone: zone })}`);
       } else if (cmd === "hire") {
         printLine(
-          `Great choice! Zayd is actively open for software development roles. Email zaydaly0501@gmail.com or use the Contact form!`
+          `Great choice! ${ownerFirstName()} is actively open for software development roles.${(portfolioNow().profile || {}).email ? ` Email ${portfolioNow().profile.email} or` : ""} use the Contact form!`
         );
       } else if (cmd === "matrix") {
         printLine(`Toggling Matrix digital code rain... 🟢`);
@@ -2746,12 +2201,12 @@ const setupTerminalCLI = () => {
       } else if (cmd === "speech" || cmd === "voice") {
         if (window.VoiceAssistantManager) {
           printLine(`Voice synthesis assistant activated! 🎙️`);
-          window.VoiceAssistantManager.speak("Welcome to Zayd Ali Mohamed's interactive developer terminal!");
+          window.VoiceAssistantManager.speak(`Welcome to ${(portfolioNow().profile || {}).name || "the"}'s interactive developer terminal!`);
         }
       } else if (cmd === "clear") {
         output.innerHTML = "";
       } else if (cmd === "sudo") {
-        printLine(`Permission denied: Zayd is the root administrator 🚀`);
+        printLine(`Permission denied: ${ownerFirstName()} is the root administrator 🚀`);
       } else {
         printLine(`Command not found: '${val}'. Type <span class="term-cmd">help</span> for a list of valid commands.`);
       }
@@ -2845,7 +2300,7 @@ const setupAICopilot = () => {
     } catch (err) {
       console.error("AI Chat error:", err);
       body.removeChild(typingDiv);
-      appendMsg("Zayd is currently offline, but you can reach him at zaydaly0501@gmail.com!", "bot");
+      appendMsg(`${ownerFirstName()} is currently offline${(portfolioNow().profile || {}).email ? `, but you can reach out at ${portfolioNow().profile.email}` : ""}!`, "bot");
     }
   };
 
@@ -2877,26 +2332,12 @@ const setupCVViewerModal = () => {
 
   if (!cvModal) return;
 
-  const DEFAULT_CV_URL = "https://res.cloudinary.com/delnnzcph/image/upload/v1791142658/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf";
-  let cachedCvUrl = DEFAULT_CV_URL;
-
-  fetch("/api/cv-url")
-    .then((res) => {
-      const contentType = res.headers.get("content-type");
-      if (res.ok && contentType && contentType.includes("application/json")) {
-        return res.json();
-      }
-      return null;
-    })
-    .then((data) => {
-      if (data && data.url && typeof data.url === "string" && data.url.toLowerCase().endsWith(".pdf")) {
-        cachedCvUrl = data.url;
-      }
-    })
-    .catch(() => {});
+  // The CV link is part of the profile (database content), so it can be changed from the admin app.
+  const currentCvUrl = () => (portfolioNow().profile || {}).cvUrl || "";
 
   const openCVModal = async () => {
-    let cvUrl = cachedCvUrl;
+    const cvUrl = currentCvUrl();
+    if (!cvUrl) return;
 
     const iframe = document.getElementById("cv-iframe");
     if (iframe && iframe.getAttribute("src") !== cvUrl) {

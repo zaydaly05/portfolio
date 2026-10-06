@@ -111,6 +111,44 @@ class LogEntry {
       );
 }
 
+class GithubRepo {
+  const GithubRepo({
+    required this.name,
+    required this.description,
+    required this.language,
+    required this.stars,
+    required this.period,
+    required this.stack,
+  });
+
+  final String name;
+  final String description;
+  final String language;
+  final int stars;
+  final String period;
+  final String stack;
+
+  factory GithubRepo.fromJson(Map<String, dynamic> json) {
+    final project = Map<String, dynamic>.from(json['project'] ?? const {});
+    return GithubRepo(
+      name: '${json['name'] ?? ''}',
+      description: '${json['description'] ?? ''}',
+      language: '${json['language'] ?? ''}',
+      stars: (json['stars'] as num?)?.toInt() ?? 0,
+      period: '${project['period'] ?? ''}',
+      stack: '${project['stack'] ?? ''}',
+    );
+  }
+}
+
+class GithubNew {
+  const GithubNew({required this.username, required this.total, required this.repos});
+
+  final String username;
+  final int total;
+  final List<GithubRepo> repos;
+}
+
 /// Client for the private `/api/admin/*` endpoints of the portfolio server.
 class AdminApi {
   AdminApi({
@@ -193,6 +231,24 @@ class AdminApi {
       _send('PUT', '/api/admin/portfolio/$section', body: {'data': data});
 
   Future<void> resetSection(String section) => _send('DELETE', '/api/admin/portfolio/$section');
+
+  /// Public repositories on GitHub that are not in the portfolio's projects yet.
+  Future<GithubNew> githubNew() async {
+    final json = await _send('GET', '/api/admin/github/new');
+    return GithubNew(
+      username: '${json['username'] ?? ''}',
+      total: (json['total'] as num?)?.toInt() ?? 0,
+      repos: (json['repos'] as List? ?? const [])
+          .map((e) => GithubRepo.fromJson(Map<String, dynamic>.from(e as Map)))
+          .toList(),
+    );
+  }
+
+  /// Adds the named repositories to the projects; returns the names that were added.
+  Future<List<String>> githubImport(List<String> repoNames) async {
+    final json = await _send('POST', '/api/admin/github/import', body: {'repos': repoNames});
+    return List<String>.from(json['added'] ?? const []);
+  }
 
   Future<List<Review>> reviews() async {
     final json = await _send('GET', '/api/admin/reviews');
