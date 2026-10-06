@@ -1217,8 +1217,22 @@ textarea::placeholder {
   max-height: calc(100dvh - 48px);
 }
 
+.pm-card--no-media {
+  height: fit-content !important;
+  align-self: center;
+}
+
 .pm-card--no-media .pm-stage {
   display: none;
+}
+
+.pm-card--no-media .pm-panel {
+  border-top: 4px solid transparent;
+  border-image: var(--accent-gradient) 1;
+}
+
+.pm-card--no-media .pm-panel-scroll {
+  flex: 0 1 auto;
 }
 
 @keyframes pmFade {
@@ -1498,7 +1512,7 @@ textarea::placeholder {
 }
 
 .pm-title {
-  margin: 0 0 6px;
+  margin: 0 0 8px;
   font-size: 1.45rem;
   font-weight: 700;
   line-height: 1.25;
@@ -1506,9 +1520,23 @@ textarea::placeholder {
 }
 
 .pm-subtitle {
-  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
   font-size: 0.86rem;
+  font-weight: 500;
   color: var(--pm-muted);
+}
+
+.pm-subtitle::before {
+  content: "";
+  flex: 0 0 15px;
+  height: 15px;
+  background: currentColor;
+  opacity: 0.8;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='16' rx='3'/%3E%3Cpath d='M8 3v4M16 3v4M3 10h18'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='16' rx='3'/%3E%3Cpath d='M8 3v4M16 3v4M3 10h18'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 .pm-subtitle:empty {
@@ -1518,8 +1546,7 @@ textarea::placeholder {
 .pm-pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 4px;
+  gap: 8px;
 }
 
 .pm-pill {
@@ -1533,7 +1560,7 @@ textarea::placeholder {
 }
 
 .pm-heading {
-  margin: 22px 0 8px;
+  margin: 24px 0 10px;
   font-size: 0.74rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -1767,9 +1794,26 @@ body:has(.modal:not(.hidden)) .ai-chat-widget {
   }
 
   .pm-card--no-media {
-    grid-template-rows: minmax(0, 1fr);
-    height: auto;
+    align-self: flex-end;
+    grid-template-rows: auto;
     max-height: 90dvh;
+  }
+
+  .pm-card--no-media .pm-panel-scroll {
+    padding-top: 28px;
+  }
+
+  .pm-card--no-media::after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    z-index: 6;
+    width: 40px;
+    height: 4px;
+    margin-left: -20px;
+    border-radius: 2px;
+    background: var(--pm-border);
   }
 
   .pm-stage {

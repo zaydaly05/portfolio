@@ -35,10 +35,12 @@
               </div>
               <h3 id="modal-title" class="pm-title"></h3>
               <p id="modal-subtitle" class="pm-subtitle"></p>
-              <div id="modal-tech-pills" class="pm-pills"></div>
 
-              <h4 class="pm-heading">Overview</h4>
+              <h4 id="modal-overview-heading" class="pm-heading">Overview</h4>
               <p id="modal-description" class="pm-text"></p>
+
+              <h4 id="modal-stack-heading" class="pm-heading">Tech stack</h4>
+              <div id="modal-tech-pills" class="pm-pills"></div>
 
               <div id="modal-list-wrapper">
                 <h4 class="pm-heading">Key responsibilities</h4>
@@ -310,6 +312,13 @@
       setElText("modal-title", payload.title || "");
       setElText("modal-subtitle", payload.subtitle || "");
       setElText("modal-description", payload.description || "");
+      const toggleEl = (id, show) => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = show ? "" : "none";
+      };
+      toggleEl("modal-overview-heading", Boolean(payload.description));
+      toggleEl("modal-description", Boolean(payload.description));
+      toggleEl("modal-stack-heading", Boolean((payload.stack || "").trim()));
       const syncBadge = document.getElementById("modal-sync-badge");
       if (syncBadge) syncBadge.style.display = payload.githubUrl ? "" : "none";
 
