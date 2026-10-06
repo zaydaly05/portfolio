@@ -164,3 +164,11 @@ phone-contacts mishap never loses them:
 Home → CV card → **Update from portfolio** copies the portfolio's experience, projects and technical skills into
 the CV (summary, education, languages and soft skills are left alone) and rebuilds the PDF. The CV may be up to
 2 pages; the app warns above that.
+
+### Approval template (Utility)
+In Kapso create a **Utility** template named `portfolio_change_approval` (language `en_US`) with this body, then set
+`WHATSAPP_APPROVAL_TEMPLATE=portfolio_change_approval` in Vercel:
+
+`Portfolio change {{1}} is waiting for your decision: {{2}}. Reply 1 to approve, 3 to reject, or 2 followed by your edits.`
+
+`{{1}}` is the change code and `{{2}}` a one-line summary. The monthly broadcast template is separate and is never used for approvals.
