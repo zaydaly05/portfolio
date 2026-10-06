@@ -150,3 +150,8 @@ phone-contacts mishap never loses them:
   restored. Every edit keeps the previous values (last 20).
 - **Backup** — use *Export* to copy a CSV (`name,phone_e164,…`) and import that
   file into Kapso before each monthly send.
+
+### Which number does what
+- **Kapso sender (+968 7785 0544, "Techno Express")** — the business number that sends the monthly broadcast to your Kapso contacts. You send it manually in Kapso. This app never reads, edits or imports your Kapso contact list.
+- **Your private number (+201017741741)** — set as `WHATSAPP_PHONE`. The business number messages it for approvals and sends the new CV; only replies from this number are accepted.
+- The contacts vault is only an independent backup copy. `ALLOW_SERVER_BROADCAST` stays `false`.

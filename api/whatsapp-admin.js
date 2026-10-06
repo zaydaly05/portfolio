@@ -77,6 +77,11 @@ function generateAISuggestion(queryTopic) {
  * Send Broadcast Text / Template Message to specified numbers or saved personal contacts
  */
 async function executePhoneBroadcast(inputPayload, isTemplate = false) {
+  // Monthly broadcasts are sent manually from Kapso. Bulk sending from here is
+  // off unless explicitly enabled, so it can never load or alter Kapso's contacts.
+  if (process.env.ALLOW_SERVER_BROADCAST !== 'true') {
+    return { total: 0, successCount: 0, failCount: 0, targetPhones: [], disabled: true };
+  }
   let targetPhones = [];
   let messageOrTemplateName = '';
 
