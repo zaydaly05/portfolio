@@ -1562,6 +1562,23 @@ const formatCompact = (n) => {
   return `${trim(value / 1e9)}B`;
 };
 
+/** The block with the biggest number moves to the middle and is shown a little larger. */
+const highlightLargestStat = () => {
+  const row = document.getElementById("stat-counters-row");
+  if (!row) return;
+  const boxes = [...row.querySelectorAll(":scope > .stat-counter-box")];
+  if (boxes.length < 3) return;
+  const valueOf = (box) => parseInt((box.querySelector(".stat-number-val") || {}).dataset?.target, 10) || 0;
+  const largest = boxes.reduce((best, box) => (valueOf(box) > valueOf(best) ? box : best), boxes[0]);
+  if (valueOf(largest) <= 0) return;
+  const others = boxes.filter((box) => box !== largest);
+  others.forEach((box) => box.classList.remove("is-featured"));
+  largest.classList.add("is-featured");
+  const middle = Math.floor(boxes.length / 2);
+  const ordered = [...others.slice(0, middle), largest, ...others.slice(middle)];
+  ordered.forEach((box) => row.appendChild(box));
+};
+
 const setupStatCounters = async () => {
   const counterEls = document.querySelectorAll(".stat-number-val");
   if (!counterEls.length) return;
@@ -1574,14 +1591,17 @@ const setupStatCounters = async () => {
         const repoStat = document.getElementById("github-repos-stat");
         if (repoStat) repoStat.dataset.target = data.publicRepos;
       }
-      if (data && data.linesOfCode) {
-        const codeStat = document.getElementById("lines-of-code-stat");
-        if (codeStat) codeStat.dataset.target = data.linesOfCode;
-      }
+      const liveFigures = { lines_of_code: data && data.linesOfCode, commits: data && data.commits };
+      Object.entries(liveFigures).forEach(([source, figure]) => {
+        const el = document.querySelector(`.stat-number-val[data-live="${source}"]`);
+        if (el && figure) el.dataset.target = figure;
+      });
     }
   } catch (err) {
     console.error("Failed to fetch github stats for counters", err);
   }
+
+  highlightLargestStat();
 
   const observer = new IntersectionObserver(
     (entries) => {
@@ -1589,8 +1609,8 @@ const setupStatCounters = async () => {
         if (!entry.isIntersecting) return;
         const el = entry.target;
         const target = parseInt(el.dataset.target) || 0;
-        const show = el.dataset.format === "compact" ? formatCompact : (n) => n;
-        if (el.dataset.format === "compact" && !target) {
+        const show = formatCompact; // 999, 1K, 12.5K, 1.2M
+        if (el.dataset.live && !target) {
           el.textContent = "—"; // no live figure yet
           if (el.nextElementSibling && el.nextElementSibling.classList.contains("stat-plus")) el.nextElementSibling.textContent = "";
           observer.unobserve(el);
