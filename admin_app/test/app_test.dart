@@ -9,16 +9,19 @@ import 'package:portfolio_admin/main.dart';
 import 'package:portfolio_admin/settings_store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+final requests = <String>[];
+
 http.Response reply(Object body) => http.Response(jsonEncode(body), 200, headers: {'content-type': 'application/json'});
 
 MockClient fakeServer() => MockClient((req) async {
+      requests.add('${req.method} ${req.url.path}');
       switch (req.url.path) {
         case '/api/admin/ping':
           return reply({'ok': true});
         case '/api/admin/cv':
-          return reply({'ok': true, 'status': 'done', 'version': 4, 'runnerConfigured': true, 'url': '/api/document/resume?v=4'});
+          return reply({'ok': true, 'status': 'done', 'version': 4, 'pages': 2, 'runnerConfigured': true, 'url': '/api/document/resume?v=4'});
         case '/api/admin/summary':
-          return reply({'ok': true, 'dbConnected': true, 'overridden': <String>[], 'reviews': 2, 'messages': 5, 'stars': 61});
+          return reply({'ok': true, 'dbConnected': true, 'overridden': <String>[], 'reviews': 2, 'messages': 5, 'stars': 61, 'pendingChanges': 1});
         case '/api/admin/portfolio':
           return reply({
             'ok': true,
@@ -31,6 +34,24 @@ MockClient fakeServer() => MockClient((req) async {
               'education': [],
             },
           });
+        case '/api/admin/changes':
+          return reply({
+            'ok': true,
+            'changes': [
+              {
+                'code': 'K7Q2',
+                'status': 'pending',
+                'summary': '1 new GitHub project found.',
+                'payload': {
+                  'projects': [
+                    {'name': 'Cool App', 'period': 'September 2026', 'stack': 'Dart, Flutter', 'description': 'Does things', 'github': 'https://github.com/me/cool-app'}
+                  ]
+                },
+              }
+            ],
+          });
+        case '/api/admin/changes/K7Q2/approve':
+          return reply({'ok': true});
         default:
           return http.Response('{}', 404);
       }
@@ -56,7 +77,8 @@ void main() {
     expect(find.text('Connected to your database'), findsOneWidget);
     expect(find.text('61'), findsOneWidget);
     expect(find.text('CV (PDF)'), findsOneWidget);
-    expect(find.text('Up to date (version 4).'), findsOneWidget);
+    expect(find.textContaining('Up to date (version 4).'), findsOneWidget);
+    expect(find.textContaining('now 2 pages'), findsOneWidget);
     expect(find.text('Rebuild now'), findsOneWidget);
     expect(find.text('5'), findsOneWidget);
 
@@ -78,6 +100,28 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Gulf Limo v2'), findsOneWidget);
     expect(find.text('Save changes'), findsOneWidget);
+  });
+
+  testWidgets('a pending change can be reviewed and approved from the dashboard', (tester) async {
+    SharedPreferences.setMockInitialValues({'server_url': 'https://site.example', 'admin_key': 'k' * 24});
+    requests.clear();
+    final state = AppState(clientFactory: fakeServer)..load();
+    await tester.pumpWidget(AdminApp(state: state));
+    await tester.pumpAndSettle();
+
+    expect(find.text('1 change waiting for your approval'), findsOneWidget);
+    await tester.tap(find.text('1 change waiting for your approval'));
+    await tester.pumpAndSettle();
+    expect(find.text('Changes to approve'), findsOneWidget);
+    expect(find.text('K7Q2'), findsOneWidget);
+    expect(find.text('Cool App'), findsOneWidget);
+
+    await tester.tap(find.widgetWithText(FilledButton, 'Approve'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Approve K7Q2?'), findsOneWidget);
+    await tester.tap(find.widgetWithText(FilledButton, 'Approve').last);
+    await tester.pumpAndSettle();
+    expect(requests, contains('POST /api/admin/changes/K7Q2/approve'));
   });
 
   test('settings round-trip through storage', () async {

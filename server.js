@@ -2,9 +2,11 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const os = require("os");
-const { connectDB, Review, Star, Contact, CvConfig, LogRecord, PortfolioSection, CvBuild, CvFile } = require("./db");
+const { connectDB, Review, Star, Contact, CvConfig, LogRecord, PortfolioSection, CvBuild, CvFile, PendingChange } = require("./db");
 const { getKey } = require("./keys");
-const { createAdminRouter, requireAdmin, makeKeyGuard, SECTION_RULES } = require("./routes/admin");
+const { createAdminRouter, requireAdmin, makeKeyGuard, validateSection, SECTION_RULES } = require("./routes/admin");
+const { createDefaultWhatsApp, siteUrl } = require("./lib/whatsapp");
+const { createChangeStore, createChangeService } = require("./lib/changes");
 const { createCvBuilder, dispatchWorkflow, CvBuildError } = require("./lib/cv-build");
 const githubLib = require("./lib/github");
 const { buildReply } = require("./lib/assistant");
@@ -772,15 +774,29 @@ async function savePortfolioOverride(section, data) {
 // ---------------------------------------------------------------------------
 // CV: generated from database content, compiled by a GitHub Action (see .github/workflows/build-cv.yml)
 // ---------------------------------------------------------------------------
+const whatsapp = createDefaultWhatsApp();
+
 const cvBuilder = createCvBuilder({
   connectDB,
   models: { CvBuild, CvFile },
   getData: () => portfolioData,
-  onBuilt: async ({ url }) => {
+  onBuilt: async ({ url, stale, version, pages }) => {
     // The site's CV link now points at the freshly built PDF
     const profile = { ...portfolioData.profile, cvUrl: url };
     await savePortfolioOverride("profile", profile);
     portfolioData.profile = profile;
+
+    // Send the new PDF to the owner on WhatsApp (only when this build covers the latest edits)
+    const base = siteUrl();
+    if (!stale && base) {
+      const name = String((portfolioData.profile && portfolioData.profile.name) || "CV").replace(/[^A-Za-z0-9]+/g, "_");
+      const sent = await whatsapp.sendDocument({
+        link: `${base}${url}`,
+        filename: `${name}_CV.pdf`,
+        caption: `📄 Your CV was rebuilt (version ${version}).${pages > 1 ? ` ⚠️ It is now ${pages} pages.` : ""}`
+      });
+      if (!sent.sent && whatsapp.enabled()) console.warn("Could not send the CV on WhatsApp:", sent.reason);
+    }
   },
   dispatch: () => {
     const owner = process.env.VERCEL_GIT_REPO_OWNER;
@@ -790,6 +806,53 @@ const cvBuilder = createCvBuilder({
       repository: process.env.GITHUB_REPOSITORY || (owner && slug ? `${owner}/${slug}` : ""),
       ref: process.env.VERCEL_GIT_COMMIT_REF || "main"
     });
+  }
+});
+
+// ---------------------------------------------------------------------------
+// Automatic changes (new GitHub repositories) wait for the owner's approval
+// ---------------------------------------------------------------------------
+async function applyChange(change) {
+  if (change.type !== "add_projects") throw new Error(`Unknown change type "${change.type}".`);
+  await refreshPortfolioOverrides(true);
+  const { projects = [], cvProjects = [] } = change.payload || {};
+
+  const known = new Set(portfolioData.projects.map((p) => githubLib.repoSlugFromUrl(p.github)).filter(Boolean));
+  const nextProjects = [...portfolioData.projects, ...projects.filter((p) => !known.has(githubLib.repoSlugFromUrl(p.github)))];
+  const cvKnown = new Set(portfolioData.cvProjects.map((p) => String(p.name).toLowerCase()));
+  const nextCvProjects = [...portfolioData.cvProjects, ...cvProjects.filter((p) => !cvKnown.has(String(p.name).toLowerCase()))];
+  validateSection("projects", nextProjects);
+  validateSection("cvProjects", nextCvProjects);
+
+  await savePortfolioOverride("projects", nextProjects);
+  portfolioData.projects = nextProjects;
+  await savePortfolioOverride("cvProjects", nextCvProjects);
+  portfolioData.cvProjects = nextCvProjects;
+  await cvBuilder.requestBuild(`approved change ${change.code}`);
+}
+
+const changeService = createChangeService({
+  store: createChangeStore({ connectDB, models: { PendingChange } }),
+  apply: applyChange,
+  whatsapp
+});
+
+/** Looks at GitHub and proposes repositories that are not in the portfolio yet. */
+async function runGithubSync() {
+  await refreshPortfolioOverrides(true);
+  const username = githubLib.usernameFromProfile(portfolioData.profile);
+  if (!username) throw new Error("Set your GitHub link in the profile first.");
+  const repos = await githubLib.fetchRepos(username, getKey("github") || process.env.GITHUB_TOKEN);
+  return changeService.proposeNewProjects({ repos, projects: portfolioData.projects });
+}
+
+const requireCronSecret = makeKeyGuard({ secretName: "CRON_SECRET", header: "authorization", label: "Cron" });
+app.get("/api/cron/sync", requireCronSecret, async (req, res) => {
+  try {
+    const result = await runGithubSync();
+    res.json({ ok: true, created: result.created ? result.created.code : null, checked: result.checked });
+  } catch (err) {
+    res.status(502).json({ ok: false, error: err.message });
   }
 });
 
@@ -811,7 +874,7 @@ app.post("/api/build/resume/result", requireBuildKey, express.raw({ type: "appli
       await cvBuilder.fail((req.body && req.body.error) || "The CV failed to compile.");
       return res.json({ ok: true });
     }
-    const result = await cvBuilder.complete({ pdf: req.body, id: req.query.id });
+    const result = await cvBuilder.complete({ pdf: req.body, id: req.query.id, pages: Number.parseInt(req.query.pages, 10) });
     res.json({ ok: true, ...result });
   } catch (err) {
     res.status(err instanceof CvBuildError ? 400 : 500).json({ ok: false, error: err.message });
@@ -843,7 +906,9 @@ app.use(
     refreshOverrides: refreshPortfolioOverrides,
     overriddenSections: customisedSections,
     fetchRepos: (username) => githubLib.fetchRepos(username, getKey("github") || process.env.GITHUB_TOKEN),
-    cv: cvBuilder
+    cv: cvBuilder,
+    changes: changeService,
+    runSync: runGithubSync
   })
 );
 
@@ -914,8 +979,9 @@ app.get("/cv", async (req, res) => {
 });
 
 // Kapso WhatsApp Cloud API Webhook Routes
-const { handleWebhookVerification, handleWebhookEvent, setPortfolioProvider } = require("./api/whatsapp-webhook");
+const { handleWebhookVerification, handleWebhookEvent, setPortfolioProvider, setOwnerReplyHandler } = require("./api/whatsapp-webhook");
 setPortfolioProvider(() => portfolioData);
+setOwnerReplyHandler((text) => changeService.handleOwnerReply(text));
 const { requestWhatsAppApproval, pendingApprovals } = require("./api/whatsapp-approval");
 
 app.get("/api/whatsapp/webhook", handleWebhookVerification);

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../api.dart' show CvStatus, Summary;
 import '../main.dart';
 import '../widgets/common.dart';
+import 'changes_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key, required this.onOpenTab});
@@ -23,6 +24,14 @@ class DashboardScreen extends StatelessWidget {
           Text('Pull down to refresh', style: Theme.of(context).textTheme.bodySmall),
           const SizedBox(height: 16),
           _StatusCard(connected: summary.dbConnected),
+          const SizedBox(height: 12),
+          _ChangesCard(
+            pending: summary.pendingChanges ?? 0,
+            onOpen: () async {
+              await Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const ChangesScreen()));
+              await reload();
+            },
+          ),
           const SizedBox(height: 12),
           const _CvCard(),
           const SizedBox(height: 12),
@@ -224,7 +233,8 @@ class _CvCardState extends State<_CvCard> {
               subtitle = 'The last build failed: ${status.error ?? 'unknown error'}';
               icon = Icons.error_outline;
             case 'done':
-              subtitle = 'Up to date (version ${status.version}).';
+              subtitle = 'Up to date (version ${status.version}).'
+                  '${(status.pages ?? 1) > 1 ? '\n⚠️ The CV is now ${status.pages} pages — it is designed to fit on one. Shorten some entries.' : ''}';
               icon = Icons.check_circle_outline;
             default:
               subtitle = status.version > 0 ? 'Version ${status.version}.' : 'Not generated from the app yet.';
@@ -267,6 +277,28 @@ class _CvCardState extends State<_CvCard> {
           ),
         );
       },
+    );
+  }
+}
+
+class _ChangesCard extends StatelessWidget {
+  const _ChangesCard({required this.pending, required this.onOpen});
+
+  final int pending;
+  final VoidCallback onOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Card(
+      color: pending > 0 ? scheme.tertiaryContainer : null,
+      child: ListTile(
+        leading: Icon(pending > 0 ? Icons.notifications_active : Icons.fact_check_outlined),
+        title: Text(pending > 0 ? '$pending change${pending == 1 ? '' : 's'} waiting for your approval' : 'Changes to approve'),
+        subtitle: Text(pending > 0 ? 'New GitHub projects found. Tap to review.' : 'Nothing waiting. Tap to check GitHub.'),
+        trailing: const Icon(Icons.chevron_right),
+        onTap: onOpen,
+      ),
     );
   }
 }
