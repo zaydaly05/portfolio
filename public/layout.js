@@ -116,12 +116,7 @@
       footerSlot.className = "footer";
       footerSlot.innerHTML = `
         <div class="footer-container">
-          <p>Crafted with passion by <strong>Zayd Ali Mohamed</strong>.</p>
-          <div class="footer-links">
-            <button id="privacy-policy-footer-btn" class="footer-link-btn" type="button">Privacy Policy</button>
-            <button id="terminal-footer-btn" class="footer-link-btn" type="button">Terminal CLI</button>
-            <button id="ai-chat-footer-btn" class="footer-link-btn" type="button">AI Assistant</button>
-          </div>
+          <p class="footer-copy">&copy; ${new Date().getFullYear()} Zayd Ali Mohamed</p>
         </div>
       `;
     },
