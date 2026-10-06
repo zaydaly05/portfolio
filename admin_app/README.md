@@ -86,6 +86,10 @@ Setup: add `CRON_SECRET` (min. 20 characters) on the server — Vercel then send
 
 ## 4. Build and install the app
 
+**No Flutter needed:** in GitHub open Actions → *Build admin app (APK)* → *Run workflow*. When it finishes, open the run and download the `portfolio-admin-apk` artifact (a zip containing `app-release.apk`), then install it on your phone.
+
+Or build it yourself:
+
 You need the [Flutter SDK](https://docs.flutter.dev/get-started/install) with the Android toolchain.
 
 ```bash
