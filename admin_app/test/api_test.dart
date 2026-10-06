@@ -182,4 +182,52 @@ void main() {
     expect(await yes.saveSection('cvSummary', {'summary': 'x'}), isTrue);
     expect(await no.saveSection('faq', []), isFalse);
   });
+
+  test('reads pending changes and sends approve / reject / edit / sync', () async {
+    final seen = <http.Request>[];
+    final api = apiWith((req) async {
+      seen.add(req);
+      if (req.url.path == '/api/admin/changes' && req.method == 'GET') {
+        return jsonReply({
+          'ok': true,
+          'changes': [
+            {
+              'code': 'K7Q2',
+              'status': 'pending',
+              'summary': '1 new GitHub project found.',
+              'payload': {
+                'projects': [
+                  {'name': 'Cool App', 'period': 'September 2026', 'stack': 'Dart', 'description': 'Does things', 'github': 'https://github.com/me/cool-app'}
+                ]
+              }
+            }
+          ],
+        });
+      }
+      if (req.url.path == '/api/admin/changes/sync') {
+        return jsonReply({'ok': true, 'checked': 12, 'created': {'code': 'K7Q2'}, 'notified': true});
+      }
+      return jsonReply({'ok': true});
+    });
+
+    final changes = await api.changes();
+    expect(seen.last.url.query, 'status=pending');
+    expect(changes.single.code, 'K7Q2');
+    expect(changes.single.projects.single.name, 'Cool App');
+    expect(changes.single.projects.single.stack, 'Dart');
+
+    final sync = await api.syncChanges();
+    expect(sync.checked, 12);
+    expect(sync.createdCode, 'K7Q2');
+    expect(sync.notified, isTrue);
+
+    await api.approveChange('K7Q2');
+    expect(seen.last.method, 'POST');
+    expect(seen.last.url.path, '/api/admin/changes/K7Q2/approve');
+    await api.rejectChange('K7Q2');
+    expect(seen.last.url.path, '/api/admin/changes/K7Q2/reject');
+    await api.editChange('K7Q2', 0, {'name': 'Better Name'});
+    expect(seen.last.method, 'PATCH');
+    expect(jsonDecode(seen.last.body), {'index': 0, 'fields': {'name': 'Better Name'}});
+  });
 }

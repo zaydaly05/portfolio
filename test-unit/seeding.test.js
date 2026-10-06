@@ -17,6 +17,9 @@ const fakeDb = {
   Star: stub(),
   Contact: stub(),
   CvConfig: stub(),
+  PendingChange: { find: () => ({ sort: () => ({ limit: () => ({ lean: async () => [] }) }) }), findOne: () => ({ lean: async () => null }) },
+  CvBuild: { findOne: () => ({ lean: async () => null }), findOneAndUpdate: async () => {} },
+  CvFile: {},
   LogRecord: { find: () => ({ sort: () => ({ limit: () => ({ lean: async () => [] }) }) }) },
   PortfolioSection: {
     find: () => ({

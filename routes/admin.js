@@ -162,10 +162,11 @@ const requireAdmin = makeKeyGuard({ secretName: "ADMIN_API_KEY", header: "x-admi
  * @param {Function} deps.refreshOverrides (force) => Promise reload overrides into portfolioData
  * @param {Function} deps.overriddenSections () => string[] sections that differ from the built-in content
  * @param {Function} deps.fetchRepos (username) => Promise<GitHub repo[]>
+ * @param {object} [deps.changes] change service (lib/changes.js) and deps.runSync() => proposes new GitHub projects
  * @param {object} [deps.cv] CV builder (lib/cv-build.js); when present, saving CV-related content requests a rebuild
  */
 function createAdminRouter(deps) {
-  const { portfolioData, defaults, connectDB, models, saveOverride, refreshOverrides, overriddenSections, fetchRepos, cv } = deps;
+  const { portfolioData, defaults, connectDB, models, saveOverride, refreshOverrides, overriddenSections, fetchRepos, cv, changes, runSync } = deps;
   const router = express.Router();
   router.use(requireAdmin);
 
@@ -204,6 +205,13 @@ function createAdminRouter(deps) {
     handle(async (req, res) => {
       const db = await connectDB();
       const summary = { ok: true, dbConnected: Boolean(db), overridden: overriddenSections() };
+      if (changes) {
+        try {
+          summary.pendingChanges = (await changes.store.list("pending")).length;
+        } catch {
+          summary.pendingChanges = null;
+        }
+      }
       if (db) {
         const [reviews, messages, star] = await Promise.all([
           models.Review.countDocuments(),
@@ -338,6 +346,7 @@ function createAdminRouter(deps) {
         builtAt: state.builtAt || null,
         version: state.version || 0,
         reason: state.reason || null,
+        pages: state.pages || null,
         error: state.error || null,
         url: state.version ? `/api/document/resume?v=${state.version}` : null,
         runnerConfigured
@@ -359,6 +368,63 @@ function createAdminRouter(deps) {
     handle(async (req, res) => {
       if (!cv) return res.status(503).json({ ok: false, error: "CV builder is not configured." });
       res.type("text/plain").send((await cv.source()).tex);
+    })
+  );
+
+  // ---- Automatic changes waiting for a decision ---------------------------------
+  const needChanges = (res) => {
+    if (changes) return true;
+    res.status(503).json({ ok: false, error: "Change approval is not configured." });
+    return false;
+  };
+
+  router.get(
+    "/changes",
+    handle(async (req, res) => {
+      if (!needChanges(res)) return;
+      const status = ["pending", "applied", "rejected", "failed", "all"].includes(req.query.status) ? req.query.status : "pending";
+      res.json({ ok: true, changes: await changes.store.list(status) });
+    })
+  );
+
+  router.post(
+    "/changes/sync",
+    handle(async (req, res) => {
+      if (!needChanges(res)) return;
+      try {
+        const result = await runSync();
+        res.json({ ok: true, ...result });
+      } catch (err) {
+        res.status(502).json({ ok: false, error: `Could not check GitHub: ${err.message}` });
+      }
+    })
+  );
+
+  router.post(
+    "/changes/:code/approve",
+    handle(async (req, res) => {
+      if (!needChanges(res)) return;
+      const result = await changes.approve(req.params.code, "app");
+      res.status(result.ok ? 200 : result.change ? 500 : 404).json(result);
+    })
+  );
+
+  router.post(
+    "/changes/:code/reject",
+    handle(async (req, res) => {
+      if (!needChanges(res)) return;
+      const result = await changes.reject(req.params.code, "app");
+      res.status(result.ok ? 200 : 404).json(result);
+    })
+  );
+
+  router.patch(
+    "/changes/:code",
+    handle(async (req, res) => {
+      if (!needChanges(res)) return;
+      const { index, fields } = req.body || {};
+      const result = await changes.modify(req.params.code, { index: Number(index) || 0, fields: fields && typeof fields === "object" ? fields : {} });
+      res.status(result.ok ? 200 : 400).json(result);
     })
   );
 

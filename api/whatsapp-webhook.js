@@ -35,6 +35,12 @@ function setPortfolioProvider(fn) {
   portfolioProvider = fn;
 }
 
+/** Answers owner replies about pending changes (set by server.js). Returns reply text or null. */
+let ownerReplyHandler = async () => null;
+function setOwnerReplyHandler(fn) {
+  ownerReplyHandler = fn;
+}
+
 /** WhatsApp formatting: *bold* instead of **bold**, and plain links instead of [text](url). */
 function toWhatsAppText(markdown) {
   return String(markdown)
@@ -236,7 +242,16 @@ async function handleWebhookEvent(req, res) {
         return;
       }
 
-      // 6. Check if Admin is responding to an Approval Request (1 / 2 / 3)
+      // 5b. Reply about a pending portfolio change (approve / modify / reject), stored in the database
+      const changeReply = await ownerReplyHandler(userText);
+      if (changeReply) {
+        if (kapsoClient && activePhoneId) {
+          await kapsoClient.messages.sendText({ phoneNumberId: activePhoneId, to: fromNumber, body: changeReply });
+        }
+        return;
+      }
+
+      // 6. Check if Admin is responding to an in-memory Approval Request (1 / 2 / 3)
       const approvalOutcome = handleApprovalReply(fromNumber, userText);
       if (approvalOutcome) {
         const { result } = approvalOutcome;
@@ -285,5 +300,6 @@ module.exports = {
   handleWebhookEvent,
   getAIResponse,
   setPortfolioProvider,
+  setOwnerReplyHandler,
   toWhatsAppText
 };

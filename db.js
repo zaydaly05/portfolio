@@ -121,6 +121,7 @@ const cvBuildSchema = new mongoose.Schema({
   reason: String,
   builtAt: Date,
   version: { type: Number, default: 0 },
+  pages: Number,
   error: String
 });
 
@@ -131,6 +132,23 @@ const cvFileSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
+// Changes detected automatically (e.g. new GitHub repos) that wait for the owner's decision
+const pendingChangeSchema = new mongoose.Schema({
+  code: { type: String, required: true, unique: true },
+  type: { type: String, default: "add_projects" },
+  status: { type: String, default: "pending" }, // pending | applied | rejected | failed
+  source: { type: String, default: "github" },
+  summary: String,
+  repos: [String],
+  payload: mongoose.Schema.Types.Mixed,
+  notes: String,
+  error: String,
+  decidedBy: String,
+  decidedAt: Date,
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+});
+
 const Review = mongoose.models.Review || mongoose.model("Review", reviewSchema);
 const Star = mongoose.models.Star || mongoose.model("Star", starSchema);
 const Contact = mongoose.models.Contact || mongoose.model("Contact", contactSchema);
@@ -138,6 +156,7 @@ const CvConfig = mongoose.models.CvConfig || mongoose.model("CvConfig", cvConfig
 const LogRecord = mongoose.models.LogRecord || mongoose.model("LogRecord", logRecordSchema);
 const CvBuild = mongoose.models.CvBuild || mongoose.model("CvBuild", cvBuildSchema);
 const CvFile = mongoose.models.CvFile || mongoose.model("CvFile", cvFileSchema);
+const PendingChange = mongoose.models.PendingChange || mongoose.model("PendingChange", pendingChangeSchema);
 const PortfolioSection =
   mongoose.models.PortfolioSection || mongoose.model("PortfolioSection", portfolioSectionSchema);
 
@@ -150,5 +169,6 @@ module.exports = {
   LogRecord,
   PortfolioSection,
   CvBuild,
-  CvFile
+  CvFile,
+  PendingChange
 };

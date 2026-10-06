@@ -21,6 +21,7 @@ class Summary {
     this.reviews,
     this.messages,
     this.stars,
+    this.pendingChanges,
   });
 
   final bool dbConnected;
@@ -28,6 +29,7 @@ class Summary {
   final int? reviews;
   final int? messages;
   final int? stars;
+  final int? pendingChanges;
 
   factory Summary.fromJson(Map<String, dynamic> json) => Summary(
         dbConnected: json['dbConnected'] == true,
@@ -35,6 +37,7 @@ class Summary {
         reviews: (json['reviews'] as num?)?.toInt(),
         messages: (json['messages'] as num?)?.toInt(),
         stars: (json['stars'] as num?)?.toInt(),
+        pendingChanges: (json['pendingChanges'] as num?)?.toInt(),
       );
 }
 
@@ -109,6 +112,71 @@ class LogEntry {
         message: '${json['message'] ?? ''}',
         timestamp: DateTime.tryParse('${json['timestamp'] ?? ''}'),
       );
+}
+
+/// One project inside a proposed change.
+class ProposedProject {
+  const ProposedProject({
+    required this.name,
+    required this.period,
+    required this.stack,
+    required this.description,
+    required this.github,
+  });
+
+  final String name;
+  final String period;
+  final String stack;
+  final String description;
+  final String github;
+
+  factory ProposedProject.fromJson(Map<String, dynamic> json) => ProposedProject(
+        name: '${json['name'] ?? ''}',
+        period: '${json['period'] ?? ''}',
+        stack: '${json['stack'] ?? ''}',
+        description: '${json['description'] ?? ''}',
+        github: '${json['github'] ?? ''}',
+      );
+}
+
+/// An automatic change (new GitHub repositories) waiting for the owner's decision.
+class ChangeProposal {
+  const ChangeProposal({
+    required this.code,
+    required this.status,
+    required this.summary,
+    required this.projects,
+    this.error,
+  });
+
+  final String code;
+
+  /// pending, applied, rejected or failed
+  final String status;
+  final String summary;
+  final List<ProposedProject> projects;
+  final String? error;
+
+  factory ChangeProposal.fromJson(Map<String, dynamic> json) {
+    final payload = Map<String, dynamic>.from(json['payload'] ?? const {});
+    return ChangeProposal(
+      code: '${json['code'] ?? ''}',
+      status: '${json['status'] ?? 'pending'}',
+      summary: '${json['summary'] ?? ''}',
+      error: json['error'] as String?,
+      projects: (payload['projects'] as List? ?? const [])
+          .map((e) => ProposedProject.fromJson(Map<String, dynamic>.from(e as Map)))
+          .toList(),
+    );
+  }
+}
+
+class SyncResult {
+  const SyncResult({required this.checked, this.createdCode, this.notified = false});
+
+  final int checked;
+  final String? createdCode;
+  final bool notified;
 }
 
 class CvStatus {
@@ -268,6 +336,31 @@ class AdminApi {
   }
 
   Future<void> resetSection(String section) => _send('DELETE', '/api/admin/portfolio/$section');
+
+  Future<List<ChangeProposal>> changes({String status = 'pending'}) async {
+    final json = await _send('GET', '/api/admin/changes?status=$status');
+    return (json['changes'] as List? ?? const [])
+        .map((e) => ChangeProposal.fromJson(Map<String, dynamic>.from(e as Map)))
+        .toList();
+  }
+
+  /// Looks at GitHub now; a new proposal is created when there are new repositories.
+  Future<SyncResult> syncChanges() async {
+    final json = await _send('POST', '/api/admin/changes/sync');
+    final created = json['created'];
+    return SyncResult(
+      checked: (json['checked'] as num?)?.toInt() ?? 0,
+      createdCode: created is Map ? '${created['code']}' : null,
+      notified: json['notified'] == true,
+    );
+  }
+
+  Future<void> approveChange(String code) => _send('POST', '/api/admin/changes/$code/approve');
+
+  Future<void> rejectChange(String code) => _send('POST', '/api/admin/changes/$code/reject');
+
+  Future<void> editChange(String code, int index, Map<String, String> fields) =>
+      _send('PATCH', '/api/admin/changes/$code', body: {'index': index, 'fields': fields});
 
   Future<CvStatus> cvStatus() async => CvStatus.fromJson(await _send('GET', '/api/admin/cv'));
 

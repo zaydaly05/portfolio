@@ -55,7 +55,36 @@ One-time setup:
 
 If a build fails, the Home card shows the LaTeX error. Your previous PDF stays online.
 
-## 3. Build and install the app
+## 3. Automatic changes need your approval
+
+Once a day (Vercel Cron, 06:00 UTC) and whenever you tap **Check GitHub now**, the server compares your
+public GitHub repositories with your portfolio. New ones (with a description or topics) become a **pending
+change**. Nothing is published until you decide:
+
+* **In the app:** Home → *Changes to approve* — edit the name / date / stack / description, then **Approve** or **Reject**.
+* **On WhatsApp** (when enabled): reply **1** to approve, **3** to reject, or **2 name: …; stack: …; description: …**
+  to modify (I ask again afterwards). With several changes waiting, add the code: `1 K7Q2`.
+
+Approving adds the project to your portfolio **and** your CV, rebuilds the CV and sends you the new PDF.
+Edits you make yourself in the app are applied immediately (and also rebuild the CV when they affect it).
+
+Setup: add `CRON_SECRET` (min. 20 characters) on the server — Vercel then sends it to the cron job automatically.
+
+### Turning WhatsApp on (it is off until you do)
+
+1. In Kapso/Meta create the webhook pointing to `https://YOUR-SITE/api/whatsapp/webhook` and choose your own
+   verify token → `WHATSAPP_VERIFY_TOKEN`; copy the webhook signing secret → `KAPSO_WEBHOOK_SECRET`.
+2. Set `KAPSO_API_KEY`, `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_PHONE` (your private number) and finally
+   `WHATSAPP_ENABLED=true`.
+3. **24-hour rule:** WhatsApp only lets the business send normal messages within 24 hours after *you* last
+   wrote to the business number. Outside that window (typically the first message of the day) approval
+   requests need an approved **utility template**. Create one in Kapso (suggested body:
+   `Portfolio update {{1}}: {{2}} Reply 1 to approve, 2 followed by changes to modify, or 3 to reject.`)
+   and set `WHATSAPP_APPROVAL_TEMPLATE` to its name. Whatever you answer opens the window, so the
+   confirmation and the new CV PDF can then be delivered. You can always decide in the app instead.
+4. Only your number, on requests carrying a valid signature, can approve anything.
+
+## 4. Build and install the app
 
 You need the [Flutter SDK](https://docs.flutter.dev/get-started/install) with the Android toolchain.
 
@@ -69,7 +98,7 @@ The installer is created at `build/app/outputs/flutter-apk/app-release.apk`. Cop
 (USB, Drive, Telegram…), open it and allow "install unknown apps" when asked. With the phone connected
 over USB and USB debugging on, you can also run `flutter install`.
 
-## 4. First launch
+## 5. First launch
 
 Open the app → it opens **Settings** → enter
 
