@@ -7476,3 +7476,64 @@ body:has(.mobile-nav-overlay.open) .star-toast-popup {
   text-overflow: ellipsis;
   opacity: 0.9;
 }
+
+/* ============================================
+   INTRO: circular logo spins once, then zooms out into the home page
+   ============================================ */
+.puzzle-stage.is-spinning {
+  animation: puzzleSpinOnce 2.2s cubic-bezier(0.45, 0.05, 0.25, 1) 1 both;
+}
+
+@keyframes puzzleSpinOnce {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.puzzle-loader-screen.zoom-out {
+  pointer-events: none;
+  transform-origin: 50% 42%;
+  animation: introZoomOut 0.95s cubic-bezier(0.55, 0, 0.2, 1) forwards;
+}
+
+@keyframes introZoomOut {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+    filter: blur(8px);
+  }
+}
+
+/* The home page settles in from slightly zoomed-in while the intro zooms away */
+body.intro-reveal .hero,
+body.intro-reveal main {
+  animation: homeSettle 1.15s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  transform-origin: 50% 25%;
+}
+
+@keyframes homeSettle {
+  from {
+    transform: scale(1.08);
+    opacity: 0.55;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .puzzle-stage.is-spinning,
+  body.intro-reveal .hero,
+  body.intro-reveal main {
+    animation: none;
+  }
+}
