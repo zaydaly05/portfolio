@@ -63,7 +63,7 @@
       href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Poppins:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20261013" />
+    <link rel="stylesheet" href="styles.css?v=20261014" />
   </head>
   <body>
 
@@ -74,9 +74,9 @@
     <!-- Page Header -->
     <header class="page-header reveal">
       <div class="page-header-container">
-        <span class="eyebrow">Career Timeline & Visitor Feedback</span>
-        <h1>Experience, CV & Community Reviews</h1>
-        <p class="page-header-desc">
+        <span class="eyebrow" data-bind="site.experience_eyebrow">Career Timeline & Visitor Feedback</span>
+        <h1 data-bind="site.experience_title">Experience, CV & Community Reviews</h1>
+        <p class="page-header-desc" data-bind="site.experience_intro">
           Explore Zayd's internship history at TAQA Arabia and CHI, academic background, Overleaf LaTeX resume, and
           community visitor reviews.
         </p>
@@ -88,7 +88,7 @@
       <section class="section reveal" id="experience">
         <div class="section-header">
           <span class="section-number">01</span>
-          <h3>Industry Internships & Experience</h3>
+          <h3 data-bind="site.experience_section_title">Industry Internships & Experience</h3>
           <div class="section-line"></div>
         </div>
         <div id="experience-list" class="grid reveal-stagger"></div>
@@ -108,10 +108,10 @@
       <section class="section reveal" id="certificates-section">
         <div class="section-header">
           <span class="section-number">03</span>
-          <h3>Verified Online Certifications &amp; Diplomas</h3>
+          <h3 data-bind="site.certificates_title">Verified Online Certifications &amp; Diplomas</h3>
           <div class="section-line"></div>
         </div>
-        <p class="section-subdesc">
+        <p class="section-subdesc" data-bind="site.certificates_intro">
           Official certifications, diplomas, and experience letters earned by Zayd Ali Mohamed from Cisco Networking
           Academy, OpenEDG Institutes, and industry employers.
         </p>
@@ -123,8 +123,8 @@
       <section class="section reveal" id="cv-section">
         <div class="cv-showcase-box">
           <div class="cv-info-col">
-            <h3>Official LaTeX Resume</h3>
-            <p>Formatted and updated automatically via GitHub Actions from Overleaf LaTeX source code.</p>
+            <h3 data-bind="site.cv_box_title">Official LaTeX Resume</h3>
+            <p data-bind="site.cv_box_text">Formatted and updated automatically via GitHub Actions from Overleaf LaTeX source code.</p>
             <div class="cv-btn-row">
               <button id="preview-cv-exp-btn" class="btn" type="button">Preview Resume PDF ↗</button>
               <a
@@ -149,8 +149,8 @@
 
         <div class="star-prompt-card">
           <div class="star-prompt-left">
-            <h4>Enjoying Zayd's Portfolio & Projects?</h4>
-            <p>Leave a star on GitHub & share your feedback or endorsement below!</p>
+            <h4 data-bind="site.reviews_cta_title">Enjoying Zayd's Portfolio & Projects?</h4>
+            <p data-bind="site.reviews_cta_text">Leave a star on GitHub & share your feedback or endorsement below!</p>
           </div>
           <div class="star-prompt-right">
             <button class="btn-star-repo" id="btn-star-repo">
@@ -194,7 +194,7 @@
 
         <!-- Live Community Reviews List -->
         <div class="reviews-grid-wrapper">
-          <h5>Community Reviews & Feedback</h5>
+          <h5 data-bind="site.reviews_list_title">Community Reviews & Feedback</h5>
           <div class="grid reviews-grid" id="community-reviews-list">
             <div class="github-loading">Loading community reviews...</div>
           </div>
@@ -206,9 +206,10 @@
     <footer id="site-footer"></footer>
 
     <script src="layout.js"></script>
-    <script src="modals.js?v=20261013"></script>
+    <script src="modals.js?v=20261014"></script>
     <script src="buttons.js"></script>
-    <script src="ui-effects.js?v=20261013"></script>
-    <script src="script.js?v=20261013"></script>
+    <script src="ui-effects.js?v=20261014"></script>
+    <script src="site-content.js?v=20261014"></script>
+    <script src="script.js?v=20261014"></script>
   </body>
 </html>

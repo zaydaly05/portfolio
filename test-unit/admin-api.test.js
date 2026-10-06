@@ -48,6 +48,11 @@ const makeCollection = (seed = []) => {
   };
 };
 
+const githubRepos = [
+  { name: "P1", html_url: "https://github.com/me/P1", description: "already listed", language: "Dart", created_at: "2026-01-05T00:00:00Z" },
+  { name: "new_cool-app", html_url: "https://github.com/me/new_cool-app", description: "A new repo", language: "Kotlin", topics: ["android", "jetpack-compose"], created_at: "2026-09-12T10:00:00Z", stargazers_count: 3 }
+];
+
 const buildApp = ({ dbConnected = true } = {}) => {
   const defaults = {
     profile: { name: "Zayd" },
@@ -59,7 +64,14 @@ const buildApp = ({ dbConnected = true } = {}) => {
     technicalSkills: [],
     softSkills: [],
     languages: [],
-    certificates: []
+    certificates: [],
+    site: { home_eyebrow: "Hello" },
+    heroPills: [],
+    heroBadges: [],
+    heroSlides: [],
+    stats: [],
+    gateways: [],
+    faq: []
   };
   const portfolioData = JSON.parse(JSON.stringify(defaults));
   const overrides = {};
@@ -82,7 +94,8 @@ const buildApp = ({ dbConnected = true } = {}) => {
         else overrides[section] = data;
       },
       refreshOverrides: async () => {},
-      overriddenSections: () => Object.keys(overrides)
+      overriddenSections: () => Object.keys(overrides),
+      fetchRepos: async () => githubRepos
     })
   );
   return { app, portfolioData, overrides, models };
@@ -174,7 +187,8 @@ test("portfolio sections: edit, validate, and reset to default", async () => {
     const reset = await call("DELETE", "/api/admin/portfolio/projects");
     assert.equal(reset.status, 200);
     assert.deepEqual(portfolioData.projects, [{ name: "P1", stack: "x" }]);
-    assert.equal(overrides.projects, undefined);
+    // reset stores the built-in content (the database stays complete) instead of deleting it
+    assert.deepEqual(overrides.projects, [{ name: "P1", stack: "x" }]);
 
     const profile = await call("PUT", "/api/admin/portfolio/profile", { body: { data: { name: "Zayd A." } } });
     assert.equal(profile.status, 200);
@@ -243,5 +257,58 @@ test("database-backed routes return 503 when the database is down", async () => 
     assert.equal((await call("GET", "/api/admin/reviews")).status, 503);
     assert.equal((await call("GET", "/api/admin/messages")).status, 503);
     assert.equal((await call("PUT", "/api/admin/stars", { body: { stars: 1 } })).status, 503);
+  });
+});
+
+test("new sections validate (stats sources, faq, site)", async () => {
+  await withServer(buildApp().app, async (call) => {
+    const put = async (section, data) => (await call("PUT", `/api/admin/portfolio/${section}`, { body: { data } })).status;
+    assert.equal(await put("faq", [{ question: "Q?", answer: "A" }]), 200);
+    assert.equal(await put("faq", [{ answer: "no question" }]), 400);
+    assert.equal(await put("site", { home_eyebrow: "Hi", about: "x" }), 200);
+    assert.equal(await put("site", { about: "missing required key" }), 400);
+    assert.equal(await put("stats", [{ label: "Repos", source: "github_repos" }]), 200);
+    assert.equal(await put("stats", [{ label: "Years", source: "fixed", value: 3 }]), 200);
+    assert.equal(await put("stats", [{ label: "Bad", source: "made_up" }]), 400);
+    assert.equal(await put("stats", [{ label: "Fixed needs value", source: "fixed" }]), 400);
+  });
+});
+
+test("GitHub: lists repositories that are not yet projects and imports them", async () => {
+  const { app, portfolioData, overrides } = buildApp();
+  portfolioData.profile.github = "https://github.com/me";
+  portfolioData.projects = [{ name: "P1", github: "https://github.com/me/P1" }];
+  await withServer(app, async (call) => {
+    const listed = await call("GET", "/api/admin/github/new");
+    assert.equal(listed.status, 200);
+    assert.equal(listed.json.username, "me");
+    assert.deepEqual(listed.json.repos.map((r) => r.name), ["new_cool-app"]);
+    assert.deepEqual(listed.json.repos[0].project, {
+      name: "New Cool App",
+      period: "September 2026",
+      stack: "Kotlin, Android, Jetpack Compose",
+      image: "",
+      github: "https://github.com/me/new_cool-app",
+      description: "A new repo"
+    });
+
+    assert.equal((await call("POST", "/api/admin/github/import", { body: { repos: [] } })).status, 400);
+    assert.equal((await call("POST", "/api/admin/github/import", { body: { repos: ["P1"] } })).status, 404); // already listed
+    const imported = await call("POST", "/api/admin/github/import", { body: { repos: ["new_cool-app"] } });
+    assert.equal(imported.status, 200);
+    assert.deepEqual(imported.json.added, ["new_cool-app"]);
+    assert.equal(portfolioData.projects.length, 2);
+    assert.equal(overrides.projects.at(-1).name, "New Cool App");
+
+    // nothing left to import afterwards
+    assert.deepEqual((await call("GET", "/api/admin/github/new")).json.repos, []);
+  });
+});
+
+test("GitHub: errors are reported clearly", async () => {
+  const noProfile = buildApp();
+  noProfile.portfolioData.profile.github = "";
+  await withServer(noProfile.app, async (call) => {
+    assert.equal((await call("GET", "/api/admin/github/new")).status, 400);
   });
 });

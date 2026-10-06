@@ -28,6 +28,7 @@ class _ItemEditorScreenState extends State<ItemEditorScreen> {
     _values = mergeWithTemplate(widget.item, widget.info.template);
     _kinds = {for (final e in _values.entries) e.key: fieldKindFor(e.key, e.value)};
     for (final entry in _values.entries) {
+      if (_kinds[entry.key] == FieldKind.boolean) continue;
       _controllers[entry.key] = TextEditingController(text: _initialText(entry.key, entry.value));
     }
   }
@@ -40,6 +41,8 @@ class _ItemEditorScreenState extends State<ItemEditorScreen> {
         return const JsonEncoder.withIndent('  ').convert(value);
       case FieldKind.number:
         return value.toString();
+      case FieldKind.boolean:
+        return '';
       case FieldKind.text:
       case FieldKind.longText:
         return value?.toString() ?? '';
@@ -58,11 +61,17 @@ class _ItemEditorScreenState extends State<ItemEditorScreen> {
     if (!_formKey.currentState!.validate()) return;
     final result = <String, dynamic>{};
     for (final key in _values.keys) {
+      if (_kinds[key] == FieldKind.boolean) {
+        result[key] = _values[key] == true;
+        continue;
+      }
       final text = _controllers[key]!.text;
       switch (_kinds[key]!) {
         case FieldKind.text:
         case FieldKind.longText:
           result[key] = text;
+        case FieldKind.boolean:
+          break;
         case FieldKind.number:
           result[key] = parseNumber(text) ?? 0;
         case FieldKind.stringList:
@@ -109,10 +118,21 @@ class _ItemEditorScreenState extends State<ItemEditorScreen> {
   Widget _field(String key) {
     final kind = _kinds[key]!;
     final label = humanizeKey(key);
-    final controller = _controllers[key]!;
     final required = key == widget.info.titleKey;
 
+    if (kind == FieldKind.boolean) {
+      return SwitchListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+        title: Text(label),
+        value: _values[key] == true,
+        onChanged: (v) => setState(() => _values[key] = v),
+      );
+    }
+
+    final controller = _controllers[key]!;
     switch (kind) {
+      case FieldKind.boolean:
+        return const SizedBox.shrink();
       case FieldKind.number:
         return TextFormField(
           controller: controller,

@@ -9,7 +9,7 @@ What you can do from the app:
 | Tab | Actions |
 | --- | --- |
 | **Home** | See database status, stars / reviews / message counts; change the star count |
-| **Content** | Add, edit, delete and re-order **projects, experience, certificates, featured stack, skills, languages, education, activities** and edit your **profile**; reset any section to the built-in content |
+| **Content** | Edit **everything the website shows**: projects, experience, certificates, featured stack, skills, languages, education, activities, your profile (name, photo, links, CV link…), the home slides / stats / section cards, FAQ and the page texts. Add, delete and re-order items; reset any section to the built-in content. **Projects → ⋮ → Import from GitHub** adds new repositories automatically |
 | **Reviews** | Add, edit, delete reviews |
 | **Messages** | Read, copy the sender's email, delete contact-form messages |
 | **Settings** | Server address + admin key, connection test, server logs |
@@ -64,11 +64,18 @@ and tap **Save & test connection**. Done.
 
 * **Reviews, messages and stars** live in MongoDB, so they need `MONGODB_URI` on the server. The
   Home tab shows a warning when the database is not connected.
-* **Content edits** are saved per section in the database (collection `portfoliosections`). Use
-  *Reset to built-in* (⋮ menu in a section) to return a section to the content shipped in `server.js`.
+* **All site content lives in the database** (collection `portfoliosections`, one document per section). On
+  first run the server copies the built-in content from `data/defaults.js` into the database; after that the
+  database is the source of truth. *Reset to built-in* (⋮ menu in a section) restores that section.
+* **Texts can use placeholders**: `{name}`, `{firstName}`, `{projectsCount}`, `{certificatesCount}`,
+  `{internshipsCount}`, `{skillCategoriesCount}`, `{location}`.
+* **Home stats** can show a live number (`github_repos`, `projects`, `skill_categories`, `certificates`,
+  `internships`) or a `fixed` number you type.
 * **Images / PDFs** are edited as links (for example Cloudinary URLs); the app does not upload files.
 * The two LinkedIn recommendations shown on the site come from the codebase, not the database, so
   they cannot be edited here.
+* Page `<title>` tags and search-engine metadata in the HTML files are static.
+* The text already inside the HTML files is only a fallback shown if the server cannot be reached.
 * The admin key is saved on the phone only and sent in an `x-admin-key` header over HTTPS.
   Anyone who has it can change your portfolio, so keep it private; to revoke it, change
   `ADMIN_API_KEY` on the server.

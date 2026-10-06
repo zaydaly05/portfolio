@@ -68,7 +68,7 @@
       href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Poppins:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20261013" />
+    <link rel="stylesheet" href="styles.css?v=20261014" />
   </head>
   <body>
 
@@ -79,9 +79,9 @@
     <!-- Page Header -->
     <header class="page-header reveal">
       <div class="page-header-container">
-        <span class="eyebrow">Production Repositories & Applications</span>
-        <h1>Projects & GitHub Hub</h1>
-        <p class="page-header-desc">
+        <span class="eyebrow" data-bind="site.projects_eyebrow">Production Repositories & Applications</span>
+        <h1 data-bind="site.projects_title">Projects & GitHub Hub</h1>
+        <p class="page-header-desc" data-bind="site.projects_intro">
           Explore 11+ production web applications, cross-platform mobile apps, enterprise backend systems, and live
           GitHub repositories.
         </p>
@@ -156,9 +156,10 @@
     <footer id="site-footer"></footer>
 
     <script src="layout.js"></script>
-    <script src="modals.js?v=20261013"></script>
+    <script src="modals.js?v=20261014"></script>
     <script src="buttons.js"></script>
-    <script src="ui-effects.js?v=20261013"></script>
-    <script src="script.js?v=20261013"></script>
+    <script src="ui-effects.js?v=20261014"></script>
+    <script src="site-content.js?v=20261014"></script>
+    <script src="script.js?v=20261014"></script>
   </body>
 </html>

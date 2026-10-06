@@ -1,5 +1,8 @@
 const { WhatsAppClient } = require("@kapso/whatsapp-cloud-api");
 const { getKey } = require("../keys");
+const { sameNumber } = require("../lib/phone");
+const { verifySignature } = require("../lib/webhook-signature");
+const { buildReply } = require("../lib/assistant");
 const { handleApprovalReply } = require("./whatsapp-approval");
 const {
   isAdminNumber,
@@ -26,29 +29,21 @@ if (KAPSO_API_KEY) {
   });
 }
 
-/**
- * Simple Portfolio Knowledge Base for AI Auto-Responder
- */
+/** Supplies the live portfolio content (set by server.js) so replies never contain hard-coded facts. */
+let portfolioProvider = () => ({});
+function setPortfolioProvider(fn) {
+  portfolioProvider = fn;
+}
+
+/** WhatsApp formatting: *bold* instead of **bold**, and plain links instead of [text](url). */
+function toWhatsAppText(markdown) {
+  return String(markdown)
+    .replace(/\[([^\]]+)\]\((https?:[^)]+|mailto:[^)]+)\)/g, (m, text, url) => `${text}: ${url.replace(/^mailto:/, "")}`)
+    .replace(/\*\*([^*]+)\*\*/g, "*$1*");
+}
+
 function getAIResponse(userText) {
-  const query = (userText || "").toLowerCase();
-
-  if (query.includes("project") || query.includes("work") || query.includes("portfolio")) {
-    return "🚀 *Zayd's Featured Projects*:\n\n1. *AI Automation & Web Scraping Suite* - Enterprise data extraction\n2. *Dynamic Portfolio & Admin Dashboard* - Modern Node.js + MongoDB stack\n3. *WhatsApp AI Agent* - Automated messaging via Kapso Cloud API\n\nVisit: https://zayd05.vercel.app/projects for details!";
-  }
-
-  if (query.includes("skill") || query.includes("stack") || query.includes("tech")) {
-    return "💡 *Zayd's Core Skills*:\n- *Languages*: JavaScript / TypeScript, Python, HTML/CSS\n- *Backend*: Node.js, Express, MongoDB, REST APIs\n- *AI & Automation*: Agentic Coding, Kapso WhatsApp Cloud API, Web Scraping\n- *Tools*: Git, Vercel, Docker, Playwright";
-  }
-
-  if (query.includes("experience") || query.includes("bio") || query.includes("about") || query.includes("who")) {
-    return "👨‍💻 *About Zayd Ali Mohamed*:\nFull Stack & AI Engineer specialized in building modern web apps, intelligent automation tools, and scalable cloud solutions.";
-  }
-
-  if (query.includes("contact") || query.includes("email") || query.includes("hire") || query.includes("book") || query.includes("call")) {
-    return "📬 *Get in Touch with Zayd*:\n- *Email*: zayd@example.com\n- *LinkedIn*: https://linkedin.com/in/zaydali\n- *GitHub*: https://github.com/zaydali\n\nOr leave your name and project details right here in WhatsApp!";
-  }
-
-  return "👋 *Hi! I am Zayd's AI Assistant on WhatsApp.*\n\nYou can ask me about:\n- 🚀 *Projects*\n- 💡 *Skills & Tech Stack*\n- 👨‍💻 *Experience*\n- 📬 *Contact & Booking*\n\nHow can I help you today?";
+  return toWhatsAppText(buildReply(userText, portfolioProvider()).reply);
 }
 
 /**
@@ -59,13 +54,13 @@ function handleWebhookVerification(req, res) {
   const token = req.query["hub.verify_token"];
   const challenge = req.query["hub.challenge"];
 
-  const isVerifiedToken = token === VERIFY_TOKEN || token === "zayd_portfolio_verify_token" || token === "890b68010af2d68248e40256406ab47b35dbf4abca4a0e16f94fbb88290e1272";
+  const isVerifiedToken = Boolean(VERIFY_TOKEN) && token === VERIFY_TOKEN;
   if (mode === "subscribe" && isVerifiedToken) {
     console.log("✅ Kapso WhatsApp Webhook Verified Successfully!");
     return res.status(200).send(challenge || "OK");
   }
 
-  return res.status(200).json({ status: "active", service: "Zayd Portfolio WhatsApp Webhook" });
+  return res.status(200).json({ status: "active", service: "Portfolio WhatsApp Webhook" });
 }
 
 /**
@@ -109,8 +104,18 @@ function parseIncomingMessage(body) {
 /**
  * POST Webhook Handler for Incoming WhatsApp Messages
  */
+const WEBHOOK_SECRET = getKey("webhook_secret");
+const whatsappEnabled = () => String(process.env.WHATSAPP_ENABLED || "").toLowerCase() === "true";
+
 async function handleWebhookEvent(req, res) {
   res.status(200).json({ status: "received" });
+
+  // WhatsApp automation is off until explicitly enabled (WHATSAPP_ENABLED=true).
+  if (!whatsappEnabled()) return;
+
+  // Only requests signed with the shared secret may act as the admin. Without a configured secret
+  // nobody is treated as the admin (visitors still get auto-replies).
+  const signed = verifySignature(req.rawBody, req.headers, WEBHOOK_SECRET);
 
   try {
     const body = req.body;
@@ -125,10 +130,10 @@ async function handleWebhookEvent(req, res) {
 
     console.log(`📩 Incoming WhatsApp message from ${fromNumber}: "${userText}"`);
 
-    const isFromAdmin = isAdminNumber(fromNumber);
+    const isFromAdmin = signed && isAdminNumber(fromNumber);
 
     // -------------------------------------------------------------
-    // ADMIN ONLY COMMANDS (Zayd's Phone Number 201017741741 Only)
+    // ADMIN ONLY COMMANDS (the owner's private number only, and only on signed requests)
     // -------------------------------------------------------------
     if (isFromAdmin) {
       const lower = userText.trim().toLowerCase();
@@ -278,5 +283,7 @@ async function handleWebhookEvent(req, res) {
 module.exports = {
   handleWebhookVerification,
   handleWebhookEvent,
-  getAIResponse
+  getAIResponse,
+  setPortfolioProvider,
+  toWhatsAppText
 };

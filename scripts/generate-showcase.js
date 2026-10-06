@@ -2,30 +2,26 @@ const path = require('path');
 const fs = require('fs');
 const { runAllShowcases, processProjectShowcase } = require('./showcase/showcase-manager');
 
-// Load portfolio projects from server.js portfolioData or argument
-function getPortfolioProjects() {
-  const serverJsPath = path.join(__dirname, '..', 'server.js');
-  const content = fs.readFileSync(serverJsPath, 'utf8');
-
-  // Parse projects array from server.js
-  const match = content.match(/projects:\s*(\[\s*\{[\s\S]*?\}\s*\])/);
-  if (match) {
+// Load portfolio projects: the live site when PORTFOLIO_URL is set, otherwise the built-in seed data.
+async function getPortfolioProjects() {
+  const siteUrl = (process.env.PORTFOLIO_URL || '').replace(/\/+$/, '');
+  if (siteUrl) {
     try {
-      // Safely parse projects array without using new Function or eval
-      return JSON.parse(match[1].replace(/'/g, '"').replace(/(\w+):/g, '"$1":'));
+      const response = await fetch(`${siteUrl}/api/portfolio`);
+      if (response.ok) return (await response.json()).projects || [];
     } catch (err) {
-      console.error("Failed to parse projects from server.js:", err.message);
+      console.warn(`Could not read ${siteUrl}/api/portfolio (${err.message}); using built-in data.`);
     }
   }
-  return [];
+  return require('../data/defaults').projects;
 }
 
 async function main() {
   const targetProjectArg = process.argv[2];
-  const projects = getPortfolioProjects();
+  const projects = await getPortfolioProjects();
 
   if (projects.length === 0) {
-    console.error("No portfolio projects found in server.js");
+    console.error("No portfolio projects found");
     process.exit(1);
   }
 

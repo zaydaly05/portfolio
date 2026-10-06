@@ -8,6 +8,7 @@ const crypto = require("crypto");
 const express = require("express");
 const mongoose = require("mongoose");
 const { getKey } = require("../keys");
+const githubLib = require("../lib/github");
 
 const MIN_KEY_LENGTH = 20;
 const MAX_FAILED_ATTEMPTS = 10;
@@ -25,8 +26,17 @@ const SECTION_RULES = {
   technicalSkills: { type: "array", required: "category" },
   softSkills: { type: "array", required: "title" },
   languages: { type: "array", required: "name" },
-  certificates: { type: "array", required: "title" }
+  certificates: { type: "array", required: "title" },
+  site: { type: "object", required: "home_eyebrow" },
+  heroPills: { type: "array", required: "label" },
+  heroBadges: { type: "array", required: "text" },
+  heroSlides: { type: "array", required: "title" },
+  stats: { type: "array", required: "label" },
+  gateways: { type: "array", required: "title" },
+  faq: { type: "array", required: "question" }
 };
+
+const STAT_SOURCES = ["github_repos", "projects", "skill_categories", "certificates", "internships", "fixed"];
 
 const MAX_STRING_LENGTH = 5000;
 const MAX_DEPTH = 4;
@@ -84,6 +94,16 @@ function validateSection(section, data) {
     const identifier = data[rule.required];
     if (typeof identifier !== "string" || !identifier.trim()) throw new Error(`"${rule.required}" is required.`);
   }
+  if (section === "stats") {
+    data.forEach((item, i) => {
+      if (!STAT_SOURCES.includes(item.source)) {
+        throw new Error(`Stat ${i + 1}: "source" must be one of ${STAT_SOURCES.join(", ")}.`);
+      }
+      if (item.source === "fixed" && typeof item.value !== "number") {
+        throw new Error(`Stat ${i + 1}: a fixed stat needs a numeric "value".`);
+      }
+    });
+  }
   assertCleanJson(data);
 }
 
@@ -123,10 +143,11 @@ function requireAdmin(req, res, next) {
  * @param {object} deps.models { Review, Contact, Star }
  * @param {Function} deps.saveOverride (section, data|null) => Promise persist or remove an override
  * @param {Function} deps.refreshOverrides (force) => Promise reload overrides into portfolioData
- * @param {Function} deps.overriddenSections () => string[]
+ * @param {Function} deps.overriddenSections () => string[] sections that differ from the built-in content
+ * @param {Function} deps.fetchRepos (username) => Promise<GitHub repo[]>
  */
 function createAdminRouter(deps) {
-  const { portfolioData, defaults, connectDB, models, saveOverride, refreshOverrides, overriddenSections } = deps;
+  const { portfolioData, defaults, connectDB, models, saveOverride, refreshOverrides, overriddenSections, fetchRepos } = deps;
   const router = express.Router();
   router.use(requireAdmin);
 
@@ -196,14 +217,80 @@ function createAdminRouter(deps) {
     })
   );
 
+  // "Reset" restores the built-in content for a section (and stores it, so the database stays complete).
   router.delete(
     "/portfolio/:section",
     handle(async (req, res) => {
       const { section } = req.params;
       if (!SECTION_RULES[section]) return res.status(400).json({ ok: false, error: `Unknown section "${section}".` });
-      await saveOverride(section, null);
-      portfolioData[section] = JSON.parse(JSON.stringify(defaults[section]));
-      res.json({ ok: true, section, data: portfolioData[section] });
+      const restored = JSON.parse(JSON.stringify(defaults[section]));
+      await saveOverride(section, restored);
+      portfolioData[section] = restored;
+      res.json({ ok: true, section, data: restored });
+    })
+  );
+
+  // ---- GitHub: find repositories that are not in the portfolio yet and import them ----
+  const githubRepos = async (res) => {
+    const username = githubLib.usernameFromProfile(portfolioData.profile);
+    if (!username) {
+      res.status(400).json({ ok: false, error: "Set your GitHub link in the Profile first." });
+      return null;
+    }
+    try {
+      return { username, repos: await fetchRepos(username) };
+    } catch (err) {
+      res.status(502).json({ ok: false, error: `Could not reach GitHub: ${err.message}` });
+      return null;
+    }
+  };
+
+  router.get(
+    "/github/new",
+    handle(async (req, res) => {
+      const result = await githubRepos(res);
+      if (!result) return;
+      const fresh = githubLib.newRepos(result.repos, portfolioData.projects);
+      res.json({
+        ok: true,
+        username: result.username,
+        total: result.repos.length,
+        repos: fresh.map((r) => ({
+          name: r.name,
+          description: r.description || "",
+          language: r.language || "",
+          stars: r.stargazers_count || 0,
+          createdAt: r.created_at,
+          project: githubLib.repoToProject(r)
+        }))
+      });
+    })
+  );
+
+  router.post(
+    "/github/import",
+    handle(async (req, res) => {
+      const wanted = req.body && req.body.repos;
+      if (!Array.isArray(wanted) || !wanted.length || wanted.some((n) => typeof n !== "string")) {
+        return res.status(400).json({ ok: false, error: "repos must be a non-empty list of repository names." });
+      }
+      const result = await githubRepos(res);
+      if (!result) return;
+      const wantedSet = new Set(wanted.map((n) => n.toLowerCase()));
+      const toAdd = githubLib
+        .newRepos(result.repos, portfolioData.projects)
+        .filter((r) => wantedSet.has(String(r.name).toLowerCase()));
+      if (!toAdd.length) return res.status(404).json({ ok: false, error: "Those repositories were not found or are already in your projects." });
+
+      const next = [...portfolioData.projects, ...toAdd.map(githubLib.repoToProject)];
+      try {
+        validateSection("projects", next);
+      } catch (err) {
+        return res.status(400).json({ ok: false, error: err.message });
+      }
+      await saveOverride("projects", next);
+      portfolioData.projects = next;
+      res.json({ ok: true, added: toAdd.map((r) => r.name), total: next.length });
     })
   );
 

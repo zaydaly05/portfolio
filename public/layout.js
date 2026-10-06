@@ -37,10 +37,10 @@
 
       headerSlot.innerHTML = `
         <nav class="nav" id="navbar">
-          <a href="/" class="logo" aria-label="Zayd Ali Mohamed home">
+          <a href="/" class="logo" aria-label="Home">
             <img
-              src="https://res.cloudinary.com/delnnzcph/image/upload/v1791135580/logo.jpg"
-              alt="ZA"
+              data-bind-src="profile.logo"
+              alt="Logo"
               width="48"
               height="48"
             />
@@ -116,7 +116,7 @@
       footerSlot.className = "footer";
       footerSlot.innerHTML = `
         <div class="footer-container">
-          <p class="footer-copy">&copy; ${new Date().getFullYear()} Zayd Ali Mohamed</p>
+          <p class="footer-copy">&copy; ${new Date().getFullYear()} <span data-bind="profile.name"></span></p>
         </div>
       `;
     },
@@ -157,9 +157,9 @@
           <div class="quick-card-icon">📧</div>
           <div class="quick-card-info">
             <span>Email Address</span>
-            <strong>zaydaly0501@gmail.com</strong>
+            <strong data-bind="profile.email"></strong>
           </div>
-          <button class="btn-copy-chip" data-copy="zaydaly0501@gmail.com">Copy</button>
+          <button class="btn-copy-chip" data-bind-copy="profile.email">Copy</button>
         </div>
 
         <!-- Phone / WhatsApp -->
@@ -167,9 +167,9 @@
           <div class="quick-card-icon">📱</div>
           <div class="quick-card-info">
             <span>Phone / WhatsApp</span>
-            <strong>+20 101 774 1741</strong>
+            <strong data-bind="profile.phoneDisplay"></strong>
           </div>
-          <button class="btn-copy-chip" data-copy="+201017741741">Copy</button>
+          <button class="btn-copy-chip" data-bind-copy="profile.phoneIntl">Copy</button>
         </div>
 
         <!-- LinkedIn Profile Card -->
@@ -186,10 +186,10 @@
           </div>
           <div class="quick-card-info">
             <span>Official LinkedIn Profile</span>
-            <strong style="color: var(--text)">zayd-ali-17a85a1a0</strong>
+            <strong style="color: var(--text)" data-bind="profile.linkedin" data-bind-format="handle"></strong>
           </div>
           <a
-            href="https://www.linkedin.com/in/zayd-ali-17a85a1a0"
+            data-bind-href="profile.linkedin"
             target="_blank"
             rel="noopener noreferrer"
             class="btn-copy-chip"
@@ -203,7 +203,7 @@
           <div class="quick-card-icon">📍</div>
           <div class="quick-card-info">
             <span>Location &amp; Time Zone</span>
-            <strong>Maadi, Cairo, Egypt (UTC+3)</strong>
+            <strong data-bind="profile.locationLong"></strong>
           </div>
         </div>
 
@@ -211,7 +211,7 @@
         <div class="contact-schedule-banner">
           <h5>Schedule a Direct Interview</h5>
           <p>Recruiting for a position or looking for a software engineering candidate? Let's connect directly.</p>
-          <a href="mailto:zaydaly0501@gmail.com?subject=Interview%20Inquiry%20-%20Zayd%20Ali" class="btn btn-sm">
+          <a data-bind-href="profile.email" data-href-prefix="mailto:" data-href-suffix="?subject=Interview%20Inquiry" class="btn btn-sm">
             Schedule an Interview ✉️
           </a>
         </div>
@@ -261,6 +261,7 @@
       this.renderFooter();
       this.renderContactCards();
       this.renderCookieConsent();
+      window.dispatchEvent(new CustomEvent("layout:rendered"));
     }
   };
 
