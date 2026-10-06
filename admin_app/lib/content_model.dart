@@ -63,7 +63,7 @@ const List<SectionInfo> sections = [
     icon: '📜',
     titleKey: 'title',
     subtitleKey: 'issuer',
-    template: {'title': '', 'issuer': '', 'date': '', 'category': '', 'image': '', 'pdf': '', 'desc': ''},
+    template: {'title': '', 'issuer': '', 'date': '', 'category': '', 'image': '', 'pdf': '', 'desc': '', 'kind': 'certificate', 'imageLabel': ''},
   ),
   SectionInfo(
     key: 'featuredStack',

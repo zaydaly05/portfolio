@@ -132,3 +132,19 @@ test("an untouched old FAQ is upgraded to the new default; an edited FAQ is left
   assert.deepEqual(kept.sections.faq, edited);
   assert.ok(!state.bulkOps.some((o) => o.updateOne.filter.section === "faq"));
 });
+
+test("untouched old experience and certificates are upgraded to the corrected defaults", async () => {
+  const legacy = require("../data/legacy-defaults");
+  state.bulkOps.length = 0;
+  state.docs = [
+    { section: "experience", data: legacy.experience[0] },
+    { section: "certificates", data: legacy.certificates[0] }
+  ];
+  const data = await adminGet("/api/admin/portfolio");
+  assert.equal(data.sections.certificates.length, defaults.certificates.length);
+  assert.ok(data.sections.certificates.some((c) => c.kind === "letter"));
+  const we = data.sections.experience.find((e) => /^WE/.test(e.company));
+  assert.equal(we.media, undefined); // no longer shows another company's letter
+  const sections = state.bulkOps.map((o) => o.updateOne.filter.section);
+  assert.ok(sections.includes("experience") && sections.includes("certificates"));
+});

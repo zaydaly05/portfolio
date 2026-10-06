@@ -21,6 +21,7 @@
               <button id="modal-next" class="pm-nav pm-nav-next" type="button" aria-label="Next media">›</button>
               <div class="pm-viewer-bar">
                 <span id="modal-counter" class="pm-counter" aria-live="polite"></span>
+                <span id="modal-caption" class="pm-caption"></span>
                 <button id="modal-zoom" class="pm-zoom" type="button">Enlarge ⤢</button>
               </div>
             </div>

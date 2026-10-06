@@ -485,6 +485,15 @@ const showModalMedia = (index) => {
 
   const counter = document.getElementById("modal-counter");
   if (counter) counter.textContent = `${next + 1} / ${total}`;
+  // "Title — Experience letter" style alt text becomes a visible label (letter / certificate / badge)
+  const captionEl = document.getElementById("modal-caption");
+  if (captionEl) {
+    const alt = String((item && item.alt) || "");
+    const label = alt.includes(" — ") ? alt.split(" — ").slice(1).join(" — ") : "";
+    captionEl.textContent = label;
+    captionEl.title = alt;
+    captionEl.hidden = !label;
+  }
   const prev = document.getElementById("modal-prev");
   const nextBtn = document.getElementById("modal-next");
   if (prev) prev.disabled = next === 0;
@@ -937,7 +946,7 @@ const renderCertificates = (items) => {
           <div class="cert-actions">
             ${
               item.pdf
-                ? `<a href="${item.pdf}" target="_blank" rel="noopener" class="btn-cert-link" onclick="event.stopPropagation();">View credential <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></a>`
+                ? `<a href="${item.pdf}" target="_blank" rel="noopener" class="btn-cert-link" onclick="event.stopPropagation();">${item.kind === "letter" ? "View letter" : "View credential"} <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></a>`
                 : ""
             }
           </div>
@@ -947,14 +956,26 @@ const renderCertificates = (items) => {
     )
     .join("");
 
+  const isImage = (url) => /\.(png|jpe?g|webp|gif|avif)(\?|$)/i.test(String(url || ""));
+
   attachCardModalHandlers(".js-cert-card", (index) => {
     const item = safeItems[index] || {};
+    const isLetter = item.kind === "letter";
+    const media = [];
+    if (item.image) {
+      media.push({ src: item.image, alt: `${item.title} — ${item.imageLabel || (isLetter ? "Experience letter" : "Certificate")}` });
+    }
+    // A separate certificate image behind a badge (or any second image) is shown in the same popup
+    if (item.pdf && isImage(item.pdf) && item.pdf !== item.image) {
+      media.push({ src: item.pdf, alt: `${item.title} — ${isLetter ? "Experience letter" : "Certificate"}` });
+    }
     return {
-      tag: "Verified Online Certification",
+      tag: isLetter ? "Experience Letter" : "Verified Online Certification",
       title: item.title,
       subtitle: [item.issuer, item.category, item.date].filter(Boolean).join(" · "),
       description: item.desc,
-      media: item.image ? [{ src: item.image, alt: item.title }] : []
+      media,
+      pdfUrl: item.pdf && !isImage(item.pdf) ? item.pdf : undefined
     };
   });
 };
@@ -1911,7 +1932,7 @@ const setupGitHubSync = async () => {
         <div class="gh-repo-card">
           <div>
             <div class="gh-repo-title">${repo.name}</div>
-            <p class="gh-repo-desc">${repo.description}</p>
+            <p class="gh-repo-desc">${repo.description || ""}</p>
           </div>
           <div class="gh-repo-meta">
             <span class="gh-lang-tag"><span class="gh-lang-dot"></span> ${repo.language}</span>
@@ -1925,7 +1946,7 @@ const setupGitHubSync = async () => {
         )
         .join("");
     } else {
-      reposContainer.innerHTML = `<div class="github-loading">No public repositories found.</div>`;
+      reposContainer.innerHTML = `<div class="github-loading">No project repositories to show yet.</div>`;
     }
   } catch (err) {
     console.error("GitHub Sync error:", err);
@@ -2172,10 +2193,13 @@ const setupTerminalCLI = () => {
             : "No education listed yet."
         );
       } else if (cmd === "certs" || cmd === "certificates") {
-        const certs = portfolioNow().certificates || [];
+        const all = portfolioNow().certificates || [];
+        const certs = all.filter((c) => c.kind !== "letter");
+        const letters = all.filter((c) => c.kind === "letter");
+        const line = (c) => `  • ${c.title}${c.issuer ? ` - ${c.issuer}` : ""}${c.date ? ` (${c.date})` : ""}`;
         printLine(
-          certs.length
-            ? `Certifications (${certs.length}):\n` + certs.map((c) => `  • ${c.title}${c.issuer ? ` - ${c.issuer}` : ""}${c.date ? ` (${c.date})` : ""}`).join("\n")
+          all.length
+            ? [`Certifications (${certs.length}):`, ...certs.map(line), ...(letters.length ? ["", `Experience Letters (${letters.length}):`, ...letters.map(line)] : [])].join("\n")
             : "No certifications listed yet."
         );
       } else if (cmd === "languages" || cmd === "lang") {
@@ -2649,7 +2673,15 @@ const initPuzzlePreloader = () => {
   }
 
   let isDismissed = false;
+  let isComplete = false;
   let animStart = null;
+
+  // Once every piece is in place the gaps close and the square morphs into the logo's circle
+  const completePuzzle = () => {
+    if (isComplete) return;
+    isComplete = true;
+    stage.classList.add("is-complete");
+  };
 
   const dismiss = () => {
     if (isDismissed) return;
@@ -2665,13 +2697,14 @@ const initPuzzlePreloader = () => {
       t.el.style.transform = "translate3d(0, 0, 0) rotate(0deg)";
       t.el.style.opacity = "1";
     });
+    completePuzzle();
 
     setTimeout(() => {
       screen.classList.add("fade-out");
       setTimeout(() => {
         screen.style.display = "none";
       }, 800);
-    }, alreadyShown ? 300 : 700);
+    }, alreadyShown ? 700 : 1100);
   };
 
   if (skipBtn) {
@@ -2702,6 +2735,8 @@ const initPuzzlePreloader = () => {
         item.el.style.opacity = "1";
       }
     });
+
+    if (progress >= 0.8) completePuzzle();
 
     if (progress >= 1) {
       dismiss();

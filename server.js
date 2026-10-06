@@ -396,6 +396,26 @@ app.get("/api/status", (req, res) => {
 
 // GitHub Live Sync Cache
 let githubCache = { data: null, timestamp: 0 };
+/** Only repositories that back a project in the Project Hub are shown, in the hub's order. */
+function projectRepos(allRepos) {
+  const byName = new Map((allRepos || []).map((r) => [String(r.name).toLowerCase(), r]));
+  const seen = new Set();
+  const out = [];
+  for (const project of portfolioData.projects || []) {
+    const slug = String(githubLib.repoSlugFromUrl(project.github) || "").toLowerCase();
+    const repo = byName.get(slug.split("/").pop());
+    if (!repo || seen.has(repo.name)) continue;
+    seen.add(repo.name);
+    out.push({ ...repo, description: repo.description || project.description || "" });
+  }
+  return out;
+}
+
+function githubPayload(cached) {
+  const { allRepos, ...rest } = cached;
+  return { ...rest, topRepos: projectRepos(allRepos) };
+}
+
 app.get("/api/github", async (req, res) => {
   await refreshPortfolioOverrides();
   const username = githubLib.usernameFromProfile(portfolioData.profile);
@@ -403,7 +423,7 @@ app.get("/api/github", async (req, res) => {
 
   const cacheDuration = 15 * 60 * 1000; // 15 mins
   if (githubCache.data && githubCache.data.username.toLowerCase() === username.toLowerCase() && Date.now() - githubCache.timestamp < cacheDuration) {
-    return res.json(githubCache.data);
+    return res.json(githubPayload(githubCache.data));
   }
 
   const ghToken = getKey("github") || process.env.GITHUB_TOKEN;
@@ -413,7 +433,7 @@ app.get("/api/github", async (req, res) => {
     const userRes = await fetch(`https://api.github.com/users/${encodeURIComponent(username)}`, { headers });
     if (!userRes.ok) throw new Error(`GitHub API error: ${userRes.status}`);
     const userData = await userRes.json();
-    const reposRes = await fetch(`https://api.github.com/users/${encodeURIComponent(username)}/repos?sort=updated&per_page=6`, { headers });
+    const reposRes = await fetch(`https://api.github.com/users/${encodeURIComponent(username)}/repos?sort=updated&per_page=100`, { headers });
     const reposData = reposRes.ok ? await reposRes.json() : [];
 
     const formattedRepos = Array.isArray(reposData)
@@ -435,15 +455,15 @@ app.get("/api/github", async (req, res) => {
       publicRepos: userData.public_repos,
       followers: userData.followers,
       profileUrl: userData.html_url,
-      topRepos: formattedRepos
+      allRepos: formattedRepos
     };
 
     githubCache = { data: result, timestamp: Date.now() };
-    res.json(result);
+    res.json(githubPayload(result));
   } catch (err) {
     console.warn("GitHub fetch notice (using cache):", err.message);
     // Serve the last good answer if we have one; otherwise report the failure honestly.
-    if (githubCache.data && githubCache.data.username.toLowerCase() === username.toLowerCase()) return res.json(githubCache.data);
+    if (githubCache.data && githubCache.data.username.toLowerCase() === username.toLowerCase()) return res.json(githubPayload(githubCache.data));
     res.status(502).json({ ok: false, error: "GitHub is unreachable right now.", profileUrl: portfolioData.profile.github || null });
   }
 });

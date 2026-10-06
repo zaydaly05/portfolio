@@ -74,6 +74,17 @@ test("assistant covers languages, strengths, counts, soft skills and the CV link
   assert.match(all, /\*\*9\*\*/);
 });
 
+test("assistant keeps experience letters apart from certificates", () => {
+  const data = JSON.parse(JSON.stringify(defaults));
+  data.certificates = [
+    { title: "Cisco C Essentials", issuer: "Cisco", kind: "certificate" },
+    { title: "Acme Experience Letter", issuer: "Acme", kind: "letter" }
+  ];
+  const reply = buildReply("certifications", data).reply;
+  assert.match(reply, /certifications:[\s\S]*Cisco C Essentials[\s\S]*experience letters:[\s\S]*Acme Experience Letter/);
+  assert.match(buildReply("how many certifications", data).reply, /\*\*1\*\* certifications/);
+});
+
 test("assistant copes with an empty portfolio", () => {
   const empty = {};
   for (const q of ["hi", "skills", "projects", "experience", "education", "certificates", "contact", "cv", "???"]) {
