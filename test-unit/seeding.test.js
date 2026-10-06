@@ -142,9 +142,61 @@ test("untouched old experience and certificates are upgraded to the corrected de
   ];
   const data = await adminGet("/api/admin/portfolio");
   assert.equal(data.sections.certificates.length, defaults.certificates.length);
+  assert.ok(data.sections.certificates.some((c) => /WE \(Telecom Egypt\) Experience Letter/.test(c.title)));
   assert.ok(data.sections.certificates.some((c) => c.kind === "letter"));
   const we = data.sections.experience.find((e) => /^WE/.test(e.company));
-  assert.equal(we.media, undefined); // no longer shows another company's letter
+  assert.equal(we.media.length, 1);
+  assert.match(we.media[0].src, /Experience_Letter_WE\.png$/); // its own letter, not another company's
   const sections = state.bulkOps.map((o) => o.updateOne.filter.section);
   assert.ok(sections.includes("experience") && sections.includes("certificates"));
+});
+
+test("the previous (corrected-but-WE-less) experience and certificates also upgrade", async () => {
+  const legacy = require("../data/legacy-defaults");
+  assert.ok(legacy.experience.length >= 2 && legacy.certificates.length >= 2);
+  state.bulkOps.length = 0;
+  state.docs = [
+    { section: "experience", data: legacy.experience[legacy.experience.length - 1] },
+    { section: "certificates", data: legacy.certificates[legacy.certificates.length - 1] }
+  ];
+  const data = await adminGet("/api/admin/portfolio");
+  assert.ok(data.sections.certificates.some((c) => /WE \(Telecom Egypt\) Experience Letter/.test(c.title)));
+  assert.ok(data.sections.experience.find((e) => /^WE/.test(e.company)).media.length === 1);
+});
+
+test("the WE letter is added to edited stored content without touching the owner's edits", async () => {
+  const live = {
+    experience: [
+      { company: "WE (Telecom Egypt)", role: "Android Development Intern", points: ["My own edited point"], mediaBadge: "📜 Experience Letter" },
+      { company: "Cairo Higher Institute", role: "IT", points: [], media: [{ src: "x.jpg", alt: "x" }] }
+    ],
+    certificates: [{ title: "My own certificate", issuer: "Me", kind: "certificate", image: "a.png", pdf: "a.png" }]
+  };
+  state.bulkOps.length = 0;
+  state.docs = [
+    { section: "experience", data: JSON.parse(JSON.stringify(live.experience)) },
+    { section: "certificates", data: JSON.parse(JSON.stringify(live.certificates)) }
+  ];
+  const data = await adminGet("/api/admin/portfolio");
+  const we = data.sections.experience.find((e) => /^WE/.test(e.company));
+  assert.equal(we.media.length, 1);
+  assert.match(we.media[0].src, /Experience_Letter_WE\.png$/);
+  assert.deepEqual(we.points, ["My own edited point"]); // edits kept
+  assert.equal(data.sections.experience[1].media[0].src, "x.jpg"); // other cards untouched
+  assert.equal(data.sections.certificates[0].title, "WE (Telecom Egypt) Experience Letter");
+  assert.equal(data.sections.certificates[1].title, "My own certificate");
+  const marker = state.bulkOps.find((o) => o.updateOne.filter.section === "_migrations");
+  assert.ok(marker && marker.updateOne.upsert && marker.updateOne.update.$set.data.applied.length === 2);
+
+  // already applied -> nothing is added again, even if the owner removed the letter
+  state.bulkOps.length = 0;
+  state.docs = [
+    { section: "experience", data: [{ company: "WE (Telecom Egypt)", role: "x", points: [] }] },
+    { section: "certificates", data: [{ title: "Only mine", issuer: "Me" }] },
+    { section: "_migrations", data: { applied: marker.updateOne.update.$set.data.applied } }
+  ];
+  const again = await adminGet("/api/admin/portfolio");
+  assert.equal(again.sections.certificates.length, 1);
+  assert.equal(again.sections.experience[0].media, undefined);
+  assert.ok(!state.bulkOps.some((o) => o.updateOne.filter.section === "_migrations"));
 });
