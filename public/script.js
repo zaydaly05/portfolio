@@ -1660,7 +1660,17 @@ const setupReviewsSystem = async () => {
 const setupStarPrompt = () => {
   if (sessionStorage.getItem("star-prompt-dismissed")) return;
 
-  setTimeout(() => {
+  // Wait until the intro animation is gone, then give the visitor a few seconds first
+  const introGone = () => {
+    const intro = document.getElementById("puzzle-loader-screen");
+    return !intro || getComputedStyle(intro).display === "none";
+  };
+  const waitForIntro = (then) => {
+    if (introGone()) setTimeout(then, 4000);
+    else setTimeout(() => waitForIntro(then), 400);
+  };
+
+  waitForIntro(() => {
     const toast = document.createElement("div");
     toast.className = "star-toast-popup";
     toast.innerHTML = `
@@ -1691,7 +1701,7 @@ const setupStarPrompt = () => {
 
     if (closeBtn) closeBtn.addEventListener("click", dismiss);
     if (linkBtn) linkBtn.addEventListener("click", dismiss);
-  }, 4000);
+  });
 };
 
 /* ============================================
@@ -2683,7 +2693,22 @@ const initPuzzlePreloader = () => {
     stage.classList.add("is-complete");
   };
 
-  const dismiss = () => {
+  const SPIN_MS = 2200;
+  const ZOOM_MS = 950;
+  const reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /** Zoom-out from the intro into the home page, then remove the intro. */
+  const zoomOut = () => {
+    document.body.classList.add("intro-reveal");
+    screen.classList.add(reducedMotion ? "fade-out" : "zoom-out");
+    setTimeout(() => {
+      screen.style.display = "none";
+      document.body.classList.remove("intro-reveal");
+    }, ZOOM_MS + 150);
+  };
+
+  // fast = visitor pressed Skip: no spin, go straight to the zoom
+  const dismiss = (fast = false) => {
     if (isDismissed) return;
     isDismissed = true;
     sessionStorage.setItem("zayd_puzzle_intro_shown", "true");
@@ -2699,16 +2724,14 @@ const initPuzzlePreloader = () => {
     });
     completePuzzle();
 
-    setTimeout(() => {
-      screen.classList.add("fade-out");
-      setTimeout(() => {
-        screen.style.display = "none";
-      }, 800);
-    }, alreadyShown ? 700 : 1100);
+    // First visit: the finished logo turns once, slowly, before the zoom-out
+    const spin = !fast && !alreadyShown && !reducedMotion;
+    if (spin) stage.classList.add("is-spinning");
+    setTimeout(zoomOut, spin ? SPIN_MS + 250 : fast ? 150 : 500);
   };
 
   if (skipBtn) {
-    skipBtn.addEventListener("click", dismiss);
+    skipBtn.addEventListener("click", () => dismiss(true));
   }
 
   const step = (now) => {
@@ -2739,7 +2762,7 @@ const initPuzzlePreloader = () => {
     if (progress >= 0.8) completePuzzle();
 
     if (progress >= 1) {
-      dismiss();
+      dismiss(false);
     } else {
       requestAnimationFrame(step);
     }
