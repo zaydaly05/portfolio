@@ -6606,3 +6606,16 @@ body:has(.mobile-nav-overlay.open) .star-toast-popup {
   font-size: 0.9rem;
   color: var(--pm-muted);
 }
+
+/* Portrait media (phone recordings, app screenshots) */
+@media (max-width: 820px) {
+  .pm-viewer--portrait {
+    aspect-ratio: auto;
+    height: min(58dvh, 520px);
+  }
+}
+
+.pm-viewer--portrait .pm-viewer-frame img,
+.pm-viewer--portrait .pm-viewer-frame video {
+  object-fit: contain;
+}

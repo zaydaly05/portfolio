@@ -810,6 +810,11 @@ const buildVideoSources = (src) => {
   ];
 };
 
+const setViewerOrientation = (width, height) => {
+  const viewer = document.querySelector("#modal-viewer-frame")?.closest(".pm-viewer");
+  if (viewer && width && height) viewer.classList.toggle("pm-viewer--portrait", height > width * 1.05);
+};
+
 const showModalMedia = (index) => {
   const { media } = modalMediaState;
   const frame = document.getElementById("modal-viewer-frame");
@@ -824,13 +829,17 @@ const showModalMedia = (index) => {
   frame.classList.remove("is-loaded");
   frame.innerHTML = "";
   const viewer = frame.closest(".pm-viewer");
-  if (viewer) viewer.classList.toggle("pm-viewer--video", item.type === "video");
+  if (viewer) {
+    viewer.classList.toggle("pm-viewer--video", item.type === "video");
+    viewer.classList.remove("pm-viewer--portrait");
+  }
   if (item.type === "video") {
     const video = document.createElement("video");
     video.controls = true;
     video.playsInline = true;
     video.preload = "metadata";
     video.setAttribute("aria-label", label);
+    video.addEventListener("loadedmetadata", () => setViewerOrientation(video.videoWidth, video.videoHeight), { once: true });
     buildVideoSources(item.src).forEach(({ src, type }) => {
       const source = document.createElement("source");
       source.src = src;
@@ -851,7 +860,10 @@ const showModalMedia = (index) => {
     const img = document.createElement("img");
     img.alt = label;
     img.decoding = "async";
-    img.addEventListener("load", () => markMediaLoaded(img), { once: true });
+    img.addEventListener("load", () => {
+      setViewerOrientation(img.naturalWidth, img.naturalHeight);
+      markMediaLoaded(img);
+    }, { once: true });
     img.addEventListener("error", () => markMediaLoaded(img), { once: true });
     img.src = item.src;
     frame.appendChild(img);
