@@ -8,6 +8,7 @@ import 'screens/reviews_screen.dart';
 import 'screens/settings_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(AdminApp(state: AppState()..load()));
 }
 

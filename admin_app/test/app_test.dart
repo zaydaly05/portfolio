@@ -67,7 +67,19 @@ MockClient fakeServer() => MockClient((req) async {
       }
     });
 
+class _BrokenStore extends SettingsStore {
+  @override
+  Future<ServerSettings> load() async => throw Exception('storage unavailable');
+}
+
 void main() {
+  test('unreadable storage still finishes loading', () async {
+    final state = AppState(store: _BrokenStore());
+    await state.load();
+    expect(state.loaded, isTrue);
+    expect(state.settings.isConfigured, isFalse);
+  });
+
   testWidgets('first launch opens Settings and asks for the server and key', (tester) async {
     SharedPreferences.setMockInitialValues({});
     final state = AppState()..load();
