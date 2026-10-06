@@ -56,7 +56,7 @@ jobs:
       - name: Upload the PDF to the site
         if: steps.ask.outputs.build == 'true' && success()
         run: |
-          pages=$(pdfinfo main.pdf 2>/dev/null | awk '/^Pages:/{print $2}' || true)
+          pages=$(grep -oE 'Output written on main\.pdf \([0-9]+ page' main.log | grep -oE '[0-9]+ page' | grep -oE '[0-9]+' || true)
           echo "Compiled CV: ${pages:-?} page(s)"
           curl -fsS -X POST \
             -H "x-cv-build-key: $CV_BUILD_KEY" \

@@ -18,6 +18,8 @@ MockClient fakeServer() => MockClient((req) async {
       switch (req.url.path) {
         case '/api/admin/ping':
           return reply({'ok': true});
+        case '/api/admin/cv/refresh':
+          return reply({'ok': true, 'projects': 11, 'experience': 4, 'skills': 8});
         case '/api/admin/cv':
           return reply({'ok': true, 'status': 'done', 'version': 4, 'pages': 2, 'runnerConfigured': true, 'url': '/api/document/resume?v=4'});
         case '/api/admin/summary':
@@ -100,8 +102,16 @@ void main() {
     expect(find.text('61'), findsOneWidget);
     expect(find.text('CV (PDF)'), findsOneWidget);
     expect(find.textContaining('Up to date (version 4).'), findsOneWidget);
-    expect(find.textContaining('now 2 pages'), findsOneWidget);
+    expect(find.textContaining('now 2 pages'), findsNothing); // 2 pages is allowed
     expect(find.text('Rebuild now'), findsOneWidget);
+
+    requests.clear();
+    await tester.tap(find.text('Update from portfolio'));
+    await tester.pumpAndSettle();
+    expect(find.text('Update CV from portfolio?'), findsOneWidget);
+    await tester.tap(find.text('Update'));
+    await tester.pumpAndSettle();
+    expect(requests, contains('POST /api/admin/cv/refresh'));
     expect(find.text('5'), findsOneWidget);
 
     await tester.tap(find.text('Content'));
