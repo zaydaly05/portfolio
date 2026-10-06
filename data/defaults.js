@@ -57,7 +57,14 @@ module.exports = {
         "Integrated network operations and local persistence using Retrofit and Room Database for offline-first architecture.",
         "Implemented dependency injection using Hilt to ensure decoupled, scalable enterprise mobile software design.",
         "Managed application lifecycles and mitigated native process death constraints effectively under direct supervision of Khaled Mamdouh (Android Developer Supervisor, WE)."
-      ]
+      ],
+      "media": [
+        {
+          "src": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137221/Experience_Letter_WE.png",
+          "alt": "WE (Telecom Egypt) — Experience Letter (Android Development, 2026)"
+        }
+      ],
+      "mediaBadge": "📜 Experience Letter"
     },
     {
       "company": "Cairo Higher Institute",
@@ -728,6 +735,16 @@ module.exports = {
     }
   ],
   "certificates": [
+    {
+      "title": "WE (Telecom Egypt) Experience Letter",
+      "issuer": "WE (Telecom Egypt) — Android Development",
+      "date": "July 2026",
+      "category": "Experience Letter",
+      "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137221/Experience_Letter_WE.png",
+      "pdf": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137221/Experience_Letter_WE.png",
+      "desc": "Official experience letter confirming the Android development internship at Telecom Egypt (WE): Kotlin, Jetpack Compose, MVVM, Retrofit, Room and Hilt.",
+      "kind": "letter"
+    },
     {
       "title": "TAQA Arabia Software Internship Certificate",
       "issuer": "TAQA Arabia — Software Engineering Dept",

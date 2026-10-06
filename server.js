@@ -212,6 +212,7 @@ app.use(
 // fallback if the database is unreachable; the database is the source of truth afterwards.
 const portfolioDefaults = require("./data/defaults");
 const legacyDefaults = require("./data/legacy-defaults");
+const contentMigrations = require("./lib/migrations");
 const portfolioData = JSON.parse(JSON.stringify(portfolioDefaults));
 
 const getShowcaseManifest = () => {
@@ -781,6 +782,25 @@ async function refreshPortfolioOverrides(force = false) {
         }
       }))
     ).catch((err) => console.error("Could not upgrade portfolio content:", err.message));
+  }
+
+  // Small additive patches for content that already lives in the database (see lib/migrations.js)
+  if (seedDb) {
+    const applied = new Set((stored._migrations && stored._migrations.applied) || []);
+    const todo = contentMigrations.filter((m) => !applied.has(m.id) && Object.prototype.hasOwnProperty.call(stored, m.section));
+    if (todo.length) {
+      const ops = [];
+      todo.forEach((m) => {
+        const next = m.apply(JSON.parse(JSON.stringify(portfolioData[m.section])), portfolioDefaults[m.section]);
+        if (next) {
+          portfolioData[m.section] = next;
+          ops.push({ updateOne: { filter: { section: m.section }, update: { $set: { data: next, updatedAt: new Date() } } } });
+        }
+        applied.add(m.id);
+      });
+      ops.push({ updateOne: { filter: { section: "_migrations" }, update: { $set: { data: { applied: [...applied] }, updatedAt: new Date() } }, upsert: true } });
+      PortfolioSection.bulkWrite(ops).catch((err) => console.error("Could not apply content migrations:", err.message));
+    }
   }
 
   // First run (or a section added in a later release): copy the built-in content into the database
