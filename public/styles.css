@@ -3690,8 +3690,13 @@ body:has(.modal:not(.hidden)) .ai-chat-widget {
 
 .toast-close {
   position: absolute;
-  top: 10px;
-  right: 12px;
+  top: 4px;
+  right: 6px;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: none;
   color: #94a3b8;
@@ -7346,4 +7351,89 @@ body:has(.mobile-nav-overlay.open) .star-toast-popup {
   text-overflow: ellipsis;
   letter-spacing: var(--tag-fit-ls, 0.14em);
   font-size: var(--tag-fit-size, 0.78rem);
+}
+
+/* ============================================
+   MOBILE POLISH (final audit)
+   ============================================ */
+@media (max-width: 768px) {
+  /* Hero slider: arrows and dots live on one bottom row so they never cover the text */
+  .hero-showcase-slider {
+    height: 410px !important;
+  }
+  .hero-showcase-slider .slide-overlay {
+    padding-bottom: 64px !important;
+  }
+  .slider-nav-btn {
+    top: auto;
+    bottom: 10px;
+    transform: none;
+    width: 38px;
+    height: 38px;
+    font-size: 1.25rem;
+  }
+  .slider-nav-btn.prev {
+    left: 14px;
+  }
+  .slider-nav-btn.next {
+    right: 14px;
+  }
+  .slider-dots {
+    bottom: 22px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+
+  /* Availability + clock pill: two tidy lines instead of wrapped fragments */
+  .hero-status-pill {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 4px;
+    column-gap: 10px;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 18px;
+    padding: 8px 14px;
+    font-size: 0.82rem;
+  }
+  .hero-status-pill > * {
+    white-space: nowrap;
+  }
+
+  /* "Enjoying the portfolio?" prompt: compact, and clear of the chat button */
+  .star-toast-popup {
+    left: 12px;
+    right: 12px;
+    bottom: 84px;
+    max-width: none;
+    padding: 12px 14px;
+    border-radius: 14px;
+  }
+  .star-toast-popup .toast-content {
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .star-toast-popup .toast-star-icon {
+    font-size: 1.4rem;
+  }
+  .star-toast-popup h6 {
+    font-size: 0.9rem;
+    margin: 0 28px 2px 0;
+  }
+  .star-toast-popup p {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-status-pill .status-divider {
+    display: none;
+  }
+  .slide-tech-chips {
+    flex-wrap: wrap;
+  }
+  .slide-tech-chips .chip-sm {
+    white-space: nowrap;
+  }
 }
