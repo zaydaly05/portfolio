@@ -794,6 +794,27 @@ const markMediaLoaded = (img) => {
   if (holder) holder.classList.add("is-loaded");
 };
 
+// Original file first, then H.264/AAC and WebM re-encodes. Browsers that can't decode the
+// original (e.g. OpenCV "mp4v" files) fall through to the next source.
+const buildVideoSources = (src) => {
+  const marker = "/video/upload/";
+  if (!src.includes("res.cloudinary.com") || !src.includes(marker)) {
+    return [{ src, type: /\.webm($|\?)/i.test(src) ? "video/webm" : "video/mp4" }];
+  }
+  const withTransform = (transform, ext) =>
+    src.replace(marker, `${marker}${transform}/`).replace(/\.[a-z0-9]+($|\?)/i, `.${ext}$1`);
+  return [
+    { src, type: "video/mp4" },
+    { src: withTransform("f_mp4,vc_h264,ac_aac,q_auto", "mp4"), type: "video/mp4" },
+    { src: withTransform("f_webm,vc_vp9,q_auto", "webm"), type: "video/webm" }
+  ];
+};
+
+const setViewerOrientation = (width, height) => {
+  const viewer = document.querySelector("#modal-viewer-frame")?.closest(".pm-viewer");
+  if (viewer && width && height) viewer.classList.toggle("pm-viewer--portrait", height > width * 1.05);
+};
+
 const showModalMedia = (index) => {
   const { media } = modalMediaState;
   const frame = document.getElementById("modal-viewer-frame");
@@ -807,12 +828,31 @@ const showModalMedia = (index) => {
 
   frame.classList.remove("is-loaded");
   frame.innerHTML = "";
+  const viewer = frame.closest(".pm-viewer");
+  if (viewer) {
+    viewer.classList.toggle("pm-viewer--video", item.type === "video");
+    viewer.classList.remove("pm-viewer--portrait");
+  }
   if (item.type === "video") {
     const video = document.createElement("video");
-    video.src = item.src;
     video.controls = true;
     video.playsInline = true;
     video.preload = "metadata";
+    video.setAttribute("aria-label", label);
+    video.addEventListener("loadedmetadata", () => setViewerOrientation(video.videoWidth, video.videoHeight), { once: true });
+    buildVideoSources(item.src).forEach(({ src, type }) => {
+      const source = document.createElement("source");
+      source.src = src;
+      source.type = type;
+      video.appendChild(source);
+    });
+    // Only the last source's error means every format failed
+    video.lastElementChild.addEventListener("error", () => {
+      const note = document.createElement("div");
+      note.className = "pm-video-error";
+      note.innerHTML = `<p>This video couldn't be played in your browser.</p><a class="pm-btn pm-btn-secondary" target="_blank" rel="noopener" href="${escapeAttr(item.src)}">Open video in new tab ↗</a>`;
+      frame.replaceChildren(note);
+    });
     frame.appendChild(video);
     frame.classList.add("is-loaded");
     frame.classList.remove("is-zoomable");
@@ -820,7 +860,10 @@ const showModalMedia = (index) => {
     const img = document.createElement("img");
     img.alt = label;
     img.decoding = "async";
-    img.addEventListener("load", () => markMediaLoaded(img), { once: true });
+    img.addEventListener("load", () => {
+      setViewerOrientation(img.naturalWidth, img.naturalHeight);
+      markMediaLoaded(img);
+    }, { once: true });
     img.addEventListener("error", () => markMediaLoaded(img), { once: true });
     img.src = item.src;
     frame.appendChild(img);

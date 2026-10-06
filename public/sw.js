@@ -3,7 +3,7 @@
    Caches core static assets with Network-First strategy for code/HTML to prevent stale caching.
    ============================================ */
 
-const CACHE_NAME = "zayd-portfolio-v7";
+const CACHE_NAME = "zayd-portfolio-v9";
 const ASSETS_TO_CACHE = [
   "/",
   "/index.html",
@@ -11,12 +11,12 @@ const ASSETS_TO_CACHE = [
   "/skills",
   "/experience",
   "/contact",
-  "/styles.css?v=20261008",
+  "/styles.css?v=20261010",
   "/layout.js",
-  "/modals.js?v=20261008",
+  "/modals.js?v=20261010",
   "/buttons.js",
-  "/ui-effects.js?v=20261008",
-  "/script.js?v=20261008",
+  "/ui-effects.js?v=20261010",
+  "/script.js?v=20261010",
   "https://res.cloudinary.com/delnnzcph/image/upload/v1791135580/logo.jpg",
   "https://res.cloudinary.com/delnnzcph/image/upload/v1791135534/main-photo.jpg"
 ];
