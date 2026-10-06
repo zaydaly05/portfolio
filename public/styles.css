@@ -6442,3 +6442,20 @@ body.no-scroll {
 }
 
 
+
+/* ============================================
+   POPUP PERFORMANCE OVERRIDES (no visual change)
+   ============================================ */
+/* The card background is opaque, so a blur behind it is invisible but costly */
+.modal-card {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Content hidden behind an open popup doesn't need to keep animating */
+body.no-scroll .gradient-bg,
+body.no-scroll main *,
+body.no-scroll header *,
+body.no-scroll footer * {
+  animation-play-state: paused !important;
+}
