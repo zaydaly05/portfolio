@@ -920,16 +920,26 @@ const renderCertificates = (items) => {
         <div class="cert-img-wrap">
           <img src="${item.image}" alt="${item.title}" class="cert-img" loading="lazy" />
           <span class="cert-badge">${item.category || "Verified"}</span>
+          <span class="cert-zoom" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+            Preview
+          </span>
         </div>
         <div class="cert-body">
-          <div class="cert-header">
-            <h4 class="cert-title">${item.title}</h4>
-            <span class="cert-date">${item.date || ""}</span>
-          </div>
-          <p class="cert-issuer">📜 ${item.issuer}</p>
+          ${
+            item.date
+              ? `<span class="cert-date"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${item.date}</span>`
+              : ""
+          }
+          <h4 class="cert-title">${item.title}</h4>
+          <p class="cert-issuer"><span class="cert-issuer-icon" aria-hidden="true">🎓</span><span>${item.issuer}</span></p>
           <p class="cert-desc">${item.desc}</p>
           <div class="cert-actions">
-            ${item.pdf ? `<a href="${item.pdf}" target="_blank" class="btn-cert-link" onclick="event.stopPropagation();">View Credential Document ↗</a>` : ""}
+            ${
+              item.pdf
+                ? `<a href="${item.pdf}" target="_blank" rel="noopener" class="btn-cert-link" onclick="event.stopPropagation();">View credential <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></a>`
+                : ""
+            }
           </div>
         </div>
       </article>
