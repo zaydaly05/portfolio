@@ -106,11 +106,20 @@ const logRecordSchema = new mongoose.Schema({
   userAgent: String
 });
 
+// Admin-editable overrides for the portfolio content sections that ship as defaults in server.js
+const portfolioSectionSchema = new mongoose.Schema({
+  section: { type: String, required: true, unique: true },
+  data: { type: mongoose.Schema.Types.Mixed, required: true },
+  updatedAt: { type: Date, default: Date.now }
+});
+
 const Review = mongoose.models.Review || mongoose.model("Review", reviewSchema);
 const Star = mongoose.models.Star || mongoose.model("Star", starSchema);
 const Contact = mongoose.models.Contact || mongoose.model("Contact", contactSchema);
 const CvConfig = mongoose.models.CvConfig || mongoose.model("CvConfig", cvConfigSchema);
 const LogRecord = mongoose.models.LogRecord || mongoose.model("LogRecord", logRecordSchema);
+const PortfolioSection =
+  mongoose.models.PortfolioSection || mongoose.model("PortfolioSection", portfolioSectionSchema);
 
 module.exports = {
   connectDB,
@@ -118,5 +127,6 @@ module.exports = {
   Star,
   Contact,
   CvConfig,
-  LogRecord
+  LogRecord,
+  PortfolioSection
 };

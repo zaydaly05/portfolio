@@ -2,8 +2,9 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const os = require("os");
-const { connectDB, Review, Star, Contact, CvConfig, LogRecord } = require("./db");
+const { connectDB, Review, Star, Contact, CvConfig, LogRecord, PortfolioSection } = require("./db");
 const { getKey } = require("./keys");
+const { createAdminRouter, requireAdmin, SECTION_RULES } = require("./routes/admin");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -147,6 +148,8 @@ function findAssetFile(filename) {
 
 // High-priority asset interceptor (handles Vercel serverless query params, asset rewrites and direct static requests)
 app.use((req, res, next) => {
+  // The admin API must never be answered by the static asset / CV file lookup below
+  if (req.path.startsWith("/api/admin/")) return next();
   const assetQuery = req.query.asset;
   const fullUrl = req.originalUrl || req.headers["x-matched-path"] || req.url || req.path || "";
   const match = fullUrl.match(/\/(assets\/)?(.+)$/);
@@ -614,7 +617,7 @@ const getShowcaseManifest = () => {
 const systemLogBuffer = [];
 const MAX_LOG_BUFFER = 200;
 
-app.get("/api/logs", async (req, res) => {
+app.get("/api/logs", requireAdmin, async (req, res) => {
   try {
     const limit = parseInt(req.query.limit, 10) || 100;
     const level = req.query.level;
@@ -710,12 +713,13 @@ app.post("/api/logs", async (req, res) => {
   }
 });
 
-app.delete("/api/logs", (req, res) => {
+app.delete("/api/logs", requireAdmin, (req, res) => {
   systemLogBuffer.length = 0;
   res.json({ success: true, message: "Logs cleared successfully" });
 });
 
-app.get("/api/portfolio", (req, res) => {
+app.get("/api/portfolio", async (req, res) => {
+  await refreshPortfolioOverrides();
   const showcase = getShowcaseManifest();
   const enrichedProjects = portfolioData.projects.map((p) => {
     const githubUrl = p.github || "";
@@ -889,7 +893,8 @@ app.post("/api/github-webhook", express.json(), (req, res) => {
 });
 
 // AI Copilot Chatbot Endpoint
-app.post("/api/chat", postRateLimiter, (req, res) => {
+app.post("/api/chat", postRateLimiter, async (req, res) => {
+  await refreshPortfolioOverrides();
   const { message } = req.body;
   if (!message || typeof message !== "string") {
     return res.status(400).json({ reply: "Please type a message!" });
@@ -1228,6 +1233,92 @@ app.post("/api/star", postRateLimiter, async (req, res) => {
   res.json({ ok: true, stars, message: "Thank you for starring Zayd's portfolio!" });
 });
 
+// ---------------------------------------------------------------------------
+// Admin-editable portfolio content
+// Built-in content lives in `portfolioData`; edits made from the admin mobile app are stored
+// per section (MongoDB, or a local JSON file when no database is configured) and layered on top.
+// ---------------------------------------------------------------------------
+const portfolioDefaults = JSON.parse(JSON.stringify(portfolioData));
+const OVERRIDES_TTL_MS = 15000;
+const overrideState = { loadedAt: 0, sections: new Set() };
+
+const overridesFilePath = () => getWritablePath("portfolio-overrides.json");
+
+const readLocalOverrides = () => {
+  try {
+    return JSON.parse(fs.readFileSync(overridesFilePath(), "utf8")) || {};
+  } catch {
+    return {};
+  }
+};
+
+const withTimeout = (promise, ms) =>
+  Promise.race([promise, new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), ms))]);
+
+async function refreshPortfolioOverrides(force = false) {
+  if (!force && Date.now() - overrideState.loadedAt < OVERRIDES_TTL_MS) return;
+  overrideState.loadedAt = Date.now();
+
+  let overrides = null;
+  if (getKey("mongodb")) {
+    // A configured database is the source of truth. If it is slow or down, keep serving what we
+    // already have rather than delaying the public site or falling back to the built-in content.
+    try {
+      const db = await withTimeout(connectDB(), 2500);
+      if (!db) return;
+      const docs = await withTimeout(PortfolioSection.find().lean(), 2500);
+      overrides = {};
+      docs.forEach((doc) => {
+        overrides[doc.section] = doc.data;
+      });
+    } catch (err) {
+      console.error("Could not load portfolio overrides from MongoDB:", err.message);
+      return;
+    }
+  } else {
+    overrides = readLocalOverrides();
+  }
+
+  overrideState.sections = new Set();
+  Object.keys(SECTION_RULES).forEach((section) => {
+    if (Object.prototype.hasOwnProperty.call(overrides, section)) {
+      portfolioData[section] = overrides[section];
+      overrideState.sections.add(section);
+    } else {
+      portfolioData[section] = JSON.parse(JSON.stringify(portfolioDefaults[section]));
+    }
+  });
+}
+
+async function savePortfolioOverride(section, data) {
+  const db = await connectDB();
+  if (db) {
+    if (data === null) await PortfolioSection.deleteOne({ section });
+    else await PortfolioSection.findOneAndUpdate({ section }, { data, updatedAt: new Date() }, { upsert: true });
+  } else {
+    const local = readLocalOverrides();
+    if (data === null) delete local[section];
+    else local[section] = data;
+    fs.writeFileSync(overridesFilePath(), JSON.stringify(local, null, 2), "utf8");
+  }
+  if (data === null) overrideState.sections.delete(section);
+  else overrideState.sections.add(section);
+  overrideState.loadedAt = Date.now();
+}
+
+app.use(
+  "/api/admin",
+  createAdminRouter({
+    portfolioData,
+    defaults: portfolioDefaults,
+    connectDB,
+    models: { Review, Contact, Star },
+    saveOverride: savePortfolioOverride,
+    refreshOverrides: refreshPortfolioOverrides,
+    overriddenSections: () => [...overrideState.sections]
+  })
+);
+
 // Dynamic CV URL API & Redirects
 const DEFAULT_CV_URL = "/Zayd_Ali_Mohamed_CV.pdf";
 
@@ -1255,7 +1346,7 @@ app.get("/api/cv-url", async (req, res) => {
   res.json({ ok: true, url: DEFAULT_CV_URL });
 });
 
-app.post("/api/cv-url", postRateLimiter, async (req, res) => {
+app.post("/api/cv-url", requireAdmin, postRateLimiter, async (req, res) => {
   const { url } = req.body || {};
   if (!url || typeof url !== "string") {
     return res.status(400).json({ ok: false, error: "Valid url parameter required" });

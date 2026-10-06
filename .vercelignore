@@ -32,3 +32,5 @@ latex-cv
 **/.github/**
 .vscode
 **/.vscode/**
+admin_app/
+test-unit/

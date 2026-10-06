@@ -68,6 +68,13 @@ const KEY_REGISTRY = [
     description: "Kapso Webhook HMAC Secret"
   },
   {
+    id: "admin_api_key",
+    name: "ADMIN_API_KEY",
+    aliases: ["ADMIN_API_KEY", "ADMIN_KEY", "admin_api_key", "admin_key"],
+    defaultValue: "",
+    description: "Secret key the private admin mobile app sends to manage the portfolio (min 20 chars)"
+  },
+  {
     id: "mongodb",
     name: "MONGODB_URI",
     aliases: ["MONGODB_URI", "MONGODB_URL", "MONGO_URI", "mongodb_uri", "mongodb", "mongo"],

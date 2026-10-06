@@ -14,6 +14,7 @@
     "lint:fix": "npx eslint --fix server.js public/script.js scripts/",
     "test": "npx playwright test",
     "test:ui": "npx playwright test --ui",
+    "test:unit": "node --test \"test-unit/*.test.js\"",
     "verify:components": "node scripts/verify-layout-components.js"
   },
   "keywords": [],
