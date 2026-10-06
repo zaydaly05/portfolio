@@ -7733,3 +7733,13 @@ a.gh-repo-card:focus-visible .gh-repo-arrow {
     padding: 10px 0;
   }
 }
+
+/* FAQ cards keep their own height when one is opened */
+#faq-section .faq-grid {
+  align-items: start;
+}
+
+#faq-section .faq-grid .card:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}

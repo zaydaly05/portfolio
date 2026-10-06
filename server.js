@@ -1136,6 +1136,32 @@ app.get(["/experience", "/experience.html"], servePage("experience"));
 app.get(["/skills", "/skills.html"], servePage("skills"));
 app.get(["/contact", "/contact.html"], servePage("contact"));
 
+// ---- Crawlers and browsers ----------------------------------------------------
+const requestOrigin = (req) => {
+  const base = siteUrl();
+  if (base) return base.replace(/\/$/, "");
+  const proto = String(req.headers["x-forwarded-proto"] || req.protocol || "https").split(",")[0];
+  return `${proto}://${req.headers["x-forwarded-host"] || req.headers.host}`;
+};
+
+app.get("/robots.txt", (req, res) => {
+  res.type("text/plain").send(`User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${requestOrigin(req)}/sitemap.xml\n`);
+});
+
+app.get("/sitemap.xml", (req, res) => {
+  const origin = requestOrigin(req);
+  const urls = ["/", "/projects", "/experience", "/skills", "/contact"].map((p) => `  <url><loc>${origin}${p === "/" ? "/" : p}</loc></url>`).join("\n");
+  res.type("application/xml").send(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`);
+});
+
+// Browsers ask for /favicon.ico on their own: use the logo from the profile
+app.get("/favicon.ico", async (req, res) => {
+  await refreshPortfolioOverrides();
+  const logo = portfolioData.profile && portfolioData.profile.logo;
+  if (logo && /^https:\/\//.test(logo)) return res.redirect(302, logo);
+  res.status(204).end();
+});
+
 // Catch-all: serve index.html for SPA routing (MUST be last)
 app.use((req, res) => {
   const reqUrl =
@@ -1179,8 +1205,8 @@ app.use((req, res) => {
     return res.sendFile(path.join(__dirname, "public", "index.html"));
   }
 
-  // Return true HTTP 404 status for non-existent routes to prevent Soft 404 issues
-  res.status(404).sendFile(path.join(__dirname, "public", "index.html"));
+  // A real 404 (not the home page with a 404 status), with a way back
+  res.status(404).sendFile(path.join(__dirname, "public", "404.html"));
 });
 
 if (require.main === module) {
