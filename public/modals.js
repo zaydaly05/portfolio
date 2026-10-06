@@ -9,87 +9,80 @@
     "details-modal": () => `
       <div id="details-modal" class="modal hidden" aria-hidden="true">
         <div class="modal-backdrop" data-close-modal="true"></div>
-        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-          <div class="modal-top-accent-bar"></div>
-          <button id="modal-close" class="modal-close" type="button" aria-label="Close details">×</button>
+        <div class="pm-card" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1">
+          <button id="modal-close" class="pm-close" type="button" aria-label="Close details">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" /></svg>
+          </button>
 
-          <div class="modal-header-block">
-            <div class="modal-badge-row">
-              <span id="modal-tag" class="modal-tag-badge">Details</span>
-              <span id="modal-sync-badge" class="modal-sync-badge">● Synced with GitHub</span>
-            </div>
-            <h3 id="modal-title" class="modal-title-heading"></h3>
-            <p id="modal-subtitle" class="modal-subtitle-text"></p>
-            <div id="modal-tech-pills" class="modal-tech-pills-row"></div>
-          </div>
-
-          <div class="modal-body-content">
-            <div class="modal-section-box">
-              <h5 class="modal-section-title">📌 Overview &amp; Key Highlights</h5>
-              <p id="modal-description" class="modal-desc-paragraph"></p>
-            </div>
-
-            <div id="modal-list-wrapper" class="modal-section-box">
-              <h5 class="modal-section-title">⚡ Architecture &amp; System Capabilities</h5>
-              <div id="modal-list"></div>
-            </div>
-
-            <div class="modal-section-box modal-gallery-section">
-              <div class="modal-gallery-header">
-                <h5 class="modal-section-title">📸 Media &amp; Screenshots Showcase</h5>
-                <span id="modal-gallery-count" class="modal-gallery-counter-badge">0 Media Files</span>
+          <section id="modal-stage" class="pm-stage" aria-label="Project media">
+            <div class="pm-viewer">
+              <div id="modal-viewer-frame" class="pm-viewer-frame"></div>
+              <button id="modal-prev" class="pm-nav pm-nav-prev" type="button" aria-label="Previous media">‹</button>
+              <button id="modal-next" class="pm-nav pm-nav-next" type="button" aria-label="Next media">›</button>
+              <div class="pm-viewer-bar">
+                <span id="modal-counter" class="pm-counter" aria-live="polite"></span>
+                <button id="modal-zoom" class="pm-zoom" type="button">Enlarge ⤢</button>
               </div>
-              <div id="modal-media" class="modal-media-grid"></div>
             </div>
-          </div>
+            <div id="modal-media" class="pm-thumbs"></div>
+          </section>
 
-          <div id="modal-footer-actions" class="modal-footer-actions">
-            <a
-              id="modal-github-btn"
-              href="#"
-              target="_blank"
-              rel="noopener"
-              class="btn-modal-github"
-              style="display: none"
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="margin-right: 6px; vertical-align: text-bottom">
-                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
-              </svg>
-              View GitHub Repository ↗
-            </a>
-            <a id="modal-pdf-btn" href="#" target="_blank" download class="btn-modal-pdf" style="display: none">
-              📄 Download PDF Report 📥
-            </a>
-            <button type="button" class="btn-outline btn-sm btn-modal-close-action" onclick="ModalManager.close('details-modal')">
-              Close ✕
-            </button>
-          </div>
+          <section class="pm-panel">
+            <div class="pm-panel-scroll">
+              <div class="pm-badges">
+                <span id="modal-tag" class="pm-badge pm-badge-accent">Details</span>
+                <span id="modal-sync-badge" class="pm-badge pm-badge-ok"><span class="pm-dot" aria-hidden="true"></span>Synced with GitHub</span>
+              </div>
+              <h3 id="modal-title" class="pm-title"></h3>
+              <p id="modal-subtitle" class="pm-subtitle"></p>
+              <div id="modal-tech-pills" class="pm-pills"></div>
+
+              <h4 class="pm-heading">Overview</h4>
+              <p id="modal-description" class="pm-text"></p>
+
+              <div id="modal-list-wrapper">
+                <h4 class="pm-heading">Architecture &amp; capabilities</h4>
+                <ul id="modal-list" class="pm-specs"></ul>
+              </div>
+            </div>
+
+            <div id="modal-footer-actions" class="pm-footer">
+              <a id="modal-github-btn" href="#" target="_blank" rel="noopener" class="pm-btn pm-btn-primary" style="display: none">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                  <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                </svg>
+                View on GitHub ↗
+              </a>
+              <a id="modal-pdf-btn" href="#" target="_blank" rel="noopener" download class="pm-btn pm-btn-secondary" style="display: none">
+                Download PDF
+              </a>
+              <button type="button" class="pm-btn pm-btn-ghost btn-modal-close-action">Close</button>
+            </div>
+          </section>
         </div>
       </div>
     `,
     "cv-viewer-modal": () => `
       <div id="cv-viewer-modal" class="modal hidden" aria-hidden="true">
         <div class="modal-backdrop" id="cv-modal-backdrop"></div>
-        <div class="modal-card cv-modal-card" role="dialog" aria-modal="true" aria-labelledby="cv-modal-title">
-          <div class="cv-modal-header">
+        <div class="pm-card pm-card--cv" role="dialog" aria-modal="true" aria-labelledby="cv-modal-title" tabindex="-1">
+          <header class="pm-cv-header">
             <div>
-              <span class="eyebrow">Curriculum Vitae</span>
-              <h3 id="cv-modal-title">Zayd Ali Mohamed — CV</h3>
+              <span class="pm-eyebrow">Curriculum Vitae</span>
+              <h3 id="cv-modal-title" class="pm-cv-title">Zayd Ali Mohamed — CV</h3>
             </div>
             <div class="cv-modal-actions">
-              <a id="cv-modal-download-link" href="https://res.cloudinary.com/delnnzcph/image/upload/v1791142658/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf" target="_blank" download="Zayd_Ali_Mohamed_CV.pdf" class="btn btn-sm">
-                Download PDF 📥
+              <a id="cv-modal-download-link" href="https://res.cloudinary.com/delnnzcph/image/upload/v1791142658/zayd-portfolio/Zayd_Ali_Mohamed_CV.pdf" target="_blank" rel="noopener" download="Zayd_Ali_Mohamed_CV.pdf" class="pm-btn pm-btn-primary">
+                Download PDF
               </a>
-              <button id="cv-modal-close" class="modal-close" type="button" aria-label="Close CV Viewer">×</button>
+              <button id="cv-modal-close" class="pm-close pm-close--inline" type="button" aria-label="Close CV Viewer">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" /></svg>
+              </button>
             </div>
-          </div>
+          </header>
           <div class="cv-iframe-container">
-            <embed
-              id="cv-iframe"
-              type="application/pdf"
-              title="CV"
-              style="width: 100%; height: 100%; border: none"
-            ></embed>
+            <div class="pm-cv-loading" aria-hidden="true">Loading CV…</div>
+            <embed id="cv-iframe" type="application/pdf" title="CV" />
           </div>
         </div>
       </div>
@@ -199,6 +192,17 @@
     `
   };
 
+  const escapeHtml = (value) =>
+    String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+
+  const FOCUSABLE =
+    'a[href], button:not([disabled]), input:not([disabled]), textarea, select, [tabindex]:not([tabindex="-1"])';
+  let lastFocused = null;
+
   const ModalManager = {
     /**
      * Ensures all required pop-up modal containers exist in the DOM.
@@ -241,9 +245,15 @@
         }
       }
 
+      const isDialog = el.classList.contains("modal");
+      if (isDialog) lastFocused = document.activeElement;
       el.classList.remove("hidden");
       el.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
+      if (isDialog) {
+        const card = el.querySelector(".pm-card");
+        if (card) requestAnimationFrame(() => card.focus({ preventScroll: true }));
+      }
 
       // Dispatch event for observers
       window.dispatchEvent(new CustomEvent("modal:opened", { detail: { modalId, params } }));
@@ -258,6 +268,10 @@
       el.classList.add("hidden");
       el.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
+      if (el.classList.contains("modal") && lastFocused && document.contains(lastFocused)) {
+        lastFocused.focus({ preventScroll: true });
+        lastFocused = null;
+      }
 
       // Dispatch event for observers
       window.dispatchEvent(new CustomEvent("modal:closed", { detail: { modalId } }));
@@ -296,13 +310,15 @@
       setElText("modal-title", payload.title || "");
       setElText("modal-subtitle", payload.subtitle || "");
       setElText("modal-description", payload.description || "");
+      const syncBadge = document.getElementById("modal-sync-badge");
+      if (syncBadge) syncBadge.style.display = payload.githubUrl ? "" : "none";
 
       // Tech Pills
       const techPillsContainer = document.getElementById("modal-tech-pills");
       if (techPillsContainer) {
         const stackItems = (payload.stack || "").split(",").map((s) => s.trim()).filter(Boolean);
         techPillsContainer.innerHTML = stackItems
-          .map((tech) => `<span class="modal-tech-pill">${tech}</span>`)
+          .map((tech) => `<span class="pm-pill">${escapeHtml(tech)}</span>`)
           .join("");
       }
 
@@ -313,31 +329,23 @@
         if (Array.isArray(payload.points) && payload.points.length > 0) {
           listWrapper.style.display = "block";
           listContainer.innerHTML = payload.points
-            .map(
-              (pt) => `
-              <div class="modal-spec-card">
-                <span class="modal-spec-icon">⚡</span>
-                <span class="modal-spec-text">${pt}</span>
-              </div>
-            `
-            )
+            .map((pt) => `<li class="pm-spec"><span class="pm-spec-mark" aria-hidden="true"></span><span>${escapeHtml(pt)}</span></li>`)
             .join("");
         } else {
           listWrapper.style.display = "none";
         }
       }
 
-      // Media Showcase
-      const mediaContainer = document.getElementById("modal-media");
-      const galleryCountBadge = document.getElementById("modal-gallery-count");
-      if (mediaContainer) {
-        const mediaList = Array.isArray(payload.media) ? payload.media : [];
-        if (galleryCountBadge) {
-          galleryCountBadge.textContent = `${mediaList.length} Media File${mediaList.length === 1 ? "" : "s"}`;
-        }
-        // Clear and let the specialized initModalMedia in script.js handle the high-performance rendering
-        mediaContainer.innerHTML = "";
-      }
+      // Media Showcase (rendered by initModalMedia in script.js)
+      const mediaList = Array.isArray(payload.media) ? payload.media : [];
+      const card = document.querySelector("#details-modal .pm-card");
+      const thumbs = document.getElementById("modal-media");
+      const viewerFrame = document.getElementById("modal-viewer-frame");
+      if (thumbs) thumbs.innerHTML = "";
+      if (viewerFrame) viewerFrame.innerHTML = "";
+      if (card) card.classList.toggle("pm-card--no-media", mediaList.length === 0);
+      const panelScroll = document.querySelector("#details-modal .pm-panel-scroll");
+      if (panelScroll) panelScroll.scrollTop = 0;
 
       // Action Buttons
       const githubBtn = document.getElementById("modal-github-btn");
@@ -370,7 +378,24 @@
 
       // ESC key listener
       document.addEventListener("keydown", (e) => {
+        if (e.key === "Tab") {
+          const open = document.querySelector(".modal:not(.hidden) .pm-card");
+          if (!open) return;
+          const items = [...open.querySelectorAll(FOCUSABLE)].filter((n) => n.offsetParent !== null);
+          if (!items.length) return;
+          const first = items[0];
+          const last = items[items.length - 1];
+          if (e.shiftKey && (document.activeElement === first || document.activeElement === open)) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+          return;
+        }
         if (e.key === "Escape") {
+          if (e.defaultPrevented || this.isOpen("lightbox")) return;
           ["details-modal", "cv-viewer-modal", "lightbox", "terminal-drawer", "ai-chat-drawer"].forEach((id) => {
             if (this.isOpen(id)) {
               this.close(id);
