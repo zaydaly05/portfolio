@@ -2677,42 +2677,46 @@ const setupFAQAccordion = () => {
   const faqGrid = document.querySelector("#faq-section .faq-grid");
   if (!faqGrid) return;
 
-  faqGrid.querySelectorAll(".card").forEach((card) => {
-    card.style.cursor = "pointer";
-    card.style.transition = "all 0.3s ease";
-
+  const cards = [...faqGrid.querySelectorAll(".card")];
+  cards.forEach((card, index) => {
     const question = card.querySelector("h5");
     const answer = card.querySelector("p");
+    if (!question || !answer) return;
 
-    if (question) {
-      question.style.display = "flex";
-      question.style.justifyContent = "space-between";
-      question.style.alignItems = "center";
+    card.style.cursor = "pointer";
+    card.style.transition = "all 0.3s ease";
+    card.setAttribute("role", "button");
+    card.setAttribute("tabindex", "0");
 
-      const arrow = document.createElement("span");
-      arrow.textContent = "▼";
-      arrow.style.fontSize = "0.75rem";
-      arrow.style.transition = "transform 0.3s ease";
-      arrow.style.color = "var(--brand)";
-      question.appendChild(arrow);
-    }
+    question.style.display = "flex";
+    question.style.justifyContent = "space-between";
+    question.style.alignItems = "center";
+    question.style.gap = "12px";
+    answer.style.marginTop = "8px";
 
-    if (answer) {
-      answer.style.marginTop = "8px";
-    }
+    const arrow = document.createElement("span");
+    arrow.textContent = "▼";
+    arrow.setAttribute("aria-hidden", "true");
+    arrow.style.fontSize = "0.75rem";
+    arrow.style.transition = "transform 0.3s ease";
+    arrow.style.color = "var(--brand)";
+    question.appendChild(arrow);
 
-    card.addEventListener("click", () => {
-      const isOpen = card.classList.contains("faq-open");
-      if (isOpen) {
-        card.classList.remove("faq-open");
-        const arrow = card.querySelector("h5 span:last-child");
-        if (arrow) arrow.style.transform = "rotate(0deg)";
-        if (answer) answer.style.display = "none";
-      } else {
-        card.classList.add("faq-open");
-        const arrow = card.querySelector("h5 span:last-child");
-        if (arrow) arrow.style.transform = "rotate(180deg)";
-        if (answer) answer.style.display = "block";
+    // The first question starts open so visitors see how it works; the rest start closed
+    const setOpen = (open) => {
+      card.classList.toggle("faq-open", open);
+      card.setAttribute("aria-expanded", String(open));
+      answer.style.display = open ? "block" : "none";
+      arrow.style.transform = open ? "rotate(180deg)" : "rotate(0deg)";
+    };
+    setOpen(index === 0);
+
+    const toggle = () => setOpen(!card.classList.contains("faq-open"));
+    card.addEventListener("click", toggle);
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        toggle();
       }
     });
   });

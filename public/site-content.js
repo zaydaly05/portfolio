@@ -269,7 +269,8 @@
     const photo = document.getElementById("profile-photo");
     if (photo && profile.photo) photo.src = profile.photo;
     if (profile.cvUrl) {
-      document.querySelectorAll("#download-cv").forEach((a) => {
+      // every CV link on the page points at the newest build, not the copy that was in the HTML
+      document.querySelectorAll("#download-cv, a[download*='CV']").forEach((a) => {
         a.href = profile.cvUrl;
       });
     }
