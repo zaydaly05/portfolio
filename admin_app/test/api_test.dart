@@ -149,4 +149,37 @@ void main() {
     expect(seen.method, 'POST');
     expect(jsonDecode(seen.body), {'repos': ['cool-app']});
   });
+
+  test('reads the CV build status and asks for a rebuild', () async {
+    late http.Request seen;
+    final api = apiWith((req) async {
+      seen = req;
+      if (req.method == 'GET') {
+        return jsonReply({
+          'ok': true,
+          'status': 'requested',
+          'version': 3,
+          'runnerConfigured': true,
+          'reason': 'edited cvSummary',
+          'url': '/api/document/resume?v=3',
+        });
+      }
+      return jsonReply({'ok': true, 'dispatched': true});
+    });
+    final status = await api.cvStatus();
+    expect(status.status, 'requested');
+    expect(status.version, 3);
+    expect(status.runnerConfigured, isTrue);
+    expect(status.url, '/api/document/resume?v=3');
+    await api.rebuildCv();
+    expect(seen.method, 'POST');
+    expect(seen.url.path, '/api/admin/cv/rebuild');
+  });
+
+  test('saving a section reports whether a CV rebuild was queued', () async {
+    final yes = apiWith((_) async => jsonReply({'ok': true, 'cvBuildRequested': true}));
+    final no = apiWith((_) async => jsonReply({'ok': true, 'cvBuildRequested': false}));
+    expect(await yes.saveSection('cvSummary', {'summary': 'x'}), isTrue);
+    expect(await no.saveSection('faq', []), isFalse);
+  });
 }

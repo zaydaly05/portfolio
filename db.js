@@ -113,11 +113,31 @@ const portfolioSectionSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
+// CV build pipeline: one state document + the generated PDFs (kept per version)
+const cvBuildSchema = new mongoose.Schema({
+  key: { type: String, default: "state", unique: true },
+  status: { type: String, default: "idle" },
+  requestedAt: String,
+  reason: String,
+  builtAt: Date,
+  version: { type: Number, default: 0 },
+  error: String
+});
+
+const cvFileSchema = new mongoose.Schema({
+  version: { type: Number, required: true, unique: true },
+  data: { type: Buffer, required: true },
+  size: Number,
+  createdAt: { type: Date, default: Date.now }
+});
+
 const Review = mongoose.models.Review || mongoose.model("Review", reviewSchema);
 const Star = mongoose.models.Star || mongoose.model("Star", starSchema);
 const Contact = mongoose.models.Contact || mongoose.model("Contact", contactSchema);
 const CvConfig = mongoose.models.CvConfig || mongoose.model("CvConfig", cvConfigSchema);
 const LogRecord = mongoose.models.LogRecord || mongoose.model("LogRecord", logRecordSchema);
+const CvBuild = mongoose.models.CvBuild || mongoose.model("CvBuild", cvBuildSchema);
+const CvFile = mongoose.models.CvFile || mongoose.model("CvFile", cvFileSchema);
 const PortfolioSection =
   mongoose.models.PortfolioSection || mongoose.model("PortfolioSection", portfolioSectionSchema);
 
@@ -128,5 +148,7 @@ module.exports = {
   Contact,
   CvConfig,
   LogRecord,
-  PortfolioSection
+  PortfolioSection,
+  CvBuild,
+  CvFile
 };

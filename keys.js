@@ -75,6 +75,20 @@ const KEY_REGISTRY = [
     description: "Secret key the private admin mobile app sends to manage the portfolio (min 20 chars)"
   },
   {
+    id: "cv_build_key",
+    name: "CV_BUILD_KEY",
+    aliases: ["CV_BUILD_KEY", "cv_build_key"],
+    defaultValue: "",
+    description: "Secret shared with the GitHub Action that compiles the CV (min 20 chars)"
+  },
+  {
+    id: "cron_secret",
+    name: "CRON_SECRET",
+    aliases: ["CRON_SECRET", "cron_secret"],
+    defaultValue: "",
+    description: "Secret Vercel Cron sends to trigger scheduled jobs (min 20 chars)"
+  },
+  {
     id: "mongodb",
     name: "MONGODB_URI",
     aliases: ["MONGODB_URI", "MONGODB_URL", "MONGO_URI", "mongodb_uri", "mongodb", "mongo"],

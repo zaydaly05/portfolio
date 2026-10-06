@@ -12,6 +12,7 @@ class SectionInfo {
     required this.template,
     this.subtitleKey,
     this.isObject = false,
+    this.group = 'Website',
   });
 
   final String key;
@@ -20,6 +21,9 @@ class SectionInfo {
   final String titleKey;
   final String? subtitleKey;
   final bool isObject;
+
+  /// Heading the section is listed under.
+  final String group;
 
   /// Typed blank item; defines the fields shown when adding something new.
   final Map<String, dynamic> template;
@@ -250,6 +254,66 @@ const List<SectionInfo> sections = [
       'contact_form_intro': '',
       'faq_title': '',
     },
+  ),
+  SectionInfo(
+    key: 'cvSummary',
+    label: 'Summary',
+    icon: '📄',
+    titleKey: 'summary',
+    group: 'CV (PDF)',
+    isObject: true,
+    template: {'summary': ''},
+  ),
+  SectionInfo(
+    key: 'cvExperience',
+    label: 'Experience',
+    icon: '📄',
+    titleKey: 'company',
+    subtitleKey: 'role',
+    group: 'CV (PDF)',
+    template: {'company': '', 'role': '', 'period': '', 'location': '', 'bullets': <String>[]},
+  ),
+  SectionInfo(
+    key: 'cvProjects',
+    label: 'Projects',
+    icon: '📄',
+    titleKey: 'name',
+    subtitleKey: 'stack',
+    group: 'CV (PDF)',
+    template: {'name': '', 'stack': '', 'date': '', 'bullets': <String>[]},
+  ),
+  SectionInfo(
+    key: 'cvSkills',
+    label: 'Technical skills',
+    icon: '📄',
+    titleKey: 'label',
+    group: 'CV (PDF)',
+    template: {'label': '', 'items': ''},
+  ),
+  SectionInfo(
+    key: 'cvSoftSkills',
+    label: 'Soft skills',
+    icon: '📄',
+    titleKey: 'text',
+    group: 'CV (PDF)',
+    template: {'text': ''},
+  ),
+  SectionInfo(
+    key: 'cvEducation',
+    label: 'Education',
+    icon: '📄',
+    titleKey: 'institution',
+    subtitleKey: 'degree',
+    group: 'CV (PDF)',
+    template: {'institution': '', 'degree': '', 'period': '', 'location': ''},
+  ),
+  SectionInfo(
+    key: 'cvLanguages',
+    label: 'Languages',
+    icon: '📄',
+    titleKey: 'text',
+    group: 'CV (PDF)',
+    template: {'text': ''},
   ),
 ];
 

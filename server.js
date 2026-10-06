@@ -2,9 +2,10 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const os = require("os");
-const { connectDB, Review, Star, Contact, CvConfig, LogRecord, PortfolioSection } = require("./db");
+const { connectDB, Review, Star, Contact, CvConfig, LogRecord, PortfolioSection, CvBuild, CvFile } = require("./db");
 const { getKey } = require("./keys");
-const { createAdminRouter, requireAdmin, SECTION_RULES } = require("./routes/admin");
+const { createAdminRouter, requireAdmin, makeKeyGuard, SECTION_RULES } = require("./routes/admin");
+const { createCvBuilder, dispatchWorkflow, CvBuildError } = require("./lib/cv-build");
 const githubLib = require("./lib/github");
 const { buildReply } = require("./lib/assistant");
 
@@ -159,7 +160,7 @@ function findAssetFile(filename) {
 // High-priority asset interceptor (handles Vercel serverless query params, asset rewrites and direct static requests)
 app.use((req, res, next) => {
   // The admin API must never be answered by the static asset / CV file lookup below
-  if (req.path.startsWith("/api/admin/")) return next();
+  if (req.path.startsWith("/api/admin/") || req.path.startsWith("/api/build/") || req.path.startsWith("/api/document/")) return next();
   const assetQuery = req.query.asset;
   const fullUrl = req.originalUrl || req.headers["x-matched-path"] || req.url || req.path || "";
   const match = fullUrl.match(/\/(assets\/)?(.+)$/);
@@ -768,6 +769,69 @@ async function savePortfolioOverride(section, data) {
   overrideState.loadedAt = Date.now();
 }
 
+// ---------------------------------------------------------------------------
+// CV: generated from database content, compiled by a GitHub Action (see .github/workflows/build-cv.yml)
+// ---------------------------------------------------------------------------
+const cvBuilder = createCvBuilder({
+  connectDB,
+  models: { CvBuild, CvFile },
+  getData: () => portfolioData,
+  onBuilt: async ({ url }) => {
+    // The site's CV link now points at the freshly built PDF
+    const profile = { ...portfolioData.profile, cvUrl: url };
+    await savePortfolioOverride("profile", profile);
+    portfolioData.profile = profile;
+  },
+  dispatch: () => {
+    const owner = process.env.VERCEL_GIT_REPO_OWNER;
+    const slug = process.env.VERCEL_GIT_REPO_SLUG;
+    return dispatchWorkflow({
+      token: getKey("github") || process.env.GITHUB_TOKEN,
+      repository: process.env.GITHUB_REPOSITORY || (owner && slug ? `${owner}/${slug}` : ""),
+      ref: process.env.VERCEL_GIT_COMMIT_REF || "main"
+    });
+  }
+});
+
+const requireBuildKey = makeKeyGuard({ secretName: "CV_BUILD_KEY", header: "x-cv-build-key", label: "CV build" });
+
+app.get("/api/build/resume/source", requireBuildKey, async (req, res) => {
+  try {
+    await refreshPortfolioOverrides(true);
+    const { state, tex } = await cvBuilder.source();
+    res.json({ ok: true, status: state.status || "idle", id: state.requestedAt || null, tex });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+app.post("/api/build/resume/result", requireBuildKey, express.raw({ type: "application/pdf", limit: "4mb" }), async (req, res) => {
+  try {
+    if (req.query.status === "failed") {
+      await cvBuilder.fail((req.body && req.body.error) || "The CV failed to compile.");
+      return res.json({ ok: true });
+    }
+    const result = await cvBuilder.complete({ pdf: req.body, id: req.query.id });
+    res.json({ ok: true, ...result });
+  } catch (err) {
+    res.status(err instanceof CvBuildError ? 400 : 500).json({ ok: false, error: err.message });
+  }
+});
+
+app.get("/api/document/resume", async (req, res) => {
+  try {
+    const pdf = await cvBuilder.latestPdf();
+    if (!pdf) return res.status(404).json({ ok: false, error: "No generated CV yet." });
+    const base = String((portfolioData.profile && portfolioData.profile.name) || "CV").replace(/[^A-Za-z0-9]+/g, "_");
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", `inline; filename="${base}_CV.pdf"`);
+    res.setHeader("Cache-Control", "public, max-age=300");
+    res.send(pdf);
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
 app.use(
   "/api/admin",
   createAdminRouter({
@@ -778,7 +842,8 @@ app.use(
     saveOverride: savePortfolioOverride,
     refreshOverrides: refreshPortfolioOverrides,
     overriddenSections: customisedSections,
-    fetchRepos: (username) => githubLib.fetchRepos(username, getKey("github") || process.env.GITHUB_TOKEN)
+    fetchRepos: (username) => githubLib.fetchRepos(username, getKey("github") || process.env.GITHUB_TOKEN),
+    cv: cvBuilder
   })
 );
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-import '../api.dart' show Summary;
+import '../api.dart' show CvStatus, Summary;
+import '../main.dart';
 import '../widgets/common.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -21,6 +23,8 @@ class DashboardScreen extends StatelessWidget {
           Text('Pull down to refresh', style: Theme.of(context).textTheme.bodySmall),
           const SizedBox(height: 16),
           _StatusCard(connected: summary.dbConnected),
+          const SizedBox(height: 12),
+          const _CvCard(),
           const SizedBox(height: 12),
           Row(
             children: [
@@ -148,6 +152,121 @@ class _ActionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(leading: Icon(icon), title: Text(title), subtitle: Text(subtitle), trailing: const Icon(Icons.chevron_right), onTap: onTap),
+    );
+  }
+}
+
+/// Shows the state of the generated CV and lets the owner rebuild it or copy its link.
+class _CvCard extends StatefulWidget {
+  const _CvCard();
+
+  @override
+  State<_CvCard> createState() => _CvCardState();
+}
+
+class _CvCardState extends State<_CvCard> {
+  late Future<CvStatus> _future;
+  bool _busy = false;
+  bool _started = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_started) {
+      _started = true;
+      _future = _load();
+    }
+  }
+
+  Future<CvStatus> _load() => apiOf(context).cvStatus();
+
+  Future<void> _rebuild() async {
+    setState(() => _busy = true);
+    try {
+      await apiOf(context).rebuildCv();
+      if (!mounted) return;
+      showSnack(context, 'CV rebuild requested');
+      setState(() => _future = _load());
+    } catch (e) {
+      if (mounted) showSnack(context, errorText(e), error: true);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  Future<void> _copyLink(CvStatus status) async {
+    final base = AppScope.of(context).settings.baseUrl;
+    await Clipboard.setData(ClipboardData(text: '$base${status.url}'));
+    if (mounted) showSnack(context, 'CV link copied');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<CvStatus>(
+      future: _future,
+      builder: (context, snapshot) {
+        final status = snapshot.data;
+        final scheme = Theme.of(context).colorScheme;
+        String title = 'CV (PDF)';
+        String subtitle = 'Checking…';
+        IconData icon = Icons.description_outlined;
+        if (snapshot.hasError) {
+          subtitle = errorText(snapshot.error!);
+          icon = Icons.error_outline;
+        } else if (status != null) {
+          switch (status.status) {
+            case 'requested':
+              subtitle = status.runnerConfigured
+                  ? 'Rebuilding with your latest changes… this takes a few minutes.'
+                  : 'A rebuild is waiting, but the build runner is not set up yet (see README).';
+              icon = Icons.sync;
+            case 'failed':
+              subtitle = 'The last build failed: ${status.error ?? 'unknown error'}';
+              icon = Icons.error_outline;
+            case 'done':
+              subtitle = 'Up to date (version ${status.version}).';
+              icon = Icons.check_circle_outline;
+            default:
+              subtitle = status.version > 0 ? 'Version ${status.version}.' : 'Not generated from the app yet.';
+          }
+        }
+        return Card(
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(icon, color: status?.status == 'failed' ? scheme.error : scheme.primary),
+                    const SizedBox(width: 12),
+                    Expanded(child: Text(title, style: Theme.of(context).textTheme.titleMedium)),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                Text(subtitle),
+                const SizedBox(height: 10),
+                Wrap(
+                  spacing: 8,
+                  children: [
+                    FilledButton.tonalIcon(
+                      onPressed: _busy ? null : _rebuild,
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('Rebuild now'),
+                    ),
+                    if (status?.url != null)
+                      OutlinedButton.icon(
+                        onPressed: () => _copyLink(status!),
+                        icon: const Icon(Icons.link),
+                        label: const Text('Copy link'),
+                      ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

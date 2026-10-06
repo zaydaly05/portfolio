@@ -111,6 +111,40 @@ class LogEntry {
       );
 }
 
+class CvStatus {
+  const CvStatus({
+    required this.status,
+    required this.version,
+    required this.runnerConfigured,
+    this.requestedAt,
+    this.builtAt,
+    this.reason,
+    this.error,
+    this.url,
+  });
+
+  /// idle, requested, done or failed
+  final String status;
+  final int version;
+  final bool runnerConfigured;
+  final String? requestedAt;
+  final String? builtAt;
+  final String? reason;
+  final String? error;
+  final String? url;
+
+  factory CvStatus.fromJson(Map<String, dynamic> json) => CvStatus(
+        status: '${json['status'] ?? 'idle'}',
+        version: (json['version'] as num?)?.toInt() ?? 0,
+        runnerConfigured: json['runnerConfigured'] == true,
+        requestedAt: json['requestedAt'] as String?,
+        builtAt: json['builtAt'] as String?,
+        reason: json['reason'] as String?,
+        error: json['error'] as String?,
+        url: json['url'] as String?,
+      );
+}
+
 class GithubRepo {
   const GithubRepo({
     required this.name,
@@ -227,10 +261,17 @@ class AdminApi {
     );
   }
 
-  Future<void> saveSection(String section, Object data) =>
-      _send('PUT', '/api/admin/portfolio/$section', body: {'data': data});
+  /// Saves a section; returns true when the change also queued a CV rebuild.
+  Future<bool> saveSection(String section, Object data) async {
+    final json = await _send('PUT', '/api/admin/portfolio/$section', body: {'data': data});
+    return json['cvBuildRequested'] == true;
+  }
 
   Future<void> resetSection(String section) => _send('DELETE', '/api/admin/portfolio/$section');
+
+  Future<CvStatus> cvStatus() async => CvStatus.fromJson(await _send('GET', '/api/admin/cv'));
+
+  Future<void> rebuildCv() => _send('POST', '/api/admin/cv/rebuild');
 
   /// Public repositories on GitHub that are not in the portfolio's projects yet.
   Future<GithubNew> githubNew() async {
