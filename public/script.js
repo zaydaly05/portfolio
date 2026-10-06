@@ -765,115 +765,132 @@ const setupCardGlow = () => {
    ============================================ */
 const modalState = { open: false };
 const lightboxState = { open: false, images: [], index: 0 };
-let modalMediaObserver = null;
+const modalMediaState = { media: [], index: 0, keysBound: false };
 
-const buildMediaHtml = (media) => {
-  let imageIndex = 0;
-  return media
+const escapeAttr = (value) =>
+  String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+const buildMediaHtml = (media) =>
+  media
     .map((item, idx) => {
-      if (item.type === "video") {
-        return `
-          <figure class="modal-media-item">
-            <div class="modal-media-badge-index">🎬 Video Demo</div>
-            <video src="${item.src}" controls preload="metadata" playsinline></video>
-          </figure>
-        `;
-      }
-
-      const currentImageIndex = imageIndex;
-      const eager = imageIndex < 6;
-      imageIndex += 1;
-      const alt = item.alt || `Screenshot ${idx + 1}`;
-
-      return `
-        <figure
-          class="modal-media-item modal-media-clickable"
-          data-lightbox-index="${currentImageIndex}"
-          tabindex="0"
-          role="button"
-          aria-label="View ${alt} full size"
-        >
-          <div class="modal-media-badge-index">#${currentImageIndex + 1}</div>
-          <div class="modal-media-skeleton" aria-hidden="true"></div>
-          <img
-            ${eager ? `src="${item.src}"` : `data-src="${item.src}"`}
-            alt="${alt}"
-            loading="${eager ? "eager" : "lazy"}"
-            decoding="async"
-            ${eager && currentImageIndex === 0 ? 'fetchpriority="high"' : ""}
-          />
-          <div class="modal-media-zoom-overlay">
-            <span class="zoom-icon">🔍</span>
-            <span>Click to Enlarge</span>
-          </div>
-        </figure>
-      `;
+      const isVideo = item.type === "video";
+      const label = escapeAttr(item.alt || (isVideo ? "Video demo" : `Screenshot ${idx + 1}`));
+      const inner = isVideo
+        ? `<span class="pm-thumb-video" aria-hidden="true">▶</span>`
+        : `<img src="${escapeAttr(item.src)}" alt="" loading="${idx < 8 ? "eager" : "lazy"}" decoding="async" />`;
+      return `<button type="button" class="pm-thumb" data-media-index="${idx}" aria-label="Show ${label}">${inner}</button>`;
     })
     .join("");
-};
 
 const markMediaLoaded = (img) => {
   img.classList.add("loaded");
-  const figure = img.closest(".modal-media-item");
-  if (figure) figure.classList.add("is-loaded");
+  const holder = img.closest(".pm-viewer-frame");
+  if (holder) holder.classList.add("is-loaded");
+};
+
+const showModalMedia = (index) => {
+  const { media } = modalMediaState;
+  const frame = document.getElementById("modal-viewer-frame");
+  if (!frame || !media.length) return;
+
+  const total = media.length;
+  const next = Math.max(0, Math.min(total - 1, index));
+  modalMediaState.index = next;
+  const item = media[next];
+  const label = item.alt || (item.type === "video" ? "Video demo" : `Screenshot ${next + 1}`);
+
+  frame.classList.remove("is-loaded");
+  frame.innerHTML = "";
+  if (item.type === "video") {
+    const video = document.createElement("video");
+    video.src = item.src;
+    video.controls = true;
+    video.playsInline = true;
+    video.preload = "metadata";
+    frame.appendChild(video);
+    frame.classList.add("is-loaded");
+    frame.classList.remove("is-zoomable");
+  } else {
+    const img = document.createElement("img");
+    img.alt = label;
+    img.decoding = "async";
+    img.addEventListener("load", () => markMediaLoaded(img), { once: true });
+    img.addEventListener("error", () => markMediaLoaded(img), { once: true });
+    img.src = item.src;
+    frame.appendChild(img);
+    frame.classList.add("is-zoomable");
+  }
+
+  const counter = document.getElementById("modal-counter");
+  if (counter) counter.textContent = `${next + 1} / ${total}`;
+  const prev = document.getElementById("modal-prev");
+  const nextBtn = document.getElementById("modal-next");
+  if (prev) prev.disabled = next === 0;
+  if (nextBtn) nextBtn.disabled = next === total - 1;
+
+  document.querySelectorAll("#modal-media .pm-thumb").forEach((thumb) => {
+    const active = Number(thumb.dataset.mediaIndex) === next;
+    thumb.classList.toggle("is-active", active);
+    if (active) {
+      thumb.setAttribute("aria-current", "true");
+      thumb.scrollIntoView({ block: "nearest", inline: "nearest" });
+    } else {
+      thumb.removeAttribute("aria-current");
+    }
+  });
 };
 
 const initModalMedia = (container, media) => {
   if (!container || !media.length) return;
+  modalMediaState.media = media;
 
-  if (modalMediaObserver) {
-    modalMediaObserver.disconnect();
-    modalMediaObserver = null;
-  }
+  const stage = document.getElementById("modal-stage");
+  if (stage) stage.classList.toggle("pm-stage--single", media.length === 1);
 
-  const scrollRoot = container.closest(".modal-card");
-  const lazyImages = container.querySelectorAll("img[data-src]");
-
-  if (lazyImages.length) {
-    modalMediaObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const img = entry.target;
-          if (!img.dataset.src) return;
-          img.src = img.dataset.src;
-          img.removeAttribute("data-src");
-          modalMediaObserver.unobserve(img);
-        });
-      },
-      { root: scrollRoot, rootMargin: "200px 0px" }
-    );
-    lazyImages.forEach((img) => modalMediaObserver.observe(img));
-  }
-
-  container.querySelectorAll(".modal-media-item img").forEach((img) => {
-    if (img.complete && img.naturalWidth > 0) {
-      markMediaLoaded(img);
-    } else {
-      img.addEventListener("load", () => markMediaLoaded(img), { once: true });
-      img.addEventListener("error", () => markMediaLoaded(img), { once: true });
-    }
+  container.querySelectorAll(".pm-thumb").forEach((thumb) => {
+    thumb.addEventListener("click", () => showModalMedia(Number(thumb.dataset.mediaIndex)));
   });
 
-  const images = media.filter((item) => item.type !== "video");
-  container.querySelectorAll(".modal-media-clickable").forEach((figure) => {
-    const openFromFigure = () => {
-      const index = Number(figure.dataset.lightboxIndex);
-      if (!Number.isNaN(index)) openLightbox(images, index);
+  const prev = document.getElementById("modal-prev");
+  const next = document.getElementById("modal-next");
+  if (prev) prev.onclick = () => showModalMedia(modalMediaState.index - 1);
+  if (next) next.onclick = () => showModalMedia(modalMediaState.index + 1);
+
+  const openCurrentInLightbox = () => {
+    const current = modalMediaState.media[modalMediaState.index];
+    if (!current || current.type === "video") return;
+    const images = modalMediaState.media.filter((item) => item.type !== "video");
+    const imageIndex = modalMediaState.media
+      .slice(0, modalMediaState.index)
+      .filter((item) => item.type !== "video").length;
+    openLightbox(images, imageIndex);
+  };
+  const zoomBtn = document.getElementById("modal-zoom");
+  if (zoomBtn) zoomBtn.onclick = openCurrentInLightbox;
+  const frame = document.getElementById("modal-viewer-frame");
+  if (frame) {
+    frame.onclick = (event) => {
+      if (event.target.tagName === "IMG") openCurrentInLightbox();
     };
-    figure.addEventListener("click", (event) => {
-      event.stopPropagation();
-      openFromFigure();
+  }
+
+  if (!modalMediaState.keysBound) {
+    modalMediaState.keysBound = true;
+    document.addEventListener("keydown", (event) => {
+      if (lightboxState.open || !ModalManager.isOpen("details-modal")) return;
+      if (event.target.closest && event.target.closest("video, input, textarea")) return;
+      if (event.key === "ArrowLeft") showModalMedia(modalMediaState.index - 1);
+      else if (event.key === "ArrowRight") showModalMedia(modalMediaState.index + 1);
     });
-    figure.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        event.stopPropagation();
-        openFromFigure();
-      }
-    });
-  });
+  }
+
+  showModalMedia(0);
 };
+
 
 const updateLightbox = () => {
   const lightbox = document.getElementById("lightbox");
@@ -1813,6 +1830,7 @@ const setupModal = () => {
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") return;
     if (lightboxState.open) {
+      event.preventDefault();
       closeLightbox();
       return;
     }
