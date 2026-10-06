@@ -337,6 +337,110 @@ module.exports = {
         "kind": "certificate",
         "imageLabel": "Cisco digital badge"
       }
+    ],
+    [
+      {
+        "title": "WE (Telecom Egypt) Experience Letter",
+        "issuer": "WE (Telecom Egypt) — Android Development",
+        "date": "July 2026",
+        "category": "Experience Letter",
+        "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137221/Experience_Letter_WE.png",
+        "pdf": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137221/Experience_Letter_WE.png",
+        "desc": "Official experience letter confirming the Android development internship at Telecom Egypt (WE): Kotlin, Jetpack Compose, MVVM, Retrofit, Room and Hilt.",
+        "kind": "letter"
+      },
+      {
+        "title": "TAQA Arabia Software Internship Certificate",
+        "issuer": "TAQA Arabia — Software Engineering Dept",
+        "date": "August 2025",
+        "category": "Industry Experience",
+        "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137222/Certificate_Year_25_Taqa.jpg",
+        "pdf": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137222/Certificate_Year_25_Taqa.jpg",
+        "desc": "Official engineering internship certificate recognizing contribution to the In Gaz API mobile platform.",
+        "kind": "certificate"
+      },
+      {
+        "title": "TAQA Arabia Experience Letter (Software Development)",
+        "issuer": "TAQA Arabia — Software Engineering Dept",
+        "date": "August 2025",
+        "category": "Experience Letter",
+        "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137221/Exp_Letter_Y25_Taqa.jpg",
+        "pdf": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137221/Exp_Letter_Y25_Taqa.jpg",
+        "desc": "Official experience letter confirming the software development internship and the In Gaz API mobile application work.",
+        "kind": "letter"
+      },
+      {
+        "title": "TAQA Arabia IT Internship Certificate",
+        "issuer": "TAQA Arabia — IT Department",
+        "date": "September 2024",
+        "category": "Industry Experience",
+        "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Taqa_Cert_Y24.jpg",
+        "pdf": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Taqa_Cert_Y24.jpg",
+        "desc": "Official internship certificate for the IT Department internship: device software management and user account support.",
+        "kind": "certificate"
+      },
+      {
+        "title": "TAQA Arabia Experience Letter (IT Department)",
+        "issuer": "TAQA Arabia — IT Department",
+        "date": "September 2024",
+        "category": "Experience Letter",
+        "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137221/Taqa_Letter_24Y.jpg",
+        "pdf": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137221/Taqa_Letter_24Y.jpg",
+        "desc": "Official experience letter confirming the IT Department internship.",
+        "kind": "letter"
+      },
+      {
+        "title": "Cairo Higher Institute Experience Letter",
+        "issuer": "Cairo Higher Institute — IT Dept",
+        "date": "September 2025",
+        "category": "Experience Letter",
+        "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Experience_Letter_CHI.jpg",
+        "pdf": "https://res.cloudinary.com/delnnzcph/image/upload/v1791137220/Experience_Letter_CHI.jpg",
+        "desc": "Institutional user account management, website front-end maintenance, and digital content production.",
+        "kind": "letter"
+      },
+      {
+        "title": "Cisco JavaScript Essentials 1 & 2",
+        "issuer": "Cisco Networking Academy & OpenEDG JS Institute",
+        "date": "July 2025",
+        "category": "Full-Stack Development",
+        "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135787/js1_certificate.png",
+        "pdf": "/assets/Online%20Certificates/JavaScriptEssentials2Update20250713-27-31fbam.pdf",
+        "desc": "Advanced JavaScript ES6+, asynchronous programming, object-oriented concepts, and DOM manipulation.",
+        "kind": "certificate"
+      },
+      {
+        "title": "Cisco C Essentials 1 Certification",
+        "issuer": "Cisco Networking Academy & OpenEDG C Institute",
+        "date": "July 2025",
+        "category": "Systems & Core Programming",
+        "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135536/c-essentials-1.png",
+        "pdf": "/assets/Online%20Certificates/CEssentials1Update20250709-29-hnum8q.pdf",
+        "desc": "Low-level system programming, memory management, pointers, and algorithmic structures in C.",
+        "kind": "certificate",
+        "imageLabel": "Cisco digital badge"
+      },
+      {
+        "title": "Introduction to Cybersecurity Certification",
+        "issuer": "Cisco Networking Academy",
+        "date": "July 2025",
+        "category": "Cybersecurity & Networks",
+        "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135537/Introduction_To_Cybersecurity_C.png",
+        "pdf": "/assets/Online%20Certificates/I2CSUpdate20250709-27-93jy0g.pdf",
+        "desc": "Network security protocols, vulnerability analysis, encryption fundamentals, and threat mitigation.",
+        "kind": "certificate"
+      },
+      {
+        "title": "CSS & Modern Web Development",
+        "issuer": "Cisco OpenEDG Academy",
+        "date": "July 2025",
+        "category": "Frontend Architecture",
+        "image": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135536/css-essentials.png",
+        "pdf": "https://res.cloudinary.com/delnnzcph/image/upload/v1791135538/CSS.png",
+        "desc": "Responsive layout design, Flexbox, CSS Grid, animation frameworks, and modern CSS3 aesthetics.",
+        "kind": "certificate",
+        "imageLabel": "Cisco digital badge"
+      }
     ]
   ]
 };

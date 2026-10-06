@@ -7651,3 +7651,24 @@ a.gh-repo-card:focus-visible .gh-repo-arrow {
 [data-theme="light"] a.gh-repo-card:focus-visible .gh-repo-open {
   color: #fff;
 }
+
+/* Certifications: one block per credential, with chips for what it contains */
+.cert-card .cert-badges {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cert-card .cert-badges .cert-badge {
+  position: static;
+  max-width: 100%;
+}
+
+.cert-card .btn-cert-open {
+  cursor: pointer;
+}

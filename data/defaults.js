@@ -736,7 +736,7 @@ module.exports = {
   ],
   "certificates": [
     {
-      "title": "WE (Telecom Egypt) Experience Letter",
+      "title": "WE (Telecom Egypt) — Android Development Internship",
       "issuer": "WE (Telecom Egypt) — Android Development",
       "date": "July 2026",
       "category": "Experience Letter",
@@ -746,7 +746,7 @@ module.exports = {
       "kind": "letter"
     },
     {
-      "title": "TAQA Arabia Software Internship Certificate",
+      "title": "TAQA Arabia — Software Development Internship",
       "issuer": "TAQA Arabia — Software Engineering Dept",
       "date": "August 2025",
       "category": "Industry Experience",
@@ -756,7 +756,7 @@ module.exports = {
       "kind": "certificate"
     },
     {
-      "title": "TAQA Arabia Experience Letter (Software Development)",
+      "title": "TAQA Arabia — Software Development Internship",
       "issuer": "TAQA Arabia — Software Engineering Dept",
       "date": "August 2025",
       "category": "Experience Letter",
@@ -766,7 +766,7 @@ module.exports = {
       "kind": "letter"
     },
     {
-      "title": "TAQA Arabia IT Internship Certificate",
+      "title": "TAQA Arabia — IT Department Internship",
       "issuer": "TAQA Arabia — IT Department",
       "date": "September 2024",
       "category": "Industry Experience",
@@ -776,7 +776,7 @@ module.exports = {
       "kind": "certificate"
     },
     {
-      "title": "TAQA Arabia Experience Letter (IT Department)",
+      "title": "TAQA Arabia — IT Department Internship",
       "issuer": "TAQA Arabia — IT Department",
       "date": "September 2024",
       "category": "Experience Letter",
@@ -786,7 +786,7 @@ module.exports = {
       "kind": "letter"
     },
     {
-      "title": "Cairo Higher Institute Experience Letter",
+      "title": "Cairo Higher Institute — IT Department Internship",
       "issuer": "Cairo Higher Institute — IT Dept",
       "date": "September 2025",
       "category": "Experience Letter",

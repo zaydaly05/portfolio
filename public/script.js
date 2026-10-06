@@ -489,7 +489,8 @@ const showModalMedia = (index) => {
   const captionEl = document.getElementById("modal-caption");
   if (captionEl) {
     const alt = String((item && item.alt) || "");
-    const label = alt.includes(" — ") ? alt.split(" — ").slice(1).join(" — ") : "";
+    const parts = alt.split(" — ");
+    const label = parts.length > 1 ? parts[parts.length - 1] : "";
     captionEl.textContent = label;
     captionEl.title = alt;
     captionEl.hidden = !label;
@@ -917,65 +918,105 @@ const renderEducation = (items) => {
     .join("");
 };
 
+/** Documents (certificate, letter, badge) with the same title are shown together as one block. */
+const groupCertificates = (items) => {
+  const isImg = (url) => /\.(png|jpe?g|webp|gif|avif)(\?|$)/i.test(String(url || ""));
+  const order = [];
+  const byTitle = new Map();
+  (Array.isArray(items) ? items : []).forEach((item) => {
+    if (!item || !item.title) return;
+    const key = String(item.title).trim().toLowerCase();
+    if (!byTitle.has(key)) {
+      byTitle.set(key, { title: item.title, issuer: item.issuer, date: item.date, desc: item.desc, docs: [], pdfUrl: "", extraChips: [] });
+      order.push(key);
+    }
+    const group = byTitle.get(key);
+    if (!group.issuer) group.issuer = item.issuer;
+    if (!group.date) group.date = item.date;
+    if (!group.desc) group.desc = item.desc;
+    const isLetter = item.kind === "letter";
+    const addDoc = (src, label, icon) => {
+      if (src && !group.docs.some((d) => d.src === src)) group.docs.push({ src, label, icon });
+    };
+    if (item.imageLabel) {
+      // a digital badge, with the real certificate behind it (image or PDF)
+      addDoc(item.image, item.imageLabel, "🏅");
+      if (isImg(item.pdf)) addDoc(item.pdf, "Certificate", "🎓");
+    } else {
+      addDoc(item.image, isLetter ? "Experience letter" : "Certificate", isLetter ? "📜" : "🎓");
+      if (isImg(item.pdf) && item.pdf !== item.image) addDoc(item.pdf, isLetter ? "Experience letter" : "Certificate", isLetter ? "📜" : "🎓");
+    }
+    if (item.pdf && !isImg(item.pdf) && !group.pdfUrl) {
+      group.pdfUrl = item.pdf;
+      // a badge image whose certificate is a downloadable PDF
+      if (item.imageLabel) group.extraChips.push("🎓 Certificate (PDF)");
+    }
+  });
+  return order.map((key) => byTitle.get(key));
+};
+
 const renderCertificates = (items) => {
   const container = document.getElementById("certificates-list");
   if (!container) return;
-  const safeItems = Array.isArray(items) ? items : [];
+  const groups = groupCertificates(items);
 
-  container.innerHTML = safeItems
-    .map(
-      (item) => `
-      <article class="card cert-card reveal-card js-cert-card" tabindex="0" role="button" aria-label="View ${item.title} certificate">
+  // The certificate (or badge) leads; letters follow
+  const leadDoc = (g) => g.docs.find((d) => d.label !== "Experience letter") || g.docs[0];
+  const chipLabels = (g) => {
+    const seen = new Set();
+    return [...g.docs.filter((d) => (seen.has(d.label) ? false : seen.add(d.label))).map((d) => `${d.icon} ${d.label}`), ...g.extraChips];
+  };
+
+  container.innerHTML = groups
+    .map((g) => {
+      const lead = leadDoc(g) || { src: "" };
+      const chips = chipLabels(g);
+      const many = g.docs.length > 1;
+      return `
+      <article class="card cert-card reveal-card js-cert-card" tabindex="0" role="button" aria-label="View documents: ${escapeAttr(g.title)}">
         <div class="cert-img-wrap">
-          <img src="${item.image}" alt="${item.title}" class="cert-img" loading="lazy" />
-          <span class="cert-badge">${item.category || "Verified"}</span>
+          <img src="${escapeAttr(lead.src)}" alt="${escapeAttr(g.title)}" class="cert-img" loading="lazy" />
+          <span class="cert-badges">${chips.map((c) => `<span class="cert-badge">${escapeAttr(c)}</span>`).join("")}</span>
           <span class="cert-zoom" aria-hidden="true">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-            Preview
+            ${many ? `View ${g.docs.length} documents` : "Preview"}
           </span>
         </div>
         <div class="cert-body">
           ${
-            item.date
-              ? `<span class="cert-date"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${item.date}</span>`
+            g.date
+              ? `<span class="cert-date"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${escapeAttr(g.date)}</span>`
               : ""
           }
-          <h4 class="cert-title">${item.title}</h4>
-          <p class="cert-issuer"><span class="cert-issuer-icon" aria-hidden="true">🎓</span><span>${item.issuer}</span></p>
-          <p class="cert-desc">${item.desc}</p>
+          <h4 class="cert-title">${escapeAttr(g.title)}</h4>
+          <p class="cert-issuer"><span class="cert-issuer-icon" aria-hidden="true">🎓</span><span>${escapeAttr(g.issuer || "")}</span></p>
+          <p class="cert-desc">${escapeAttr(g.desc || "")}</p>
           <div class="cert-actions">
             ${
-              item.pdf
-                ? `<a href="${item.pdf}" target="_blank" rel="noopener" class="btn-cert-link" onclick="event.stopPropagation();">${item.kind === "letter" ? "View letter" : "View credential"} <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></a>`
-                : ""
+              g.pdfUrl
+                ? `<a href="${escapeAttr(g.pdfUrl)}" target="_blank" rel="noopener" class="btn-cert-link" onclick="event.stopPropagation();">View credential <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></a>`
+                : `<span class="btn-cert-link btn-cert-open">${many ? `Open ${g.docs.length} documents` : "Open document"} <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>`
             }
           </div>
         </div>
       </article>
-    `
-    )
+    `;
+    })
     .join("");
 
-  const isImage = (url) => /\.(png|jpe?g|webp|gif|avif)(\?|$)/i.test(String(url || ""));
-
   attachCardModalHandlers(".js-cert-card", (index) => {
-    const item = safeItems[index] || {};
-    const isLetter = item.kind === "letter";
-    const media = [];
-    if (item.image) {
-      media.push({ src: item.image, alt: `${item.title} — ${item.imageLabel || (isLetter ? "Experience letter" : "Certificate")}` });
-    }
-    // A separate certificate image behind a badge (or any second image) is shown in the same popup
-    if (item.pdf && isImage(item.pdf) && item.pdf !== item.image) {
-      media.push({ src: item.pdf, alt: `${item.title} — ${isLetter ? "Experience letter" : "Certificate"}` });
-    }
+    const g = groups[index] || { docs: [] };
+    const labels = new Set(g.docs.map((d) => d.label));
+    const onlyLetters = g.docs.length > 0 && [...labels].every((l) => l === "Experience letter");
+    const hasLetter = labels.has("Experience letter");
+    const ordered = [...g.docs].sort((x, y) => (x.label === "Experience letter") - (y.label === "Experience letter"));
     return {
-      tag: isLetter ? "Experience Letter" : "Verified Online Certification",
-      title: item.title,
-      subtitle: [item.issuer, item.category, item.date].filter(Boolean).join(" · "),
-      description: item.desc,
-      media,
-      pdfUrl: item.pdf && !isImage(item.pdf) ? item.pdf : undefined
+      tag: onlyLetters ? "Experience Letter" : hasLetter ? "Certificate & Experience Letter" : "Verified Online Certification",
+      title: g.title,
+      subtitle: [g.issuer, g.date].filter(Boolean).join(" · "),
+      description: g.desc,
+      media: ordered.map((d) => ({ src: d.src, alt: `${g.title} — ${d.label}` })),
+      pdfUrl: g.pdfUrl || undefined
     };
   });
 };

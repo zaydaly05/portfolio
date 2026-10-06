@@ -142,7 +142,7 @@ test("untouched old experience and certificates are upgraded to the corrected de
   ];
   const data = await adminGet("/api/admin/portfolio");
   assert.equal(data.sections.certificates.length, defaults.certificates.length);
-  assert.ok(data.sections.certificates.some((c) => /WE \(Telecom Egypt\) Experience Letter/.test(c.title)));
+  assert.ok(data.sections.certificates.some((c) => /^WE \(Telecom Egypt\) — Android Development Internship$/.test(c.title)));
   assert.ok(data.sections.certificates.some((c) => c.kind === "letter"));
   const we = data.sections.experience.find((e) => /^WE/.test(e.company));
   assert.equal(we.media.length, 1);
@@ -160,7 +160,7 @@ test("the previous (corrected-but-WE-less) experience and certificates also upgr
     { section: "certificates", data: legacy.certificates[legacy.certificates.length - 1] }
   ];
   const data = await adminGet("/api/admin/portfolio");
-  assert.ok(data.sections.certificates.some((c) => /WE \(Telecom Egypt\) Experience Letter/.test(c.title)));
+  assert.ok(data.sections.certificates.some((c) => /^WE \(Telecom Egypt\) — Android Development Internship$/.test(c.title)));
   assert.ok(data.sections.experience.find((e) => /^WE/.test(e.company)).media.length === 1);
 });
 
@@ -183,10 +183,10 @@ test("the WE letter is added to edited stored content without touching the owner
   assert.match(we.media[0].src, /Experience_Letter_WE\.png$/);
   assert.deepEqual(we.points, ["My own edited point"]); // edits kept
   assert.equal(data.sections.experience[1].media[0].src, "x.jpg"); // other cards untouched
-  assert.equal(data.sections.certificates[0].title, "WE (Telecom Egypt) Experience Letter");
+  assert.equal(data.sections.certificates[0].title, "WE (Telecom Egypt) — Android Development Internship"); // letter added, then given the shared title
   assert.equal(data.sections.certificates[1].title, "My own certificate");
   const marker = state.bulkOps.find((o) => o.updateOne.filter.section === "_migrations");
-  assert.ok(marker && marker.updateOne.upsert && marker.updateOne.update.$set.data.applied.length === 2);
+  assert.ok(marker && marker.updateOne.upsert && marker.updateOne.update.$set.data.applied.length === 3);
 
   // already applied -> nothing is added again, even if the owner removed the letter
   state.bulkOps.length = 0;
@@ -199,4 +199,23 @@ test("the WE letter is added to edited stored content without touching the owner
   assert.equal(again.sections.certificates.length, 1);
   assert.equal(again.sections.experience[0].media, undefined);
   assert.ok(!state.bulkOps.some((o) => o.updateOne.filter.section === "_migrations"));
+});
+
+test("a stored certificate and its letter get the same title so they merge into one block", async () => {
+  state.bulkOps.length = 0;
+  state.docs = [
+    {
+      section: "certificates",
+      data: [
+        { title: "TAQA Arabia Software Internship Certificate", issuer: "TAQA", kind: "certificate", image: "c.jpg", pdf: "c.jpg", desc: "my own text" },
+        { title: "TAQA Arabia Experience Letter (Software Development)", issuer: "TAQA", kind: "letter", image: "l.jpg", pdf: "l.jpg" },
+        { title: "Cisco C Essentials 1 Certification", issuer: "Cisco", kind: "certificate", image: "b.png", pdf: "x.pdf" }
+      ]
+    },
+    { section: "_migrations", data: { applied: ["2026-10-we-letter-experience", "2026-10-we-letter-certificates"] } }
+  ];
+  const data = await adminGet("/api/admin/portfolio");
+  const titles = data.sections.certificates.map((c) => c.title);
+  assert.deepEqual(titles, ["TAQA Arabia — Software Development Internship", "TAQA Arabia — Software Development Internship", "Cisco C Essentials 1 Certification"]);
+  assert.equal(data.sections.certificates[0].desc, "my own text"); // everything else untouched
 });
