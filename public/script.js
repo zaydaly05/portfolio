@@ -1271,27 +1271,32 @@ const renderProjects = (items) => {
       const pdfUrl = item.pdfReport || (item.image && item.image.endsWith(".pdf") ? item.image : null);
       const logoMeta = getLogoMeta(item.name);
 
+      const stackItems = (item.stack || "").split(",").map((t) => t.trim()).filter(Boolean);
+      const stackChips = stackItems
+        .slice(0, 4)
+        .map((tech) => `<span class="project-stack-chip">${tech}</span>`)
+        .join("");
+      const stackMore = stackItems.length > 4 ? `<span class="project-stack-chip project-stack-more">+${stackItems.length - 4}</span>` : "";
+
       return `
-      <article class="card card-clickable reveal-card js-project-card" tabindex="0" role="button" aria-label="Open ${item.name || "project"} details">
+      <article class="card card-clickable reveal-card project-card js-project-card" tabindex="0" role="button" aria-label="Open ${item.name || "project"} details">
         <div class="project-card-image-wrap">
+          <span class="live-sync-badge" title="Automatically synced with GitHub repository"><span class="live-sync-dot" aria-hidden="true"></span>Synced</span>
           <div class="project-logo-badge ${logoMeta.class}">
             <img src="${imgUrl}" alt="${item.name || "Project logo"}" class="project-card-img" loading="lazy" />
           </div>
         </div>
         <div class="project-card-body">
-          <div class="project-card-header">
-            <h4>${item.name || "-"}</h4>
-            <span class="live-sync-badge" title="Automatically synced with GitHub Repository">● Synced</span>
-          </div>
-          <p class="meta">${item.period || "-"}</p>
-          <p><strong>Stack:</strong> ${item.stack || "-"}</p>
+          <h4 class="project-card-title">${item.name || "-"}</h4>
+          <p class="project-period">${item.period || "-"}</p>
+          ${stackChips ? `<div class="project-stack">${stackChips}${stackMore}</div>` : ""}
           <p class="project-desc">${item.description || "-"}</p>
           <div class="project-card-actions">
             <a href="${githubUrl}" target="_blank" rel="noopener" class="btn-github-link" onclick="event.stopPropagation();">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="vertical-align:text-bottom;margin-right:4px;"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-              View GitHub Repo ↗
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+              GitHub ↗
             </a>
-            ${pdfUrl ? `<a href="${pdfUrl}" target="_blank" download class="btn-pdf-link" onclick="event.stopPropagation();">📄 PDF Report 📥</a>` : ""}
+            ${pdfUrl ? `<a href="${pdfUrl}" target="_blank" rel="noopener" download class="btn-pdf-link" onclick="event.stopPropagation();">PDF report</a>` : ""}
           </div>
         </div>
       </article>
