@@ -85,3 +85,16 @@ test("the handler answers only after the replies were sent, and answers 200 even
   await hook.handleWebhookEvent({ body: inbound(), headers: {}, rawBody: Buffer.from("{}") }, { headersSent: false, status(c) { status2 = c; return this; }, json() { this.headersSent = true; } });
   assert.equal(status2, 200);
 });
+
+test("a STOP reply gets no auto-reply and the owner is told", async () => {
+  assert.ok(["STOP", "stop.", " Unsubscribe ", "cancel", "opt out", "إلغاء", "توقف"].every((t) => hook.isOptOut(t)));
+  assert.ok(["please stop by tomorrow", "stopwatch", "hello", ""].every((t) => !hook.isOptOut(t)));
+
+  const sent = [];
+  hook.setKapsoClientForTests({ messages: { sendText: async (m) => sent.push(m) } });
+  const res = { headersSent: false, status() { return this; }, json() { this.headersSent = true; } };
+  await hook.handleWebhookEvent({ body: inbound({ message: { id: "m9", from: "201555555555", type: "text", text: { body: "STOP" }, kapso: { direction: "inbound" } } }), headers: {}, rawBody: Buffer.from("{}") }, res);
+  assert.equal(sent.length, 1, "only the note to the owner, no reply to the contact");
+  assert.equal(sent[0].to, "201017741741");
+  assert.match(sent[0].body, /\+201555555555 asked to stop/);
+});
