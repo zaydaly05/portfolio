@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,7 +26,13 @@ class AppState extends ChangeNotifier {
   }
 
   Future<void> load() async {
-    settings = await _store.load();
+    try {
+      settings = await _store.load().timeout(const Duration(seconds: 5));
+    } catch (_) {
+      // Unreadable storage must never leave the app stuck on the loading screen;
+      // fall back to empty settings so the user can enter them again.
+      settings = const ServerSettings();
+    }
     loaded = true;
     notifyListeners();
   }
